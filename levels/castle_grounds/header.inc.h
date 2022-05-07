@@ -91,6 +91,8 @@ extern u8 castle_grounds_dl_bg_7_0_ci8[];
 extern u8 castle_grounds_dl_bg_7_0_ci8_pal_rgba16[];
 extern u8 castle_grounds_dl_bg_0_1_ci8[];
 extern u8 castle_grounds_dl_bg_0_1_ci8_pal_rgba16[];
+extern u8 castle_grounds_dl_bg_1_1_ci8[];
+extern u8 castle_grounds_dl_bg_1_1_ci8_pal_rgba16[];
 extern u8 castle_grounds_dl_bg_1_0_ci8[];
 extern u8 castle_grounds_dl_bg_1_0_ci8_pal_rgba16[];
 extern u8 castle_grounds_dl_bg_4_1_ci8[];

@@ -15,3 +15,6 @@
 
 
 #include "levels/ab/geo.inc.c"
+
+#include "levels/ab/ab_lavawall/geo.inc.c"
+#include "levels/ab/ab_sand/geo.inc.c"

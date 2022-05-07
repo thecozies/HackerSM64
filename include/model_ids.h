@@ -126,6 +126,10 @@
 #define MODEL_WDW_RECTANGULAR_FLOATING_PLATFORM   0x3B        // wdw_geo_000628
 #define MODEL_WDW_ROTATING_PLATFORM               0x3C        // wdw_geo_000640
 
+// ab
+#define MODEL_AB_LAVAWALL 0x35
+#define MODEL_AB_SAND 0x36
+
 // jrb
 #define MODEL_JRB_SHIP_LEFT_HALF_PART             0x35        // jrb_geo_000978
 #define MODEL_JRB_SHIP_BACK_LEFT_PART             0x36        // jrb_geo_0009B0

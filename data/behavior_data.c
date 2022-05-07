@@ -6086,4 +6086,43 @@ const BehaviorScript bhvIntroScene[] = {
     END_LOOP(),
 };
 
+extern const Collision ab_lavawall_collision[];
+const BehaviorScript bhvAbRotatingWall[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(ab_lavawall_collision),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        // SET_INT(oAngleVelYaw,  0x300),
+        ADD_INT(oMoveAngleYaw, 0x100),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
 
+extern const Collision ab_manta_collision[];
+extern void bhv_ab_manta_ray_init();
+extern void bhv_ab_manta_ray_loop();
+const BehaviorScript bhvAbManta[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    LOAD_COLLISION_DATA(ab_manta_collision),
+    LOAD_ANIMATIONS(oAnimations, manta_seg5_anims_05008EB4),
+    ANIMATE(MANTA_ANIM_SWIM),
+    CALL_NATIVE(bhv_ab_manta_ray_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_ab_manta_ray_loop),
+    END_LOOP(),
+};
+
+extern void bhv_ab_sand_init();
+extern void bhv_ab_sand_loop();
+const BehaviorScript bhvAbSand[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_ab_sand_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ab_sand_loop),
+    END_LOOP(),
+};

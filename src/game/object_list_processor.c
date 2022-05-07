@@ -601,6 +601,7 @@ UNUSED static u16 unused_get_elapsed_time(u64 *cycleCounts, s32 index) {
     return time;
 }
 
+u8 gDoPlatformDisplacement = 1;
 /**
  * Update all objects. This includes script execution, object collision detection,
  * and object surface management.
@@ -637,7 +638,8 @@ void update_objects(UNUSED s32 unused) {
     // displacement now
     //! If the platform object unloaded and a different object took its place,
     //  displacement could be applied incorrectly
-    apply_mario_platform_displacement();
+    if (gDoPlatformDisplacement)
+        apply_mario_platform_displacement();
 
     // Detect which objects are intersecting
     // cycleCounts[3] = get_clock_difference(cycleCounts[0]);

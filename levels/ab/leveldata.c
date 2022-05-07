@@ -12,3 +12,8 @@
 
 
 #include "levels/ab/leveldata.inc.c"
+
+#include "levels/ab/ab_lavawall/collision.inc.c"
+#include "levels/ab/ab_lavawall/model.inc.c"
+#include "levels/ab/ab_manta/collision.inc.c"
+#include "levels/ab/ab_sand/model.inc.c"
