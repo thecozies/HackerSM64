@@ -168,3 +168,63 @@ void bhv_ab_sand_loop()
         }
     }
 }
+
+static void cur_obj_find_all_objects_with_behavior_and_bparam(const BehaviorScript *behavior, struct Object** objs, int param) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+            && obj->oBehParams2ndByte == param
+        ) {
+            *objs = obj;
+            objs++;
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+}
+
+void bhv_ab_clam_ctl_init()
+{
+    cur_obj_find_all_objects_with_behavior_and_bparam(bhvClamShell, &o->oAbClamCtlObj0, 1);
+}
+
+void bhv_ab_clam_ctl_loop()
+{
+    struct Object** objs = &o->oAbClamCtlObj0;
+    for (int i = 0; i < 3; i++)
+    {
+        struct Object* clam = objs[i];
+        f32 d;
+        s16 yaw;
+        vec3f_get_lateral_dist_and_yaw(&o->oPosVec, &clam->oPosVec, &d, &yaw);
+
+        clam->oMoveAngleYaw = yaw + 0x4000;
+        clam->oPosX += sins(clam->oMoveAngleYaw) * 30.f;
+        clam->oPosZ += coss(clam->oMoveAngleYaw) * 30.f;
+    }
+}
+
+extern Gfx mat_ab_dl_tf[];
+void bhv_ab_troll_loop()
+{
+    u8* env = (u8*) segmented_to_virtual(mat_ab_dl_tf) + 19 * 8 + 7;
+    if (gMarioStates->pos[1] < 520.f || o->oDistanceToMario > 500.f)
+    {
+        *env = 0;
+        return;
+    }
+
+    if (o->oDistanceToMario > 250.f)
+    {
+        *env = (500.f - o->oDistanceToMario);
+    }
+    else
+    {
+        *env = 255;
+    }
+}

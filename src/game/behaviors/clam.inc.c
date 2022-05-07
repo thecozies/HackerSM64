@@ -19,8 +19,7 @@ void clam_act_0(void) {
         cur_obj_become_tangible();
 
         o->oClamShakeTimer = 10;
-        o->oTimer = 0;
-    } else if (o->oTimer > 150 && o->oDistanceToMario < 500.0f) {
+    } else if (o->oTimer > 50) {
         cur_obj_play_sound_2(SOUND_GENERAL_CLAM_SHELL_OPEN);
         o->oAction = 1;
     } else if (o->oClamShakeTimer != 0) {
@@ -33,22 +32,19 @@ void clam_act_1(void) {
     s16 i;
     s16 bubblesX, bubblesZ;
 
-    if (o->oTimer > 150) {
+    if (o->oTimer > 50) {
         o->oAction = 0;
     } else if (obj_is_rendering_enabled() && cur_obj_init_anim_check_frame(1, 8)) {
-        for (i = -0x2000; i < 0x2000; i += 0x555) {
-            bubblesX = (s16)(100.0f * sins(i));
-            bubblesZ = (s16)(100.0f * coss(i));
-
-            spawn_object_relative(0, bubblesX, 30, bubblesZ, o, MODEL_BUBBLE, bhvBubbleMaybe);
-        }
+        // -
     } else if (cur_obj_check_anim_frame(30)) {
         cur_obj_become_intangible();
     }
 }
 
 void bhv_clam_loop(void) {
-    o->header.gfx.scale[1] = 1.5f;
+    o->header.gfx.scale[0] = 2.f;
+    o->header.gfx.scale[1] = 3.f;
+    o->header.gfx.scale[2] = 2.f;
 
     switch (o->oAction) {
         case 0:

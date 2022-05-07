@@ -6126,3 +6126,22 @@ const BehaviorScript bhvAbSand[] = {
         CALL_NATIVE(bhv_ab_sand_loop),
     END_LOOP(),
 };
+
+extern void bhv_ab_clam_ctl_init();
+extern void bhv_ab_clam_ctl_loop();
+const BehaviorScript bhvAbClamCtl[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    CALL_NATIVE(bhv_ab_clam_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ab_clam_ctl_loop),
+    END_LOOP(),
+};
+
+extern void bhv_ab_troll_loop();
+const BehaviorScript bhvAbTroll[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ab_troll_loop),
+    END_LOOP(),
+};
