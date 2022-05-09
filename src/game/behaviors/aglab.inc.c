@@ -228,3 +228,126 @@ void bhv_ab_troll_loop()
         *env = 255;
     }
 }
+
+struct MFButterflyConfig
+{
+    f32 speed;
+    f32 top;
+};
+
+static struct MFButterflyConfig sBFCfg[] =
+{
+    { 1.0f, -2178.f },
+    { 0.6f, 1411.f   },
+    { 0.7f, 2471.f },
+    { 0.7f, 900.f },
+    { 1.0f, 8750.f },
+};
+
+void bhv_mf_butterfly_init()
+{
+    s32 bp1 = (o->oBehParams >> 24) & 0xFF;
+    o->oMfButterflyVine = spawn_object(o, bp1 == 1 ? MODEL_MF_VINE : MODEL_MF_VINE2, bhvStaticObjectEx);
+    o->oMfButterflyVine->oPosX = o->oPosX;
+    o->oMfButterflyVine->oPosY = o->oPosY;
+    o->oMfButterflyVine->oPosZ = o->oPosZ;
+
+    if (2 == bp1)
+    {
+        o->oMfButterflyVine->oFaceAngleYaw += 0x4000;
+        o->oMfButterflyVine->oMoveAngleYaw += 0x4000;
+    }
+
+    if (0 == bp1)
+    {
+        o->oMfButterflyVine->oFaceAngleYaw = 0xC000;
+        o->oMfButterflyVine->oMoveAngleYaw = 0xC000;
+    }
+}
+
+void bhv_mf_butterfly_loop()
+{
+    //print_text_fmt_int(20, 20, "X %d", (int) gMarioStates->pos[0]);
+    //print_text_fmt_int(20, 40, "Y %d", (int) gMarioStates->pos[1]);
+    //print_text_fmt_int(20, 60, "Z %d", (int) gMarioStates->pos[2]);
+
+    s32 bp1 = (o->oBehParams >> 24) & 0xFF;
+    s32 bp3 = (o->oBehParams >> 8)  & 0xFF;
+    f32 length = 4543.f - 2178.f;
+    f32* objpos = &o->oPosX;
+
+    if (0 == o->oAction)
+    {   
+        if (o->oDistanceToMario < 100.f)
+        {
+            o->oAction = 1;
+            gMarioStates->pos[1] += 10.f;
+            gMarioStates->vel[1] = 10.f;
+            gMarioStates->vel[bp1] = sBFCfg[o->oBehParams2ndByte].speed * 38.f;
+            gMarioStates->faceAngle[1] = o->oFaceAngleYaw + 0x4000;
+            cur_obj_play_sound_2(SOUND_GENERAL_SWISH_AIR_UNUSED);
+            drop_and_set_mario_action(gMarioStates, ACT_FREEFALL, 0);
+        }   
+    }
+    else
+    {
+        if (gMarioStates->action != ACT_FREEFALL)
+        {
+            o->oPosX = o->oHomeX;
+            o->oPosY = o->oHomeY;
+            o->oPosZ = o->oHomeZ;
+            o->oAction = 0;
+            return;
+        }
+
+        if (1 == bp1)
+            gMarioStates->vel[bp1] = sBFCfg[o->oBehParams2ndByte].speed * (250.f - ((250 - 38) / 30) * o->oTimer);
+        else
+            gMarioStates->forwardVel = sBFCfg[o->oBehParams2ndByte].speed * (250.f - ((250 - 150) / 30) * o->oTimer);
+
+        if (o->oTimer < 10)
+        {
+            objpos[bp1] = gMarioStates->pos[bp1];
+            o->oPosY = gMarioStates->pos[1];
+        }
+        else
+        {
+            o->oPosX = o->oHomeX;
+            o->oPosY = o->oHomeY;
+            o->oPosZ = o->oHomeZ;
+        }
+
+        if (o->oTimer < 27)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (i == bp1)
+                    continue;
+    
+                if (i != 1)
+                {
+                    gMarioStates->pos[i] = objpos[i];
+                    gMarioStates->vel[i] = 0;
+                }
+                else
+                {
+                    // gMarioStates->pos[1] = objpos[i];
+                    gMarioStates->vel[1] = 10.f;  
+                }
+            }
+        }
+
+        if (30 == o->oTimer)
+        {
+            o->oAction = 0;
+        }
+    }
+
+    o->oMfButterflyVine->oPosX = o->oPosX;
+    o->oMfButterflyVine->oPosY = o->oPosY;
+    o->oMfButterflyVine->oPosZ = o->oPosZ;
+    f32 s[3];
+    s[0] = s[1] = s[2] = 1.0f;
+    s[bp1 == 1 ? 1 : 2] = ((bp3 * 2 - 1) * (-1.0f)) * (sBFCfg[o->oBehParams2ndByte].top - objpos[bp1]) / (4543.f - 2178.f);
+    obj_scale_xyz(o->oMfButterflyVine, s[0], s[1], s[2]);
+}

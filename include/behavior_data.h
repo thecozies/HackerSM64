@@ -546,5 +546,7 @@ extern const BehaviorScript bhvAbManta[];
 extern const BehaviorScript bhvAbSand[];
 extern const BehaviorScript bhvAbClamCtl[];
 extern const BehaviorScript bhvAbTroll[];
+extern const BehaviorScript bhvMfButterfly[];
+extern const BehaviorScript bhvStaticObjectEx[];
 
 #endif // BEHAVIOR_DATA_H

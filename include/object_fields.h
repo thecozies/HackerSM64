@@ -1340,8 +1340,10 @@ os16112*/
 #define /*0x110*/ os16110                                       OBJECT_FIELD_S16(0x22, 0)
 #define /*0x112*/ os16112                                       OBJECT_FIELD_S16(0x22, 1)
 
-#define /*0x0F4*/ oAbClamCtlObj0 OBJECT_FIELD_OBJ(0x1B)
-#define /*0x0F4*/ oAbClamCtlObj1 OBJECT_FIELD_OBJ(0x1C)
-#define /*0x0F4*/ oAbClamCtlObj2 OBJECT_FIELD_OBJ(0x1D)
+#define oAbClamCtlObj0 OBJECT_FIELD_OBJ(0x1B)
+#define oAbClamCtlObj1 OBJECT_FIELD_OBJ(0x1C)
+#define oAbClamCtlObj2 OBJECT_FIELD_OBJ(0x1D)
+
+#define oMfButterflyVine OBJECT_FIELD_OBJ(0x1B)
 
 #endif // OBJECT_FIELDS_H

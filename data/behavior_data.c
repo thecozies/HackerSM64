@@ -6145,3 +6145,22 @@ const BehaviorScript bhvAbTroll[] = {
         CALL_NATIVE(bhv_ab_troll_loop),
     END_LOOP(),
 };
+
+extern void bhv_mf_butterfly_init();
+extern void bhv_mf_butterfly_loop();
+const BehaviorScript bhvMfButterfly[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    SET_HOME(),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    CALL_NATIVE(bhv_mf_butterfly_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_mf_butterfly_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvStaticObjectEx[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};

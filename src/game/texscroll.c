@@ -15,6 +15,7 @@
 
 #include "src/game/texscroll/castle_grounds_texscroll.inc.c"
 #include "src/game/texscroll/ab_texscroll.inc.c"
+#include "src/game/texscroll/mf_texscroll.inc.c"
 void scroll_textures() {
 	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_castle_grounds_segment_7SegmentRomStart)) {
 		scroll_textures_castle_grounds();
@@ -22,6 +23,10 @@ void scroll_textures() {
 
 	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_ab_segment_7SegmentRomStart)) {
 		scroll_textures_ab();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_mf_segment_7SegmentRomStart)) {
+		scroll_textures_mf();
 	}
 
 }
