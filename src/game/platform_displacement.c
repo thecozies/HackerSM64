@@ -19,6 +19,8 @@ struct Object *gMarioPlatform = NULL;
  * Determine if Mario is standing on a platform object, meaning that he is
  * within 4 units of the floor. Set his referenced platform object accordingly.
  */
+ 
+//scut update, add in support for hanging from platform and sticky walls
 void update_mario_platform(void) {
     struct Surface *floor;
     f32 marioX, marioY, marioZ;
@@ -40,6 +42,23 @@ void update_mario_platform(void) {
     floorHeight = find_floor(marioX, marioY, marioZ, &floor);
 
     awayFromFloor =  absf(marioY - floorHeight) >= 4.0f;
+	
+	if (gMarioState->wall != NULL) {
+		if(gMarioState->wall->type == SURFACE_STICKY){
+			if(gMarioState->wall->object){
+				gMarioPlatform = gMarioState->wall->object;
+				gMarioObject->platform = gMarioState->wall->object;
+				return;
+			}
+		}
+	}
+	if (gMarioState->ceil != NULL && gMarioState->action & ACT_FLAG_HANGING) {
+		if(gMarioState->ceil->object){
+			gMarioPlatform = gMarioState->ceil->object;
+			gMarioObject->platform = gMarioState->ceil->object;
+			return;
+		}
+	}
 
     if (awayFromFloor) {
         gMarioPlatform = NULL;

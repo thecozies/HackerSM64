@@ -644,6 +644,7 @@ $(TEH_FILES):$(TE_FILES)
 	$(call print,Converting TE string:,$?,$@)
 	python3 $(TECONV) $? $@
 
+$(BUILD_DIR)/src/game/text_engine.o:  OPT_FLAGS := -fkeep-static-consts
 $(BUILD_DIR)/src/game/text_engine.o:  $(TEH_FILES)
 $(BUILD_DIR)/include/text_strings.h: $(BUILD_DIR)/include/text_menu_strings.h
 $(BUILD_DIR)/src/menu/file_select.o: $(BUILD_DIR)/include/text_strings.h

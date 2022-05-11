@@ -17,6 +17,8 @@
 
 #include "config.h"
 
+extern struct Object *gMarioPlatform;
+
 void play_flip_sounds(struct MarioState *m, s16 frame1, s16 frame2, s16 frame3) {
     s32 animFrame = m->marioObj->header.gfx.animInfo.animFrame;
     if (animFrame == frame1 || animFrame == frame2 || animFrame == frame3) {
@@ -1149,15 +1151,35 @@ s32 check_wall_kick(struct MarioState *m) {
     if ((m->input & INPUT_A_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
         m->faceAngle[1] += 0x8000;
         return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
-    }
+    }if(m->framesSinceA < 2 && m->actionArg == 3){
+		m->wallKickTimer = 0;
+		m->faceAngle[1] += 0x8000;
+		return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
+	}
 
     return FALSE;
+}
+static s32 manage_sticky_wall(struct MarioState *m){
+	if( (gPlayer1Controller->buttonPressed&Z_TRIG) || m->wall == NULL){
+		return set_mario_action(m, ACT_FREEFALL, 0);
+	}
+	vec3f_copy( m->marioObj->header.gfx.pos, m->pos);
+	//platform displacement
+	struct Object *obj = m->wall->object;
+	if (obj != NULL){
+		m->marioObj->header.gfx.angle[1] = atan2s(m->wall->normal.z, m->wall->normal.x)-m->faceAngle[1]+obj->oFaceAngleYaw;
+	}else{
+		m->marioObj->header.gfx.angle[1] = atan2s(m->wall->normal.z, m->wall->normal.x)-m->faceAngle[1];
+	}
+	return FALSE;
 }
 
 s32 act_backward_air_kb(struct MarioState *m) {
     if (check_wall_kick(m)) {
         return TRUE;
-    }
+    }else if(m->prevAction == ACT_AIR_HIT_WALL && m->actionArg == 3){
+		return manage_sticky_wall(m);
+	}
 
     play_knockback_sound(m);
     common_air_knockback_step(m, ACT_BACKWARD_GROUND_KB, ACT_HARD_BACKWARD_GROUND_KB, MARIO_ANIM_BACKWARD_AIR_KB, -16.0f);
@@ -1167,7 +1189,9 @@ s32 act_backward_air_kb(struct MarioState *m) {
 s32 act_forward_air_kb(struct MarioState *m) {
     if (check_wall_kick(m)) {
         return TRUE;
-    }
+    }else if(m->prevAction == ACT_AIR_HIT_WALL && m->actionArg == 3){
+		return manage_sticky_wall(m);
+	}
 
     play_knockback_sound(m);
     common_air_knockback_step(m, ACT_FORWARD_GROUND_KB, ACT_HARD_FORWARD_GROUND_KB, MARIO_ANIM_AIR_FORWARD_KB, 16.0f);
@@ -1230,7 +1254,9 @@ s32 act_thrown_forward(struct MarioState *m) {
 s32 act_soft_bonk(struct MarioState *m) {
     if (check_wall_kick(m)) {
         return TRUE;
-    }
+    }else if(m->prevAction == ACT_AIR_HIT_WALL && m->actionArg == 3){
+		return manage_sticky_wall(m);
+	}
 
     play_knockback_sound(m);
 
@@ -1299,9 +1325,16 @@ s32 act_air_hit_wall(struct MarioState *m) {
         if (m->vel[1] > 0.0f) {
             m->vel[1] = 0.0f;
         }
-
         m->particleFlags |= PARTICLE_VERTICAL_STAR;
-        return set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
+		if(m->wall && m->wall->type == SURFACE_STICKY){
+			m->forwardVel = 0.0f;
+			m->vel[1] = 0.0f;
+			set_mario_animation(m, MARIO_ANIM_START_WALLKICK);
+			return set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
+		}else{
+			return set_mario_action(m, ACT_BACKWARD_AIR_KB, 3);
+		}
+        
     } else {
         m->wallKickTimer = 5;
         if (m->vel[1] > 0.0f) {
@@ -1311,7 +1344,14 @@ s32 act_air_hit_wall(struct MarioState *m) {
         if (m->forwardVel > 8.0f) {
             mario_set_forward_vel(m, -8.0f);
         }
-        return set_mario_action(m, ACT_SOFT_BONK, 0);
+		if(m->wall && m->wall->type == SURFACE_STICKY){
+			m->forwardVel = 0.0f;
+			m->vel[1] = 0.0f;
+			set_mario_animation(m, MARIO_ANIM_START_WALLKICK);
+			return set_mario_action(m, ACT_SOFT_BONK, 3);
+		}else{
+			return set_mario_action(m, ACT_SOFT_BONK, 0);
+		}
     }
 
 #if FIRSTY_LAST_FRAME > 1

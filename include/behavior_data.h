@@ -3,6 +3,14 @@
 
 #include "types.h"
 
+//scut defines
+extern const BehaviorScript bhvStickyPlat[];
+extern const BehaviorScript bhvFloatingPlatSwitch[];
+extern const BehaviorScript bhvHangingPlat[];
+extern const BehaviorScript bhvFloatingPlat[];
+extern const BehaviorScript bhvMessagePanel_TE[];
+
+//default defines
 extern const BehaviorScript bhvStarDoor[];
 extern const BehaviorScript bhvMrI[];
 extern const BehaviorScript bhvMrIIris[];
