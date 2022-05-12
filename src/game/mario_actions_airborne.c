@@ -1164,13 +1164,7 @@ static s32 manage_sticky_wall(struct MarioState *m){
 		return set_mario_action(m, ACT_FREEFALL, 0);
 	}
 	vec3f_copy( m->marioObj->header.gfx.pos, m->pos);
-	//platform displacement
-	struct Object *obj = m->wall->object;
-	if (obj != NULL){
-		m->marioObj->header.gfx.angle[1] = atan2s(m->wall->normal.z, m->wall->normal.x)-m->faceAngle[1]+obj->oFaceAngleYaw;
-	}else{
-		m->marioObj->header.gfx.angle[1] = atan2s(m->wall->normal.z, m->wall->normal.x)-m->faceAngle[1];
-	}
+	m->marioObj->header.gfx.angle[1] = m->faceAngle[1]+0x8000;
 	return FALSE;
 }
 
@@ -1330,9 +1324,9 @@ s32 act_air_hit_wall(struct MarioState *m) {
 			m->forwardVel = 0.0f;
 			m->vel[1] = 0.0f;
 			set_mario_animation(m, MARIO_ANIM_START_WALLKICK);
-			return set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
-		}else{
 			return set_mario_action(m, ACT_BACKWARD_AIR_KB, 3);
+		}else{
+			return set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
 		}
         
     } else {

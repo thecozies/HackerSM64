@@ -23,8 +23,8 @@ void bhv_sticky_plat_loop(void){
 			}
 			break;
 		case 2:
-			o->oFaceAngleYaw += 256;
-			o->oAngleVelYaw = 256;
+			o->oFaceAngleYaw += 320;
+			o->oAngleVelYaw = 320;
 			break;
 	}
 }
@@ -35,7 +35,11 @@ void bhv_hanging_plat_init(void){
 
 void bhv_hanging_plat_loop(void){
 	f32 spd = (f32) ((o->oBehParams) & 0xFF);
-	if(o->oTimer > 120){
+	u8 time = ((o->oBehParams>>24) & 0xFF);
+	if(time == 0){
+		time = 120;
+	}
+	if(o->oTimer > time){
 		++o->oAction;
 	}
 	switch(o->oBehParams2ndByte){
@@ -75,7 +79,7 @@ void bhv_floating_plat_loop(void){
 		switch(o->oAction){
 			case 0:
 				o->oOpacity = 0;
-				if(o->parentObj->oAction>0){
+				if(o->parentObj->oAction > 0 && o->parentObj->oAction < 3){
 					o->oAction = 1;
 				}
 				break;
