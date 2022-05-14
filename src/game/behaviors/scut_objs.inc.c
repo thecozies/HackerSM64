@@ -1,6 +1,6 @@
 void bhv_sticky_plat_loop(void){
-	f32 spd = (f32) ((o->oBehParams) & 0xFF);
-	if(o->oTimer >= 63){
+	f32 spd = (f32) ((o->oBehParams) & 0xFF) * 2.0f;
+	if(o->oTimer >= 31){
 		++o->oAction;
 	}
 	switch(o->oBehParams2ndByte){
@@ -16,15 +16,15 @@ void bhv_sticky_plat_loop(void){
 			break;
 		case 1:
 			if(o->oAction%2 == 0){
-				o->oFaceAngleYaw += 512;
-				o->oAngleVelYaw = 512;
+				o->oFaceAngleYaw += 1024;
+				o->oAngleVelYaw = 1024;
 			}else{
 				o->oAngleVelYaw = 0;
 			}
 			break;
 		case 2:
-			o->oFaceAngleYaw += 320;
-			o->oAngleVelYaw = 320;
+			o->oFaceAngleYaw += 512;
+			o->oAngleVelYaw = 512;
 			break;
 	}
 }
@@ -34,10 +34,10 @@ void bhv_hanging_plat_init(void){
 }
 
 void bhv_hanging_plat_loop(void){
-	f32 spd = (f32) ((o->oBehParams) & 0xFF);
-	u8 time = ((o->oBehParams>>24) & 0xFF);
+	f32 spd = (f32) ((o->oBehParams) & 0xFF) * 2.0f;
+	u8 time = ((o->oBehParams>>24) & 0xFF) / 2.0f;
 	if(time == 0){
-		time = 120;
+		time = 60;
 	}
 	if(o->oTimer > time){
 		++o->oAction;
@@ -54,7 +54,7 @@ void bhv_hanging_plat_loop(void){
 			}
 			break;
 		case 1:
-			if(o->oTimer<30){
+			if(o->oTimer<12){
 				o->oForwardVel = 0.0f;
 			}else{
 				o->oForwardVel = spd;
