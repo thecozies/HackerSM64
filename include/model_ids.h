@@ -588,5 +588,7 @@
 #define MODEL_MF_MILL 0x39
 #define MODEL_MF_HELP 0x3A
 #define MODEL_MF_PILLAR 0x3B
+#define MODEL_MF_ROPE 0x3C
+#define MODEL_MF_ROPE_MAIN 0x3D
 
 #endif // MODEL_IDS_H

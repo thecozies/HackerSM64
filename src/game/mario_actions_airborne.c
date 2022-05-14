@@ -1168,6 +1168,7 @@ static s32 manage_sticky_wall(struct MarioState *m){
 	return FALSE;
 }
 
+extern f32 gAglabThrowSpeed;
 s32 act_backward_air_kb(struct MarioState *m) {
     if (check_wall_kick(m)) {
         return TRUE;
@@ -1176,7 +1177,7 @@ s32 act_backward_air_kb(struct MarioState *m) {
 	}
 
     play_knockback_sound(m);
-    common_air_knockback_step(m, ACT_BACKWARD_GROUND_KB, ACT_HARD_BACKWARD_GROUND_KB, MARIO_ANIM_BACKWARD_AIR_KB, -16.0f);
+    common_air_knockback_step(m, ACT_BACKWARD_GROUND_KB, ACT_HARD_BACKWARD_GROUND_KB, MARIO_ANIM_BACKWARD_AIR_KB, m->prevAction == ACT_RELEASING_BOWSER ? -gAglabThrowSpeed : -16.0f);
     return FALSE;
 }
 

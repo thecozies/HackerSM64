@@ -1351,7 +1351,9 @@ os16112*/
 #define oMfWoodenPostAnchorMain OBJECT_FIELD_OBJ(0x1B)
 #define oMfWoodenPostAnchorFixAngle OBJECT_FIELD_S32(0x1C)
 #define oMfWoodenPostAnchorLastMarioYaw OBJECT_FIELD_S32(0x1D)
+#define oMfWoodenPostAnchorDistance OBJECT_FIELD_F32(0x1E)
 
 #define oMfWoodenPostMainPosts OBJECT_FIELD_OBJ(0x1B)
+#define oMfWoodenPostMainRope OBJECT_FIELD_OBJ(0x49)
 
 #endif // OBJECT_FIELDS_H

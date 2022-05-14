@@ -267,9 +267,9 @@ void bhv_mf_butterfly_init()
 
 void bhv_mf_butterfly_loop()
 {
-    //print_text_fmt_int(20, 20, "X %d", (int) gMarioStates->pos[0]);
-    //print_text_fmt_int(20, 40, "Y %d", (int) gMarioStates->pos[1]);
-    //print_text_fmt_int(20, 60, "Z %d", (int) gMarioStates->pos[2]);
+    // print_text_fmt_int(20, 20, "X %d", (int) gMarioStates->pos[0]);
+    // print_text_fmt_int(20, 40, "Y %d", (int) gMarioStates->pos[1]);
+    // print_text_fmt_int(20, 60, "Z %d", (int) gMarioStates->pos[2]);
 
     s32 bp1 = (o->oBehParams >> 24) & 0xFF;
     s32 bp3 = (o->oBehParams >> 8)  & 0xFF;
@@ -420,16 +420,18 @@ struct ObjectHitbox sMfWoodenPostAnchorHitbox = {
 
 void bhv_mf_wooden_post_anchor_init()
 {
-    f32 d;
-    o->oMfWoodenPostAnchorMain = cur_obj_find_nearest_object_with_behavior(bhvMfWoodenPostMain, &d);
+    o->oMfWoodenPostAnchorMain = cur_obj_find_nearest_object_with_behavior(bhvMfWoodenPostMain, &o->oMfWoodenPostAnchorDistance);
     obj_set_hitbox(o, &sMfWoodenPostAnchorHitbox);
 }
 
 // 464, 0, -2773
+f32 gAglabThrowSpeed = 0;
 void bhv_mf_wooden_post_anchor_loop()
 {
     switch (o->oHeldState) {
         case HELD_FREE:
+            struct Object* sparkle = spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
+            sparkle->oPosY += 10.f;
             o->oMfWoodenPostAnchorFixAngle = 0;
             if (gCamera->cutscene == CUTSCENE_AGLAB_WOODEN_POST_CS)
             {
@@ -451,13 +453,17 @@ void bhv_mf_wooden_post_anchor_loop()
                 gMarioStates->faceAngle[1] = yaw + 0x8000;
                 o->oMfWoodenPostAnchorLastMarioYaw = gMarioStates->faceAngle[1];
             }
-            gMarioStates->pos[0] = o->oMfWoodenPostAnchorMain->oPosX - d * sins(gMarioStates->faceAngle[1]);
-            gMarioStates->pos[2] = o->oMfWoodenPostAnchorMain->oPosZ - d * coss(gMarioStates->faceAngle[1]);
-            s16 spd = o->oMfWoodenPostAnchorLastMarioYaw - gMarioStates->faceAngle[1];
-            o->oMfWoodenPostAnchorLastMarioYaw = gMarioStates->faceAngle[1];
-            f32 espd = (ABS(spd) / 17.8f) - 70.f;
-            gMarioStates->pos[1] += espd;
-            gMarioStates->pos[1] = CLAMP(gMarioStates->pos[1], o->oHomeY, o->oHomeY + 1000.f);
+            if (gMarioStates->action == ACT_HOLDING_BOWSER)
+            {
+                gMarioStates->pos[0] = o->oMfWoodenPostAnchorMain->oPosX - o->oMfWoodenPostAnchorDistance * sins(gMarioStates->faceAngle[1]);
+                gMarioStates->pos[2] = o->oMfWoodenPostAnchorMain->oPosZ - o->oMfWoodenPostAnchorDistance* coss(gMarioStates->faceAngle[1]);
+                s16 spd = o->oMfWoodenPostAnchorLastMarioYaw - gMarioStates->faceAngle[1];
+                o->oMfWoodenPostAnchorLastMarioYaw = gMarioStates->faceAngle[1];
+                f32 espd = (ABS(spd) / 20.f) - 70.f;
+                gAglabThrowSpeed = 2.5f * (espd > 3.f ? espd : 3.f);
+                gMarioStates->pos[1] += espd;
+                gMarioStates->pos[1] = CLAMP(gMarioStates->pos[1], o->oHomeY + 136.f, o->oMfWoodenPostAnchorMain->oPosY + 200.f);
+            }
             
             gCamera->cutscene = CUTSCENE_AGLAB_WOODEN_POST_CS;
 
@@ -488,17 +494,44 @@ void bhv_mf_wooden_post_anchor_loop()
 
 void bhv_mf_wooden_post_main_init()
 {
-    struct Object* objs = &o->oMfWoodenPostMainPosts;
+    o->oMfWoodenPostMainRope = spawn_object(o, MODEL_MF_ROPE, bhvStaticObjectEx);
+    o->oMfWoodenPostMainRope->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+    obj_scale_xyz(o->oMfWoodenPostMainRope, 1.2f, 1.2f, 1.2f);
+    struct Object** objs = &o->oMfWoodenPostMainPosts;
     o->oPosY = -2000.f;
     cur_obj_find_all_objects_with_behavior_and_bparam(bhvWoodenPost, objs, 0);
 }
 
 void bhv_mf_wooden_post_main_loop()
 {
-    o->oPosY = -2000.f;
-
-    for (struct Object* post = &o->oMfWoodenPostMainPosts; post; post++)
+    if (gCamera->cutscene == CUTSCENE_AGLAB_WOODEN_POST_CS)
     {
-        // o->oPosY += 0.5f * (post->oWoodenPostOffsetY);
+        o->oMfWoodenPostMainRope->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+        o->oMfWoodenPostMainRope->oPosY = o->oPosY + 200.f;
+        o->oMfWoodenPostMainRope->oFaceAngleYaw += 0x169;
+    }
+    else
+    {
+        o->oMfWoodenPostMainRope->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+    }
+
+    if (gMarioStates->pos[1] < -800.f)
+    {
+        cur_obj_hide();
+        o->oIntangibleTimer = -1;
+    }
+    else
+    {
+        cur_obj_unhide();
+        o->oIntangibleTimer = 0;
+    }
+
+    o->oPosY = 300.f;
+    int i = 0;
+    for (struct Object** posts = &o->oMfWoodenPostMainPosts; *posts; posts++)
+    {
+        i++;
+        struct Object* post = *posts;
+        o->oPosY -= 1.5f * (post->oWoodenPostOffsetY);
     }
 }

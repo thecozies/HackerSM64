@@ -22,3 +22,5 @@
 #include "levels/mf/mf_mill/geo.inc.c"
 #include "levels/mf/mf_help/geo.inc.c"
 #include "levels/mf/mf_pillar/geo.inc.c"
+#include "levels/mf/mf_rope/geo.inc.c"
+#include "levels/mf/mf_rope_main/geo.inc.c"

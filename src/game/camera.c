@@ -8272,22 +8272,13 @@ void cutscene_death_stomach(struct Camera *c) {
     set_handheld_shake(HAND_CAM_SHAKE_CUTSCENE);
 }
 
-struct CutsceneSplinePoint gCSAglab1Pos[] = {
-    { 0, 0, { 1350, 3407, -8593 } },
-    { 1, 0, { -3648, 2750, -4166 } },
-    { 2, 0, { -4814, 2382, -1268 } },
-    {  3, 0, { -7588, 1350, 5959 } },
-    { 4, 0, { 2851, 4705, 13240 } },
-    { 5, 0, { 8448, 2076, 1323 } },
-    { 6, 0, { 7223, -1448, -7390 } },
-    { -1, 0, { 7223, -1448, -7390 } },
-};
-
 void cutscene_aglab_wooden_post_cs(struct Camera *c) {
     cutscene_event(cutscene_reset_spline, c, 0, 0);
-    move_point_along_spline(c->pos, gCSAglab1Pos, &sCutsceneSplineSegment, &sCutsceneSplineSegmentProgress);
+    c->pos[0] = -2507.f;
+    c->pos[1] = 2560.f;
+    c->pos[2] = -88.f;
     c->focus[0] = 464.f;
-    c->focus[1] = 0.f;
+    c->focus[1] = 1000.f;
     c->focus[2] = -2773.f;
 }
 

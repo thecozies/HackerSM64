@@ -425,13 +425,13 @@ u32 mario_check_object_grab(struct MarioState *m) {
             if (facingDYaw >= -0x2AAA && facingDYaw <= 0x2AAA) {
                 m->usedObj = m->interactObj;
 
-                if (!(m->action & ACT_FLAG_AIR)) {
-                    if (script == bhvMfWoodenPostAnchor)
-                    {
-                        result = set_mario_action(m, ACT_PICKING_UP_BOWSER, 0);
-                    }
-                    else
-                    {
+                if (script == bhvMfWoodenPostAnchor)
+                {
+                    result = set_mario_action(m, ACT_PICKING_UP_BOWSER, 0);
+                }
+                else
+                {
+                    if (!(m->action & ACT_FLAG_AIR)) {
                         set_mario_action(
                             m, (m->action & ACT_FLAG_DIVING) ? ACT_DIVE_PICKING_UP : ACT_PICKING_UP, 0);
                     }

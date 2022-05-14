@@ -23,3 +23,5 @@
 #include "levels/mf/mf_help/model.inc.c"
 #include "levels/mf/mf_pillar/collision.inc.c"
 #include "levels/mf/mf_pillar/model.inc.c"
+#include "levels/mf/mf_rope/model.inc.c"
+#include "levels/mf/mf_rope_main/model.inc.c"

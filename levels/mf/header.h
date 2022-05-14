@@ -29,4 +29,8 @@ extern const LevelScript level_mf_entry[];
 
 #include "levels/mf/mf_pillar/geo_header.h"
 
+#include "levels/mf/mf_rope/geo_header.h"
+
+#include "levels/mf/mf_rope_main/geo_header.h"
+
 #endif

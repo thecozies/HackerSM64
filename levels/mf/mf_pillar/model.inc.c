@@ -1,8 +1,8 @@
-Lights1 mf_pillar_sand_lights = gdSPDefLights1(
+Lights1 mf_pillar_sand_001_lights = gdSPDefLights1(
 	0x7F, 0x7F, 0x7F,
 	0xFE, 0xFE, 0xFE, 0x28, 0x28, 0x28);
 
-Lights1 mf_pillar_decor_lights = gdSPDefLights1(
+Lights1 mf_pillar_decor_001_lights = gdSPDefLights1(
 	0x7F, 0x7F, 0x7F,
 	0xFE, 0xFE, 0xFE, 0x28, 0x28, 0x28);
 
@@ -546,35 +546,35 @@ u8 mf_pillar_tex1_64x64_CE7933AFBD43169C_12_ci4_pal_rgba16[] = {
 };
 
 Vtx mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1_vtx_cull[8] = {
-	{{{-727, 0, 431},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
-	{{{-727, 2380, 431},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
-	{{{-727, 2380, -294},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
-	{{{-727, 0, -294},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
-	{{{65, 0, 431},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
-	{{{65, 2380, 431},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
-	{{{65, 2380, -294},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
-	{{{65, 0, -294},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
+	{{{-396, -1727, 362},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
+	{{{-396, 652, 362},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
+	{{{-396, 652, -362},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
+	{{{-396, -1727, -362},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
+	{{{396, -1727, 362},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
+	{{{396, 652, 362},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
+	{{{396, 652, -362},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
+	{{{396, -1727, -362},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
 };
 
 Vtx mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1_vtx_0[18] = {
-	{{{-201, 2238, 249},0, {1798, 1012},{0x35, 0xA6, 0x49, 0xFF}}},
-	{{{-110, 2238, 46},0, {993, 854},{0x5A, 0xA6, 0xF7, 0xFF}}},
-	{{{65, 2292, 28},0, {1005, 415},{0x6C, 0xBE, 0xF6, 0xFF}}},
-	{{{-168, 2292, -294},0, {-452, 690},{0x2D, 0xBE, 0x9D, 0xFF}}},
-	{{{-240, 2238, -135},0, {162, 1027},{0x25, 0xA6, 0xAE, 0xFF}}},
-	{{{-563, 2292, -255},0, {-701, 1331},{0xC1, 0xBE, 0xA8, 0xFF}}},
-	{{{-461, 2238, -113},0, {75, 1397},{0xCB, 0xA6, 0xB7, 0xFF}}},
-	{{{-727, 2292, 108},0, {909, 1706},{0x94, 0xBE, 0xA, 0xFF}}},
-	{{{-552, 2238, 90},0, {941, 1594},{0xA6, 0xA6, 0x9, 0xFF}}},
-	{{{-494, 2292, 431},0, {2567, 1299},{0xD3, 0xBE, 0x63, 0xFF}}},
-	{{{-422, 2238, 271},0, {1834, 1380},{0xDB, 0xA6, 0x52, 0xFF}}},
-	{{{-99, 2292, 391},0, {2414, 666},{0x3F, 0xBE, 0x58, 0xFF}}},
-	{{{65, 2380, 28},0, {997, 81},{0x64, 0x4E, 0xF6, 0xFF}}},
-	{{{-168, 2380, -294},0, {-479, 338},{0x29, 0x4E, 0xA4, 0xFF}}},
-	{{{-563, 2380, -255},0, {-737, 938},{0xC5, 0x4E, 0xAE, 0xFF}}},
-	{{{-727, 2380, 108},0, {897, 1291},{0x9C, 0x4E, 0xA, 0xFF}}},
-	{{{-494, 2380, 431},0, {2581, 909},{0xD7, 0x4E, 0x5C, 0xFF}}},
-	{{{-99, 2380, 391},0, {2424, 316},{0x3B, 0x4E, 0x52, 0xFF}}},
+	{{{130, 510, 181},0, {1798, 1012},{0x35, 0xA6, 0x49, 0xFF}}},
+	{{{221, 510, -22},0, {993, 854},{0x5A, 0xA6, 0xF7, 0xFF}}},
+	{{{396, 564, -40},0, {1005, 415},{0x6C, 0xBE, 0xF6, 0xFF}}},
+	{{{163, 564, -362},0, {-452, 690},{0x2D, 0xBE, 0x9D, 0xFF}}},
+	{{{91, 510, -203},0, {162, 1027},{0x25, 0xA6, 0xAE, 0xFF}}},
+	{{{-232, 564, -323},0, {-701, 1331},{0xC1, 0xBE, 0xA8, 0xFF}}},
+	{{{-130, 510, -181},0, {75, 1397},{0xCB, 0xA6, 0xB7, 0xFF}}},
+	{{{-396, 564, 40},0, {909, 1706},{0x94, 0xBE, 0xA, 0xFF}}},
+	{{{-221, 510, 22},0, {941, 1594},{0xA6, 0xA6, 0x9, 0xFF}}},
+	{{{-163, 564, 362},0, {2567, 1299},{0xD3, 0xBE, 0x63, 0xFF}}},
+	{{{-91, 510, 203},0, {1834, 1380},{0xDB, 0xA6, 0x52, 0xFF}}},
+	{{{232, 564, 323},0, {2414, 666},{0x3F, 0xBE, 0x58, 0xFF}}},
+	{{{396, 652, -40},0, {997, 81},{0x64, 0x4E, 0xF6, 0xFF}}},
+	{{{163, 652, -362},0, {-479, 338},{0x29, 0x4E, 0xA4, 0xFF}}},
+	{{{-232, 652, -323},0, {-737, 938},{0xC5, 0x4E, 0xAE, 0xFF}}},
+	{{{-396, 652, 40},0, {897, 1291},{0x9C, 0x4E, 0xA, 0xFF}}},
+	{{{-163, 652, 362},0, {2581, 909},{0xD7, 0x4E, 0x5C, 0xFF}}},
+	{{{232, 652, 323},0, {2424, 316},{0x3B, 0x4E, 0x52, 0xFF}}},
 };
 
 Gfx mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1_tri_0[] = {
@@ -597,25 +597,25 @@ Gfx mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1_tri_0[] = {
 };
 
 Vtx mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1_vtx_1[19] = {
-	{{{-201, 0, 249},0, {-2070, 2091},{0x3B, 0xB2, 0x52, 0xFF}}},
-	{{{-110, 0, 46},0, {-22, 2091},{0x64, 0xB2, 0xF6, 0xFF}}},
-	{{{-110, 2238, 46},0, {-22, -18502},{0x5A, 0xA6, 0xF7, 0xFF}}},
-	{{{-201, 2238, 249},0, {-2070, -18502},{0x35, 0xA6, 0x49, 0xFF}}},
-	{{{-461, 0, -113},0, {4073, 2091},{0xC5, 0xB2, 0xAE, 0xFF}}},
-	{{{-552, 0, 90},0, {6121, 2091},{0x9C, 0xB2, 0xA, 0xFF}}},
-	{{{-552, 2238, 90},0, {6121, -18502},{0xA6, 0xA6, 0x9, 0xFF}}},
-	{{{-461, 2238, -113},0, {4073, -18502},{0xCB, 0xA6, 0xB7, 0xFF}}},
-	{{{-240, 0, -135},0, {2026, 2091},{0x29, 0xB2, 0xA4, 0xFF}}},
-	{{{-240, 2238, -135},0, {2026, -18502},{0x25, 0xA6, 0xAE, 0xFF}}},
-	{{{-110, 2238, 46},0, {-22, -18502},{0x5A, 0xA6, 0xF7, 0xFF}}},
-	{{{-422, 0, 271},0, {-4117, 2091},{0xD7, 0xB2, 0x5C, 0xFF}}},
-	{{{-201, 2238, 249},0, {-2070, -18502},{0x35, 0xA6, 0x49, 0xFF}}},
-	{{{-422, 2238, 271},0, {-4117, -18502},{0xDB, 0xA6, 0x52, 0xFF}}},
-	{{{-552, 0, 90},0, {-6165, 2091},{0x9C, 0xB2, 0xA, 0xFF}}},
-	{{{-422, 2238, 271},0, {-4117, -18502},{0xDB, 0xA6, 0x52, 0xFF}}},
-	{{{-552, 2238, 90},0, {-6165, -18502},{0xA6, 0xA6, 0x9, 0xFF}}},
-	{{{-461, 2238, -113},0, {4073, -18502},{0xCB, 0xA6, 0xB7, 0xFF}}},
-	{{{-240, 2238, -135},0, {2026, -18502},{0x25, 0xA6, 0xAE, 0xFF}}},
+	{{{130, -1727, 181},0, {-2070, 2091},{0x3B, 0xB2, 0x52, 0xFF}}},
+	{{{221, -1727, -22},0, {-22, 2091},{0x64, 0xB2, 0xF6, 0xFF}}},
+	{{{221, 510, -22},0, {-22, -18502},{0x5A, 0xA6, 0xF7, 0xFF}}},
+	{{{130, 510, 181},0, {-2070, -18502},{0x35, 0xA6, 0x49, 0xFF}}},
+	{{{-130, -1727, -181},0, {4073, 2091},{0xC5, 0xB2, 0xAE, 0xFF}}},
+	{{{-221, -1727, 22},0, {6121, 2091},{0x9C, 0xB2, 0xA, 0xFF}}},
+	{{{-221, 510, 22},0, {6121, -18502},{0xA6, 0xA6, 0x9, 0xFF}}},
+	{{{-130, 510, -181},0, {4073, -18502},{0xCB, 0xA6, 0xB7, 0xFF}}},
+	{{{91, -1727, -203},0, {2026, 2091},{0x29, 0xB2, 0xA4, 0xFF}}},
+	{{{91, 510, -203},0, {2026, -18502},{0x25, 0xA6, 0xAE, 0xFF}}},
+	{{{221, 510, -22},0, {-22, -18502},{0x5A, 0xA6, 0xF7, 0xFF}}},
+	{{{-91, -1727, 203},0, {-4117, 2091},{0xD7, 0xB2, 0x5C, 0xFF}}},
+	{{{130, 510, 181},0, {-2070, -18502},{0x35, 0xA6, 0x49, 0xFF}}},
+	{{{-91, 510, 203},0, {-4117, -18502},{0xDB, 0xA6, 0x52, 0xFF}}},
+	{{{-221, -1727, 22},0, {-6165, 2091},{0x9C, 0xB2, 0xA, 0xFF}}},
+	{{{-91, 510, 203},0, {-4117, -18502},{0xDB, 0xA6, 0x52, 0xFF}}},
+	{{{-221, 510, 22},0, {-6165, -18502},{0xA6, 0xA6, 0x9, 0xFF}}},
+	{{{-130, 510, -181},0, {4073, -18502},{0xCB, 0xA6, 0xB7, 0xFF}}},
+	{{{91, 510, -203},0, {2026, -18502},{0x25, 0xA6, 0xAE, 0xFF}}},
 };
 
 Gfx mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1_tri_1[] = {
@@ -630,7 +630,7 @@ Gfx mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1_tri_1[] = {
 };
 
 
-Gfx mat_mf_pillar_sand[] = {
+Gfx mat_mf_pillar_sand_001[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
@@ -649,17 +649,17 @@ Gfx mat_mf_pillar_sand[] = {
 	gsDPPipeSync(),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
-	gsSPSetLights1(mf_pillar_sand_lights),
+	gsSPSetLights1(mf_pillar_sand_001_lights),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_mf_pillar_sand[] = {
+Gfx mat_revert_mf_pillar_sand_001[] = {
 	gsDPPipeSync(),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_mf_pillar_decor[] = {
+Gfx mat_mf_pillar_decor_001[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
@@ -678,11 +678,11 @@ Gfx mat_mf_pillar_decor[] = {
 	gsDPPipeSync(),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, G_TX_WRAP | G_TX_MIRROR, 6, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
-	gsSPSetLights1(mf_pillar_decor_lights),
+	gsSPSetLights1(mf_pillar_decor_001_lights),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_mf_pillar_decor[] = {
+Gfx mat_revert_mf_pillar_decor_001[] = {
 	gsDPPipeSync(),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
@@ -693,12 +693,12 @@ Gfx mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1[] = {
 	gsSPVertex(mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1_vtx_cull + 0, 8, 0),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPCullDisplayList(0, 7),
-	gsSPDisplayList(mat_mf_pillar_sand),
+	gsSPDisplayList(mat_mf_pillar_sand_001),
 	gsSPDisplayList(mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_mf_pillar_sand),
-	gsSPDisplayList(mat_mf_pillar_decor),
+	gsSPDisplayList(mat_revert_mf_pillar_sand_001),
+	gsSPDisplayList(mat_mf_pillar_decor_001),
 	gsSPDisplayList(mf_pillar_Makai_Flower_Gardens_011_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_mf_pillar_decor),
+	gsSPDisplayList(mat_revert_mf_pillar_decor_001),
 	gsSPEndDisplayList(),
 };
 
