@@ -3,6 +3,7 @@
 const GeoLayout mf_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_ALPHA, -3722, -3719, -2591, mf_dl_koopa_road_mesh_layer_4),
 		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, mf_dl_Makai_Flower_Gardens_mesh_layer_1),
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, mf_dl_Makai_Flower_Gardens_mesh_layer_4),
@@ -23,6 +24,8 @@ const GeoLayout mf_area_1_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_OPAQUE, mf_dl_Makai_Flower_Gardens_010_mesh_layer_1),
 		GEO_CLOSE_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 792, 63, -2832, mf_dl_Makai_Flower_Gardens_011_mesh_layer_1),
+		GEO_ROTATION_NODE_WITH_DL(LAYER_TRANSPARENT_DECAL, 90, 0, 0, mf_dl_mlavaline_mesh_layer_6),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 2627, -1824, 3933, mf_dl_Plane_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -2591, -2054, 2082, 0, -36, -90, mf_dl_Plane_001_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 783, 1533, -431, 0, 98, -90, mf_dl_Plane_002_mesh_layer_1),
@@ -67,6 +70,7 @@ const GeoLayout mf_area_1[] = {
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, mf_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, mf_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, mf_dl_material_revert_render_settings),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, mf_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

@@ -10,6 +10,8 @@
 #include "engine/math_util.h"
 #include "rumble_init.h"
 
+#include "area.h"
+
 /**
  * Used by act_punching() to determine Mario's forward velocity during each
  * animation frame.
@@ -356,7 +358,7 @@ s32 act_holding_bowser(struct MarioState *m) {
 
     if (m->angleVel[1] == 0) {
         if (m->actionTimer++ > 120) {
-            return set_mario_action(m, ACT_RELEASING_BOWSER, 1);
+            // return set_mario_action(m, ACT_RELEASING_BOWSER, 1);
         }
 
         set_mario_animation(m, MARIO_ANIM_HOLDING_BOWSER);
@@ -414,17 +416,26 @@ s32 act_holding_bowser(struct MarioState *m) {
 }
 
 s32 act_releasing_bowser(struct MarioState *m) {
-    if (++m->actionTimer == 1) {
-        if (m->actionArg == 0) {
-#if ENABLE_RUMBLE
-            queue_rumble_data(5, 50);
-#endif
-            mario_throw_held_object(m);
-        } else {
-#if ENABLE_RUMBLE
-            queue_rumble_data(4, 50);
-#endif
-            mario_drop_held_object(m);
+    if (gCurrCourseNum == 3)
+    {
+        mario_drop_held_object(m);
+        m->vel[1] = 30.f;
+        set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
+    }
+    else
+    {
+        if (++m->actionTimer == 1) {
+            if (m->actionArg == 0) {
+    #if ENABLE_RUMBLE
+                queue_rumble_data(5, 50);
+    #endif
+                mario_throw_held_object(m);
+            } else {
+    #if ENABLE_RUMBLE
+                queue_rumble_data(4, 50);
+    #endif
+                mario_drop_held_object(m);
+            }
         }
     }
 

@@ -351,3 +351,154 @@ void bhv_mf_butterfly_loop()
     s[bp1 == 1 ? 1 : 2] = ((bp3 * 2 - 1) * (-1.0f)) * (sBFCfg[o->oBehParams2ndByte].top - objpos[bp1]) / (4543.f - 2178.f);
     obj_scale_xyz(o->oMfButterflyVine, s[0], s[1], s[2]);
 }
+
+void bhv_mf_lava_init()
+{
+    // -
+}
+
+
+extern Vtx mf_dl_mlavaline_mesh_layer_6_vtx_0[424];
+void bhv_mf_lava_loop()
+{
+    // -2992 596-630~613 | 1104-1146~1125
+    // -2664 660-702~681 | 1172-1216~1194
+    // -2488 714-758~736 | 1226-1266~1246
+
+    /*
+    Y = 4.126*X - 5506
+    Y = 4.197*X - 7702
+      -2992 | -2664 | -2488
+       613  |  681  |  736
+       1125 |  1194 |  1246
+     */
+
+    if (gMarioStates->floorHeight != gMarioStates->pos[1])
+        return;
+
+    struct Surface* floor = gMarioStates->floor;
+    if (!floor || floor->type != SURFACE_HARD_NOT_SLIPPERY)
+        return;
+
+    Vtx* v = segmented_to_virtual(mf_dl_mlavaline_mesh_layer_6_vtx_0);
+
+    f32 k = (4.126f + 4.197f) / 2.f;
+    f32 bl = -5506.f + 20.f;
+    f32 bh = -7702.f + 80.f;
+    f32 d = 10.f;
+
+    f32 ll = k * (v->n.tc[1] - d) + bl;
+    f32 lh = k * (v->n.tc[1] + d) + bl;
+    f32 hl = k * (v->n.tc[1] - d) + bh;
+    f32 hh = k * (v->n.tc[1] + d) + bh;
+    
+    int hit = 0;
+    if (ll < gMarioStates->pos[1] && gMarioStates->pos[1] < lh)
+        hit = 1;
+        
+    if (hl < gMarioStates->pos[1] && gMarioStates->pos[1] < hh)
+        hit = 1;
+
+    if (hit)
+    {
+        gMarioStates->hurtCounter += 8;
+        drop_and_set_mario_action(gMarioStates, ACT_LAVA_BOOST, 0);
+    }
+}
+
+struct ObjectHitbox sMfWoodenPostAnchorHitbox = {
+    /* interactType:      */ INTERACT_GRABBABLE,
+    /* downOffset:        */ 20,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 1,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 100,
+    /* height:            */ 100,
+    /* hurtboxRadius:     */ 100,
+    /* hurtboxHeight:     */ 100,
+};
+
+void bhv_mf_wooden_post_anchor_init()
+{
+    f32 d;
+    o->oMfWoodenPostAnchorMain = cur_obj_find_nearest_object_with_behavior(bhvMfWoodenPostMain, &d);
+    obj_set_hitbox(o, &sMfWoodenPostAnchorHitbox);
+}
+
+// 464, 0, -2773
+void bhv_mf_wooden_post_anchor_loop()
+{
+    switch (o->oHeldState) {
+        case HELD_FREE:
+            o->oMfWoodenPostAnchorFixAngle = 0;
+            if (gCamera->cutscene == CUTSCENE_AGLAB_WOODEN_POST_CS)
+            {
+                gCamera->cutscene = 0;
+                reset_camera(gCamera);
+            }
+            break;
+
+        case HELD_HELD:
+            obj_copy_pos(o, gMarioObject);
+            cur_obj_unrender_set_action_and_anim(-1, 0);
+
+            f32 d;
+            s16 yaw;
+            vec3f_get_lateral_dist_and_yaw(&o->oMfWoodenPostAnchorMain->oPosVec, &o->oPosVec, &d, &yaw);
+            if (0 == o->oMfWoodenPostAnchorFixAngle)
+            {
+                o->oMfWoodenPostAnchorFixAngle = 1;
+                gMarioStates->faceAngle[1] = yaw + 0x8000;
+                o->oMfWoodenPostAnchorLastMarioYaw = gMarioStates->faceAngle[1];
+            }
+            gMarioStates->pos[0] = o->oMfWoodenPostAnchorMain->oPosX - d * sins(gMarioStates->faceAngle[1]);
+            gMarioStates->pos[2] = o->oMfWoodenPostAnchorMain->oPosZ - d * coss(gMarioStates->faceAngle[1]);
+            s16 spd = o->oMfWoodenPostAnchorLastMarioYaw - gMarioStates->faceAngle[1];
+            o->oMfWoodenPostAnchorLastMarioYaw = gMarioStates->faceAngle[1];
+            f32 espd = (ABS(spd) / 17.8f) - 70.f;
+            gMarioStates->pos[1] += espd;
+            gMarioStates->pos[1] = CLAMP(gMarioStates->pos[1], o->oHomeY, o->oHomeY + 1000.f);
+            
+            gCamera->cutscene = CUTSCENE_AGLAB_WOODEN_POST_CS;
+
+            break;
+
+        case HELD_THROWN:
+            o->oPosX = gMarioStates->pos[0];
+            o->oPosZ = gMarioStates->pos[2];
+            o->oPosY = o->oHomeY;
+            o->oHeldState = HELD_FREE;
+            gCamera->cutscene = 0;
+            reset_camera(gCamera);
+            // cur_obj_get_thrown_or_placed(0.0f, 20.0f, 1);
+            break;
+
+        case HELD_DROPPED:
+            o->oPosX = gMarioStates->pos[0];
+            o->oPosZ = gMarioStates->pos[2];
+            o->oPosY = o->oHomeY;
+            gCamera->cutscene = 0;
+            reset_camera(gCamera);
+            cur_obj_get_dropped();
+            break;
+    }
+
+    o->oInteractStatus = INT_STATUS_NONE;
+}
+
+void bhv_mf_wooden_post_main_init()
+{
+    struct Object* objs = &o->oMfWoodenPostMainPosts;
+    o->oPosY = -2000.f;
+    cur_obj_find_all_objects_with_behavior_and_bparam(bhvWoodenPost, objs, 0);
+}
+
+void bhv_mf_wooden_post_main_loop()
+{
+    o->oPosY = -2000.f;
+
+    for (struct Object* post = &o->oMfWoodenPostMainPosts; post; post++)
+    {
+        // o->oPosY += 0.5f * (post->oWoodenPostOffsetY);
+    }
+}

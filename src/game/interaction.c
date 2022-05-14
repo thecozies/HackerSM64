@@ -426,8 +426,15 @@ u32 mario_check_object_grab(struct MarioState *m) {
                 m->usedObj = m->interactObj;
 
                 if (!(m->action & ACT_FLAG_AIR)) {
-                    set_mario_action(
-                        m, (m->action & ACT_FLAG_DIVING) ? ACT_DIVE_PICKING_UP : ACT_PICKING_UP, 0);
+                    if (script == bhvMfWoodenPostAnchor)
+                    {
+                        result = set_mario_action(m, ACT_PICKING_UP_BOWSER, 0);
+                    }
+                    else
+                    {
+                        set_mario_action(
+                            m, (m->action & ACT_FLAG_DIVING) ? ACT_DIVE_PICKING_UP : ACT_PICKING_UP, 0);
+                    }
                 }
 
                 result = TRUE;

@@ -18,3 +18,8 @@
 #include "levels/mf/mf_vine/collision.inc.c"
 #include "levels/mf/mf_vine/model.inc.c"
 #include "levels/mf/mf_vine2/model.inc.c"
+#include "levels/mf/mf_mill/collision.inc.c"
+#include "levels/mf/mf_mill/model.inc.c"
+#include "levels/mf/mf_help/model.inc.c"
+#include "levels/mf/mf_pillar/collision.inc.c"
+#include "levels/mf/mf_pillar/model.inc.c"

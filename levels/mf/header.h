@@ -19,4 +19,14 @@ extern const LevelScript level_mf_entry[];
 
 #include "levels/mf/mf_vine2/geo_header.h"
 
+#include "levels/mf/mf_mill/collision_header.h"
+
+#include "levels/mf/mf_mill/geo_header.h"
+
+#include "levels/mf/mf_help/geo_header.h"
+
+#include "levels/mf/mf_pillar/collision_header.h"
+
+#include "levels/mf/mf_pillar/geo_header.h"
+
 #endif

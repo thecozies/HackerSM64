@@ -362,14 +362,14 @@
         "Celesta": {
             "release_rate": 10,
             "envelope": "envelope16",
-            "sound": "42"
+            "sound": "42_vibraphone"
         },
         "Banjo": {
             "release_rate": 100,
             "normal_range_lo": 41,
             "envelope": "envelope17",
             "sound_lo": {"sample": "00", "tuning": 1.781798},
-            "sound": "01"
+            "sound": "01_banjo_1"
         },
         "Fiddle": {
             "release_rate": 180,
@@ -379,36 +379,36 @@
         "Whistle": {
             "release_rate": 76,
             "envelope": "envelope18",
-            "sound": "03"
+            "sound": "03_human_whistle"
         },
         "Acoustic Bass": {
             "release_rate": 208,
             "envelope": "envelope6",
-            "sound": "05"
+            "sound": "05_acoustic_bass"
         },
         "Snare Clap": {
             "release_rate": 10,
             "normal_range_lo": 18,
             "envelope": "envelope19",
-            "sound_lo": "12",
-            "sound": "13"
+            "sound_lo": "12_snare_drum_1",
+            "sound": "13_snare_drum_2"
         },
         "Pizzicato Strings": {
             "release_rate": 43,
             "normal_range_hi": 47,
             "envelope": "envelope20",
-            "sound": "46",
-            "sound_hi": "47"
+            "sound": "46_pizzicato_strings_1",
+            "sound_hi": "47_pizzicato_strings_2"
         },
         "Cello": {
             "release_rate": 119,
             "envelope": "envelope18",
-            "sound": "2D"
+            "sound": "2D_trombone"
         },
         "Choir Ooh": {
             "release_rate": 10,
             "envelope": "envelope1",
-            "sound": "22"
+            "sound": "22_boys_choir"
         },
         "Sitar Drone": {
             "release_rate": 90,

@@ -60,8 +60,9 @@ struct KoopaTheQuickProperties {
 /**
  * Properties for the BoB race and the THI race.
  */
+extern const Trajectory mf_area_1_spline_koopa_path[];
 static struct KoopaTheQuickProperties sKoopaTheQuickProperties[] = {
-    { DIALOG_005, DIALOG_007, bob_seg7_trajectory_koopa, { 3030, 4500, -4600 } },
+    { DIALOG_005, DIALOG_007, mf_area_1_spline_koopa_path, { 3030, 4500, -4600 } },
     { DIALOG_009, DIALOG_031, thi_seg7_trajectory_koopa, { 7100, -1300, -6000 } },
 };
 
@@ -510,6 +511,12 @@ static void koopa_the_quick_act_show_init_text(void) {
         o->oForwardVel = 0.0f;
 
         o->parentObj = cur_obj_nearest_object_with_behavior(bhvKoopaRaceEndpoint);
+        if (!o->oMfKoopaRaceHelp)
+        {
+            o->oMfKoopaRaceHelp = spawn_object(o, MODEL_MF_HELP, bhvStaticObjectEx);
+            o->oMfKoopaRaceHelp->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+        }
+        
         o->oPathedStartWaypoint = o->oPathedPrevWaypoint =
             segmented_to_virtual(sKoopaTheQuickProperties[o->oKoopaTheQuickRaceIndex].path);
 
@@ -614,7 +621,17 @@ static void koopa_the_quick_act_race(void) {
 
                     // Move upward if we hit a wall, to climb it
                     if (o->oMoveFlags & OBJ_MOVE_HIT_WALL) {
-                        o->oVelY = 20.0f;
+                        o->oMfKoopaRaceHelp->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+                        o->oMfKoopaRaceHelp->oPosX = o->oPosX;
+                        o->oMfKoopaRaceHelp->oPosY = o->oPosY + 300.f;
+                        o->oMfKoopaRaceHelp->oPosZ = o->oPosZ;
+                    } else {
+                        o->oMfKoopaRaceHelp->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+                    }
+
+                    if (o->oDistanceToMario < 400.0f && (gPlayer1Controller->buttonPressed & B_BUTTON))
+                    {
+                        o->oVelY = 90.0f;
                     }
 
                     // If we're about to collide with a bowling ball or we hit an

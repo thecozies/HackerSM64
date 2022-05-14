@@ -8274,6 +8274,25 @@ void cutscene_death_stomach(struct Camera *c) {
     set_handheld_shake(HAND_CAM_SHAKE_CUTSCENE);
 }
 
+struct CutsceneSplinePoint gCSAglab1Pos[] = {
+    { 0, 0, { 1350, 3407, -8593 } },
+    { 1, 0, { -3648, 2750, -4166 } },
+    { 2, 0, { -4814, 2382, -1268 } },
+    {  3, 0, { -7588, 1350, 5959 } },
+    { 4, 0, { 2851, 4705, 13240 } },
+    { 5, 0, { 8448, 2076, 1323 } },
+    { 6, 0, { 7223, -1448, -7390 } },
+    { -1, 0, { 7223, -1448, -7390 } },
+};
+
+void cutscene_aglab_wooden_post_cs(struct Camera *c) {
+    cutscene_event(cutscene_reset_spline, c, 0, 0);
+    move_point_along_spline(c->pos, gCSAglab1Pos, &sCutsceneSplineSegment, &sCutsceneSplineSegmentProgress);
+    c->focus[0] = 464.f;
+    c->focus[1] = 0.f;
+    c->focus[2] = -2773.f;
+}
+
 void cutscene_bbh_death_start(struct Camera *c) {
     Vec3f dir = { 0, 40.f, 60.f };
 
@@ -10212,6 +10231,10 @@ struct Cutscene sCutsceneEnterPool[] = {
     { cutscene_exit_to_castle_grounds_end, 0 }
 };
 
+struct Cutscene sCutsceneAglabWoodenPostCs[] = {
+    { cutscene_aglab_wooden_post_cs, CUTSCENE_LOOP },
+};
+
 /**
  * Cutscene that plays when Mario dies on his stomach.
  */
@@ -10433,7 +10456,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // BOWSER_3       | Unused
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // TTM            | Unused
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 1, 0, 0), // Unused         | Unused
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 0, 0), 
 };
 
 STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");
@@ -10826,6 +10849,9 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_RACE_DIALOG,          sCutsceneDialog)
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)
         CUTSCENE(CUTSCENE_SSL_PYRAMID_EXPLODE,  sCutscenePyramidTopExplode)
+
+        
+        CUTSCENE(CUTSCENE_AGLAB_WOODEN_POST_CS, sCutsceneAglabWoodenPostCs)
     }
 
 #undef CUTSCENE

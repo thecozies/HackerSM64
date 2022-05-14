@@ -19,3 +19,6 @@
 #include "levels/mf/mf_bf/geo.inc.c"
 #include "levels/mf/mf_vine/geo.inc.c"
 #include "levels/mf/mf_vine2/geo.inc.c"
+#include "levels/mf/mf_mill/geo.inc.c"
+#include "levels/mf/mf_help/geo.inc.c"
+#include "levels/mf/mf_pillar/geo.inc.c"

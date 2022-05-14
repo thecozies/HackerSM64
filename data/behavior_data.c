@@ -6164,3 +6164,55 @@ const BehaviorScript bhvStaticObjectEx[] = {
     BEGIN_LOOP(),
     END_LOOP(),
 };
+
+extern const Collision mf_mill_collision[];
+const BehaviorScript bhvMfMill[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(mf_mill_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        ADD_INT(oMoveAnglePitch, 0x100),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_mf_lava_init();
+extern void bhv_mf_lava_loop();
+const BehaviorScript bhvMfLavaCtl[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    CALL_NATIVE(bhv_mf_lava_init),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_mf_lava_loop),
+    END_LOOP(),
+};
+
+extern void bhv_mf_wooden_post_anchor_init();
+extern void bhv_mf_wooden_post_anchor_loop();
+const BehaviorScript bhvMfWoodenPostAnchor[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    SET_INT(oInteractType, INTERACT_GRABBABLE),
+    SET_HITBOX(/*Radius*/ 30, /*Height*/ 30),
+    CALL_NATIVE(bhv_mf_wooden_post_anchor_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_mf_wooden_post_anchor_loop),
+    END_LOOP(),
+};
+
+extern const Collision mf_pillar_collision[];
+extern void bhv_mf_wooden_post_main_init();
+extern void bhv_mf_wooden_post_main_loop();
+const BehaviorScript bhvMfWoodenPostMain[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(mf_pillar_collision),
+    CALL_NATIVE(bhv_mf_wooden_post_main_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_mf_wooden_post_main_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

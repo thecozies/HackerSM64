@@ -1,0 +1,10 @@
+extern const GeoLayout mf_help_geo[];
+extern Lights1 mf_help_help_lights;
+extern u8 mf_help_help_ia4[];
+extern Vtx mf_help_Plane_011_mesh_layer_4_vtx_cull[8];
+extern Vtx mf_help_Plane_011_mesh_layer_4_vtx_0[4];
+extern Gfx mf_help_Plane_011_mesh_layer_4_tri_0[];
+extern Gfx mat_mf_help_help[];
+extern Gfx mat_revert_mf_help_help[];
+extern Gfx mf_help_Plane_011_mesh_layer_4[];
+extern Gfx mf_help_material_revert_render_settings[];

@@ -689,6 +689,8 @@
 #define /*0x100*/ oKoopaRaceEndpointDialog        OBJECT_FIELD_S32(0x1E)
 #define /*0x104*/ oKoopaRaceEndpointRaceEnded     OBJECT_FIELD_S32(0x1F)
 
+#define oMfKoopaRaceHelp OBJECT_FIELD_OBJ(0x48)
+
 /* Koopa Shell Flame */
 #define /*0x0F4*/ oKoopaShellFlameUnused OBJECT_FIELD_F32(0x1B)
 #define /*0x0F8*/ oKoopaShellFlameScale  OBJECT_FIELD_F32(0x1C)
@@ -1345,5 +1347,11 @@ os16112*/
 #define oAbClamCtlObj2 OBJECT_FIELD_OBJ(0x1D)
 
 #define oMfButterflyVine OBJECT_FIELD_OBJ(0x1B)
+
+#define oMfWoodenPostAnchorMain OBJECT_FIELD_OBJ(0x1B)
+#define oMfWoodenPostAnchorFixAngle OBJECT_FIELD_S32(0x1C)
+#define oMfWoodenPostAnchorLastMarioYaw OBJECT_FIELD_S32(0x1D)
+
+#define oMfWoodenPostMainPosts OBJECT_FIELD_OBJ(0x1B)
 
 #endif // OBJECT_FIELDS_H

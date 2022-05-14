@@ -579,5 +579,8 @@
 #define MODEL_MF_BF 0x36
 #define MODEL_MF_VINE 0x37
 #define MODEL_MF_VINE2 0x38
+#define MODEL_MF_MILL 0x39
+#define MODEL_MF_HELP 0x3A
+#define MODEL_MF_PILLAR 0x3B
 
 #endif // MODEL_IDS_H
