@@ -36,5 +36,7 @@
     "21_menu_file_select": ["24"],
     "22_cutscene_lakitu": {"ifdef": ["VERSION_US", "VERSION_EU", "VERSION_SH"], "banks": ["1B"]},
     "23_custom_draculas_tears_castlevania_dawn_of_sorrow": ["0C"],
-    "24_custom_c1": ["0C"]
+    "24_custom_c1": ["0C"],
+    "25_custom_c3": ["0C"],
+    "26_custom_lmao": ["0C"]
 }

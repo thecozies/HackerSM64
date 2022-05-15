@@ -62,7 +62,7 @@ struct KoopaTheQuickProperties {
  */
 extern const Trajectory mf_area_1_spline_koopa_path[];
 static struct KoopaTheQuickProperties sKoopaTheQuickProperties[] = {
-    { DIALOG_005, DIALOG_007, mf_area_1_spline_koopa_path, { 3030, 4500, -4600 } },
+    { DIALOG_005, DIALOG_007, mf_area_1_spline_koopa_path, { 5142.f, 1616.f, -5240.f } },
     { DIALOG_009, DIALOG_031, thi_seg7_trajectory_koopa, { 7100, -1300, -6000 } },
 };
 
@@ -460,7 +460,7 @@ s32 obj_begin_race(s32 noTimer) {
         cur_obj_play_sound_2(SOUND_GENERAL_RACE_GUN_SHOT);
 
         if (!noTimer) {
-            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_SLIDE), 0);
+            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LMAO), 0);
 
             level_control_timer(TIMER_CONTROL_SHOW);
             level_control_timer(TIMER_CONTROL_START);
@@ -629,7 +629,7 @@ static void koopa_the_quick_act_race(void) {
                         o->oMfKoopaRaceHelp->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
                     }
 
-                    if (o->oDistanceToMario < 400.0f && (gPlayer1Controller->buttonPressed & B_BUTTON))
+                    if (o->oDistanceToMario < 400.0f && ((gPlayer1Controller->buttonPressed) & B_BUTTON || (gMarioStates->action == ACT_DIVE_SLIDE) || (gMarioStates->action == ACT_SLIDE_KICK) || (gMarioStates->action == ACT_DIVE) || (gMarioStates->action == ACT_SLIDE_KICK_SLIDE)))
                     {
                         o->oVelY = 90.0f;
                     }

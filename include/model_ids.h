@@ -590,5 +590,6 @@
 #define MODEL_MF_PILLAR 0x3B
 #define MODEL_MF_ROPE 0x3C
 #define MODEL_MF_ROPE_MAIN 0x3D
+#define MODEL_MF_KNIFE 0x3E
 
 #endif // MODEL_IDS_H

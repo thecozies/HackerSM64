@@ -3,6 +3,7 @@
 const GeoLayout mf_area_2_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -226, 0, 219, mf_dl_Circle_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, mf_dl_Flowery_Gardens_A2_Windmill_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),

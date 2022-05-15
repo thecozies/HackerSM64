@@ -6284,3 +6284,15 @@ const BehaviorScript bhvMfWoodenPostMain[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern const Collision mf_knife_collision[];
+const BehaviorScript bhvMfKnife[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(mf_knife_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        ADD_INT(oMoveAngleYaw, -0x139),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

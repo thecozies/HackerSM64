@@ -24,3 +24,4 @@
 #include "levels/mf/mf_pillar/geo.inc.c"
 #include "levels/mf/mf_rope/geo.inc.c"
 #include "levels/mf/mf_rope_main/geo.inc.c"
+#include "levels/mf/mf_knife/geo.inc.c"

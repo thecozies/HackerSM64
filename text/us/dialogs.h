@@ -93,18 +93,11 @@ secret near the rock?\n\
 You probably want it."))
 
 DEFINE_DIALOG(DIALOG_005, 1, 3, 30, 200, _("\
-Hey, Mario! Is it true\n\
-that you beat the Big\n\
-Bob-omb? Cool!\n\
-You must be strong. And\n\
-pretty fast. So, how fast\n\
-are you, anyway?\n\
-Fast enough to beat me...\n\
-Koopa the Quick? I don't\n\
-think so. Just try me.\n\
-How about a race to the\n\
-mountaintop, where the\n\
-Big Bob-omb was?\n\
+Hey, Mario! Here we met\n\
+again! Wanna race to\n\
+the top you plumber?\n\
+There is no chance\n\
+you will win this time!\n\
 Whaddya say? When I say\n\
 『Go,』 let the race begin!\n\
 \n\

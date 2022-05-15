@@ -33,4 +33,8 @@ extern const LevelScript level_mf_entry[];
 
 #include "levels/mf/mf_rope_main/geo_header.h"
 
+#include "levels/mf/mf_knife/geo_header.h"
+
+#include "levels/mf/mf_knife/collision_header.h"
+
 #endif
