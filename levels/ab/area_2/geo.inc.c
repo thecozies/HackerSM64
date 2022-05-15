@@ -10,6 +10,7 @@ const GeoLayout ab_area_2_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -434, -1961, -7266, 90, 0, 0, ab_dl_Azure_Abyss2_011_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -434, -1961, -7266, 90, 0, 0, ab_dl_Azure_Abyss2_012_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 196, 1, -553, ab_dl_Plane_005_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

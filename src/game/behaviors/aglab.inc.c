@@ -145,7 +145,7 @@ void bhv_ab_sand_loop()
                 o->oHomeY = gMarioStates->pos[1] - 300.f;
             }
         }
-        else if (gMarioStates->pos[1] < o->oPosY)
+        else if (gMarioStates->pos[1] < o->oPosY && gMarioStates->pos[0] > 1865.f)
         {
             play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 10, 0xc2 / 2, 0xb2 / 2, 0x30 / 2);
             o->oAction = 2;
@@ -191,21 +191,24 @@ static void cur_obj_find_all_objects_with_behavior_and_bparam(const BehaviorScri
 void bhv_ab_clam_ctl_init()
 {
     cur_obj_find_all_objects_with_behavior_and_bparam(bhvClamShell, &o->oAbClamCtlObj0, 1);
+    s16 yaw;
+    vec3f_get_lateral_dist_and_yaw(&o->oPosVec, &o->oAbClamCtlObj0->oPosVec, &o->oAbClamCtlDistance, &yaw);
+    o->oAbClamCtlDistance -= 0.f;
 }
 
 void bhv_ab_clam_ctl_loop()
 {
+    o->oFaceAngleYaw += 0xB9;
     struct Object** objs = &o->oAbClamCtlObj0;
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 6; i++)
     {
         struct Object* clam = objs[i];
-        f32 d;
-        s16 yaw;
-        vec3f_get_lateral_dist_and_yaw(&o->oPosVec, &clam->oPosVec, &d, &yaw);
-
-        clam->oMoveAngleYaw = yaw + 0x4000;
-        clam->oPosX += sins(clam->oMoveAngleYaw) * 30.f;
-        clam->oPosZ += coss(clam->oMoveAngleYaw) * 30.f;
+        clam->oMoveAngleYaw = o->oFaceAngleYaw + 0x10000 / 6 * i;
+        f32 d = o->oAbClamCtlDistance + 200.f * sins(872 * o->oTimer);
+        clam->oPosX = o->oPosX + d * sins(clam->oMoveAngleYaw);
+        clam->oPosZ = o->oPosZ + d * coss(clam->oMoveAngleYaw);
+        clam->oPosY = find_floor_height(clam->oPosX, clam->oPosY + 100.f, clam->oPosZ);
+        clam->oMoveAngleYaw += 0x4000;
     }
 }
 
@@ -227,6 +230,19 @@ void bhv_ab_troll_loop()
     {
         *env = 255;
     }
+}
+
+#include "audio/load.h"
+extern void set_instrument(struct SequenceChannel *seqChannel, u8 instId);
+void bhv_ab_music_loop()
+{
+    if (o->oTimer == 0)
+        return;
+    
+    set_instrument(gSequencePlayers[0].channels[4], 0x19);
+    set_instrument(gSequencePlayers[0].channels[5], 0x19);
+    set_instrument(gSequencePlayers[0].channels[6], 0x2a);
+    set_instrument(gSequencePlayers[0].channels[7], 0x2a);
 }
 
 struct MFButterflyConfig

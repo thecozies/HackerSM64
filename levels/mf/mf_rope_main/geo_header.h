@@ -9,7 +9,7 @@ extern Vtx mf_rope_main_Cube_mesh_layer_1_vtx_cull[8];
 extern Vtx mf_rope_main_Cube_mesh_layer_1_vtx_0[80];
 extern Gfx mf_rope_main_Cube_mesh_layer_1_tri_0[];
 extern Vtx mf_rope_main_Cube_mesh_layer_4_vtx_cull[8];
-extern Vtx mf_rope_main_Cube_mesh_layer_4_vtx_0[4];
+extern Vtx mf_rope_main_Cube_mesh_layer_4_vtx_0[16];
 extern Gfx mf_rope_main_Cube_mesh_layer_4_tri_0[];
 extern Gfx mat_mf_rope_main_f3d_material_004[];
 extern Gfx mat_revert_mf_rope_main_f3d_material_004[];

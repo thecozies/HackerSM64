@@ -299,9 +299,6 @@ u8 sBackgroundMusicDefaultVolume[] = {
     0x5C,   // 23_custom_draculas_tears_castlevania_dawn_of_sorrow
 };
 
-STATIC_ASSERT(ARRAY_COUNT(sBackgroundMusicDefaultVolume) == SEQ_COUNT,
-              "change this array if you are adding sequences");
-
 u8 sCurrentBackgroundMusicSeqId = SEQUENCE_NONE;
 u8 sMusicDynamicDelay = 0;
 u8 sSoundBankUsedListBack[SOUND_BANK_COUNT] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -1894,10 +1891,6 @@ static u8 begin_background_music_fade(u16 fadeDuration) {
         if (targetVolume != 0xff) {
             seq_player_fade_to_target_volume(SEQ_PLAYER_LEVEL, fadeDuration, targetVolume);
         } else {
-#if defined(VERSION_JP) || defined(VERSION_US)
-            gSequencePlayers[SEQ_PLAYER_LEVEL].volume =
-                sBackgroundMusicDefaultVolume[sCurrentBackgroundMusicSeqId] / 127.0f;
-#endif
             seq_player_fade_to_normal_volume(SEQ_PLAYER_LEVEL, fadeDuration);
         }
     }

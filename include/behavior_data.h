@@ -554,6 +554,7 @@ extern const BehaviorScript bhvAbManta[];
 extern const BehaviorScript bhvAbSand[];
 extern const BehaviorScript bhvAbClamCtl[];
 extern const BehaviorScript bhvAbTroll[];
+extern const BehaviorScript bhvAbMusic[];
 extern const BehaviorScript bhvMfButterfly[];
 extern const BehaviorScript bhvMfMill[];
 extern const BehaviorScript bhvMfLavaCtl[];

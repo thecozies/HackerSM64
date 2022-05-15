@@ -1345,6 +1345,7 @@ os16112*/
 #define oAbClamCtlObj0 OBJECT_FIELD_OBJ(0x1B)
 #define oAbClamCtlObj1 OBJECT_FIELD_OBJ(0x1C)
 #define oAbClamCtlObj2 OBJECT_FIELD_OBJ(0x1D)
+#define oAbClamCtlDistance OBJECT_FIELD_F32(0x49)
 
 #define oMfButterflyVine OBJECT_FIELD_OBJ(0x1B)
 

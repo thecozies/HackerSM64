@@ -11165,7 +11165,7 @@ u8 mf_dl_Wood_ci8_pal_rgba16_copy[] = {
 	0x61, 0xcb, 0x72, 0x4d, 0x62, 0x0d, 
 };
 
-Vtx mf_dl__2_mesh_layer_4_vtx_cull[8] = {
+Vtx mf_dl__2_mesh_layer_6_vtx_cull[8] = {
 	{{{-169, -213, 225},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
 	{{{-169, 264, 225},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
 	{{{-169, 264, -225},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
@@ -11176,15 +11176,15 @@ Vtx mf_dl__2_mesh_layer_4_vtx_cull[8] = {
 	{{{177, -213, -225},0, {-16, -16},{0x0, 0x0, 0x0, 0x0}}},
 };
 
-Vtx mf_dl__2_mesh_layer_4_vtx_0[4] = {
-	{{{-91, 225, -98},0, {1008, -16},{0x9A, 0x0, 0x4C, 0xFF}}},
-	{{{-91, -30, -98},0, {1008, 2032},{0x9A, 0x0, 0x4C, 0xFF}}},
-	{{{60, -30, 107},0, {-16, 2032},{0x9A, 0x0, 0x4C, 0xFF}}},
-	{{{60, 225, 107},0, {-16, -16},{0x9A, 0x0, 0x4C, 0xFF}}},
+Vtx mf_dl__2_mesh_layer_6_vtx_0[4] = {
+	{{{-91, 225, -98},0, {1008, -16},{0xFF, 0xFF, 0xFF, 0xFF}}},
+	{{{-91, -30, -98},0, {1008, 2032},{0xED, 0xED, 0xED, 0xFF}}},
+	{{{60, -30, 107},0, {-16, 2032},{0xD9, 0xD9, 0xD9, 0xFF}}},
+	{{{60, 225, 107},0, {-16, -16},{0xFF, 0xFF, 0xFF, 0xFF}}},
 };
 
-Gfx mf_dl__2_mesh_layer_4_tri_0[] = {
-	gsSPVertex(mf_dl__2_mesh_layer_4_vtx_0 + 0, 4, 0),
+Gfx mf_dl__2_mesh_layer_6_tri_0[] = {
+	gsSPVertex(mf_dl__2_mesh_layer_6_vtx_0 + 0, 4, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSPEndDisplayList(),
 };
@@ -24643,8 +24643,8 @@ Gfx mf_dl_Flowery_Gardens_A2_Windmill_mesh_layer_1_tri_4[] = {
 
 Gfx mat_mf_dl_sign3[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
-	gsSPGeometryMode(G_CULL_BACK, 0),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0),
+	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, mf_dl_gp_rgba16),
@@ -24660,7 +24660,7 @@ Gfx mat_mf_dl_sign3[] = {
 
 Gfx mat_revert_mf_dl_sign3[] = {
 	gsDPPipeSync(),
-	gsSPGeometryMode(0, G_CULL_BACK),
+	gsSPGeometryMode(0, G_LIGHTING),
 	gsSPEndDisplayList(),
 };
 
@@ -26097,13 +26097,13 @@ Gfx mat_revert_mf_dl_WoodLight_f3d[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mf_dl__2_mesh_layer_4[] = {
+Gfx mf_dl__2_mesh_layer_6[] = {
 	gsSPClearGeometryMode(G_LIGHTING),
-	gsSPVertex(mf_dl__2_mesh_layer_4_vtx_cull + 0, 8, 0),
+	gsSPVertex(mf_dl__2_mesh_layer_6_vtx_cull + 0, 8, 0),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPCullDisplayList(0, 7),
 	gsSPDisplayList(mat_mf_dl_sign3),
-	gsSPDisplayList(mf_dl__2_mesh_layer_4_tri_0),
+	gsSPDisplayList(mf_dl__2_mesh_layer_6_tri_0),
 	gsSPDisplayList(mat_revert_mf_dl_sign3),
 	gsSPEndDisplayList(),
 };

@@ -42,9 +42,9 @@ void clam_act_1(void) {
 }
 
 void bhv_clam_loop(void) {
-    o->header.gfx.scale[0] = 2.f;
-    o->header.gfx.scale[1] = 3.f;
-    o->header.gfx.scale[2] = 2.f;
+    o->header.gfx.scale[0] = 1.5f;
+    o->header.gfx.scale[1] = 2.f;
+    o->header.gfx.scale[2] = 1.5f;
 
     switch (o->oAction) {
         case 0:
@@ -53,6 +53,25 @@ void bhv_clam_loop(void) {
         case 1:
             clam_act_1();
             break;
+    }
+
+    if (0 == o->oVelX)
+    {
+        o->oVelX = 40.f;
+    }
+
+    if (o->oBehParams2ndByte == 2)
+    {
+        o->oPosX += o->oVelX;
+        f32 pos = find_floor_height(o->oPosX + o->oVelX * 7.f, o->oPosY + 100.f, o->oPosZ);
+        if (pos < 0)
+        {
+            o->oVelX = -o->oVelX;
+        }
+        else
+        {
+            o->oPosY = find_floor_height(o->oPosX, o->oPosY + 100.f, o->oPosZ);
+        }
     }
 
     obj_check_attacks(&sClamShellHitbox, o->oAction);

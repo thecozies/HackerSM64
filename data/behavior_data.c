@@ -6205,6 +6205,14 @@ const BehaviorScript bhvAbTroll[] = {
     END_LOOP(),
 };
 
+extern void bhv_ab_music_loop();
+const BehaviorScript bhvAbMusic[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ab_music_loop),
+    END_LOOP(),
+};
+
 extern void bhv_mf_butterfly_init();
 extern void bhv_mf_butterfly_loop();
 const BehaviorScript bhvMfButterfly[] = {
