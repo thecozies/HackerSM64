@@ -9,4 +9,6 @@ extern const LevelScript level_df_entry[];
 
 #include "levels/df/header.inc.h"
 
+#include "levels/df/df_arrow/geo_header.h"
+
 #endif

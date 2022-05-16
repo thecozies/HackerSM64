@@ -1595,7 +1595,7 @@ u32 interact_cap(struct MarioState *m, UNUSED u32 interactType, struct Object *o
         play_sound(SOUND_MENU_STAR_SOUND, m->marioObj->header.gfx.cameraToObject);
         play_sound(SOUND_MARIO_HERE_WE_GO, m->marioObj->header.gfx.cameraToObject);
 
-        if (capMusic != 0) {
+        if (gCurrCourseNum != COURSE_DF && capMusic != 0) {
             play_cap_music(capMusic);
         }
 

@@ -50,7 +50,7 @@ void bhv_red_coin_loop(void) {
             o->parentObj->oHiddenStarTriggerCounter++;
 
             // Spawn the orange number counter, as long as it isn't the last coin.
-            if (gCurrCourseNum != COURSE_DF)
+            if (1)
             {
                 if (o->parentObj->oHiddenStarTriggerCounter != 8) {
                     spawn_orange_number(o->parentObj->oHiddenStarTriggerCounter, 0, 0, 0);

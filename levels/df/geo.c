@@ -15,3 +15,5 @@
 
 
 #include "levels/df/geo.inc.c"
+
+#include "levels/df/df_arrow/geo.inc.c"

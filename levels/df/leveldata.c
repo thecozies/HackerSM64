@@ -12,3 +12,5 @@
 
 
 #include "levels/df/leveldata.inc.c"
+
+#include "levels/df/df_arrow/model.inc.c"

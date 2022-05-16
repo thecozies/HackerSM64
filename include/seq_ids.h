@@ -49,7 +49,7 @@ enum SeqId {
     SEQ_C1,
     SEQ_C3,
     SEQ_LMAO,
-    SEQ_TEST,
+    SEQ_DF,
     SEQ_COUNT
 };
 

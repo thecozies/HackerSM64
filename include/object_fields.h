@@ -1357,4 +1357,6 @@ os16112*/
 #define oMfWoodenPostMainPosts OBJECT_FIELD_OBJ(0x1B)
 #define oMfWoodenPostMainRope OBJECT_FIELD_OBJ(0x49)
 
+#define oDfLastCheckpoint OBJECT_FIELD_S32(0x1B)
+
 #endif // OBJECT_FIELDS_H

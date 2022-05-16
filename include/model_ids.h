@@ -593,4 +593,6 @@
 #define MODEL_MF_KNIFE 0x3E
 #define MODEL_MF_KQ 0x3F
 
+#define MODEL_DF_ARROW 0x36
+
 #endif // MODEL_IDS_H

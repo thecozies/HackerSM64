@@ -6321,3 +6321,12 @@ const BehaviorScript bhvDfLevelReset[] = {
         CALL_NATIVE(mf_df_level_reset_loop),
     END_LOOP(),
 };
+
+extern void df_arrow_loop();
+const BehaviorScript bhvDfArrow[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(df_arrow_loop),
+    END_LOOP(),
+};
