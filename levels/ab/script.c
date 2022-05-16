@@ -50,7 +50,6 @@ const LevelScript level_ab_entry[] = {
 		WARP_NODE(0x0B, LEVEL_AB, 0x01, 0x0C, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0C, LEVEL_AB, 0x01, 0x0B, WARP_NO_CHECKPOINT),
 		MARIO_POS(0x01, -2, 8839, -127, -8800),
-		OBJECT(MODEL_BOBOMB_BUDDY, 3690, -4845, -8643, 0, 134, 0, (4 << 16), bhvBobombBuddy),
 		OBJECT(MODEL_CLAM_SHELL, 9608, -79, -9010, 0, -2, 0, (1 << 16), bhvClamShell),
 		OBJECT(MODEL_CLAM_SHELL, 12304, -19, -10573, 0, -2, 0, (1 << 16), bhvClamShell),
 		OBJECT(MODEL_CLAM_SHELL, 11798, -79, -7375, 0, -2, 0, (1 << 16), bhvClamShell),

@@ -561,6 +561,8 @@ extern const BehaviorScript bhvMfLavaCtl[];
 extern const BehaviorScript bhvMfWoodenPostAnchor[];
 extern const BehaviorScript bhvMfWoodenPostMain[];
 extern const BehaviorScript bhvMfKnife[];
+extern const BehaviorScript bhvMfKQ[];
+extern const BehaviorScript bhvDfLevelReset[];
 extern const BehaviorScript bhvStaticObjectEx[];
 
 #endif // BEHAVIOR_DATA_H

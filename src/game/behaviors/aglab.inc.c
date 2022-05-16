@@ -551,3 +551,49 @@ void bhv_mf_wooden_post_main_loop()
         o->oPosY -= 1.5f * (post->oWoodenPostOffsetY);
     }
 }
+
+void mf_kq_init()
+{
+    o->oPosY -= 1000.f;
+    o->parentObj = cur_obj_nearest_object_with_behavior(bhvKoopaRaceEndpoint);
+}
+
+void mf_kq_loop()
+{
+    if (o->oAction == 2)
+    {
+        // -
+    }
+    else if (o->oAction == 1)
+    {
+        if (o->oTimer > 100)
+            o->oAction = 2;
+
+        o->oPosY += 10.f;
+    }
+    else if (o->parentObj->oKoopaRaceEndpointRaceStatus)
+    {
+        struct Object* koopa;
+        cur_obj_find_all_objects_with_behavior_and_bparam(bhvKoopa, &koopa, 2);
+        o->oAction = koopa->oPosY > -10.f ? 2 : 1;
+    }
+}
+
+void mf_df_level_reset_init()
+{
+    // -
+}
+
+void mf_df_level_reset_loop()
+{
+    print_text_fmt_int(20, 20, "%d", o->oTimer);
+    struct Surface* floor = gMarioStates->floor;
+    if (floor->type == SURFACE_HARD)
+    {
+
+    }
+    else
+    {
+        
+    }
+}

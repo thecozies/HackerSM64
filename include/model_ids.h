@@ -591,5 +591,6 @@
 #define MODEL_MF_ROPE 0x3C
 #define MODEL_MF_ROPE_MAIN 0x3D
 #define MODEL_MF_KNIFE 0x3E
+#define MODEL_MF_KQ 0x3F
 
 #endif // MODEL_IDS_H

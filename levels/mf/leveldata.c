@@ -27,3 +27,5 @@
 #include "levels/mf/mf_rope_main/model.inc.c"
 #include "levels/mf/mf_knife/model.inc.c"
 #include "levels/mf/mf_knife/collision.inc.c"
+#include "levels/mf/mf_kq/collision.inc.c"
+#include "levels/mf/mf_kq/model.inc.c"

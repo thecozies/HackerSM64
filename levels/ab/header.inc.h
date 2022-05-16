@@ -184,7 +184,7 @@ extern Vtx ab_dl_Plane_001_mesh_layer_1_vtx_5[626];
 extern Gfx ab_dl_Plane_001_mesh_layer_1_tri_5[];
 extern Vtx ab_dl_Plane_001_mesh_layer_1_vtx_6[706];
 extern Gfx ab_dl_Plane_001_mesh_layer_1_tri_6[];
-extern Vtx ab_dl_Plane_001_mesh_layer_1_vtx_7[433];
+extern Vtx ab_dl_Plane_001_mesh_layer_1_vtx_7[432];
 extern Gfx ab_dl_Plane_001_mesh_layer_1_tri_7[];
 extern Vtx ab_dl_Plane_001_mesh_layer_1_vtx_8[279];
 extern Gfx ab_dl_Plane_001_mesh_layer_1_tri_8[];

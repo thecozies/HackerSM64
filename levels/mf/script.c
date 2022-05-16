@@ -45,6 +45,7 @@ const LevelScript level_mf_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_MF_ROPE, mf_rope_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_MF_ROPE_MAIN, mf_rope_main_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_MF_KNIFE, mf_knife_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_MF_KQ, mf_kq_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -115,6 +116,7 @@ const LevelScript level_mf_entry[] = {
 		OBJECT(MODEL_EXCLAMATION_BOX, 445, 1801, -1205, 0, 0, 0, (6 << 16), bhvExclamationBox),
 		OBJECT(MODEL_EXCLAMATION_BOX, -4515, -4220, -2941, 0, 35, 0, (6 << 16), bhvExclamationBox),
 		OBJECT(MODEL_EXCLAMATION_BOX, 462, 2909, -1028, 0, 0, 0, (6 << 16), bhvExclamationBox),
+		OBJECT(MODEL_MF_KQ, 5157, 1340, -5635, 0, 178, 0, 0x00000000, bhvMfKQ),
 		OBJECT(MODEL_EXCLAMATION_BOX, -5708, 815, -6044, 0, 0, 0, (6 << 16), bhvExclamationBox),
 		OBJECT(MODEL_NONE, 655, -1920, -5032, 0, 92, 0, 0x00000000, bhvMfLavaCtl),
 		OBJECT(MODEL_NONE, -5077, -4071, 1718, 0, 0, 0, (0xa << 16), bhvSpinAirborneWarp),

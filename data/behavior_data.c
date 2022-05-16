@@ -6292,7 +6292,32 @@ const BehaviorScript bhvMfKnife[] = {
     LOAD_COLLISION_DATA(mf_knife_collision),
     SET_FLOAT(oDrawingDistance, 20000),
     BEGIN_LOOP(),
-        ADD_INT(oMoveAngleYaw, -0x139),
+        ADD_INT(oMoveAngleYaw, -0xD9),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const Collision mf_kq_collision[];
+extern void mf_kq_init();
+extern void mf_kq_loop();
+const BehaviorScript bhvMfKQ[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(mf_kq_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(mf_kq_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(mf_kq_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void mf_df_level_reset_init();
+extern void mf_df_level_reset_loop();
+const BehaviorScript bhvDfLevelReset[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    CALL_NATIVE(mf_df_level_reset_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(mf_df_level_reset_loop),
     END_LOOP(),
 };
