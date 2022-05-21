@@ -50,6 +50,7 @@ enum SeqId {
     SEQ_C3,
     SEQ_LMAO,
     SEQ_DF,
+    SEQ_C2,
     SEQ_COUNT
 };
 
