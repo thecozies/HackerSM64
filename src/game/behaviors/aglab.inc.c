@@ -1128,7 +1128,8 @@ void mtc_blue_rotat_loop()
 
 void sparkler_loop()
 {
-    spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
+    if (gCamera->cutscene != CUTSCENE_AGLAB_MTC_CS)
+        spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
 }
 
 void mtc_red_ground_init()
@@ -1231,19 +1232,18 @@ void mtc_red_ground_loop()
 void mtc_brick_ctl_init()
 {
     f32 d;
-    o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvStar, &d);
+    o->parentObj = spawn_object(o, MODEL_STAR, bhvStar);
+    o->parentObj->oBehParams = o->oBehParams;
 }
 
-static Vec3f sBricksPositions[] = 
+static void update_home(struct Object* obj)
 {
-    { 16421.f, -67.f, 934.f },
-    { 14933.f, -40.f, -159.f },
-    { 15939.f, -404.f, -2946.f },
-    { 14864.f, 91.f, 1126.f },
-    { 16129.f, 1131.f, -227.f },
-    { 15230.f, 251.f, -1079.f },
-};
+    obj->oHomeX = obj->oPosX;
+    obj->oHomeY = obj->oPosY;
+    obj->oHomeZ = obj->oPosZ;
+}
 
+extern s16 s8DirModeBaseYaw;
 void mtc_brick_ctl_loop()
 {
     o->oPosX = o->parentObj->oPosX;
@@ -1252,42 +1252,205 @@ void mtc_brick_ctl_loop()
 
     if (0 == o->oAction)
     {
-        if (o->oDistanceToMario < 500.f)
+        if (o->oTimer > 10 && o->oDistanceToMario < 400.f)
         {
-            int status = o->oMtcBricksStatus;
-            o->oMtcBricksCount++;
-            o->oMtcBricksStatus = random_u16() % 6;
-            if (status == o->oMtcBricksStatus)
-            {
-                status = (status + 1) % 6;
-            }
             o->oAction = 1;
+            cur_obj_play_sound_2(SOUND_OBJ_BOO_LAUGH_LONG);
+            spawn_mist_particles();
+            o->parentObj->oPosX = 16129.f;
+            o->parentObj->oPosY = 1131.f;
+            o->parentObj->oPosZ = -227.f;
         }
     }
-    else
+    else if (1 == o->oAction)
     {
-        Vec3f objToNext;
-        objToNext[0] = sBricksPositions[o->oMtcBricksStatus][0] - o->oPosX;
-        objToNext[1] = sBricksPositions[o->oMtcBricksStatus][1] - o->oPosY;
-        objToNext[2] = sBricksPositions[o->oMtcBricksStatus][2] - o->oPosZ;
-
-        f32 len = sqrtf(objToNext[0] * objToNext[0] + objToNext[1] * objToNext[1] + objToNext[2] * objToNext[2]) / 50.f * sqrtf(sqrtf(o->oMtcBricksCount));
-        if (len > 0.001f)
+        if (o->oTimer > 10 && o->oDistanceToMario < 400.f)
         {
-            objToNext[0] /= len;
-            objToNext[1] /= len;
-            objToNext[2] /= len;
+            o->oAction = 2;
+            cur_obj_play_sound_2(SOUND_OBJ_BOO_LAUGH_LONG);
+            spawn_mist_particles();
+            o->parentObj->oPosX = 16768.f;
+            o->parentObj->oPosY = -280.f;
+            o->parentObj->oPosZ = -2107.f;
         }
-        o->parentObj->oPosX += objToNext[0];
-        o->parentObj->oPosY += objToNext[1];
-        o->parentObj->oPosZ += objToNext[2];
-
-        if (len < 1.f)
+    }
+    else if (2 == o->oAction)
+    {
+        if (o->oTimer > 10 && o->oDistanceToMario < 400.f)
         {
-            o->parentObj->oPosX = sBricksPositions[o->oMtcBricksStatus][0];
-            o->parentObj->oPosY = sBricksPositions[o->oMtcBricksStatus][1];
-            o->parentObj->oPosZ = sBricksPositions[o->oMtcBricksStatus][2];
-            o->oAction = 0;
+            o->oAction = 3;
+            cur_obj_play_sound_2(SOUND_OBJ_BOO_LAUGH_LONG);
+            spawn_mist_particles();
+            o->parentObj->oPosX = 10930.f;
+            o->parentObj->oPosY = 50.f;
+            o->parentObj->oPosZ = 7086.f;
+        }
+    }
+    else if (3 == o->oAction)
+    {
+        if (o->oTimer > 10 && o->oDistanceToMario < 400.f)
+        {
+            o->oAction = 4;
+            cur_obj_play_sound_2(SOUND_OBJ_BOO_LAUGH_LONG);
+            o->parentObj->oPosX = 10794.f;
+            o->parentObj->oPosY = -492.f;
+            o->parentObj->oPosZ = 8648.f;
+            update_home(o->parentObj);
+            o->oMtcGoldBrickFakeStar0 = spawn_object(o, MODEL_STAR, bhvStar);
+            o->oMtcGoldBrickFakeStar0->oPosX = 10343.f;
+            o->oMtcGoldBrickFakeStar0->oPosY = -335.f - 1000.f;
+            o->oMtcGoldBrickFakeStar0->oPosZ = 7975.f;
+            o->oMtcGoldBrickFakeStar0->oBehParams = o->parentObj->oBehParams;
+            update_home(o->oMtcGoldBrickFakeStar0);
+            o->oMtcGoldBrickFakeStar1 = spawn_object(o, MODEL_STAR, bhvStar);
+            o->oMtcGoldBrickFakeStar1->oPosX = 11748.f;
+            o->oMtcGoldBrickFakeStar1->oPosY = -591.f - 1000.f;
+            o->oMtcGoldBrickFakeStar1->oPosZ = 8292.f;
+            o->oMtcGoldBrickFakeStar1->oBehParams = o->parentObj->oBehParams;
+            update_home(o->oMtcGoldBrickFakeStar1);
+            spawn_mist_particles();
+        }
+    }
+    else if (4 == o->oAction)
+    {
+        gMarioStates->pos[0] = 10933.f;
+        gMarioStates->pos[1] = 10.f;
+        gMarioStates->pos[2] = 7046.f;
+        gCamera->cutscene = CUTSCENE_AGLAB_MTC_CS;
+        if (o->oMtcGoldBrickSkillIssue)
+        {
+            o->oMtcGoldBrickFakeStar0->oPosY += 20.f;
+            o->oMtcGoldBrickFakeStar1->oPosY += 20.f;
+            if (50 == o->oTimer)
+            {
+                update_home(o->oMtcGoldBrickFakeStar0);
+                update_home(o->oMtcGoldBrickFakeStar1);
+                cur_obj_play_sound_2(SOUND_OBJ_BOO_LAUGH_LONG);
+                o->oAction = 5;
+            }
+        }
+        else
+        {
+            o->oMtcGoldBrickFakeStar0->oPosY += 10.f;
+            o->oMtcGoldBrickFakeStar1->oPosY += 10.f;
+            if (100 == o->oTimer)
+            {
+                update_home(o->oMtcGoldBrickFakeStar0);
+                update_home(o->oMtcGoldBrickFakeStar1);
+                cur_obj_play_sound_2(SOUND_OBJ_BOO_LAUGH_LONG);
+                o->oAction = 5;
+            }
+        }
+    }
+    else if (5 == o->oAction)
+    {
+        gMarioStates->pos[0] = 10933.f;
+        gMarioStates->pos[1] = 10.f;
+        gMarioStates->pos[2] = 7046.f;
+        gCamera->cutscene = CUTSCENE_AGLAB_MTC_CS;
+        int pivotTime = o->oMtcGoldBrickCount < 3 ? 30 : 10;
+        if (0 == o->oTimer)
+        {
+            // pick 2 stars at random to swap
+            int idx = random_u16() % 3;
+            switch (idx)
+            {
+            case 0: o->oMtcGoldBrickToSwap0 = o->parentObj             ; o->oMtcGoldBrickToSwap1 = o->oMtcGoldBrickFakeStar0; break;
+            case 1: o->oMtcGoldBrickToSwap0 = o->parentObj             ; o->oMtcGoldBrickToSwap1 = o->oMtcGoldBrickFakeStar1; break;
+            case 2: o->oMtcGoldBrickToSwap0 = o->oMtcGoldBrickFakeStar0; o->oMtcGoldBrickToSwap1 = o->oMtcGoldBrickFakeStar1; break;
+            }
+        }
+        else if (o->oTimer > pivotTime)
+        {
+            o->oTimer = 0; // it will not go oTimer==0
+            update_home(o->oMtcGoldBrickToSwap0);
+            update_home(o->oMtcGoldBrickToSwap1);
+            o->oMtcGoldBrickCount++;
+            if (o->oMtcGoldBrickCount > 10)
+            {
+                o->oMtcGoldBrickToSwap0 = NULL;
+                o->oMtcGoldBrickToSwap1 = NULL;
+                o->oMtcGoldBrickCount = 0;
+                o->oAction = 6;
+            }
+        
+            // pick 2 stars at random but not the ones that were swapped already
+            struct Object* o1 = random_u16() % 2 ? o->oMtcGoldBrickToSwap0 : o->oMtcGoldBrickToSwap1;
+            struct Object* o2 = NULL;
+            if (o->oMtcGoldBrickToSwap0 != o->parentObj              && o->oMtcGoldBrickToSwap1 != o->parentObj)
+                o2 = o->parentObj;
+            if (o->oMtcGoldBrickToSwap0 != o->oMtcGoldBrickFakeStar0 && o->oMtcGoldBrickToSwap1 != o->oMtcGoldBrickFakeStar0)
+                o2 = o->oMtcGoldBrickFakeStar0;
+            if (o->oMtcGoldBrickToSwap0 != o->oMtcGoldBrickFakeStar1 && o->oMtcGoldBrickToSwap1 != o->oMtcGoldBrickFakeStar1)
+                o2 = o->oMtcGoldBrickFakeStar1;
+
+            o->oMtcGoldBrickToSwap0 = o1;
+            o->oMtcGoldBrickToSwap1 = o2;
+        }
+        else
+        {
+            Vec3f mov;
+            mov[0] = o->oMtcGoldBrickToSwap0->oHomeX - o->oMtcGoldBrickToSwap1->oHomeX;
+            mov[1] = o->oMtcGoldBrickToSwap0->oHomeY - o->oMtcGoldBrickToSwap1->oHomeY;
+            mov[2] = o->oMtcGoldBrickToSwap0->oHomeZ - o->oMtcGoldBrickToSwap1->oHomeZ;
+            f32 scale = (float) o->oTimer / (float) pivotTime;
+            mov[0] *= scale;
+            mov[1] *= scale;
+            mov[2] *= scale;
+            o->oMtcGoldBrickToSwap0->oPosX = o->oMtcGoldBrickToSwap0->oHomeX - mov[0];
+            o->oMtcGoldBrickToSwap0->oPosY = o->oMtcGoldBrickToSwap0->oHomeY - mov[1];
+            o->oMtcGoldBrickToSwap0->oPosZ = o->oMtcGoldBrickToSwap0->oHomeZ - mov[2];
+            
+            o->oMtcGoldBrickToSwap1->oPosX = o->oMtcGoldBrickToSwap1->oHomeX + mov[0];
+            o->oMtcGoldBrickToSwap1->oPosY = o->oMtcGoldBrickToSwap1->oHomeY + mov[1];
+            o->oMtcGoldBrickToSwap1->oPosZ = o->oMtcGoldBrickToSwap1->oHomeZ + mov[2];
+        }
+    }
+    else if (6 == o->oAction)
+    {
+        gMarioStates->pos[0] = 10933.f;
+        gMarioStates->pos[1] = 10.f;
+        gMarioStates->pos[2] = 7046.f;
+        gCamera->cutscene = CUTSCENE_AGLAB_MTC_CS;
+        if (o->oTimer > 10)
+        {
+            gCamera->cutscene = 0;
+            reset_camera(gCamera);
+            s8DirModeBaseYaw = 0x8000;
+            o->oAction = 7;
+        }
+    }
+    else if (7 == o->oAction)
+    {
+        Vec3f dist;
+        dist[0] = o->oMtcGoldBrickFakeStar0->oPosX - gMarioStates->pos[0];
+        dist[1] = o->oMtcGoldBrickFakeStar0->oPosY - gMarioStates->pos[1];
+        dist[2] = o->oMtcGoldBrickFakeStar0->oPosZ - gMarioStates->pos[2];
+        f32 d0 = dist[0] * dist[0] + dist[1] * dist[1] + dist[2] * dist[2];
+        dist[0] = o->oMtcGoldBrickFakeStar1->oPosX - gMarioStates->pos[0];
+        dist[1] = o->oMtcGoldBrickFakeStar1->oPosY - gMarioStates->pos[1];
+        dist[2] = o->oMtcGoldBrickFakeStar1->oPosZ - gMarioStates->pos[2];
+        f32 d1 = dist[0] * dist[0] + dist[1] * dist[1] + dist[2] * dist[2];
+
+        if (d0 < (400.f * 400.f) || d1 < (400.f * 400.f))
+        {
+            cur_obj_play_sound_2(SOUND_OBJ_BOO_LAUGH_LONG);
+            o->parentObj->oPosX = 10794.f;
+            o->parentObj->oPosY = -492.f;
+            o->parentObj->oPosZ = 8648.f;
+            update_home(o->parentObj);
+            o->oMtcGoldBrickFakeStar0->oPosX = 10343.f;
+            o->oMtcGoldBrickFakeStar0->oPosY = -335.f - 1000.f;
+            o->oMtcGoldBrickFakeStar0->oPosZ = 7975.f;
+            o->oMtcGoldBrickFakeStar0->oBehParams = o->parentObj->oBehParams;
+            update_home(o->oMtcGoldBrickFakeStar0);
+            o->oMtcGoldBrickFakeStar1->oPosX = 11748.f;
+            o->oMtcGoldBrickFakeStar1->oPosY = -591.f - 1000.f;
+            o->oMtcGoldBrickFakeStar1->oPosZ = 8292.f;
+            o->oMtcGoldBrickFakeStar1->oBehParams = o->parentObj->oBehParams;
+            update_home(o->oMtcGoldBrickFakeStar1);
+            o->oAction = 4;
+            o->oMtcGoldBrickSkillIssue = 1;
         }
     }
 }

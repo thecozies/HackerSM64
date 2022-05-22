@@ -8285,6 +8285,17 @@ void cutscene_aglab_wooden_post_cs(struct Camera *c) {
     c->focus[2] = -2773.f;
 }
 
+void cutscene_aglab_mtc_cs(struct Camera *c)
+{
+    cutscene_event(cutscene_reset_spline, c, 0, 0);
+    c->pos[0] = 10999.f;
+    c->pos[1] = 850.f;
+    c->pos[2] = 6048.f;
+    c->focus[0] = 10999.f;
+    c->focus[1] = -629.f;
+    c->focus[2] = 7888.f;
+}
+
 void cutscene_bbh_death_start(struct Camera *c) {
     Vec3f dir = { 0, 40.f, 60.f };
 
@@ -10227,6 +10238,10 @@ struct Cutscene sCutsceneAglabWoodenPostCs[] = {
     { cutscene_aglab_wooden_post_cs, CUTSCENE_LOOP },
 };
 
+struct Cutscene sCutsceneAglabMtcCs[] = {
+    { cutscene_aglab_mtc_cs, CUTSCENE_LOOP },
+};
+
 /**
  * Cutscene that plays when Mario dies on his stomach.
  */
@@ -10845,6 +10860,7 @@ void play_cutscene(struct Camera *c) {
 
         
         CUTSCENE(CUTSCENE_AGLAB_WOODEN_POST_CS, sCutsceneAglabWoodenPostCs)
+        CUTSCENE(CUTSCENE_AGLAB_MTC_CS,         sCutsceneAglabMtcCs)
     }
 
 #undef CUTSCENE
