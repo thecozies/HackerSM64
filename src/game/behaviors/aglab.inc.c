@@ -1434,7 +1434,7 @@ void mtc_brick_ctl_loop()
 
         if (d0 < (400.f * 400.f) || d1 < (400.f * 400.f))
         {
-            cur_obj_play_sound_2(SOUND_OBJ_BOO_LAUGH_LONG);
+            play_sound(SOUND_PEACH_POWER_OF_THE_STARS, gMarioStates->marioObj->header.gfx.cameraToObject);
             o->parentObj->oPosX = 10794.f;
             o->parentObj->oPosY = -492.f;
             o->parentObj->oPosZ = 8648.f;
