@@ -1,0 +1,11 @@
+extern const GeoLayout mtc_platspin_geo[];
+extern Lights1 mtc_platspin__28_f3d_lights;
+extern u8 mtc_platspin__28_ci8[];
+extern u8 mtc_platspin__28_ci8_pal_rgba16[];
+extern Vtx mtc_platspin_Course_13_001_mesh_layer_5_vtx_cull[8];
+extern Vtx mtc_platspin_Course_13_001_mesh_layer_5_vtx_0[56];
+extern Gfx mtc_platspin_Course_13_001_mesh_layer_5_tri_0[];
+extern Gfx mat_mtc_platspin__28_f3d[];
+extern Gfx mat_revert_mtc_platspin__28_f3d[];
+extern Gfx mtc_platspin_Course_13_001_mesh_layer_5[];
+extern Gfx mtc_platspin_material_revert_render_settings[];

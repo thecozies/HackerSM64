@@ -12,3 +12,17 @@
 
 
 #include "levels/mtc/leveldata.inc.c"
+
+#include "levels/mtc/mtc_ball/model.inc.c"
+#include "levels/mtc/mtc_ball/collision.inc.c"
+#include "levels/mtc/mtc_platspin/model.inc.c"
+#include "levels/mtc/mtc_platspin/collision.inc.c"
+#include "levels/mtc/mtc_spinner/model.inc.c"
+#include "levels/mtc/mtc_line_active/model.inc.c"
+#include "levels/mtc/mtc_line_inactive/model.inc.c"
+#include "levels/mtc/mtc_line_whole/model.inc.c"
+#include "levels/mtc/mtc_line_switch/model.inc.c"
+#include "levels/mtc/mtc_line_switch_off/model.inc.c"
+#include "levels/mtc/mtc_blue_rotat/model.inc.c"
+#include "levels/mtc/mtc_blue_rotat/collision.inc.c"
+#include "levels/mtc/mtc_ground/collision.inc.c"

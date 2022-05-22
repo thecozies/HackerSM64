@@ -14,7 +14,7 @@
     "0B_event_piranha_plant": ["14_piranha_music_box"],
     "0C_level_underground": ["15"],
     "0D_menu_star_select": ["0C"],
-    "0E_event_powerup": ["17"],
+    "0E_event_powerup": ["0C"],
     "0F_event_metal_cap": ["18"],
     "10_event_koopa_message": ["12"],
     "11_level_koopa_road": ["19"],
@@ -39,5 +39,6 @@
     "24_custom_c1": ["0C"],
     "25_custom_c3": ["0C"],
     "26_custom_lmao": ["0C"],
-    "27_custom_df": ["0C"]
+    "27_custom_df": ["0C"],
+    "28_custom_c2": ["0C"]
 }

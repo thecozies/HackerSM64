@@ -564,6 +564,15 @@ extern const BehaviorScript bhvMfKnife[];
 extern const BehaviorScript bhvMfKQ[];
 extern const BehaviorScript bhvDfLevelReset[];
 extern const BehaviorScript bhvDfArrow[];
+extern const BehaviorScript bhvMtcYellowSpawner[];
+extern const BehaviorScript bhvMtcYellowBall[];
+extern const BehaviorScript bhvMtcYellowPurpleSwitch[];
+extern const BehaviorScript bhvMtcGreenPlatspin[];
+extern const BehaviorScript bhvMtcGreenLineSwitch[];
+extern const BehaviorScript bhvMtcBlueRotat[];
+extern const BehaviorScript bhvMtcRedGround[];
+extern const BehaviorScript bhvMtcBrickCtl[];
 extern const BehaviorScript bhvStaticObjectEx[];
+extern const BehaviorScript bhvSparkler[];
 
 #endif // BEHAVIOR_DATA_H

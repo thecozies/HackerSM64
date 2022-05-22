@@ -746,3 +746,548 @@ void df_arrow_loop()
     o->oPosZ += coss(yaw) * 80.f;
     o->oFaceAnglePitch = pitch;
 }
+
+void mtc_yellow_spawner_init()
+{
+    o->oTimer = o->oBehParams2ndByte * 30;
+    f32 d;
+    o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvMtcYellowPurpleSwitch, &d);
+}
+
+void mtc_yellow_spawner_loop()
+{
+    s32 bp1 = (o->oBehParams >> 24) & 0xFF;
+    if (o->oAction == 0)
+    {     
+        if (bp1)
+        {
+            if (o->parentObj->oAction == 1)
+            {
+                o->oAction = 1;
+            }
+        }
+        else
+        {
+            o->oAction = 1;
+        }
+    }
+    else
+    {
+        if (bp1 && 0 == o->oTimer)
+        {
+            o->oTimer = o->oBehParams2ndByte * 30 + 1;
+        }
+
+        if (o->oTimer > 150)
+        {
+            o->oAction = 0;
+            spawn_object(o, MODEL_MTC_BALL, bhvMtcYellowBall);
+        }
+    }
+}
+
+void mtc_yellow_ball_init()
+{
+    o->oFaceAngleYaw = random_u16();
+}
+
+void mtc_yellow_ball_loop()
+{
+    o->oPosY += 7.f;
+    f32 scale;
+
+    if (o->oTimer < 30)
+    {
+        scale = o->oTimer / 30.f;
+    }
+    else if (o->oTimer > 200)
+    {
+        scale = (230 - o->oTimer) / 30.f;
+    }
+    else
+    {
+        scale = 1.f;
+    }
+
+
+    f32 yscale = 1.f + 0.2f * sins(653 * o->oTimer);
+    obj_scale_xyz(o, scale, yscale * scale, scale);
+
+    if (o->oTimer == 230)
+    {
+        o->activeFlags = 0;
+    }
+}
+
+void mtc_yellow_purple_switch_init()
+{
+    // -
+}
+
+void mtc_yellow_purple_switch_loop()
+{
+    switch (o->oAction) {
+        case PURPLE_SWITCH_ACT_IDLE:
+            cur_obj_set_model(MODEL_PURPLE_SWITCH);
+            cur_obj_scale(1.5f);
+            if (
+                gMarioObject->platform == o
+                && !(gMarioStates[0].action & MARIO_NO_PURPLE_SWITCH)
+                && lateral_dist_between_objects(o, gMarioObject) < 127.5f
+            ) {
+                o->oAction = PURPLE_SWITCH_ACT_PRESSED;
+            }
+            break;
+
+        case PURPLE_SWITCH_ACT_PRESSED:
+            cur_obj_scale_over_time(SCALE_AXIS_Y, 3, 1.5f, 0.2f);
+            if (o->oTimer == 3) {
+                cur_obj_play_sound_2(SOUND_GENERAL2_PURPLE_SWITCH);
+                o->oAction = PURPLE_SWITCH_ACT_TICKING;
+                cur_obj_shake_screen(SHAKE_POS_SMALL);
+            }
+            break;
+
+        case PURPLE_SWITCH_ACT_TICKING:
+            if (o->oTimer < 360) {
+                //play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);
+            } else {
+                //play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
+            }
+            if (o->oTimer > 200) {
+                o->oAction = PURPLE_SWITCH_ACT_WAIT_FOR_MARIO_TO_GET_OFF;
+            }
+            break;
+
+        case PURPLE_SWITCH_ACT_UNPRESSED:
+            cur_obj_scale_over_time(SCALE_AXIS_Y, 3, 0.2f, 1.5f);
+            if (o->oTimer == 3) {
+                o->oAction = PURPLE_SWITCH_ACT_IDLE;
+            }
+            break;
+
+        case PURPLE_SWITCH_ACT_WAIT_FOR_MARIO_TO_GET_OFF:
+            if (!cur_obj_is_mario_on_platform()) {
+                o->oAction = PURPLE_SWITCH_ACT_UNPRESSED;
+            }
+            break;
+    }
+}
+
+extern const Trajectory mtc_area_1_spline_greenpath[];
+
+static void spinner_reset()
+{
+    struct Waypoint* path = segmented_to_virtual(mtc_area_1_spline_greenpath);
+    o->oPosX = path->pos[0];
+    o->oPosY = path->pos[1];
+    o->oPosZ = path->pos[2];
+    o->oPathedPrevWaypointFlags = 0;
+    o->oPathedStartWaypoint = o->oPathedPrevWaypoint = path;
+    o->oMtcGreenLineActiveStatus = 1;
+}
+
+static void spinner_line_reset()
+{
+    struct Object** objs = (struct Object**) aglabScratch;
+    for (int i = 0; i < 9; i++)
+    {
+        if ((i % 2) == 0)
+            continue;
+        
+        int lineStatus = !!((i - 1) % 4);
+        obj_set_model(objs[i], (lineStatus ^ o->oMtcGreenLineActiveStatus) ? MODEL_MTC_LINE_INACTIVE : MODEL_MTC_LINE_ACTIVE);
+    }
+}
+
+void mtc_green_spinner_init()
+{
+    o->parentObj = spawn_object(o, MODEL_MTC_PROPELLER, bhvStaticObjectEx);
+    o->parentObj->oPosY -= 400.f;
+    struct Waypoint* path = segmented_to_virtual(mtc_area_1_spline_greenpath);
+    spinner_reset();
+
+    struct Object** objs = (struct Object**) aglabScratch;
+    static const int linePattern[] = { MODEL_MTC_LINE_WHOLE, MODEL_MTC_LINE_INACTIVE, MODEL_MTC_LINE_WHOLE, MODEL_MTC_LINE_ACTIVE };
+    for (int i = 0; i < 9; i++)
+    {
+        struct Object* line = spawn_object(o, linePattern[i % 4], bhvStaticObjectEx);
+        objs[i] = line;
+        Vec3s objToNext;
+        objToNext[0] = path[i + 1].pos[0] - path[i].pos[0];
+        objToNext[1] = path[i + 1].pos[1] - path[i].pos[1];
+        objToNext[2] = path[i + 1].pos[2] - path[i].pos[2];
+        f32 len = ((f32) objToNext[0]) * ((f32) objToNext[0]) + ((f32) objToNext[1]) * ((f32) objToNext[1]) + ((f32) objToNext[2]) * ((f32) objToNext[2]);
+        len = sqrtf(len);
+        obj_scale_xyz(line, 1.f, 1.f, len / 900.f);
+        line->oPosX = path[i].pos[0];
+        line->oPosY = path[i].pos[1];
+        line->oPosZ = path[i].pos[2];
+        line->oFaceAngleYaw = atan2s(objToNext[2], objToNext[0]);
+        line->oFaceAnglePitch = atan2s(sqrtf(sqr(objToNext[0]) + sqr(objToNext[2])), -objToNext[1]);
+    }
+}
+
+void mtc_green_spinner_loop()
+{
+    if (o->oAction == 0)
+    {
+        o->oPosY = o->oHomeY + 50.f * sins(142 * o->oTimer);
+        if (gMarioObject->platform == o)
+        {
+            o->oAction = 1;
+        }
+    }
+    else if (o->oAction == 1)
+    {
+        if (gGlobalTimer % 4 == 0) {
+            cur_obj_play_sound_2(SOUND_GENERAL_ELEVATOR_MOVE_2);
+        }
+        if (o->oPathedPrevWaypointFlags == 0) {
+            o->oPathedPrevWaypoint = o->oPathedStartWaypoint;
+            o->oPathedPrevWaypointFlags = WAYPOINT_FLAGS_INITIALIZED;
+        }
+
+        struct Waypoint *startWaypoint = o->oPathedStartWaypoint;
+        struct Waypoint *lastWaypoint = o->oPathedPrevWaypoint;
+        struct Waypoint *targetWaypoint;
+        Vec3s prevToNext, objToNext;
+
+        if ((lastWaypoint + 1)->flags != WAYPOINT_FLAGS_END) {
+            targetWaypoint = lastWaypoint + 1;
+        } else {
+            targetWaypoint = startWaypoint;
+        }
+
+        o->oPathedPrevWaypointFlags = lastWaypoint->flags | WAYPOINT_FLAGS_INITIALIZED;
+
+        vec3_diff(prevToNext, targetWaypoint->pos, lastWaypoint->pos);
+        vec3_diff(objToNext, targetWaypoint->pos, &o->oPosVec);
+
+        f32 len = sqrtf(objToNext[0] * objToNext[0] + objToNext[1] * objToNext[1] + objToNext[2] * objToNext[2]) / 15.f;
+        if (len > 0.001f)
+        {
+            objToNext[0] /= len;
+            objToNext[1] /= len;
+            objToNext[2] /= len;
+        }
+        
+        // If dot(prevToNext, objToNext) <= 0 (i.e. reached other side of target waypoint)
+        if (vec3_dot(prevToNext, objToNext) <= 0.0f) {
+            o->oPathedPrevWaypoint = targetWaypoint;
+            if ((targetWaypoint + 1)->flags == WAYPOINT_FLAGS_END) {
+                o->oAction = 2;
+            }
+        }
+
+        if (o->oAction != 2)
+        {
+            int curLine = o->oPathedPrevWaypoint - o->oPathedStartWaypoint - 1;
+            if ((curLine % 2 == 0))
+            {
+                int lineStatus = !!(curLine % 4);
+                if (lineStatus ^ o->oMtcGreenLineActiveStatus)
+                {
+                    cur_obj_play_sound_2(SOUND_GENERAL_BIG_POUND);
+                    o->oAction = 3;
+                    o->oVelY = 20.f;
+                }
+            }
+        }
+        
+        o->oPosX += objToNext[0];
+        o->oPosY += objToNext[1];
+        o->oPosZ += objToNext[2];
+    }
+    else if (o->oAction == 2)
+    {
+        // -
+    }
+    else if (o->oAction == 3)
+    {
+        print_text_centered(160, 20, "PRESS L TO RETRY");
+        if (gPlayer1Controller->buttonPressed & L_TRIG)
+        {
+            cur_obj_become_intangible();
+            o->oAction = 5;
+            gMarioStates->usedObj = o;
+            level_trigger_warp(gMarioStates, WARP_OP_TELEPORT);
+            spinner_reset();
+            spinner_line_reset();
+        }
+
+        o->oVelY -= 2.f;
+        o->oPosY += o->oVelY;
+        if (o->oPosY < -8000.f)
+        {
+            cur_obj_become_intangible();
+            o->oAction = 5;
+            spinner_reset();
+            spinner_line_reset();
+        }
+    }
+    else if (o->oAction == 5)
+    {
+        if (o->oTimer > 22)
+        {
+            cur_obj_become_tangible();
+            o->oAction = 0;
+        }
+    }
+    
+    o->parentObj->oFaceAngleYaw += 369;
+    o->parentObj->oPosX = o->oPosX;
+    o->parentObj->oPosY = o->oPosY - 400.f;
+    o->parentObj->oPosZ = o->oPosZ;
+}
+
+void mtc_green_line_switch_init()
+{
+    f32 d;
+    o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvMtcGreenPlatspin, &d);
+}
+
+struct SetTileSize* scroll_mtc_level_geo_mtc_line_active_get();
+extern void scroll_mtc_level_geo_mtc_line_inactive_set(struct SetTileSize*);
+
+struct SetTileSize* scroll_mtc_level_geo_mtc_line_switch_get();
+void scroll_mtc_level_geo_mtc_line_switch_off_set(struct SetTileSize* ts);
+
+void mtc_green_line_switch_loop()
+{
+    if (o->parentObj->oAction == 5)
+    {
+        obj_set_model(o, MODEL_MTC_LINE_SWITCH);
+        o->oAction = 0;
+        o->oFaceAngleYaw += 0x169;
+        o->oPosY = o->oHomeY + 10.f * sins(242 * o->oTimer);
+        return;
+    }
+
+    if (0 == o->oAction)
+    {
+        o->oFaceAngleYaw += 0x169;
+        o->oPosY = o->oHomeY + 10.f * sins(242 * o->oTimer);
+        if (o->oDistanceToMario < 150.f)
+        {
+            cur_obj_play_sound_2(SOUND_GENERAL_RACE_GUN_SHOT);
+            obj_set_model(o, MODEL_MTC_LINE_SWITCH_OFF);
+            o->oAction = 1;
+            o->parentObj->oMtcGreenLineActiveStatus = !o->parentObj->oMtcGreenLineActiveStatus;      
+            struct Object** objs = (struct Object**) aglabScratch;
+            scroll_mtc_level_geo_mtc_line_inactive_set(scroll_mtc_level_geo_mtc_line_active_get());
+            scroll_mtc_level_geo_mtc_line_switch_off_set(scroll_mtc_level_geo_mtc_line_switch_get());
+            for (int i = 0; i < 9; i++)
+            {
+                if ((i % 2) == 0)
+                    continue;
+                
+                int lineStatus = !!((i - 1) % 4);
+                obj_set_model(objs[i], (lineStatus ^ o->parentObj->oMtcGreenLineActiveStatus) ? MODEL_MTC_LINE_INACTIVE : MODEL_MTC_LINE_ACTIVE);
+            }
+        }
+    }
+}
+
+void mtc_blue_rotat_init()
+{
+    f32 d;
+    o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvFloorSwitchGrills, &d);
+}
+
+void mtc_blue_rotat_loop()
+{
+    if (0 == o->oBehParams2ndByte)
+    { 
+        if (0 == o->oAction)
+        {
+            if (o->parentObj->oAction == 1)
+            {
+                o->oAction = 1;
+            }
+            o->oMoveAnglePitch += 0x670;
+        }
+        else
+        {
+            o->oMoveAnglePitch += 0x70;
+        }
+    }
+    else if (1 == o->oBehParams2ndByte)
+    {
+        o->oMoveAngleRoll += -0xB0;
+    }
+    else if (2 == o->oBehParams2ndByte)
+    {
+        o->oMoveAnglePitch += -0xD0;
+    }
+    else if (3 == o->oBehParams2ndByte)
+    {
+        o->oMoveAngleRoll += 0xB0;
+    }
+}
+
+void sparkler_loop()
+{
+    spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
+}
+
+void mtc_red_ground_init()
+{
+
+}
+
+extern Vtx mtc_dl_Course_13_007_mesh_layer_1_vtx_0[60];
+extern Vtx mtc_dl_Course_13_007_mesh_layer_1_vtx_1[12];
+extern Vtx mtc_dl_Course_13_007_mesh_layer_1_vtx_2[24];
+extern Vtx mtc_dl_Course_13_007_mesh_layer_1_vtx_3[14];
+
+static void switch_vcol_alpha(Vtx* svtx, int size, u8 a)
+{
+    Vtx* vtx = segmented_to_virtual(svtx);
+    for (int i = 0; i < size; i++)
+    {
+        vtx[i].v.cn[3] = a;
+    }
+}
+
+#define ARGUMENT_WITH_SIZE(x) x, sizeof(x) / sizeof(*(x))
+
+static void mtc_switch_all_vcol_alpha(u8 alpha)
+{
+    switch_vcol_alpha(ARGUMENT_WITH_SIZE(mtc_dl_Course_13_007_mesh_layer_1_vtx_0), alpha);
+    switch_vcol_alpha(ARGUMENT_WITH_SIZE(mtc_dl_Course_13_007_mesh_layer_1_vtx_1), alpha);
+    switch_vcol_alpha(ARGUMENT_WITH_SIZE(mtc_dl_Course_13_007_mesh_layer_1_vtx_2), alpha);
+    switch_vcol_alpha(ARGUMENT_WITH_SIZE(mtc_dl_Course_13_007_mesh_layer_1_vtx_3), alpha);
+}
+
+extern const Collision mtc_ground_collision[];
+extern const Collision mtc_ground2_collision[];
+extern const Collision mtc_ground_safe_collision[];
+void mtc_red_ground_loop()
+{
+    if (gMarioStates->pos[2] < 1600.f || gMarioStates->pos[0] > 1500.f)
+    {
+        if (0 != o->oAction)
+        {
+            o->oMtcRedStatus = 0;
+            obj_set_collision_data(o, mtc_ground_collision);
+            mtc_switch_all_vcol_alpha(0);
+            o->oAction = 0;
+        }
+        return;
+    }
+
+    if (o->oAction == 0)
+    {
+        o->oAction = 1;
+    }
+    else
+    {
+        if (o->oTimer <= 200 - 0x20)
+        {
+            if (gPlayer1Controller->buttonPressed & L_TRIG)
+            {
+                o->oTimer = 200 - 0x20;
+            }
+
+            if (o->oTimer && 0 == (o->oTimer % 30))
+            {
+                play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
+            }
+        }
+        else
+        {
+            if (o->oTimer > 200 - 0x10)
+                obj_set_collision_data(o, mtc_ground_safe_collision);
+    
+            play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
+            if (!o->oMtcRedStatus)
+                mtc_switch_all_vcol_alpha((200 - o->oTimer) * 0x8);
+            else
+                mtc_switch_all_vcol_alpha(0xff - (200 - o->oTimer) * 0x8);
+        }
+
+        if (200 == o->oTimer)
+        {
+            o->oMtcRedStatus = !o->oMtcRedStatus;
+            if (o->oMtcRedStatus)
+            {
+                obj_set_collision_data(o, mtc_ground2_collision);
+                mtc_switch_all_vcol_alpha(0);
+            }
+            else
+            {
+                obj_set_collision_data(o, mtc_ground_collision);
+                mtc_switch_all_vcol_alpha(0xff);
+            }
+
+            o->oTimer = 0;
+        }
+    }
+
+    load_object_collision_model();
+}
+
+void mtc_brick_ctl_init()
+{
+    f32 d;
+    o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvStar, &d);
+}
+
+static Vec3f sBricksPositions[] = 
+{
+    { 16421.f, -67.f, 934.f },
+    { 14933.f, -40.f, -159.f },
+    { 15939.f, -404.f, -2946.f },
+    { 14864.f, 91.f, 1126.f },
+    { 16129.f, 1131.f, -227.f },
+    { 15230.f, 251.f, -1079.f },
+};
+
+void mtc_brick_ctl_loop()
+{
+    o->oPosX = o->parentObj->oPosX;
+    o->oPosY = o->parentObj->oPosY;
+    o->oPosZ = o->parentObj->oPosZ;
+
+    if (0 == o->oAction)
+    {
+        if (o->oDistanceToMario < 500.f)
+        {
+            int status = o->oMtcBricksStatus;
+            o->oMtcBricksCount++;
+            o->oMtcBricksStatus = random_u16() % 6;
+            if (status == o->oMtcBricksStatus)
+            {
+                status = (status + 1) % 6;
+            }
+            o->oAction = 1;
+        }
+    }
+    else
+    {
+        Vec3f objToNext;
+        objToNext[0] = sBricksPositions[o->oMtcBricksStatus][0] - o->oPosX;
+        objToNext[1] = sBricksPositions[o->oMtcBricksStatus][1] - o->oPosY;
+        objToNext[2] = sBricksPositions[o->oMtcBricksStatus][2] - o->oPosZ;
+
+        f32 len = sqrtf(objToNext[0] * objToNext[0] + objToNext[1] * objToNext[1] + objToNext[2] * objToNext[2]) / 50.f * sqrtf(sqrtf(o->oMtcBricksCount));
+        if (len > 0.001f)
+        {
+            objToNext[0] /= len;
+            objToNext[1] /= len;
+            objToNext[2] /= len;
+        }
+        o->parentObj->oPosX += objToNext[0];
+        o->parentObj->oPosY += objToNext[1];
+        o->parentObj->oPosZ += objToNext[2];
+
+        if (len < 1.f)
+        {
+            o->parentObj->oPosX = sBricksPositions[o->oMtcBricksStatus][0];
+            o->parentObj->oPosY = sBricksPositions[o->oMtcBricksStatus][1];
+            o->parentObj->oPosZ = sBricksPositions[o->oMtcBricksStatus][2];
+            o->oAction = 0;
+        }
+    }
+}

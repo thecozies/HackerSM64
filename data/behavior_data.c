@@ -6148,7 +6148,7 @@ const BehaviorScript bhvIntroScene[] = {
 extern const Collision ab_lavawall_collision[];
 const BehaviorScript bhvAbRotatingWall[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(ab_lavawall_collision),
     SET_HOME(),
     BEGIN_LOOP(),
@@ -6163,7 +6163,7 @@ extern void bhv_ab_manta_ray_init();
 extern void bhv_ab_manta_ray_loop();
 const BehaviorScript bhvAbManta[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_FLOAT(oDrawingDistance, 20000),
     LOAD_COLLISION_DATA(ab_manta_collision),
     LOAD_ANIMATIONS(oAnimations, manta_seg5_anims_05008EB4),
@@ -6238,7 +6238,7 @@ const BehaviorScript bhvMfMill[] = {
     SET_HOME(),
     LOAD_COLLISION_DATA(mf_mill_collision),
     SET_FLOAT(oDrawingDistance, 20000),
-    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
         ADD_INT(oMoveAnglePitch, 0x100),
         CALL_NATIVE(load_object_collision_model),
@@ -6275,7 +6275,7 @@ extern void bhv_mf_wooden_post_main_init();
 extern void bhv_mf_wooden_post_main_loop();
 const BehaviorScript bhvMfWoodenPostMain[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(mf_pillar_collision),
     SET_FLOAT(oDrawingDistance, 20000),
     CALL_NATIVE(bhv_mf_wooden_post_main_init),
@@ -6288,7 +6288,7 @@ const BehaviorScript bhvMfWoodenPostMain[] = {
 extern const Collision mf_knife_collision[];
 const BehaviorScript bhvMfKnife[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(mf_knife_collision),
     SET_FLOAT(oDrawingDistance, 20000),
     BEGIN_LOOP(),
@@ -6302,7 +6302,7 @@ extern void mf_kq_init();
 extern void mf_kq_loop();
 const BehaviorScript bhvMfKQ[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(mf_kq_collision),
     SET_FLOAT(oDrawingDistance, 20000),
     CALL_NATIVE(mf_kq_init),
@@ -6328,5 +6328,123 @@ const BehaviorScript bhvDfArrow[] = {
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
         CALL_NATIVE(df_arrow_loop),
+    END_LOOP(),
+};
+
+extern void mtc_yellow_spawner_init();
+extern void mtc_yellow_spawner_loop();
+const BehaviorScript bhvMtcYellowSpawner[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(mtc_yellow_spawner_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(mtc_yellow_spawner_loop),
+    END_LOOP(),
+};
+
+extern void mtc_yellow_ball_init();
+extern void mtc_yellow_ball_loop();
+extern const Collision mtc_ball_collision[];
+const BehaviorScript bhvMtcYellowBall[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    LOAD_COLLISION_DATA(mtc_ball_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_FLOAT(oCollisionDistance, 300),
+    CALL_NATIVE(mtc_yellow_ball_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(mtc_yellow_ball_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void mtc_yellow_purple_switch_init();
+extern void mtc_yellow_purple_switch_loop();
+const BehaviorScript bhvMtcYellowPurpleSwitch[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(purple_switch_seg8_collision_0800C7A8),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(mtc_yellow_purple_switch_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(mtc_yellow_purple_switch_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void mtc_green_spinner_init();
+extern void mtc_green_spinner_loop();
+extern const Collision mtc_platspin_collision[];
+const BehaviorScript bhvMtcGreenPlatspin[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(mtc_platspin_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_HOME(),
+    CALL_NATIVE(mtc_green_spinner_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(mtc_green_spinner_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void mtc_green_line_switch_init();
+extern void mtc_green_line_switch_loop();
+const BehaviorScript bhvMtcGreenLineSwitch[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_HOME(),
+    CALL_NATIVE(mtc_green_line_switch_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(mtc_green_line_switch_loop),
+    END_LOOP(),
+};
+
+extern const Collision mtc_blue_rotat_collision[];
+extern void mtc_blue_rotat_init();
+extern void mtc_blue_rotat_loop();
+const BehaviorScript bhvMtcBlueRotat[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(mtc_blue_rotat_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_HOME(),
+    CALL_NATIVE(mtc_blue_rotat_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(mtc_blue_rotat_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void sparkler_loop();
+const BehaviorScript bhvSparkler[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    BEGIN_LOOP(),
+        CALL_NATIVE(sparkler_loop),
+    END_LOOP(),
+};
+
+extern void mtc_red_ground_init();
+extern void mtc_red_ground_loop();
+extern const Collision mtc_ground_collision[];
+const BehaviorScript bhvMtcRedGround[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(mtc_ground_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_HOME(),
+    CALL_NATIVE(mtc_red_ground_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(mtc_red_ground_loop),
+    END_LOOP(),
+};
+
+extern void mtc_brick_ctl_init();
+extern void mtc_brick_ctl_loop();
+const BehaviorScript bhvMtcBrickCtl[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    CALL_NATIVE(mtc_brick_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(mtc_brick_ctl_loop),
     END_LOOP(),
 };

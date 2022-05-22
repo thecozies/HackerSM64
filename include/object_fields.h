@@ -1359,4 +1359,11 @@ os16112*/
 
 #define oDfLastCheckpoint OBJECT_FIELD_S32(0x1B)
 
+#define oMtcGreenLineActiveStatus OBJECT_FIELD_S32(0x1B)
+
+#define oMtcRedStatus OBJECT_FIELD_S32(0x1B)
+
+#define oMtcBricksStatus OBJECT_FIELD_S32(0x1B)
+#define oMtcBricksCount OBJECT_FIELD_S32(0x1C)
+
 #endif // OBJECT_FIELDS_H

@@ -1,0 +1,11 @@
+extern const GeoLayout mtc_ball_geo[];
+extern Lights1 mtc_ball_visual_001_lights;
+extern u8 mtc_ball_tex1_64x64_D9977DE0771CE688_13_ci4[];
+extern u8 mtc_ball_tex1_64x64_D9977DE0771CE688_13_ci4_pal_rgba16[];
+extern Vtx mtc_ball_Course_13_002_mesh_layer_5_vtx_cull[8];
+extern Vtx mtc_ball_Course_13_002_mesh_layer_5_vtx_0[27];
+extern Gfx mtc_ball_Course_13_002_mesh_layer_5_tri_0[];
+extern Gfx mat_mtc_ball_visual_001[];
+extern Gfx mat_revert_mtc_ball_visual_001[];
+extern Gfx mtc_ball_Course_13_002_mesh_layer_5[];
+extern Gfx mtc_ball_material_revert_render_settings[];

@@ -15,3 +15,13 @@
 
 
 #include "levels/mtc/geo.inc.c"
+
+#include "levels/mtc/mtc_ball/geo.inc.c"
+#include "levels/mtc/mtc_platspin/geo.inc.c"
+#include "levels/mtc/mtc_spinner/geo.inc.c"
+#include "levels/mtc/mtc_line_active/geo.inc.c"
+#include "levels/mtc/mtc_line_inactive/geo.inc.c"
+#include "levels/mtc/mtc_line_whole/geo.inc.c"
+#include "levels/mtc/mtc_line_switch/geo.inc.c"
+#include "levels/mtc/mtc_line_switch_off/geo.inc.c"
+#include "levels/mtc/mtc_blue_rotat/geo.inc.c"

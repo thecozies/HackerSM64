@@ -213,10 +213,9 @@ press [B], too. To throw\n\
 something you're holding,\n\
 press [B] again."))
 
-DEFINE_DIALOG(DIALOG_016, 1, 3, 30, 200, _("\
-Hop on the shiny shell and\n\
-ride wherever you want to\n\
-go! Shred those enemies!"))
+DEFINE_DIALOG(DIALOG_016, 1, 2, 30, 200, _("\
+You can press L button\n\
+to do the magic trick!"))
 
 DEFINE_DIALOG(DIALOG_017, 1, 4, 30, 200, _("\
 I'm the Big Bob-omb, lord\n\
