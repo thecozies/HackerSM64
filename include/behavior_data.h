@@ -572,6 +572,12 @@ extern const BehaviorScript bhvMtcGreenLineSwitch[];
 extern const BehaviorScript bhvMtcBlueRotat[];
 extern const BehaviorScript bhvMtcRedGround[];
 extern const BehaviorScript bhvMtcBrickCtl[];
+extern const BehaviorScript bhvHfBoo[];
+extern const BehaviorScript bhvHfBooCtl[];
+extern const BehaviorScript bhvHfGoo[];
+extern const BehaviorScript bhvHfCrystal[];
+extern const BehaviorScript bhvHfCrystalBlock[];
+extern const BehaviorScript bhvHfIce[];
 extern const BehaviorScript bhvStaticObjectEx[];
 extern const BehaviorScript bhvSparkler[];
 

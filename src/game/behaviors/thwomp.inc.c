@@ -1,8 +1,22 @@
 // thwomp.inc.c
 
+void bhv_grindel_thwomp_init()
+{
+    o->oTimer = 15 * (6 - o->oBehParams2ndByte);
+    if (o->oTimer > 40)
+    {
+        int timediff = o->oTimer - 40;
+        o->oPosY += 10.f * 40 + timediff * timediff * 2.0f;
+    }
+    else
+    {
+        o->oPosY += 10.f * o->oTimer;
+    }
+}
+
 void grindel_thwomp_act_on_ground(void) {
     if (o->oTimer == 0) {
-        o->oThwompRandomTimer = random_float() * 10.0f + 20.0f;
+        o->oThwompRandomTimer = 0.0f;
     }
     if (o->oTimer > o->oThwompRandomTimer) {
         o->oAction = GRINDEL_THWOMP_ACT_RISING;
@@ -31,7 +45,7 @@ void grindel_thwomp_act_land(void) {
 
 void grindel_thwomp_act_floating(void) {
     if (o->oTimer == 0) {
-        o->oThwompRandomTimer = random_float() * 30.0f + 10.0f;
+        o->oThwompRandomTimer = 0.0f;
     }
     if (o->oTimer > o->oThwompRandomTimer) {
         o->oAction = GRINDEL_THWOMP_ACT_FALLING;
@@ -39,7 +53,7 @@ void grindel_thwomp_act_floating(void) {
 }
 
 void grindel_thwomp_act_rising(void) {
-    if (o->oBehParams2ndByte + 40 < o->oTimer) {
+    if (40 < o->oTimer) {
         o->oAction = GRINDEL_THWOMP_ACT_FLOATING;
         o->oPosY += 5.0f;
     } else {

@@ -1,0 +1,15 @@
+extern const GeoLayout hf_goo_geo[];
+extern Lights1 hf_goo___001_f3d_lights;
+extern Lights1 hf_goo_f3d_material_003_lights;
+extern u8 hf_goo___ci8[];
+extern u8 hf_goo___ci8_pal_rgba16[];
+extern Vtx hf_goo_goo_mesh_layer_1_vtx_cull[8];
+extern Vtx hf_goo_goo_mesh_layer_1_vtx_0[19];
+extern Gfx hf_goo_goo_mesh_layer_1_tri_0[];
+extern Vtx hf_goo_goo_mesh_layer_1_vtx_1[19];
+extern Gfx hf_goo_goo_mesh_layer_1_tri_1[];
+extern Gfx mat_hf_goo___001_f3d[];
+extern Gfx mat_revert_hf_goo___001_f3d[];
+extern Gfx mat_hf_goo_f3d_material_003[];
+extern Gfx hf_goo_goo_mesh_layer_1[];
+extern Gfx hf_goo_material_revert_render_settings[];

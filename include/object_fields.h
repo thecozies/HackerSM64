@@ -1373,4 +1373,6 @@ os16112*/
 #define oMtcGoldBrickToSwap1 OBJECT_FIELD_OBJ(0x1F)
 #define oMtcGoldBrickSkillIssue OBJECT_FIELD_S32(0x20)
 
+#define oDfDirection OBJECT_FIELD_S32(0x1B)
+
 #endif // OBJECT_FIELDS_H

@@ -1211,6 +1211,7 @@ const BehaviorScript bhvThwomp2[] = {
     END_LOOP(),
 };
 
+extern void bhv_grindel_thwomp_init(void);
 const BehaviorScript bhvThwomp[] = {
     BEGIN(OBJ_LIST_SURFACE),
     LOAD_COLLISION_DATA(thwomp_seg5_collision_0500B7D0),
@@ -1220,6 +1221,7 @@ const BehaviorScript bhvThwomp[] = {
     SCALE(/*Unused*/ 0, /*Field*/ 140),
     SET_HOME(),
     SET_FLOAT(oDrawingDistance, 4000),
+    CALL_NATIVE(bhv_grindel_thwomp_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_grindel_thwomp_loop),
         CALL_NATIVE(load_object_collision_model),
@@ -6446,5 +6448,79 @@ const BehaviorScript bhvMtcBrickCtl[] = {
     CALL_NATIVE(mtc_brick_ctl_init),
     BEGIN_LOOP(),
         CALL_NATIVE(mtc_brick_ctl_loop),
+    END_LOOP(),
+};
+
+extern void hf_boo_loop_ctl();
+const BehaviorScript bhvHfBooCtl[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_boo_loop_ctl),
+    END_LOOP(),
+};
+
+extern void hf_boo_init();
+extern void hf_boo_loop();
+const BehaviorScript bhvHfBoo[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(hf_boo_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_boo_loop),
+    END_LOOP(),
+};
+
+extern void hf_goo_init();
+extern void hf_goo_loop();
+const BehaviorScript bhvHfGoo[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    SET_HOME(),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(hf_goo_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_goo_loop),
+    END_LOOP(),
+};
+
+extern void hf_crystal_init();
+extern void hf_crystal_loop();
+extern const Collision hf_crystal_collision[];
+const BehaviorScript bhvHfCrystal[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    SET_HOME(),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(hf_crystal_collision),
+    CALL_NATIVE(hf_crystal_init),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_crystal_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void hf_crystal_block_loop();
+extern const Collision hf_crystal_block_collision[];
+const BehaviorScript bhvHfCrystalBlock[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    LOAD_COLLISION_DATA(hf_crystal_block_collision),
+    SET_FLOAT(oCollisionDistance, 600),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_crystal_block_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void hf_ice_loop();
+extern const Collision hf_ice_collision[];
+const BehaviorScript bhvHfIce[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(hf_ice_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_ice_loop),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
