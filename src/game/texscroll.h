@@ -9,6 +9,7 @@
 #include "src/game/texscroll/df_texscroll.inc.h"
 #include "src/game/texscroll/mtc_texscroll.inc.h"
 #include "src/game/texscroll/hf_texscroll.inc.h"
+#include "src/game/texscroll/pss_texscroll.inc.h"
 extern void scroll_textures();
 
 #endif

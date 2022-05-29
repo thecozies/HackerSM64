@@ -1192,7 +1192,7 @@ void mtc_red_ground_loop()
         {
             o->oMtcRedStatus = 0;
             obj_set_collision_data(o, mtc_ground_collision);
-            mtc_switch_all_vcol_alpha(0);
+            mtc_switch_all_vcol_alpha(0xff);
             o->oAction = 0;
         }
         return;
@@ -1263,7 +1263,7 @@ static void update_home(struct Object* obj)
     obj->oHomeZ = obj->oPosZ;
 }
 
-extern s16 s8DirModeBaseYaw;
+extern s16 s8DirModeYawOffset;
 void mtc_brick_ctl_loop()
 {
     o->oPosX = o->parentObj->oPosX;
@@ -1436,7 +1436,7 @@ void mtc_brick_ctl_loop()
         {
             gCamera->cutscene = 0;
             reset_camera(gCamera);
-            s8DirModeBaseYaw = 0x8000;
+            s8DirModeYawOffset = 0x8000;
             o->oAction = 7;
         }
     }
