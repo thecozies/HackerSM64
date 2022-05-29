@@ -1832,7 +1832,8 @@ void hf_ice_loop()
     Vtx* vv = segmented_to_virtual(hf_ice_Plane_002_mesh_layer_1_vtx_0);
     Vtx* vb = segmented_to_virtual(hf_ice_Plane_002_mesh_layer_1_vtx_0_backup);
 
-    f32 t = sins(o->oTimer * 0x163);
+    obj_scale_xyz(o, 0.9f + 0.1f * sins(o->oTimer * 0x663), 1.f, 1.f);
+    f32 t = 0.9f * sins(o->oTimer * 0x183) + 0.1f * sins(o->oTimer * 0xA63);
     if (t < 0)
     {
         lerp_quads(cb, cv, vb, vv, -t, 0 /*-2*/, 1 /*-1*/);
@@ -1846,4 +1847,14 @@ void hf_ice_loop()
         lerp_quads(cb, cv, vb, vv, 1.f-t, 1 /*-1*/, 2 /*-0*/);
         lerp_quads(cb, cv, vb, vv, 1.f-t, 4 /*+1*/, 3 /*+0*/);
     }
+}
+
+void hf_ice_pole_loop()
+{
+    obj_scale_xyz(o, 0.9f + 0.1f * sins(o->oTimer * 0x663), 0.7f + 0.4f * (0.9f * sins(o->oTimer * 0x183) + 0.1f * sins(o->oTimer * 0xA63)), 0.9f + 0.1f * sins(o->oTimer * 0x1b3));
+}
+
+void hf_ice_pole2_loop()
+{
+    obj_scale_xyz(o, 0.7f + 0.4f * (0.9f * sins(o->oTimer * 0x183) + 0.1f * sins(o->oTimer * 0xA63)), 1.1f + 0.1f * sins(o->oTimer * 0x1b3), 0.9f + 0.1f * sins(o->oTimer * 0x663));
 }

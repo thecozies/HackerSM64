@@ -36,7 +36,7 @@ const Collision hf_ice_collision[] = {
 	COL_VERTEX(-283, 264, -718),   // -1t- | r, h
 	COL_VERTEX(-209, 180, -65),    // -0b- | mr, h
 	COL_VERTEX(-209, 385, -75),    // -0t- | mr, hh
-	COL_TRI_INIT(SURFACE_DEFAULT, 36),
+	COL_TRI_INIT(SURFACE_NOT_SLIPPERY, 36),
 	COL_TRI(0, 1, 2),
 	COL_TRI(0, 2, 3),
 	COL_TRI(3, 2, 4),

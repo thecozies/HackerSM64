@@ -25,4 +25,12 @@ extern const LevelScript level_hf_entry[];
 
 #include "levels/hf/hf_ice/geo_header.h"
 
+#include "levels/hf/hf_ice_pole/geo_header.h"
+
+#include "levels/hf/hf_ice_pole/collision_header.h"
+
+#include "levels/hf/hf_ice_pole2/geo_header.h"
+
+#include "levels/hf/hf_ice_pole2/collision_header.h"
+
 #endif

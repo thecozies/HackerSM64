@@ -578,6 +578,8 @@ extern const BehaviorScript bhvHfGoo[];
 extern const BehaviorScript bhvHfCrystal[];
 extern const BehaviorScript bhvHfCrystalBlock[];
 extern const BehaviorScript bhvHfIce[];
+extern const BehaviorScript bhvHfIcePole[];
+extern const BehaviorScript bhvHfIcePole2[];
 extern const BehaviorScript bhvStaticObjectEx[];
 extern const BehaviorScript bhvSparkler[];
 

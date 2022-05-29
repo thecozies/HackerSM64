@@ -21,3 +21,7 @@
 #include "levels/hf/hf_crystal_block/collision.inc.c"
 #include "levels/hf/hf_ice/collision.inc.c"
 #include "levels/hf/hf_ice/model.inc.c"
+#include "levels/hf/hf_ice_pole/model.inc.c"
+#include "levels/hf/hf_ice_pole/collision.inc.c"
+#include "levels/hf/hf_ice_pole2/model.inc.c"
+#include "levels/hf/hf_ice_pole2/collision.inc.c"

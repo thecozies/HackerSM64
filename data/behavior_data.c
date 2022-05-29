@@ -6524,3 +6524,31 @@ const BehaviorScript bhvHfIce[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void hf_ice_pole_loop();
+extern const Collision hf_ice_pole_collision[];
+const BehaviorScript bhvHfIcePole[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    LOAD_COLLISION_DATA(hf_ice_pole_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_FLOAT(oCollisionDistance, 3000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_ice_pole_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void hf_ice_pole2_loop();
+extern const Collision hf_ice_pole2_collision[];
+const BehaviorScript bhvHfIcePole2[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    LOAD_COLLISION_DATA(hf_ice_pole2_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_FLOAT(oCollisionDistance, 3000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_ice_pole2_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

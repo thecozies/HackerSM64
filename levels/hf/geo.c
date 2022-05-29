@@ -21,3 +21,5 @@
 #include "levels/hf/hf_crystal/geo.inc.c"
 #include "levels/hf/hf_crystal_block/geo.inc.c"
 #include "levels/hf/hf_ice/geo.inc.c"
+#include "levels/hf/hf_ice_pole/geo.inc.c"
+#include "levels/hf/hf_ice_pole2/geo.inc.c"
