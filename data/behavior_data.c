@@ -6575,3 +6575,45 @@ const BehaviorScript bhvHfBridgeMover[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void hf_bridge_init();
+extern void hf_bridge_loop();
+extern const Collision hf_bridge1_collision[];
+const BehaviorScript bhvHfBridge1[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    LOAD_COLLISION_DATA(hf_bridge1_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_FLOAT(oCollisionDistance, 20000),
+    CALL_NATIVE(hf_bridge_init),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_bridge_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void hf_bridge2_init();
+extern void hf_bridge2_loop();
+extern const Collision hf_bridge2_collision[];
+const BehaviorScript bhvHfBridge2[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(hf_bridge2_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(hf_bridge2_init),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_bridge2_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void hf_checkpoint_loop();
+const BehaviorScript bhvCheckpoint[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_checkpoint_loop),
+    END_LOOP(),
+};

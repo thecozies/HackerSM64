@@ -582,6 +582,9 @@ extern const BehaviorScript bhvHfIcePole[];
 extern const BehaviorScript bhvHfIcePole2[];
 extern const BehaviorScript bhvHfIceBridgeCtl[];
 extern const BehaviorScript bhvHfBridgeMover[];
+extern const BehaviorScript bhvHfBridge1[];
+extern const BehaviorScript bhvHfBridge2[];
+extern const BehaviorScript bhvCheckpoint[];
 extern const BehaviorScript bhvStaticObjectEx[];
 extern const BehaviorScript bhvSparkler[];
 

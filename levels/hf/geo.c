@@ -24,3 +24,5 @@
 #include "levels/hf/hf_ice_pole/geo.inc.c"
 #include "levels/hf/hf_ice_pole2/geo.inc.c"
 #include "levels/hf/hf_bridge_mover/geo.inc.c"
+#include "levels/hf/hf_bridge1/geo.inc.c"
+#include "levels/hf/hf_bridge2/geo.inc.c"

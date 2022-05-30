@@ -37,4 +37,12 @@ extern const LevelScript level_hf_entry[];
 
 #include "levels/hf/hf_bridge_mover/geo_header.h"
 
+#include "levels/hf/hf_bridge1/geo_header.h"
+
+#include "levels/hf/hf_bridge1/collision_header.h"
+
+#include "levels/hf/hf_bridge2/collision_header.h"
+
+#include "levels/hf/hf_bridge2/geo_header.h"
+
 #endif

@@ -1375,4 +1375,7 @@ os16112*/
 
 #define oDfDirection OBJECT_FIELD_S32(0x1B)
 
+#define oDfAngleVel OBJECT_FIELD_F32(0x1B)
+#define oDfAngleYaw OBJECT_FIELD_S32(0x1C)
+
 #endif // OBJECT_FIELDS_H

@@ -1864,7 +1864,7 @@ void hf_ice_bridge_ctl()
     if (0 == (o->oTimer % 100))
     {
         struct Object* mover = spawn_object(o, MODEL_HF_ICE_BRIDGE, bhvHfBridgeMover);
-        f32 d = o->oBehParams2ndByte ? 150.f : 80.f;
+        f32 d = o->oBehParams2ndByte ? 0.f : 80.f;
         mover->oPosZ += (o->oTimer % 200) ? -d : d;
         mover->oBehParams2ndByte = o->oBehParams2ndByte;
     }
@@ -1885,6 +1885,11 @@ void hf_ice_bridge_mover_loop()
 
     o->oPosX = o->oHomeX;
     o->oPosY = find_floor_height(o->oHomeX, o->oPosY + 100.f, o->oHomeZ);
+    if (o->oPosY < 4000.f)
+    {
+        o->oPosY = 5800.f;
+    }
+
     f32 scale = o->oBehParams2ndByte ? 1.5f : 1.0f;
 
     if (o->oTimer <= 30)
@@ -1900,5 +1905,117 @@ void hf_ice_bridge_mover_loop()
     if (o->oTimer >= 430)
     {
         o->activeFlags = 0;
+    }
+}
+
+
+void hf_bridge_init()
+{
+    o->oDfAngleYaw = 0x4000;
+    o->oDfAngleVel = 0;
+}
+
+extern Collision hf_bridge1_collision[];
+extern Vtx hf_bridge1_c5_005_mesh_layer_4_vtx_0[40];
+// coll 10, 11 - 21, 22
+// visu 16, 19 - 33, 34
+
+// around (-1565, 5825) & (-1959, 5842)
+void hf_bridge_loop()
+{
+    Collision* col = segmented_to_virtual(hf_bridge1_collision);
+    col += 2;
+    Vtx* vtx = segmented_to_virtual(hf_bridge1_c5_005_mesh_layer_4_vtx_0);
+
+    if (0 == o->oAction)
+    {
+        if (gMarioStates->pos[1] > 5700.f && gMarioStates->pos[0] < -200.f)
+        {
+            play_sound(SOUND_GENERAL_OPEN_CHEST, gMarioStates->marioObj->header.gfx.cameraToObject);
+            o->oAction = 1;
+            o->oDfAngleVel = 40.f;
+        }
+    }
+    else
+    {
+        o->oDfAngleVel += sins(o->oDfAngleYaw) * 25;
+        o->oDfAngleVel += -o->oDfAngleVel * 0.04f;
+        o->oDfAngleYaw += o->oDfAngleVel;
+    }
+
+    {
+        f32 x = -1565 + 400 * sins(o->oDfAngleYaw);
+        f32 y =  5825 + 400 * coss(o->oDfAngleYaw);
+        col[3 * 10     + 0] = x;
+        col[3 * 10     + 1] = y;
+        vtx[    16].n.ob[0] = x;
+        vtx[    16].n.ob[1] = y;
+        col[3 * 11     + 0] = x;
+        col[3 * 11     + 1] = y;
+        vtx[    19].n.ob[0] = x;
+        vtx[    19].n.ob[1] = y;
+    }
+    {
+        f32 x = -778 + 400 * sins(-o->oDfAngleYaw);
+        f32 y =  5842 + 400 * coss(-o->oDfAngleYaw);
+        col[3 * 21     + 0] = x;
+        col[3 * 21     + 1] = y;
+        vtx[    33].n.ob[0] = x;
+        vtx[    33].n.ob[1] = y;
+        col[3 * 22     + 0] = x;
+        col[3 * 22     + 1] = y;
+        vtx[    34].n.ob[0] = x;
+        vtx[    34].n.ob[1] = y;
+    }
+}
+
+void hf_bridge2_init()
+{
+
+}
+
+void hf_bridge2_loop()
+{
+    if (0 == o->oAction)
+    {
+        struct Surface* floor = gMarioStates->floor;
+        if (floor && floor->type == SURFACE_HARD_NOT_SLIPPERY && gMarioStates->floorHeight == gMarioStates->pos[1])
+        {
+            o->oAction = 1;
+        }
+    }
+    else
+    {
+        o->oFaceAnglePitch = (9000 * sins(o->oTimer * 0x183) + 1000 * sins(o->oTimer * 0xA63));
+        if (gMarioStates->pos[1] < 9500.f)
+        {
+            o->oAction = 0;
+        }
+    }
+}
+
+void hf_checkpoint_loop()
+{
+    spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
+    if (o->oDistanceToMario < 150.f)
+    {
+        print_text_centered(160, 20, "PRESS L TO WARP BACK HERE");
+    }
+    if (0 == o->oAction)
+    {
+        if (o->oDistanceToMario < 150.f)
+        {
+            o->oAction = 1;
+        }
+    }
+    else
+    {
+        if (gControllers->buttonPressed & L_TRIG && gMarioStates->action != 0x00880898)
+        {
+            gMarioStates->pos[0] = o->oPosX;
+            gMarioStates->pos[1] = o->oPosY;
+            gMarioStates->pos[2] = o->oPosZ;
+            set_camera_mode(gCamera, CAMERA_MODE_8_DIRECTIONS, 1);
+        } 
     }
 }

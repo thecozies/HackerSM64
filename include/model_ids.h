@@ -373,13 +373,13 @@
 #define MODEL_CAP_SWITCH_BASE             0x56        // cap_switch_base_seg5_dl_05003120
 
 // group 9
-#define MODEL_BOO                         0x54        // boo_geo
+#define MODEL_BOO                         0x5B        // boo_geo
 #define MODEL_BETA_BOO_KEY                0x55        // small_key_geo
 #define MODEL_HAUNTED_CHAIR               0x56        // haunted_chair_geo
-#define MODEL_MAD_PIANO                   0x57        // mad_piano_geo
+#define MODEL_MAD_PIANO                   0x5A        // mad_piano_geo
 #define MODEL_BOOKEND_PART                0x58        // bookend_part_geo
 #define MODEL_BOOKEND                     0x59        // bookend_geo
-#define MODEL_HAUNTED_CAGE                0x5A        // haunted_cage_geo
+#define MODEL_HAUNTED_CAGE                0x57        // haunted_cage_geo
 
 // group 10
 #define MODEL_BIRDS                       0x54        // birds_geo
@@ -613,5 +613,7 @@
 #define MODEL_HF_ICE_POLE 0x3B
 #define MODEL_HF_ICE_POLE2 0x3C
 #define MODEL_HF_ICE_BRIDGE 0x3D
+#define MODEL_HF_BRIDGE1 0x3E
+#define MODEL_HF_BRIDGE2 0x3F
 
 #endif // MODEL_IDS_H

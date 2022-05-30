@@ -1,0 +1,10 @@
+extern const GeoLayout hf_bridge2_geo[];
+extern Lights1 hf_bridge2__Color_A01_1_f3d_lights;
+extern u8 hf_bridge2__Color_A01_1_rgba16[];
+extern Vtx hf_bridge2_c5_004_mesh_layer_4_vtx_cull[8];
+extern Vtx hf_bridge2_c5_004_mesh_layer_4_vtx_0[14];
+extern Gfx hf_bridge2_c5_004_mesh_layer_4_tri_0[];
+extern Gfx mat_hf_bridge2__Color_A01_1_f3d[];
+extern Gfx mat_revert_hf_bridge2__Color_A01_1_f3d[];
+extern Gfx hf_bridge2_c5_004_mesh_layer_4[];
+extern Gfx hf_bridge2_material_revert_render_settings[];
