@@ -6552,3 +6552,26 @@ const BehaviorScript bhvHfIcePole2[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void hf_ice_bridge_ctl();
+const BehaviorScript bhvHfIceBridgeCtl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_ice_bridge_ctl),
+    END_LOOP(),
+};
+
+extern void hf_ice_bridge_mover_loop();
+extern const Collision hf_bridge_mover_collision[];
+const BehaviorScript bhvHfBridgeMover[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    LOAD_COLLISION_DATA(hf_bridge_mover_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_FLOAT(oCollisionDistance, 500),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_ice_bridge_mover_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

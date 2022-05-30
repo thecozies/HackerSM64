@@ -612,5 +612,6 @@
 #define MODEL_HF_ICE 0x3A
 #define MODEL_HF_ICE_POLE 0x3B
 #define MODEL_HF_ICE_POLE2 0x3C
+#define MODEL_HF_ICE_BRIDGE 0x3D
 
 #endif // MODEL_IDS_H

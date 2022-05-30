@@ -39,6 +39,8 @@ const LevelScript level_hf_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_HF_ICE, hf_ice_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HF_ICE_POLE, hf_ice_pole_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HF_ICE_POLE2, hf_ice_pole2_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_HF_ICE_POLE2, hf_ice_pole2_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_HF_ICE_BRIDGE, hf_bridge_mover_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -103,6 +105,8 @@ const LevelScript level_hf_entry[] = {
 		OBJECT(MODEL_NONE, 902, 1350, -1822, 0, -43, 0, 0x00000000, bhvGoombaTripletSpawner),
 		OBJECT(MODEL_NONE, 3610, 1835, 1392, 0, -43, 0, 0x00000000, bhvGoombaTripletSpawner),
 		OBJECT(MODEL_HF_ICE, -7472, 6572, 24, 0, 14, 0, 0x00000000, bhvHfIce),
+		OBJECT(MODEL_NONE, -2600, 6176, 1170, 0, 0, 0, 0x00000000, bhvHfIceBridgeCtl),
+		OBJECT(MODEL_NONE, -697, 11074, -515, 0, 0, 0, (1 << 16), bhvHfIceBridgeCtl),
 		OBJECT(MODEL_HF_ICE_POLE, -8393, 6513, -2049, 0, 14, 0, 0x00000000, bhvHfIcePole),
 		OBJECT(MODEL_HF_ICE_POLE2, -5928, 8663, 37, 0, 0, 0, 0x00000000, bhvHfIcePole2),
 		OBJECT(MODEL_NONE, -1941, 2678, -3946, 0, 1, 0, 0x00000000, bhvCoinFormation),

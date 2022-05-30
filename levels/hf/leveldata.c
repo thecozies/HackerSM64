@@ -25,3 +25,5 @@
 #include "levels/hf/hf_ice_pole/collision.inc.c"
 #include "levels/hf/hf_ice_pole2/model.inc.c"
 #include "levels/hf/hf_ice_pole2/collision.inc.c"
+#include "levels/hf/hf_bridge_mover/collision.inc.c"
+#include "levels/hf/hf_bridge_mover/model.inc.c"

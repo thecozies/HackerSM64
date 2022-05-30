@@ -1858,3 +1858,47 @@ void hf_ice_pole2_loop()
 {
     obj_scale_xyz(o, 0.7f + 0.4f * (0.9f * sins(o->oTimer * 0x183) + 0.1f * sins(o->oTimer * 0xA63)), 1.1f + 0.1f * sins(o->oTimer * 0x1b3), 0.9f + 0.1f * sins(o->oTimer * 0x663));
 }
+
+void hf_ice_bridge_ctl()
+{
+    if (0 == (o->oTimer % 100))
+    {
+        struct Object* mover = spawn_object(o, MODEL_HF_ICE_BRIDGE, bhvHfBridgeMover);
+        f32 d = o->oBehParams2ndByte ? 150.f : 80.f;
+        mover->oPosZ += (o->oTimer % 200) ? -d : d;
+        mover->oBehParams2ndByte = o->oBehParams2ndByte;
+    }
+}
+
+void hf_ice_bridge_mover_loop()
+{
+    if (o->oBehParams2ndByte)
+    {
+        o->oMoveAngleYaw -= 369;
+        o->oHomeX -= 10.f;   
+    }
+    else
+    {
+        o->oMoveAngleYaw += 169;
+        o->oHomeX += 10.f;
+    }
+
+    o->oPosX = o->oHomeX;
+    o->oPosY = find_floor_height(o->oHomeX, o->oPosY + 100.f, o->oHomeZ);
+    f32 scale = o->oBehParams2ndByte ? 1.5f : 1.0f;
+
+    if (o->oTimer <= 30)
+    {
+        obj_scale(o, scale * o->oTimer / 30.f);
+    }
+
+    if (o->oTimer > 400)
+    {
+        obj_scale(o, scale * (430 - o->oTimer) / 30.f);
+    }
+
+    if (o->oTimer >= 430)
+    {
+        o->activeFlags = 0;
+    }
+}
