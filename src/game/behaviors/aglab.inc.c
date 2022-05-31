@@ -1557,7 +1557,7 @@ void hf_goo_init()
 void hf_goo_loop()
 {
     obj_scale_xyz(o, 1.f, 1.f + 0.1 * sins(o->oTimer * 0x678), 1.f);
-    if (o->oPosY - 50.f > gMarioStates->pos[1] && o->oDistanceToMario < 300.f)
+    if (o->oDistanceToMario < 300.f)
     {
         drop_and_set_mario_action(gMarioStates, ACT_JUMP, 0);
         gMarioStates->vel[1] = 50.f;
