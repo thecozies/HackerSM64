@@ -250,8 +250,8 @@ like being disturbed.\n\
 Please walk quietly."))
 
 DEFINE_DIALOG(DIALOG_019, 1, 2, 30, 200, _("\
-Shhh! Please walk\n\
-quietly in the hallway!"))
+You can press L button\n\
+to restart the puzzle."))
 
 DEFINE_DIALOG(DIALOG_020, 1, 6, 95, 150, _("\
 Dear Mario:\n\

@@ -677,7 +677,9 @@ s32 act_riding_shell_air(struct MarioState *m) {
             break;
 
         case AIR_STEP_HIT_LAVA_WALL:
-            lava_boost_on_wall(m);
+            if (gCurrCourseNum != COURSE_HF)
+                lava_boost_on_wall(m);
+    
             break;
     }
 

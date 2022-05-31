@@ -26,3 +26,4 @@
 #include "levels/hf/hf_bridge_mover/geo.inc.c"
 #include "levels/hf/hf_bridge1/geo.inc.c"
 #include "levels/hf/hf_bridge2/geo.inc.c"
+#include "levels/hf/hf_joel/geo.inc.c"

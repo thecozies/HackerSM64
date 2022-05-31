@@ -1531,6 +1531,7 @@ void hf_boo_init()
 
 void hf_boo_loop()
 {
+    o->oOpacity = 40;
     obj_scale_xyz(o, 0.7f, 0.7f + 0.05 * sins(o->oTimer * 0x678), 0.7f);
     if (o->oPosY - 50.f > gMarioStates->pos[1])
         return;
@@ -1593,11 +1594,17 @@ static void hf_spawn_phase0()
     nc0->oPosX = 4500.f + 1200.f * 0;
     nc0->oPosY = 1508.f + 1100.f;
     nc0->oPosZ = -4000.f + 1200.f * 0;
+    nc0->oHomeX = nc0->oPosX;
+    nc0->oHomeY = nc0->oPosY;
+    nc0->oHomeZ = nc0->oPosZ;
     struct Object* nc1 = spawn_object(o, MODEL_HF_CRYSTAL, bhvHfCrystal);
     nc1->oBehParams2ndByte = o->oBehParams2ndByte + 1;
     nc1->oPosX = 4500.f + 1200.f * 4;
     nc1->oPosY = 1508.f + 1100.f;
     nc1->oPosZ = -4000.f + 1200.f * 2;
+    nc1->oHomeX = nc1->oPosX;
+    nc1->oHomeY = nc1->oPosY;
+    nc1->oHomeZ = nc1->oPosZ;
 }
 
 static void hf_spawn_phase1()
@@ -1618,11 +1625,17 @@ static void hf_spawn_phase1()
     nc0->oPosX = 4500.f + 1200.f * 4;
     nc0->oPosY = 1508.f + 1900.f;
     nc0->oPosZ = -4000.f + 1200.f * 1;
+    nc0->oHomeX = nc0->oPosX;
+    nc0->oHomeY = nc0->oPosY;
+    nc0->oHomeZ = nc0->oPosZ;
     struct Object* nc1 = spawn_object(o, MODEL_HF_CRYSTAL, bhvHfCrystal);
     nc1->oBehParams2ndByte = o->oBehParams2ndByte + 1;
     nc1->oPosX = 4500.f + 1200.f * 6;
     nc1->oPosY = 1508.f + 1900.f;
     nc1->oPosZ = -4000.f + 1200.f * 3;
+    nc1->oHomeX = nc1->oPosX;
+    nc1->oHomeY = nc1->oPosY;
+    nc1->oHomeZ = nc1->oPosZ;
 }
 
 static void hf_spawn_phase2()
@@ -1658,6 +1671,14 @@ void hf_crystal_loop()
     o->oPosY = o->oHomeY + 25.f * sins(gGlobalTimer * 343);
     if (o->oAction == 0)
     {
+        if (gControllers->buttonPressed & L_TRIG)
+        {
+            o->oPosX = o->oHomeX;
+            o->oPosY = o->oHomeY;
+            o->oPosZ = o->oHomeZ;
+            return;
+        } 
+
         struct Surface* ceil = gMarioStates->ceil;
         if (!ceil || ceil->type != SURFACE_HARD_SLIPPERY)
             return;
@@ -1688,6 +1709,15 @@ void hf_crystal_loop()
     }
     else if (o->oAction == 1)
     {
+        if (gControllers->buttonPressed & L_TRIG)
+        {
+            o->oPosX = o->oHomeX;
+            o->oPosY = o->oHomeY;
+            o->oPosZ = o->oHomeZ;
+            o->oAction = 0;
+            return;
+        } 
+
         if (o->oDfDirection & 1)
         {
             o->oPosX -= 20.f;
@@ -2017,5 +2047,47 @@ void hf_checkpoint_loop()
             gMarioStates->pos[2] = o->oPosZ;
             set_camera_mode(gCamera, CAMERA_MODE_8_DIRECTIONS, 1);
         } 
+    }
+}
+
+void hf_joel_loop()
+{
+    obj_scale(o, 0.5f);
+
+    if (gMarioStates->pos[2] > -4500.f)
+    {
+        cur_obj_hide();
+    }
+    else
+    {
+        cur_obj_unhide();
+    }
+    
+    if (o->oBehParams2ndByte == 1)
+    {
+        obj_scale(o, 0.7f);
+        o->oMoveAngleYaw += 0x546;
+        o->oPosY = o->oHomeY - CLAMP(gMarioStates->pos[2], -5500.f, -4500.f) / 2 - 5500.f / 2;
+    }
+    else if (o->oBehParams2ndByte == 2)
+    {
+        o->oMoveAnglePitch = 0x4000;
+        o->oMoveAngleYaw = 0x1200 * sins(o->oTimer * 400);
+        o->oPosY = o->oHomeY - CLAMP(gMarioStates->pos[2], -5500.f, -4500.f) / 2 - 5500.f / 2;
+    }
+    else if (o->oBehParams2ndByte == 3)
+    {
+        obj_scale(o, 0.6f);
+        o->oMoveAnglePitch = 0x2000;
+        o->oMoveAngleYaw -= 0x146;
+    }
+    else if (o->oBehParams2ndByte == 4)
+    {
+        obj_scale_xyz(o, 0.3f, 0.8f, 3.f);
+        o->oMoveAngleYaw -= 0x346;
+    }
+    else
+    {
+        o->oMoveAngleYaw += 0x346;
     }
 }

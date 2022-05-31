@@ -175,7 +175,7 @@ extern Vtx hf_dl_c5_mesh_layer_1_vtx_18[593];
 extern Gfx hf_dl_c5_mesh_layer_1_tri_18[];
 extern Vtx hf_dl_c5_mesh_layer_1_vtx_19[40];
 extern Gfx hf_dl_c5_mesh_layer_1_tri_19[];
-extern Vtx hf_dl_c5_mesh_layer_1_vtx_20[40];
+extern Vtx hf_dl_c5_mesh_layer_1_vtx_20[45];
 extern Gfx hf_dl_c5_mesh_layer_1_tri_20[];
 extern Vtx hf_dl_c5_mesh_layer_1_vtx_21[201];
 extern Gfx hf_dl_c5_mesh_layer_1_tri_21[];

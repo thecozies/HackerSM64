@@ -615,5 +615,6 @@
 #define MODEL_HF_ICE_BRIDGE 0x3D
 #define MODEL_HF_BRIDGE1 0x3E
 #define MODEL_HF_BRIDGE2 0x3F
+#define MODEL_HF_JOEL 0x40
 
 #endif // MODEL_IDS_H

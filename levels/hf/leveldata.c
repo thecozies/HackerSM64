@@ -31,3 +31,5 @@
 #include "levels/hf/hf_bridge1/collision.inc.c"
 #include "levels/hf/hf_bridge2/collision.inc.c"
 #include "levels/hf/hf_bridge2/model.inc.c"
+#include "levels/hf/hf_joel/collision.inc.c"
+#include "levels/hf/hf_joel/model.inc.c"

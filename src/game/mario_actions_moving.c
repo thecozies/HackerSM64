@@ -1217,11 +1217,14 @@ s32 act_riding_shell_ground(struct MarioState *m) {
             break;
 
         case GROUND_STEP_HIT_WALL:
-            mario_stop_riding_object(m);
-            play_sound(m->flags & MARIO_METAL_CAP ? SOUND_ACTION_METAL_BONK : SOUND_ACTION_BONK,
-                       m->marioObj->header.gfx.cameraToObject);
-            m->particleFlags |= PARTICLE_VERTICAL_STAR;
-            set_mario_action(m, ACT_BACKWARD_GROUND_KB, 0);
+            if (gCurrLevelNum != LEVEL_HF)
+            {
+                mario_stop_riding_object(m);
+                play_sound(m->flags & MARIO_METAL_CAP ? SOUND_ACTION_METAL_BONK : SOUND_ACTION_BONK,
+                        m->marioObj->header.gfx.cameraToObject);
+                m->particleFlags |= PARTICLE_VERTICAL_STAR;
+                set_mario_action(m, ACT_BACKWARD_GROUND_KB, 0);
+            }
             break;
     }
 
