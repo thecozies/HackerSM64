@@ -44,6 +44,7 @@ const LevelScript level_hf_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_HF_BRIDGE1, hf_bridge1_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HF_BRIDGE2, hf_bridge2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HF_JOEL, hf_joel_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_HF_SCARY_BOO, hf_scary_boo_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -158,6 +159,14 @@ const LevelScript level_hf_entry[] = {
 		OBJECT(MODEL_BOO, -7172, 4304, -2339, 0, 0, 0, 0x00000000, bhvBoo),
 		OBJECT(MODEL_BOO, 1530, 10270, -144, 0, 0, 0, 0x00000000, bhvBoo),
 		OBJECT(MODEL_EXCLAMATION_BOX, -2913, 93, -7469, 0, 0, 0, (3 << 16), bhvExclamationBox),
+		OBJECT(MODEL_HF_SCARY_BOO, -2133, -480, -1210, 0, 0, 0, 0x00000000, bhvHfScaryBoo),
+		OBJECT(MODEL_HF_SCARY_BOO, -1695, -480, -1228, 0, 0, 0, 0x00000000, bhvHfScaryBoo),
+		OBJECT(MODEL_HF_SCARY_BOO, -1522, -480, -1340, 0, 0, 0, 0x00000000, bhvHfScaryBoo),
+		OBJECT(MODEL_HF_SCARY_BOO, -1058, -480, -950, 0, 0, 0, 0x00000000, bhvHfScaryBoo),
+		OBJECT(MODEL_HF_SCARY_BOO, -1509, -480, -817, 0, 0, 0, 0x00000000, bhvHfScaryBoo),
+		OBJECT(MODEL_HF_SCARY_BOO, -2115, -480, -789, 0, 0, 0, 0x00000000, bhvHfScaryBoo),
+		OBJECT(MODEL_HF_SCARY_BOO, -1716, -480, -406, 0, 0, 0, 0x00000000, bhvHfScaryBoo),
+		OBJECT(MODEL_HF_SCARY_BOO, -1027, -480, -565, 0, 0, 0, 0x00000000, bhvHfScaryBoo),
 		OBJECT(MODEL_STAR, -4375, 1322, -14993, 0, 0, 0, (5 << 24), bhvStar),
 		OBJECT(MODEL_STAR, -101, 4062, -11760, 0, 0, 0, (1 << 24), bhvStar),
 		OBJECT(MODEL_STAR, 13278, 4000, 4595, 0, 0, 0, (3 << 24), bhvStar),

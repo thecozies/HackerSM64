@@ -49,4 +49,26 @@ extern const LevelScript level_hf_entry[];
 
 #include "levels/hf/hf_joel/geo_header.h"
 
+extern const GeoLayout hf_scary_boo_geo[];
+
+#include "levels/hf/hf_scary_boo0/header.h"
+
+#include "levels/hf/hf_scary_boo1/header.h"
+
+#include "levels/hf/hf_scary_boo2/header.h"
+
+#include "levels/hf/hf_scary_boo3/header.h"
+
+#include "levels/hf/hf_scary_boo4/header.h"
+
+#include "levels/hf/hf_scary_boo5/header.h"
+
+#include "levels/hf/hf_scary_boo6/header.h"
+
+#include "levels/hf/hf_scary_boo7/header.h"
+
+#include "levels/hf/hf_scary_boo_lines/header.h"
+
+#include "levels/hf/hf_scary_jerma/header.h"
+
 #endif

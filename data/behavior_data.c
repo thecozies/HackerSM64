@@ -6640,3 +6640,13 @@ const BehaviorScript bhvHfWind[] = {
         CALL_NATIVE(hf_wind_loop),
     END_LOOP(),
 };
+
+extern void hf_scary_boo_loop();
+const BehaviorScript bhvHfScaryBoo[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_scary_boo_loop),
+    END_LOOP(),
+};

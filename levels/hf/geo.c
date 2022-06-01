@@ -27,3 +27,23 @@
 #include "levels/hf/hf_bridge1/geo.inc.c"
 #include "levels/hf/hf_bridge2/geo.inc.c"
 #include "levels/hf/hf_joel/geo.inc.c"
+
+const GeoLayout hf_scary_boo_geo[] = {
+	GEO_CULLING_RADIUS(2668),
+    GEO_OPEN_NODE(),
+    GEO_SWITCH_CASE(9, geo_switch_anim_state),
+    GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hf_scary_boo0_Plane_005_mesh),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hf_scary_boo1_Plane_005_mesh),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hf_scary_boo2_Plane_005_mesh),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hf_scary_boo3_Plane_005_mesh),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hf_scary_boo4_Plane_005_mesh),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hf_scary_boo5_Plane_005_mesh),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hf_scary_boo6_Plane_005_mesh),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hf_scary_boo7_Plane_005_mesh),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hf_scary_jerma_Plane_005_mesh),
+	GEO_CLOSE_NODE(),
+	GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -20, 0, 0, hf_scary_boo_lines_Plane_005_mesh),
+	GEO_CLOSE_NODE(),
+    GEO_END(),
+};

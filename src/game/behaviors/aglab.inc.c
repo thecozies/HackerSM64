@@ -2123,3 +2123,73 @@ void hf_wind_loop()
             gMarioStates->vel[1] = 20.f;
     }
 }
+
+// +19
+extern Gfx mat_hf_scary_boo0_boom[];
+extern Gfx mat_hf_scary_boo1_boom[];
+extern Gfx mat_hf_scary_boo2_boom[];
+extern Gfx mat_hf_scary_boo3_boom[];
+extern Gfx mat_hf_scary_boo4_boom[];
+extern Gfx mat_hf_scary_boo5_boom[];
+extern Gfx mat_hf_scary_boo6_boom[];
+extern Gfx mat_hf_scary_boo7_boom[];
+extern Gfx mat_hf_scary_boo_lines_boom_layer1[]; // +14
+extern Gfx mat_hf_scary_jerma_boom[]; // +12
+
+static void set_scary_bool_alpha(u8 val)
+{
+    u8* a;
+    a = (u8*) segmented_to_virtual(mat_hf_scary_boo0_boom) + 19*8 + 7;
+    *a = val;
+    a = (u8*) segmented_to_virtual(mat_hf_scary_boo1_boom) + 19*8 + 7;
+    *a = val;
+    a = (u8*) segmented_to_virtual(mat_hf_scary_boo2_boom) + 19*8 + 7;
+    *a = val;
+    a = (u8*) segmented_to_virtual(mat_hf_scary_boo3_boom) + 19*8 + 7;
+    *a = val;
+    a = (u8*) segmented_to_virtual(mat_hf_scary_boo4_boom) + 19*8 + 7;
+    *a = val;
+    a = (u8*) segmented_to_virtual(mat_hf_scary_boo5_boom) + 19*8 + 7;
+    *a = val;
+    a = (u8*) segmented_to_virtual(mat_hf_scary_boo6_boom) + 19*8 + 7;
+    *a = val;
+    a = (u8*) segmented_to_virtual(mat_hf_scary_boo7_boom) + 19*8 + 7;
+    *a = val;
+    a = (u8*) segmented_to_virtual(mat_hf_scary_boo_lines_boom_layer1) + 14*8 + 7;
+    *a = val;
+    a = (u8*) segmented_to_virtual(mat_hf_scary_jerma_boom) + 12*8 + 7;
+    *a = val * 4;
+}
+
+void hf_scary_boo_loop()
+{
+    if (0 == o->oTimer)
+    {
+        obj_scale(o, 0.55f);
+        o->oAnimState = random_u16() % 8;
+        if (0 == (random_u16() % 254))
+            o->oAnimState = 8;
+
+        o->oPosX = -4120.f + 5000.f * random_float();
+        o->oPosY = CLAMP(gMarioStates->pos[1], 1590.f, 11000.f) + random_f32_around_zero(2000.f) - 800.f; 
+        o->oPosZ = -3420.f + 6000.f * random_float();
+    }
+
+    if (o->oTimer < 30)
+    {
+        set_scary_bool_alpha(o->oTimer);
+    }
+    else if (o->oTimer < 70)
+    {
+        set_scary_bool_alpha(30);
+    }
+    else
+    {
+        set_scary_bool_alpha(100 - o->oTimer);
+    }
+
+    if (100 == o->oTimer)
+    {
+        o->oTimer = -1;
+    }
+}
