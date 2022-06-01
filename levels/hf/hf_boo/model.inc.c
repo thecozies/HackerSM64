@@ -903,17 +903,28 @@ Gfx hf_boo_boo_mesh_layer_1[] = {
 	gsSPVertex(hf_boo_boo_mesh_layer_1_vtx_cull + 0, 8, 0),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPCullDisplayList(0, 7),
+
+	gsSPDisplayList(mat_hf_boo_f3d_material_001),
+	gsSPDisplayList(hf_boo_boo_mesh_layer_1_tri_2),
+	gsSPDisplayList(mat_hf_boo_f3d_material_002),
+	gsSPDisplayList(hf_boo_boo_mesh_layer_1_tri_3),
+	gsSPDisplayList(mat_revert_hf_boo_f3d_material_002),
+	
 	gsSPDisplayList(mat_hf_boo___f3d),
 	gsSPDisplayList(hf_boo_boo_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_hf_boo___f3d),
 	gsSPDisplayList(mat_hf_boo_f3d_material),
 	gsSPDisplayList(hf_boo_boo_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_hf_boo_f3d_material),
-	gsSPDisplayList(mat_hf_boo_f3d_material_001),
-	gsSPDisplayList(hf_boo_boo_mesh_layer_1_tri_2),
-	gsSPDisplayList(mat_hf_boo_f3d_material_002),
-	gsSPDisplayList(hf_boo_boo_mesh_layer_1_tri_3),
-	gsSPDisplayList(mat_revert_hf_boo_f3d_material_002),
+	
+	gsDPPipeSync(),
+	gsSPSetGeometryMode(G_LIGHTING),
+	gsSPClearGeometryMode(G_TEXTURE_GEN),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsSPTexture(65535, 65535, 0, 0, 0),
+	gsDPSetEnvColor(255, 255, 255, 255),
+	gsDPSetAlphaCompare(G_AC_NONE),
+
 	gsSPEndDisplayList(),
 };
 

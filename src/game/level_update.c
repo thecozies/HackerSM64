@@ -741,6 +741,26 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
 #endif
                 }
 
+                if (gCurrCourseNum == COURSE_HF)
+                {
+                    if (gMarioStates->pos[2] > 5100.f)
+                    {
+                        sSourceWarpNodeId = 0x20;
+                    }
+                    else if (gMarioStates->pos[0] > 3100.f)
+                    {
+                        sSourceWarpNodeId = 0x21;
+                    }
+                    else if (gMarioStates->pos[2] < -5400.f)
+                    {
+                        sSourceWarpNodeId = 0x22;
+                    }
+                    else if (gMarioStates->pos[2] > 0.f && gMarioStates->pos[1] < -6000.f)
+                    {
+                        sSourceWarpNodeId = 0x23;
+                    }
+                }
+
                 sDelayedWarpTimer = 20;
                 play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, sDelayedWarpTimer, 0x00, 0x00, 0x00);
                 break;

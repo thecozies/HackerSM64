@@ -585,6 +585,7 @@ extern const BehaviorScript bhvHfBridgeMover[];
 extern const BehaviorScript bhvHfBridge1[];
 extern const BehaviorScript bhvHfBridge2[];
 extern const BehaviorScript bhvHfJoel[];
+extern const BehaviorScript bhvHfWind[];
 extern const BehaviorScript bhvCheckpoint[];
 extern const BehaviorScript bhvStaticObjectEx[];
 extern const BehaviorScript bhvSparkler[];

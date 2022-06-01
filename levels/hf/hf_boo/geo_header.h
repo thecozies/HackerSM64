@@ -25,4 +25,5 @@ extern Gfx mat_hf_boo_f3d_material_001[];
 extern Gfx mat_hf_boo_f3d_material_002[];
 extern Gfx mat_revert_hf_boo_f3d_material_002[];
 extern Gfx hf_boo_boo_mesh_layer_1[];
+extern Gfx hf_boo_boo_mesh_layer_1_tr[];
 extern Gfx hf_boo_material_revert_render_settings[];

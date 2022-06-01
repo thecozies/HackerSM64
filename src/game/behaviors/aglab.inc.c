@@ -1531,14 +1531,29 @@ void hf_boo_init()
 
 void hf_boo_loop()
 {
-    o->oOpacity = 40;
+    o->oOpacity = 100;
     obj_scale_xyz(o, 0.7f, 0.7f + 0.05 * sins(o->oTimer * 0x678), 0.7f);
-    if (o->oPosY - 50.f > gMarioStates->pos[1])
-        return;
 
     s16 realFaceAngle = o->oFaceAngleYaw + 0x4000;
-    s16 angleDist = realFaceAngle - gMarioStates->faceAngle[1];
-    if (ABS(angleDist) > 0x5000)
+    s16 dist = realFaceAngle - gMarioStates->faceAngle[1];
+    s32 angleDist = ABS((s32) dist);
+
+    if (angleDist < 0x4000)
+    {
+        o->oOpacity = 255;
+    }
+    else if (angleDist > 0x5000)
+    {
+        o->oOpacity = 120;
+    }
+    else
+    {
+        o->oOpacity = 120 + (0x5000 - angleDist) / 31;
+    }
+    if (angleDist > 0x5000)
+        return;
+
+    if (o->oPosY - 50.f > gMarioStates->pos[1])
         return;
 
     if (o->oDistanceToMario < 300.f)
@@ -2089,5 +2104,22 @@ void hf_joel_loop()
     else
     {
         o->oMoveAngleYaw += 0x346;
+    }
+}
+
+extern void spawn_mist_particles_variable(s32 count, s32 offsetY, f32 size);
+void hf_wind_loop()
+{
+    if (gMarioStates->pos[0] < 12000.f)
+        return;
+        
+    spawn_mist_particles_variable(0, 0, 46.0f);
+
+    struct Surface* floor = gMarioStates->floor;
+    if (floor && floor->type == SURFACE_NOISE_DEFAULT)
+    {
+        drop_and_set_mario_action(gMarioStates, ACT_VERTICAL_WIND, 0);
+        if (gMarioStates->pos[1] < 4244.f)
+            gMarioStates->vel[1] = 20.f;
     }
 }

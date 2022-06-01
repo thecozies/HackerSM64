@@ -6631,3 +6631,12 @@ const BehaviorScript bhvHfJoel[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void hf_wind_loop();
+const BehaviorScript bhvHfWind[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(hf_wind_loop),
+    END_LOOP(),
+};
