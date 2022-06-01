@@ -1559,8 +1559,8 @@ void hf_boo_loop()
     if (o->oDistanceToMario < 300.f)
     {
         drop_and_set_mario_action(gMarioStates, ACT_JUMP, 0);
-        gMarioStates->vel[1] = 50.f;
-        gMarioStates->forwardVel = 50.f;
+        gMarioStates->vel[1] = 45.f;
+        gMarioStates->forwardVel = 45.f;
         gMarioStates->faceAngle[1] = o->oFaceAngleYaw + 0x4000;
     }
 }
@@ -1576,8 +1576,8 @@ void hf_goo_loop()
     if (o->oDistanceToMario < 300.f)
     {
         drop_and_set_mario_action(gMarioStates, ACT_JUMP, 0);
-        gMarioStates->vel[1] = 50.f;
-        gMarioStates->forwardVel = 50.f;
+        gMarioStates->vel[1] = 45.f;
+        gMarioStates->forwardVel = 45.f;
     }
 
     if (1 == o->oBehParams2ndByte)
@@ -1599,24 +1599,24 @@ static void hf_spawn_phase0()
         struct Object* block = spawn_object(o, MODEL_HF_CRYSTAL_PLAT, bhvHfCrystalBlock);
         block->oFaceAngleYaw = 0;
         block->oMoveAngleYaw = 0;
-        block->oPosX = 4500.f + 1200.f * i;
-        block->oPosY = 500.f + 1508.f;
-        block->oPosZ = -4000.f + 1200.f * j;
+        block->oPosX = (12.f/13.f) * (4500.f + 1200.f * i);
+        block->oPosY = (12.f/13.f) * (500.f + 1508.f);
+        block->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * j);
     }
 
     struct Object* nc0 = spawn_object(o, MODEL_HF_CRYSTAL, bhvHfCrystal);
     nc0->oBehParams2ndByte = o->oBehParams2ndByte + 1;
-    nc0->oPosX = 4500.f + 1200.f * 0;
-    nc0->oPosY = 1508.f + 1100.f;
-    nc0->oPosZ = -4000.f + 1200.f * 0;
+    nc0->oPosX = (12.f/13.f) * (4500.f + 1200.f * 0);
+    nc0->oPosY = (12.f/13.f) * (1508.f + 1100.f);
+    nc0->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * 0);
     nc0->oHomeX = nc0->oPosX;
     nc0->oHomeY = nc0->oPosY;
     nc0->oHomeZ = nc0->oPosZ;
     struct Object* nc1 = spawn_object(o, MODEL_HF_CRYSTAL, bhvHfCrystal);
     nc1->oBehParams2ndByte = o->oBehParams2ndByte + 1;
-    nc1->oPosX = 4500.f + 1200.f * 4;
-    nc1->oPosY = 1508.f + 1100.f;
-    nc1->oPosZ = -4000.f + 1200.f * 2;
+    nc1->oPosX = (12.f/13.f) * (4500.f + 1200.f * 4);
+    nc1->oPosY = (12.f/13.f) * (1508.f + 1100.f);
+    nc1->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * 2);
     nc1->oHomeX = nc1->oPosX;
     nc1->oHomeY = nc1->oPosY;
     nc1->oHomeZ = nc1->oPosZ;
@@ -1630,24 +1630,24 @@ static void hf_spawn_phase1()
         struct Object* block = spawn_object(o, MODEL_HF_CRYSTAL_PLAT, bhvHfCrystalBlock);
         block->oFaceAngleYaw = 0;
         block->oMoveAngleYaw = 0;
-        block->oPosX = 4500.f + 1200.f * i;
-        block->oPosY = 1000.f + 1508.f + 300.f * ((i % 2) ^ (j % 2));
-        block->oPosZ = -4000.f + 1200.f * j;
+        block->oPosX = (12.f/13.f) * (4500.f + 1200.f * i);
+        block->oPosY = (12.f/13.f) * (1000.f + 1508.f + 300.f * ((i % 2) ^ (j % 2)));
+        block->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * j);
     }
 
     struct Object* nc0 = spawn_object(o, MODEL_HF_CRYSTAL, bhvHfCrystal);
     nc0->oBehParams2ndByte = o->oBehParams2ndByte + 1;
-    nc0->oPosX = 4500.f + 1200.f * 4;
-    nc0->oPosY = 1508.f + 1900.f;
-    nc0->oPosZ = -4000.f + 1200.f * 1;
+    nc0->oPosX = (12.f/13.f) * (4500.f + 1200.f * 4);
+    nc0->oPosY = (12.f/13.f) * (1508.f + 1900.f);
+    nc0->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * 1);
     nc0->oHomeX = nc0->oPosX;
     nc0->oHomeY = nc0->oPosY;
     nc0->oHomeZ = nc0->oPosZ;
     struct Object* nc1 = spawn_object(o, MODEL_HF_CRYSTAL, bhvHfCrystal);
     nc1->oBehParams2ndByte = o->oBehParams2ndByte + 1;
-    nc1->oPosX = 4500.f + 1200.f * 6;
-    nc1->oPosY = 1508.f + 1900.f;
-    nc1->oPosZ = -4000.f + 1200.f * 3;
+    nc1->oPosX = (12.f/13.f) * (4500.f + 1200.f * 6);
+    nc1->oPosY = (12.f/13.f) * (1508.f + 1900.f);
+    nc1->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * 3);
     nc1->oHomeX = nc1->oPosX;
     nc1->oHomeY = nc1->oPosY;
     nc1->oHomeZ = nc1->oPosZ;
@@ -1661,9 +1661,9 @@ static void hf_spawn_phase2()
         struct Object* block = spawn_object(o, MODEL_HF_CRYSTAL_PLAT, bhvHfCrystalBlock);
         block->oFaceAngleYaw = 0;
         block->oMoveAngleYaw = 0;
-        block->oPosX = 4500.f + 1200.f * i;
-        block->oPosY = 1500.f + 1508.f + 300.f * ((i % 2) + (j % 2));
-        block->oPosZ = -4000.f + 1200.f * j;
+        block->oPosX = (12.f/13.f) * (4500.f + 1200.f * i);
+        block->oPosY = (12.f/13.f) * (1500.f + 1508.f + 300.f * ((i % 2) + (j % 2)));
+        block->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * j);
     }
     
     /*
@@ -1735,19 +1735,19 @@ void hf_crystal_loop()
 
         if (o->oDfDirection & 1)
         {
-            o->oPosX -= 20.f;
+            o->oPosX -= 12.f/13.f * 20.f;
         }
         if (o->oDfDirection & 2)
         {
-            o->oPosZ -= 20.f;
+            o->oPosZ -= 12.f/13.f *20.f;
         }
         if (o->oDfDirection & 4)
         {
-            o->oPosX += 20.f;
+            o->oPosX += 12.f/13.f *20.f;
         }
         if (o->oDfDirection & 8)
         {
-            o->oPosZ += 20.f;
+            o->oPosZ += 12.f/13.f *20.f;
         }
 
         if (o->oTimer >= 60)
@@ -1896,7 +1896,7 @@ void hf_ice_loop()
 
 void hf_ice_pole_loop()
 {
-    obj_scale_xyz(o, 0.9f + 0.1f * sins(o->oTimer * 0x663), 0.7f + 0.4f * (0.9f * sins(o->oTimer * 0x183) + 0.1f * sins(o->oTimer * 0xA63)), 0.9f + 0.1f * sins(o->oTimer * 0x1b3));
+    obj_scale_xyz(o, 0.9f + 0.1f * sins(o->oTimer * 0x663), 0.65f + 0.4f * (0.9f * sins(o->oTimer * 0x183) + 0.1f * sins(o->oTimer * 0xA63)), 0.9f + 0.1f * sins(o->oTimer * 0x1b3));
 }
 
 void hf_ice_pole2_loop()
@@ -1920,34 +1920,34 @@ void hf_ice_bridge_mover_loop()
     if (o->oBehParams2ndByte)
     {
         o->oMoveAngleYaw -= 369;
-        o->oHomeX -= 10.f;   
+        o->oHomeX -= 8.f;   
     }
     else
     {
         o->oMoveAngleYaw += 169;
-        o->oHomeX += 10.f;
+        o->oHomeX += 8.f;
     }
 
     o->oPosX = o->oHomeX;
     o->oPosY = find_floor_height(o->oHomeX, o->oPosY + 100.f, o->oHomeZ);
-    if (o->oPosY < 4000.f)
+    if (o->oPosY < 3500.f)
     {
-        o->oPosY = 5800.f;
+        o->oPosY = 5378.f;
     }
 
-    f32 scale = o->oBehParams2ndByte ? 1.5f : 1.0f;
+    f32 scale = 0.8f;
 
     if (o->oTimer <= 30)
     {
         obj_scale(o, scale * o->oTimer / 30.f);
     }
 
-    if (o->oTimer > 400)
+    if (o->oTimer > 370)
     {
-        obj_scale(o, scale * (430 - o->oTimer) / 30.f);
+        obj_scale(o, scale * (400 - o->oTimer) / 30.f);
     }
 
-    if (o->oTimer >= 430)
+    if (o->oTimer >= 400)
     {
         o->activeFlags = 0;
     }
@@ -1974,7 +1974,7 @@ void hf_bridge_loop()
 
     if (0 == o->oAction)
     {
-        if (gMarioStates->pos[1] > 5700.f && gMarioStates->pos[0] < -200.f)
+        if (gMarioStates->pos[1] > (12.f/13.f) *5700.f && gMarioStates->pos[0] <  (12.f/13.f) * (-200.f))
         {
             play_sound(SOUND_GENERAL_OPEN_CHEST, gMarioStates->marioObj->header.gfx.cameraToObject);
             o->oAction = 1;
@@ -1989,8 +1989,8 @@ void hf_bridge_loop()
     }
 
     {
-        f32 x = -1565 + 400 * sins(o->oDfAngleYaw);
-        f32 y =  5825 + 400 * coss(o->oDfAngleYaw);
+        f32 x = (12.f/13.f) * (-1565 + 400 * sins(o->oDfAngleYaw));
+        f32 y = (12.f/13.f) * ( 5825 + 400 * coss(o->oDfAngleYaw));
         col[3 * 10     + 0] = x;
         col[3 * 10     + 1] = y;
         vtx[    16].n.ob[0] = x;
@@ -2001,8 +2001,8 @@ void hf_bridge_loop()
         vtx[    19].n.ob[1] = y;
     }
     {
-        f32 x = -778 + 400 * sins(-o->oDfAngleYaw);
-        f32 y =  5842 + 400 * coss(-o->oDfAngleYaw);
+        f32 x = (12.f/13.f) * (-778 + 400 * sins(-o->oDfAngleYaw));
+        f32 y = (12.f/13.f) * (5842 + 400 * coss(-o->oDfAngleYaw));
         col[3 * 21     + 0] = x;
         col[3 * 21     + 1] = y;
         vtx[    33].n.ob[0] = x;
@@ -2032,7 +2032,7 @@ void hf_bridge2_loop()
     else
     {
         o->oFaceAnglePitch = (9000 * sins(o->oTimer * 0x183) + 1000 * sins(o->oTimer * 0xA63));
-        if (gMarioStates->pos[1] < 9500.f)
+        if (gMarioStates->pos[1] < 8500.f)
         {
             o->oAction = 0;
         }
@@ -2170,9 +2170,9 @@ void hf_scary_boo_loop()
         if (0 == (random_u16() % 254))
             o->oAnimState = 8;
 
-        o->oPosX = -4120.f + 5000.f * random_float();
-        o->oPosY = CLAMP(gMarioStates->pos[1], 1590.f, 11000.f) + random_f32_around_zero(2000.f) - 800.f; 
-        o->oPosZ = -3420.f + 6000.f * random_float();
+        o->oPosX = 12.f / 13.f * (-4120.f + 5000.f * random_float());
+        o->oPosY = CLAMP(gMarioStates->pos[1], 12.f / 13.f * 1590.f, 12.f / 13.f * 11000.f) + random_f32_around_zero(2000.f) - 800.f; 
+        o->oPosZ = 12.f / 13.f * (-3420.f + 6000.f * random_float());
     }
 
     if (o->oTimer < 30)
