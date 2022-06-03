@@ -243,7 +243,7 @@ extern Vtx hf_dl_c5_002_mesh_layer_4_vtx_cull[8];
 extern Vtx hf_dl_c5_002_mesh_layer_4_vtx_0[36];
 extern Gfx hf_dl_c5_002_mesh_layer_4_tri_0[];
 extern Vtx hf_dl_c5_003_mesh_layer_6_vtx_cull[8];
-extern Vtx hf_dl_c5_003_mesh_layer_6_vtx_0[34];
+extern Vtx hf_dl_c5_003_mesh_layer_6_vtx_0[42];
 extern Gfx hf_dl_c5_003_mesh_layer_6_tri_0[];
 extern Gfx mat_hf_dl__Color_005_4_f3d[];
 extern Gfx mat_revert_hf_dl__Color_005_4_f3d[];

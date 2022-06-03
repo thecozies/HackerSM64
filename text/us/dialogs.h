@@ -466,26 +466,13 @@ power, the door slowly\n\
 opens."))
 
 DEFINE_DIALOG(DIALOG_039, 1, 4, 30, 200, _("\
-No visitors allowed,\n\
-by decree of\n\
-the Big Bob-omb\n\
-\n\
-I shall never surrender my\n\
-Stars, for they hold the\n\
-power of the castle in\n\
-their glow.\n\
-They were a gift from\n\
-Bowser, the Koopa King\n\
-himself, and they lie well\n\
-hidden within my realm.\n\
-Not a whisper of their\n\
-whereabouts shall leave\n\
-my lips. Oh, all right,\n\
-perhaps one hint:\n\
-Heed the Star names at\n\
-the beginning of the\n\
-course.\n\
-//--The Big Bob-omb"))
+These are friendly boos!\n\
+You can hop on them if\n\
+you are facing the same\n\
+way!\n\
+Make sure to hold the A\n\
+button to keep the jump\n\
+momentum"))
 
 DEFINE_DIALOG(DIALOG_040, 1, 3, 30, 200, _("\
 Warning!\n\

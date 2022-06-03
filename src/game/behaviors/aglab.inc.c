@@ -1607,7 +1607,7 @@ static void hf_spawn_phase0()
     struct Object* nc0 = spawn_object(o, MODEL_HF_CRYSTAL, bhvHfCrystal);
     nc0->oBehParams2ndByte = o->oBehParams2ndByte + 1;
     nc0->oPosX = (12.f/13.f) * (4500.f + 1200.f * 0);
-    nc0->oPosY = (12.f/13.f) * (1508.f + 1100.f);
+    nc0->oPosY = (12.f/13.f) * (1508.f + 1150.f);
     nc0->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * 0);
     nc0->oHomeX = nc0->oPosX;
     nc0->oHomeY = nc0->oPosY;
@@ -1615,7 +1615,7 @@ static void hf_spawn_phase0()
     struct Object* nc1 = spawn_object(o, MODEL_HF_CRYSTAL, bhvHfCrystal);
     nc1->oBehParams2ndByte = o->oBehParams2ndByte + 1;
     nc1->oPosX = (12.f/13.f) * (4500.f + 1200.f * 4);
-    nc1->oPosY = (12.f/13.f) * (1508.f + 1100.f);
+    nc1->oPosY = (12.f/13.f) * (1508.f + 1150.f);
     nc1->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * 2);
     nc1->oHomeX = nc1->oPosX;
     nc1->oHomeY = nc1->oPosY;
@@ -1638,7 +1638,7 @@ static void hf_spawn_phase1()
     struct Object* nc0 = spawn_object(o, MODEL_HF_CRYSTAL, bhvHfCrystal);
     nc0->oBehParams2ndByte = o->oBehParams2ndByte + 1;
     nc0->oPosX = (12.f/13.f) * (4500.f + 1200.f * 4);
-    nc0->oPosY = (12.f/13.f) * (1508.f + 1900.f);
+    nc0->oPosY = (12.f/13.f) * (1508.f + 2000.f);
     nc0->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * 1);
     nc0->oHomeX = nc0->oPosX;
     nc0->oHomeY = nc0->oPosY;
@@ -1646,7 +1646,7 @@ static void hf_spawn_phase1()
     struct Object* nc1 = spawn_object(o, MODEL_HF_CRYSTAL, bhvHfCrystal);
     nc1->oBehParams2ndByte = o->oBehParams2ndByte + 1;
     nc1->oPosX = (12.f/13.f) * (4500.f + 1200.f * 6);
-    nc1->oPosY = (12.f/13.f) * (1508.f + 1900.f);
+    nc1->oPosY = (12.f/13.f) * (1508.f + 2000.f);
     nc1->oPosZ = (12.f/13.f) * (-4000.f + 1200.f * 3);
     nc1->oHomeX = nc1->oPosX;
     nc1->oHomeY = nc1->oPosY;
@@ -1719,6 +1719,7 @@ void hf_crystal_loop()
 
         if (o->oDfDirection)
         {
+            cur_obj_play_sound_2(SOUND_GENERAL_HAUNTED_CHAIR_SWISH_AIR);
             o->oAction = 1;
         }
     }
@@ -1735,22 +1736,22 @@ void hf_crystal_loop()
 
         if (o->oDfDirection & 1)
         {
-            o->oPosX -= 12.f/13.f * 20.f;
+            o->oPosX -= 12.f/13.f * 30.f;
         }
         if (o->oDfDirection & 2)
         {
-            o->oPosZ -= 12.f/13.f *20.f;
+            o->oPosZ -= 12.f/13.f *30.f;
         }
         if (o->oDfDirection & 4)
         {
-            o->oPosX += 12.f/13.f *20.f;
+            o->oPosX += 12.f/13.f *30.f;
         }
         if (o->oDfDirection & 8)
         {
-            o->oPosZ += 12.f/13.f *20.f;
+            o->oPosZ += 12.f/13.f *30.f;
         }
 
-        if (o->oTimer >= 60)
+        if (o->oTimer >= 40)
         {
             o->oDfDirection = 0;
             o->oAction = 0;
@@ -1760,6 +1761,7 @@ void hf_crystal_loop()
         f32 parentDz = o->oPosZ - o->parentObj->oPosZ;
         if (ABS(parentDx) < 500.f && ABS(parentDz) < 500.f)
         {
+            cur_obj_play_sound_2(SOUND_GENERAL_MOVING_WATER);
             o->oAction = 2;
             o->parentObj->oAction = 2;
             if (0 == o->oBehParams2ndByte)
