@@ -229,7 +229,7 @@ void copy_mario_state_to_object(void) {
     gCurrentObject->oVelZ = gMarioStates[i].vel[2];
 
     gCurrentObject->oPosX = gMarioStates[i].pos[0];
-    gCurrentObject->oPosY = gMarioStates[i].pos[1];
+    gCurrentObject->oPosY = (gGravityMode ? 9000.f - gMarioStates[i].pos[1] : gMarioStates[i].pos[1]);
     gCurrentObject->oPosZ = gMarioStates[i].pos[2];
 
     gCurrentObject->oMoveAnglePitch = gCurrentObject->header.gfx.angle[0];
@@ -260,9 +260,40 @@ void spawn_particle(u32 activeParticleFlag, ModelID16 model, const BehaviorScrip
 /**
  * Mario's primary behavior update function.
  */
+#define DEBUG_GRAVITY
+extern struct Controller *gPlayer1Controller;
+
 void bhv_mario_update(void) {
     u32 particleFlags = 0;
     s32 i;
+
+#ifdef DEBUG_GRAVITY
+    u32 val4 = get_dialog_id() >= 0;
+    u32 intangible = (gMarioState->action & ACT_FLAG_INTANGIBLE) != 0;
+    if (!intangible
+     && !val4
+     && !gWarpTransition.isActive
+     && sDelayedWarpOp == WARP_OP_NONE
+     && (gPlayer1Controller->buttonPressed & L_TRIG))  { // Flip gravity
+        gIsGravityFlipped = !gIsGravityFlipped;
+        
+        if (gIsGravityFlipped)
+            play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gMarioObject->header.gfx.pos);
+        else
+            play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gMarioObject->header.gfx.pos);
+
+        gMarioState->pos[1] = 8835.f - gMarioState->pos[1]; // Transform position. The extra 165 is due to Mario's visual model.
+        if ((gMarioState->action == ACT_CRAZY_BOX_BOUNCE) || (gMarioState->action == ACT_SHOT_FROM_CANNON))
+            gMarioState->pos[1] += 165.f;
+        else if ((gMarioState->action == ACT_DIVE) || (gMarioState->action == ACT_FLYING))
+            gMarioState->pos[1] += 65.f;
+
+        gMarioState->vel[1] = -gMarioState->vel[1]; // Flip velocity
+        gMarioState->peakHeight = 9000.f - gMarioState->peakHeight; // For fall damage
+    }
+#endif
+
+    gGravityMode = gIsGravityFlipped;
 
     particleFlags = execute_mario_action(gCurrentObject);
     gCurrentObject->oMarioParticleFlags = particleFlags;
@@ -280,6 +311,9 @@ void bhv_mario_update(void) {
 
         i++;
     }
+
+    if (gGravityMode) gMarioObject->header.gfx.angle[2] += 0x8000; // Turn Mario upside down
+    gGravityMode = FALSE; // Gravity must only be flipped when checking Mario's collision, not other objects.
 }
 
 /**
