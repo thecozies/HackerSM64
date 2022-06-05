@@ -25,6 +25,11 @@ of values between 20000 and -11000.
 u32 gGravityMode = FALSE; // Is flipped gravity currently being applied (only when Mario is updated)
 u32 gIsGravityFlipped = FALSE; // Is gravity flipped
 
+struct Surface gCeilingDeathPlane = {
+    SURFACE_DEATH_PLANE, 0,    0,    0, 0, 0, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 },
+    { 0.0f, -1.0f, 0.0f },  0.0f, NULL,
+};
+
 /**************************************************
  *                      WALLS                     *
  **************************************************/
@@ -448,6 +453,8 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
     register SurfaceType type = SURFACE_DEFAULT;
     register f32 height;
     register s32 bufferY = y + FIND_FLOOR_BUFFER;
+    
+    if (gGravityMode) floor = &gCeilingDeathPlane;
 
     // Iterate through the list of floors until there are no more floors.
     while (surfaceNode != NULL) {

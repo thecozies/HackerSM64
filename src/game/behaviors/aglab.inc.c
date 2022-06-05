@@ -2196,8 +2196,36 @@ void hf_scary_boo_loop()
     }
 }
 
+static void set_gravity(s32 grav)
+{
+    if (grav == gIsGravityFlipped)
+        return;
+
+    gIsGravityFlipped = grav;
+            
+    if (gIsGravityFlipped)
+        play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gMarioObject->header.gfx.pos);
+    else
+        play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gMarioObject->header.gfx.pos);
+
+    gMarioState->pos[1] = 8825.f - gMarioState->pos[1]; // Transform position. The extra 165 is due to Mario's visual model.
+    if ((gMarioState->action == ACT_CRAZY_BOX_BOUNCE) || (gMarioState->action == ACT_SHOT_FROM_CANNON))
+        gMarioState->pos[1] += 165.f;
+    else if ((gMarioState->action == ACT_DIVE) || (gMarioState->action == ACT_FLYING))
+        gMarioState->pos[1] += 65.f;
+
+    gMarioState->vel[1] = -gMarioState->vel[1]; // Flip velocity
+    gMarioState->peakHeight = 9000.f - gMarioState->peakHeight; // For fall damage
+}
+
 void vcm_ctl_loop()
 {
+    if (gMarioState->wallkickedOf == SURFACE_HARD_NOT_SLIPPERY)
+    {
+        set_gravity(!gIsGravityFlipped);
+    }
+    gMarioState->wallkickedOf = 0;
+
     if (0 == o->oAction)
     {
         if (!gIsGravityFlipped && gMarioStates->pos[1] < -1329.f)
@@ -2221,21 +2249,7 @@ void vcm_ctl_loop()
         && sDelayedWarpOp == WARP_OP_NONE
         && gMarioStates->floorHeight == gMarioStates->pos[1]
         && (gPlayer1Controller->buttonPressed & L_TRIG))  { // Flip gravity
-            gIsGravityFlipped = !gIsGravityFlipped;
-            
-            if (gIsGravityFlipped)
-                play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gMarioObject->header.gfx.pos);
-            else
-                play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gMarioObject->header.gfx.pos);
-
-            gMarioState->pos[1] = 8835.f - gMarioState->pos[1]; // Transform position. The extra 165 is due to Mario's visual model.
-            if ((gMarioState->action == ACT_CRAZY_BOX_BOUNCE) || (gMarioState->action == ACT_SHOT_FROM_CANNON))
-                gMarioState->pos[1] += 165.f;
-            else if ((gMarioState->action == ACT_DIVE) || (gMarioState->action == ACT_FLYING))
-                gMarioState->pos[1] += 65.f;
-
-            gMarioState->vel[1] = -gMarioState->vel[1]; // Flip velocity
-            gMarioState->peakHeight = 9000.f - gMarioState->peakHeight; // For fall damage
+            set_gravity(!gIsGravityFlipped);
         }
     }
     else
@@ -2244,7 +2258,7 @@ void vcm_ctl_loop()
         {
             play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 3, 0,0,0);
             o->oAction = 0;
-            gIsGravityFlipped = 0;
+            set_gravity(0);
             gMarioStates->pos[0] = 0;
             gMarioStates->pos[1] = 700.f;
             gMarioStates->pos[2] = 0;

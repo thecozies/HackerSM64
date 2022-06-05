@@ -597,6 +597,19 @@ void adjust_analog_stick(struct Controller *controller) {
     }
 }
 
+extern struct MarioState gMarioStates[1];
+static void kill_inputs()
+{
+    if (gCurrCourseNum == COURSE_VCM)
+    {
+        if (gMarioStates->pos[2] <-3400.f && gMarioStates->pos[0] > 4000.f)
+        {
+            gControllers[0].buttonDown    &= ~A_BUTTON;
+            gControllers[0].buttonPressed &= ~A_BUTTON;
+        }
+    }
+}
+
 /**
  * Update the controller struct with available inputs if present.
  */
@@ -639,6 +652,8 @@ void read_controller_inputs(s32 threadID) {
             controller->stickMag = 0;
         }
     }
+
+    kill_inputs();
 
     // For some reason, player 1's inputs are copied to player 3's port.
     // This potentially may have been a way the developers "recorded"
