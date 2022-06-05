@@ -4,8 +4,9 @@ const GeoLayout vcm_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, vcm_dl_pj74_vc_mesh_layer_1),
-		GEO_DISPLAY_LIST(LAYER_ALPHA, vcm_dl_pj74_vc_mesh_layer_4),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, vcm_dl_pj74_vc_mesh_layer_5),
+		GEO_DISPLAY_LIST(LAYER_ALPHA, vcm_dl_pj74_vc_mesh_layer_4),
+		GEO_DISPLAY_LIST(LAYER_ALPHA, vcm_dl_pj74_vc_002_mesh_layer_4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

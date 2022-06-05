@@ -2142,23 +2142,23 @@ static void set_scary_bool_alpha(u8 val)
 {
     u8* a;
     a = (u8*) segmented_to_virtual(mat_hf_scary_boo0_boom) + 19*8 + 7;
-    *a = val;
+    *a = val * 2;
     a = (u8*) segmented_to_virtual(mat_hf_scary_boo1_boom) + 19*8 + 7;
-    *a = val;
+    *a = val * 2;
     a = (u8*) segmented_to_virtual(mat_hf_scary_boo2_boom) + 19*8 + 7;
-    *a = val;
+    *a = val * 2;
     a = (u8*) segmented_to_virtual(mat_hf_scary_boo3_boom) + 19*8 + 7;
-    *a = val;
+    *a = val * 2;
     a = (u8*) segmented_to_virtual(mat_hf_scary_boo4_boom) + 19*8 + 7;
-    *a = val;
+    *a = val * 2;
     a = (u8*) segmented_to_virtual(mat_hf_scary_boo5_boom) + 19*8 + 7;
-    *a = val;
+    *a = val * 2;
     a = (u8*) segmented_to_virtual(mat_hf_scary_boo6_boom) + 19*8 + 7;
-    *a = val;
+    *a = val * 2;
     a = (u8*) segmented_to_virtual(mat_hf_scary_boo7_boom) + 19*8 + 7;
-    *a = val;
+    *a = val * 2;
     a = (u8*) segmented_to_virtual(mat_hf_scary_boo_lines_boom_layer1) + 14*8 + 7;
-    *a = val;
+    *a = val * 2;
     a = (u8*) segmented_to_virtual(mat_hf_scary_jerma_boom) + 12*8 + 7;
     *a = val * 4;
 }
@@ -2193,5 +2193,66 @@ void hf_scary_boo_loop()
     if (100 == o->oTimer)
     {
         o->oTimer = -1;
+    }
+}
+
+void vcm_ctl_loop()
+{
+    if (0 == o->oAction)
+    {
+        if (!gIsGravityFlipped && gMarioStates->pos[1] < -1329.f)
+        {
+            play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 10, 0,0,0);
+            o->oAction = 1;
+            return;
+        }
+        if (gIsGravityFlipped && gMarioStates->pos[1] < 4784.f)
+        {
+            play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 10, 0,0,0);
+            o->oAction = 1;
+            return;
+        }
+
+        u32 val4 = get_dialog_id() >= 0;
+        u32 intangible = (gMarioState->action & ACT_FLAG_INTANGIBLE) != 0;
+        if (!intangible
+        && !val4
+        && !gWarpTransition.isActive
+        && sDelayedWarpOp == WARP_OP_NONE
+        && gMarioStates->floorHeight == gMarioStates->pos[1]
+        && (gPlayer1Controller->buttonPressed & L_TRIG))  { // Flip gravity
+            gIsGravityFlipped = !gIsGravityFlipped;
+            
+            if (gIsGravityFlipped)
+                play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gMarioObject->header.gfx.pos);
+            else
+                play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gMarioObject->header.gfx.pos);
+
+            gMarioState->pos[1] = 8835.f - gMarioState->pos[1]; // Transform position. The extra 165 is due to Mario's visual model.
+            if ((gMarioState->action == ACT_CRAZY_BOX_BOUNCE) || (gMarioState->action == ACT_SHOT_FROM_CANNON))
+                gMarioState->pos[1] += 165.f;
+            else if ((gMarioState->action == ACT_DIVE) || (gMarioState->action == ACT_FLYING))
+                gMarioState->pos[1] += 65.f;
+
+            gMarioState->vel[1] = -gMarioState->vel[1]; // Flip velocity
+            gMarioState->peakHeight = 9000.f - gMarioState->peakHeight; // For fall damage
+        }
+    }
+    else
+    {
+        if (o->oTimer == 12)
+        {
+            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 3, 0,0,0);
+            o->oAction = 0;
+            gIsGravityFlipped = 0;
+            gMarioStates->pos[0] = 0;
+            gMarioStates->pos[1] = 700.f;
+            gMarioStates->pos[2] = 0;
+            gMarioStates->vel[0] = 0;
+            gMarioStates->vel[1] = 0;
+            gMarioStates->vel[2] = 0;
+            gMarioStates->forwardVel = 0;
+            drop_and_set_mario_action(gMarioStates, ACT_FREEFALL, 0);
+        }
     }
 }

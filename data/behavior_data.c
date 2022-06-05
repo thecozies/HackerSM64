@@ -6650,3 +6650,11 @@ const BehaviorScript bhvHfScaryBoo[] = {
         CALL_NATIVE(hf_scary_boo_loop),
     END_LOOP(),
 };
+
+extern void vcm_ctl_loop();
+const BehaviorScript bhvVcmCtl[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(vcm_ctl_loop),
+    END_LOOP(),
+};
