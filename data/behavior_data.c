@@ -6658,3 +6658,12 @@ const BehaviorScript bhvVcmCtl[] = {
         CALL_NATIVE(vcm_ctl_loop),
     END_LOOP(),
 };
+
+extern void vcm_arrow_loop();
+const BehaviorScript bhvVcmArrow[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(vcm_arrow_loop),
+    END_LOOP(),
+};

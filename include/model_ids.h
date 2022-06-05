@@ -618,4 +618,6 @@
 #define MODEL_HF_JOEL 0x40
 #define MODEL_HF_SCARY_BOO 0x35
 
+#define MODEL_VCM_ARROW 0x36
+
 #endif // MODEL_IDS_H

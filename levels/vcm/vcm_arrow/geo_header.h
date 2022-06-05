@@ -1,0 +1,10 @@
+extern const GeoLayout vcm_arrow_geo[];
+extern Lights1 vcm_arrow_arrow_lights;
+extern u8 vcm_arrow_arr_ia16[];
+extern Vtx vcm_arrow_Plane_mesh_layer_4_vtx_cull[8];
+extern Vtx vcm_arrow_Plane_mesh_layer_4_vtx_0[4];
+extern Gfx vcm_arrow_Plane_mesh_layer_4_tri_0[];
+extern Gfx mat_vcm_arrow_arrow[];
+extern Gfx mat_revert_vcm_arrow_arrow[];
+extern Gfx vcm_arrow_Plane_mesh_layer_4[];
+extern Gfx vcm_arrow_material_revert_render_settings[];

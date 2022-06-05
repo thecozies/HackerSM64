@@ -29,6 +29,7 @@ const LevelScript level_vcm_entry[] = {
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_1), 
+	LOAD_MODEL_FROM_GEO(MODEL_VCM_ARROW, vcm_arrow_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -48,6 +49,7 @@ const LevelScript level_vcm_entry[] = {
 		OBJECT(MODEL_NONE, 5427, 2511, -49, 0, 0, 0, (17 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 5272, 1268, -7997, 0, 0, 0, (17 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 2840, 85, -1222, 0, 0, 0, (17 << 16), bhvCoinFormation),
+		OBJECT(MODEL_NONE, -4, 609, 82, 0, 0, 0, (0xa << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_HEART, 0, 413, 83, 0, 0, 0, 0x00000000, bhvRecoveryHeart),
 		OBJECT(MODEL_RED_COIN, -6518, 797, 36, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 6, -1016, 7088, 0, 0, 0, 0x00000000, bhvRedCoin),
@@ -64,6 +66,7 @@ const LevelScript level_vcm_entry[] = {
 		OBJECT(MODEL_EXCLAMATION_BOX, 5460, 1671, -2034, 0, 0, 0, (2 << 16), bhvExclamationBox),
 		OBJECT(MODEL_NONE, -290, 261, 32, 0, 0, 0, 0x00000000, bhvVcmCtl),
 		OBJECT(MODEL_WOODEN_SIGNPOST, 7, 261, -343, 0, 0, 0, (35 << 24) | (35 << 16), bhvMessagePanel),
+		OBJECT(MODEL_VCM_ARROW, -143, 261, 125, 0, 0, 0, 0x00000000, bhvVcmArrow),
 		TERRAIN(vcm_area_1_collision),
 		MACRO_OBJECTS(vcm_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_V6),

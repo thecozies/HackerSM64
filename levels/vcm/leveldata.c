@@ -12,3 +12,5 @@
 
 
 #include "levels/vcm/leveldata.inc.c"
+
+#include "levels/vcm/vcm_arrow/model.inc.c"

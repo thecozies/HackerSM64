@@ -15,3 +15,5 @@
 
 
 #include "levels/vcm/geo.inc.c"
+
+#include "levels/vcm/vcm_arrow/geo.inc.c"

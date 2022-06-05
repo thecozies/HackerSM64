@@ -588,6 +588,7 @@ extern const BehaviorScript bhvHfJoel[];
 extern const BehaviorScript bhvHfWind[];
 extern const BehaviorScript bhvHfScaryBoo[];
 extern const BehaviorScript bhvVcmCtl[];
+extern const BehaviorScript bhvVcmArrow[];
 extern const BehaviorScript bhvCheckpoint[];
 extern const BehaviorScript bhvStaticObjectEx[];
 extern const BehaviorScript bhvSparkler[];
