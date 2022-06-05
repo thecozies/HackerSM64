@@ -2275,6 +2275,7 @@ void vcm_ctl_loop()
     }
 }
 
+extern s32 gTatums;
 void vcm_arrow_loop()
 {
     f32 d;
