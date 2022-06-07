@@ -196,9 +196,9 @@ Do you want to Save?\n\
 
 DEFINE_DIALOG(DIALOG_014, 1, 4, 30, 200, _("\
 Wow! Another Power Star!\n\
-Mario gains more courage\n\
-from the power of the\n\
-castle.\n\
+Mario gains more courage!\n\
+Gaming! Speed! Fast!\n\
+\n\
 Do you want to Save?\n\
 \n\
 //You Bet//Not Now"))

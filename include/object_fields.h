@@ -1378,4 +1378,6 @@ os16112*/
 #define oDfAngleVel OBJECT_FIELD_F32(0x1B)
 #define oDfAngleYaw OBJECT_FIELD_S32(0x1C)
 
+#define oVcmLastGoodY OBJECT_FIELD_F32(0x1B)
+
 #endif // OBJECT_FIELDS_H

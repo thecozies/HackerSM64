@@ -155,8 +155,6 @@ void bhv_ab_sand_loop()
     {
         if (o->oTimer == 12)
         {
-            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 3, 0xc2 / 2, 0xb2 / 2, 0x30 / 2);
-            o->oAction = 1;
             gMarioStates->pos[0] = o->oKleptoStartPosX;
             gMarioStates->pos[1] = o->oKleptoStartPosY + 100.f;
             gMarioStates->pos[2] = o->oKleptoStartPosZ;
@@ -165,6 +163,15 @@ void bhv_ab_sand_loop()
             gMarioStates->vel[2] = 0;
             gMarioStates->forwardVel = 0;
             drop_and_set_mario_action(gMarioStates, ACT_FREEFALL, 0);
+        }
+        if (o->oTimer == 13)
+        {
+            reset_camera(gCamera);
+        }
+        if (o->oTimer == 14)
+        {
+            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 10, 0xc2 / 2, 0xb2 / 2, 0x30 / 2);
+            o->oAction = 1;
         }
     }
 }
@@ -2220,6 +2227,15 @@ static void set_gravity(s32 grav)
 
 void vcm_ctl_loop()
 {
+    s32 on_floor = gMarioStates->floorHeight == gMarioStates->pos[1];
+    if (!gIsGravityFlipped
+      && on_floor
+      && (gMarioStates->pos[0] < 4000.f || gMarioStates->pos[2] > -3000.f)
+      && gMarioStates->pos[1] > -1500.f)
+    {
+        o->oVcmLastGoodY = gMarioStates->pos[1];
+    }
+
     if (gMarioState->wallkickedOf == SURFACE_HARD_NOT_SLIPPERY)
     {
         set_gravity(!gIsGravityFlipped);
@@ -2247,7 +2263,7 @@ void vcm_ctl_loop()
         && !val4
         && !gWarpTransition.isActive
         && sDelayedWarpOp == WARP_OP_NONE
-        && gMarioStates->floorHeight == gMarioStates->pos[1]
+        && on_floor
         && (gPlayer1Controller->buttonPressed & L_TRIG))  { // Flip gravity
             set_gravity(!gIsGravityFlipped);
         }
@@ -2257,9 +2273,40 @@ void vcm_ctl_loop()
         if (o->oTimer == 12)
         {
             set_gravity(0);
-            gMarioStates->pos[0] = 0;
-            gMarioStates->pos[1] = 700.f;
-            gMarioStates->pos[2] = 0;
+            if (gMarioStates->pos[0] < -3500.f)
+            {
+                // yellow
+                gMarioStates->pos[0] = -3184.f;
+                gMarioStates->pos[1] = 229.f;
+                gMarioStates->pos[2] = 21.f;
+            }
+            else if (gMarioStates->pos[0] > 0.f && gMarioStates->pos[2] < -3000.f && o->oVcmLastGoodY > 2188.f)
+            {
+                // no A press
+                gMarioStates->pos[0] = 5085.f;
+                gMarioStates->pos[1] = 2636.f;
+                gMarioStates->pos[2] = -2219.f;
+            }
+            else if (gMarioStates->pos[0] > 4000.f && gMarioStates->pos[2] > 3500.f && o->oVcmLastGoodY < 20.f)
+            {
+                // shoot wall jump bruh
+                gMarioStates->pos[0] = 5460.f;
+                gMarioStates->pos[1] = 438.f;
+                gMarioStates->pos[2] = 3772.f;
+            }
+            else if (gMarioStates->pos[0] > 3000.f && o->oVcmLastGoodY > 2188.f)
+            {
+                // the top
+                gMarioStates->pos[0] = 6899.f;
+                gMarioStates->pos[1] = 2591.f;
+                gMarioStates->pos[2] = -98.f;
+            }
+            else
+            {
+                gMarioStates->pos[0] = 0;
+                gMarioStates->pos[1] = 700.f;
+                gMarioStates->pos[2] = 0;
+            }
             gMarioStates->vel[0] = 0;
             gMarioStates->vel[1] = 0;
             gMarioStates->vel[2] = 0;
@@ -2269,7 +2316,12 @@ void vcm_ctl_loop()
         }
         if (o->oTimer == 13)
         {
-            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 3, 0,0,0);
+            reset_camera(gCamera);
+        }
+        if (o->oTimer == 14)
+        {
+            reset_camera(gCamera);
+            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 10, 0,0,0);
             o->oAction = 0;
         }
     }
