@@ -30,3 +30,14 @@
 #include "src/s2d_engine/config.h"
 #include FONT_C_FILE
 #endif
+
+#include "gear_1/model.inc.c"
+#include "gear_1/collision.inc.c"
+
+#include "gear_2/model.inc.c"
+#include "gear_2/collision.inc.c"
+#include "gear_3/model.inc.c"
+#include "gear_3/collision.inc.c"
+#include "gear_4/collision.inc.c"
+#include "gear_4/model.inc.c"
+#include "gear_kuromame/model.inc.c"

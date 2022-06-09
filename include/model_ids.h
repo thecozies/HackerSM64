@@ -572,4 +572,10 @@
 #define MODEL_VCUTM_WARP_PIPE                     MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 #define MODEL_CASTLE_GROUNDS_WARP_PIPE            MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 
+#define MODEL_AGT_GEAR1 0xE4
+#define MODEL_AGT_GEAR2 0xE5
+#define MODEL_AGT_GEAR3 0xE6
+#define MODEL_AGT_GEAR4 0xE7
+#define MODEL_AGT_GEARKURO 0xE8
+
 #endif // MODEL_IDS_H

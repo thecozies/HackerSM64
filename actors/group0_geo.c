@@ -16,3 +16,10 @@
 #include "water_splash/geo.inc.c"
 #include "sparkle_animation/geo.inc.c"
 #include "mario/geo.inc.c"
+
+#include "gear_1/geo.inc.c"
+
+#include "gear_2/geo.inc.c"
+#include "gear_3/geo.inc.c"
+#include "gear_4/geo.inc.c"
+#include "gear_kuromame/geo.inc.c"
