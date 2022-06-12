@@ -19,6 +19,8 @@
 #include "level_table.h"
 #include "rumble_init.h"
 
+#include "config/config_collision.h"
+
 #define MIN_SWIM_STRENGTH 160
 #define MIN_SWIM_SPEED 16.0f
 
@@ -174,6 +176,19 @@ static u32 perform_water_step(struct MarioState *m) {
         apply_water_current(m, step);
     }
 
+#ifdef RAYCAST_WALL_COLLISION
+    vec3f_sum(nextPos, m->pos, step);
+
+    s32 waterHeight = m->waterLevel - 80;
+
+    if (nextPos[1] > waterHeight) {
+        nextPos[1] = waterHeight;
+        m->vel[1] = 0.0f;
+    }
+
+    raycast_collision_walls(m->pos, nextPos, MARIO_COLLISION_OFFSET_WATER);
+    stepResult = perform_water_full_step(m, nextPos);
+#else
     nextPos[0] = m->pos[0] + step[0];
     nextPos[1] = m->pos[1] + step[1];
     nextPos[2] = m->pos[2] + step[2];
@@ -184,6 +199,7 @@ static u32 perform_water_step(struct MarioState *m) {
     }
 
     stepResult = perform_water_full_step(m, nextPos);
+#endif
 
     vec3f_copy_with_gravity_switch(marioObj->header.gfx.pos, m->pos);
     vec3s_set(marioObj->header.gfx.angle, -m->faceAngle[0], m->faceAngle[1], m->faceAngle[2]);

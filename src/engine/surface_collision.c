@@ -964,3 +964,25 @@ s32 unused_resolve_floor_or_ceil_collisions(s32 checkCeil, f32 *px, f32 *py, f32
 
     return 0;
 }
+
+/**
+ * Send a raycast from pos to intendedPos shifted upward by yOffset,
+ * and set intendedPos to the collided point if the ray reaches a wall.
+ */
+void raycast_collision_walls(Vec3f pos, Vec3f intendedPos, f32 yOffset) {
+    UNUSED struct Surface *surf;
+    Vec3f dir;
+
+    // Get the vector from pos to the original intendedPos.
+    vec3f_diff(dir, intendedPos, pos);
+
+    // Shift the source pos upward by yOffset.
+    pos[1] += yOffset;
+
+    // Send the raycast and find the new pos.
+    find_surface_on_ray(pos, dir, &surf, intendedPos, RAYCAST_FIND_WALL);
+
+    // Shift pos and intendedPos back down.
+    pos[1]         -= yOffset;
+    intendedPos[1] -= yOffset;
+}

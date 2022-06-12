@@ -65,4 +65,6 @@ s32 find_poison_gas_level(s32 x, s32 z);
 void debug_surface_list_info(f32 xPos, f32 zPos);
 #endif
 
+void raycast_collision_walls(Vec3f pos, Vec3f intendedPos, f32 yOffset);
+
 #endif // SURFACE_COLLISION_H
