@@ -323,8 +323,8 @@
 
 // first set of actor bins (0x54-0x63)
 // group 1
-#define MODEL_BULLET_BILL                 0x54        // bullet_bill_geo
-#define MODEL_YELLOW_SPHERE               0x55        // yellow_sphere_geo
+#define MODEL_BULLET_BILL                 0x5C        // bullet_bill_geo
+#define MODEL_YELLOW_SPHERE               0x5B        // yellow_sphere_geo
 #define MODEL_HOOT                        0x56        // hoot_geo
 #define MODEL_YOSHI_EGG                   0x57        // yoshi_egg_geo
 #define MODEL_THWOMP                      0x58        // thwomp_geo
@@ -619,5 +619,9 @@
 #define MODEL_HF_SCARY_BOO 0x35
 
 #define MODEL_VCM_ARROW 0x36
+
+#define MODEL_BDF_P1 0x36
+#define MODEL_BDF_P2 0x37
+#define MODEL_BDF_P3 0x38
 
 #endif // MODEL_IDS_H

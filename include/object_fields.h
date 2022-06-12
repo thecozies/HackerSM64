@@ -1380,4 +1380,7 @@ os16112*/
 
 #define oVcmLastGoodY OBJECT_FIELD_F32(0x1B)
 
+#define oBowserWarpCtlTarget    OBJECT_FIELD_S32(0x1B)
+#define oBowserWarpCtlDirection OBJECT_FIELD_S32(0x1C)
+
 #endif // OBJECT_FIELDS_H

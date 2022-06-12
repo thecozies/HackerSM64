@@ -6234,6 +6234,14 @@ const BehaviorScript bhvStaticObjectEx[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvStaticObjectBillboardEx[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
 extern const Collision mf_mill_collision[];
 const BehaviorScript bhvMfMill[] = {
     BEGIN(OBJ_LIST_SURFACE),
@@ -6665,5 +6673,27 @@ const BehaviorScript bhvVcmArrow[] = {
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
         CALL_NATIVE(vcm_arrow_loop),
+    END_LOOP(),
+};
+
+extern void bowser_course_warp_ctl_init();
+extern void bowser_course_warp_ctl_loop();
+const BehaviorScript bhvBowserCourseWarpCtl[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    CALL_NATIVE(bowser_course_warp_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bowser_course_warp_ctl_loop),
+    END_LOOP(),
+};
+
+extern void bowser_pieces_init();
+extern void bowser_pieces_loop();
+const BehaviorScript bhvBowserPieces[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    CALL_NATIVE(bowser_pieces_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bowser_pieces_loop),
+        // CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };

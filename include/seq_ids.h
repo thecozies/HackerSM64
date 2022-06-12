@@ -54,6 +54,7 @@ enum SeqId {
     SEQ_C4,
     SEQ_SLIDE,
     SEQ_V6,
+    SEQ_BOWSER,
     SEQ_COUNT
 };
 

@@ -589,8 +589,11 @@ extern const BehaviorScript bhvHfWind[];
 extern const BehaviorScript bhvHfScaryBoo[];
 extern const BehaviorScript bhvVcmCtl[];
 extern const BehaviorScript bhvVcmArrow[];
+extern const BehaviorScript bhvBowserCourseWarpCtl[];
+extern const BehaviorScript bhvBowserPieces[];
 extern const BehaviorScript bhvCheckpoint[];
 extern const BehaviorScript bhvStaticObjectEx[];
+extern const BehaviorScript bhvStaticObjectBillboardEx[];
 extern const BehaviorScript bhvSparkler[];
 
 #endif // BEHAVIOR_DATA_H
