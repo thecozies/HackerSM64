@@ -6086,4 +6086,15 @@ const BehaviorScript bhvIntroScene[] = {
     END_LOOP(),
 };
 
+// axo start
+
+const BehaviorScript bhvAxoController[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_axo_controller_loop),
+    END_LOOP(),
+};
+
+// axo end
 

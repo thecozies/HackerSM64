@@ -1124,30 +1124,35 @@ void mode_8_directions_camera(struct Camera *c) {
 
     radial_camera_input(c);
 
-    if (gPlayer1Controller->buttonPressed & R_CBUTTONS) {
-        s8DirModeYawOffset += DEGREES(45);
-        play_sound_cbutton_side();
-    }
-    if (gPlayer1Controller->buttonPressed & L_CBUTTONS) {
-        s8DirModeYawOffset -= DEGREES(45);
-        play_sound_cbutton_side();
-    }
+    if (gCurrCourseNum != COURSE_TOTWC) {
+        if (gPlayer1Controller->buttonPressed & R_CBUTTONS) {
+            s8DirModeYawOffset += DEGREES(45);
+            play_sound_cbutton_side();
+        }
+        if (gPlayer1Controller->buttonPressed & L_CBUTTONS) {
+            s8DirModeYawOffset -= DEGREES(45);
+            play_sound_cbutton_side();
+        }
 #ifdef PARALLEL_LAKITU_CAM
-    // extra functionality
-    else if (gPlayer1Controller->buttonPressed & U_JPAD) {
-        s8DirModeYawOffset = 0;
-        s8DirModeYawOffset = gMarioState->faceAngle[1] - 0x8000;
-    }
-    else if (gPlayer1Controller->buttonDown & L_JPAD) {
-        s8DirModeYawOffset -= DEGREES(2);
-    }
-    else if (gPlayer1Controller->buttonDown & R_JPAD) {
-        s8DirModeYawOffset += DEGREES(2);
-    }
-    else if (gPlayer1Controller->buttonPressed & D_JPAD) {
-        s8DirModeYawOffset = snap_to_45_degrees(s8DirModeYawOffset);
-    }
+        // extra functionality
+        else if (gPlayer1Controller->buttonPressed & U_JPAD) {
+            s8DirModeYawOffset = 0;
+            s8DirModeYawOffset = gMarioState->faceAngle[1] - 0x8000;
+        }
+        else if (gPlayer1Controller->buttonDown & L_JPAD) {
+            s8DirModeYawOffset -= DEGREES(2);
+        }
+        else if (gPlayer1Controller->buttonDown & R_JPAD) {
+            s8DirModeYawOffset += DEGREES(2);
+        }
+        else if (gPlayer1Controller->buttonPressed & D_JPAD) {
+            s8DirModeYawOffset = snap_to_45_degrees(s8DirModeYawOffset);
+        }
 #endif
+    }
+    else {
+        play_camera_buzz_if_c_sideways();
+    }
 
     lakitu_zoom(400.f, 0x900);
     c->nextYaw = update_8_directions_camera(c, c->focus, pos);
@@ -2883,7 +2888,8 @@ void update_camera(struct Camera *c) {
 #endif
         && gCurrentArea->camera->mode != CAMERA_MODE_INSIDE_CANNON) {
         // Only process R_TRIG if 'fixed' is not selected in the menu
-        if (cam_select_alt_mode(CAM_SELECTION_NONE) == CAM_SELECTION_MARIO) {
+        if (cam_select_alt_mode(CAM_SELECTION_NONE) == CAM_SELECTION_MARIO &&
+            gCurrCourseNum != COURSE_TOTWC) {
             if (gPlayer1Controller->buttonPressed & R_TRIG) {
                 if (set_cam_angle(0) == CAM_ANGLE_LAKITU) {
                     set_cam_angle(CAM_ANGLE_MARIO);
@@ -3077,6 +3083,17 @@ void update_camera(struct Camera *c) {
         }
     }
 #endif
+
+    if (gCurrCourseNum == COURSE_TOTWC) {
+        c->pos[0] = 0.0f;
+        c->pos[1] = 1400.0f;
+        c->pos[2] = 1750.0f;
+        c->focus[0] = 0.0f;
+        c->focus[1] = 1400.0f;
+        c->focus[2] = 0.0f;
+        c->yaw = calculate_yaw(c->focus, c->pos);
+        c->nextYaw = c->yaw;
+    }
 
     update_lakitu(c);
 #ifdef PUPPYCAM
@@ -3371,22 +3388,35 @@ void zoom_out_if_paused_and_outside(struct GraphNodeCamera *camera) {
     if (gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN) {
         if (sFramesPaused >= 2) {
             if (sZoomOutAreaMasks[areaMaskIndex] & areaBit) {
-
-                camera->focus[0] = gCamera->areaCenX;
-                camera->focus[1] = (sMarioCamState->pos[1] + gCamera->areaCenY) / 2;
-                camera->focus[2] = gCamera->areaCenZ;
-                vec3f_get_yaw(camera->focus, sMarioCamState->pos, &yaw);
-                vec3f_set_dist_and_angle(sMarioCamState->pos, camera->pos, 6000.f, 0x1000, yaw);
+                if (gCurrCourseNum != COURSE_TOTWC) {
+                    camera->focus[0] = gCamera->areaCenX;
+                    camera->focus[1] = (sMarioCamState->pos[1] + gCamera->areaCenY) / 2;
+                    camera->focus[2] = gCamera->areaCenZ;
+                    vec3f_get_yaw(camera->focus, sMarioCamState->pos, &yaw);
+                    vec3f_set_dist_and_angle(sMarioCamState->pos, camera->pos, 6000.f, 0x1000, yaw);
 #ifdef ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS
-                if (gCurrLevelNum != LEVEL_THI) {
-                    find_in_bounds_yaw_wdw_bob_thi(camera->pos, camera->focus, 0);
-                }
+                    if (gCurrLevelNum != LEVEL_THI) {
+                        find_in_bounds_yaw_wdw_bob_thi(camera->pos, camera->focus, 0);
+                    }
 #endif
+                }
+                else {
+                    camera->pos[0] = 1812;
+                    camera->pos[1] = 1061;
+                    camera->pos[2] = 984;
+                    camera->focus[0] = 1509;
+                    camera->focus[1] = 1196;
+                    camera->focus[2] = 759;
+                    camera->roll = 0xCE00;
+                }
             }
         } else {
             sFramesPaused++;
         }
     } else {
+        if (sFramesPaused != 0) {
+            camera->roll = 0;
+        }
         sFramesPaused = 0;
     }
 }
@@ -3754,19 +3784,24 @@ s32 find_c_buttons_pressed(u16 currentState, u16 buttonsPressed, u16 buttonsDown
 s32 update_camera_hud_status(struct Camera *c) {
     s16 status = CAM_STATUS_NONE;
 
-    if (c->cutscene != CUTSCENE_NONE
-        || ((gPlayer1Controller->buttonDown & R_TRIG) && cam_select_alt_mode(0) == CAM_SELECTION_FIXED)) {
+    if (gCurrCourseNum != COURSE_TOTWC) {
+        if (c->cutscene != CUTSCENE_NONE
+            || ((gPlayer1Controller->buttonDown & R_TRIG) && cam_select_alt_mode(0) == CAM_SELECTION_FIXED)) {
+            status |= CAM_STATUS_FIXED;
+        } else if (set_cam_angle(0) == CAM_ANGLE_MARIO) {
+            status |= CAM_STATUS_MARIO;
+        } else {
+            status |= CAM_STATUS_LAKITU;
+        }
+        if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
+            status |= CAM_STATUS_C_DOWN;
+        }
+        if (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) {
+            status |= CAM_STATUS_C_UP;
+        }
+    }
+    else {
         status |= CAM_STATUS_FIXED;
-    } else if (set_cam_angle(0) == CAM_ANGLE_MARIO) {
-        status |= CAM_STATUS_MARIO;
-    } else {
-        status |= CAM_STATUS_LAKITU;
-    }
-    if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
-        status |= CAM_STATUS_C_DOWN;
-    }
-    if (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) {
-        status |= CAM_STATUS_C_UP;
     }
     set_hud_camera_status(status);
     return status;
@@ -4584,98 +4619,103 @@ void play_sound_if_cam_switched_to_lakitu_or_mario(void) {
  * Handles input for radial, outwards radial, parallel tracking, and 8 direction mode.
  */
 void radial_camera_input(struct Camera *c) {
-    if ((gCameraMovementFlags & CAM_MOVE_ENTERED_ROTATE_SURFACE) || !(gCameraMovementFlags & CAM_MOVE_ROTATE)) {
+    if (gCurrCourseNum != COURSE_TOTWC) {
+        if ((gCameraMovementFlags & CAM_MOVE_ENTERED_ROTATE_SURFACE) || !(gCameraMovementFlags & CAM_MOVE_ROTATE)) {
 
-        // If C-L or C-R are pressed, the camera is rotating
-        if (gPlayer1Controller->buttonPressed & (L_CBUTTONS | R_CBUTTONS)) {
-            gCameraMovementFlags &= ~CAM_MOVE_ENTERED_ROTATE_SURFACE;
-            //  @bug this does not clear the rotation flags set by the surface. It's possible to set
-            //       both ROTATE_LEFT and ROTATE_RIGHT, locking the camera.
-            //       Ex: If a surface set CAM_MOVE_ROTATE_RIGHT and the user presses C-R, it locks the
-            //       camera until a different mode is activated
-        }
+            // If C-L or C-R are pressed, the camera is rotating
+            if (gPlayer1Controller->buttonPressed & (L_CBUTTONS | R_CBUTTONS)) {
+                gCameraMovementFlags &= ~CAM_MOVE_ENTERED_ROTATE_SURFACE;
+                //  @bug this does not clear the rotation flags set by the surface. It's possible to set
+                //       both ROTATE_LEFT and ROTATE_RIGHT, locking the camera.
+                //       Ex: If a surface set CAM_MOVE_ROTATE_RIGHT and the user presses C-R, it locks the
+                //       camera until a different mode is activated
+            }
 
-        // Rotate Right and left
-        if (gPlayer1Controller->buttonPressed & R_CBUTTONS) {
-            if (sModeOffsetYaw > -0x800) {
-                // The camera is now rotating right
-                if (!(gCameraMovementFlags & CAM_MOVE_ROTATE_RIGHT)) {
-                    gCameraMovementFlags |= CAM_MOVE_ROTATE_RIGHT;
-                }
-
-                if (c->mode == CAMERA_MODE_RADIAL) {
-                    // if > ~48 degrees, we're rotating for the second time.
-                    if (sModeOffsetYaw > 0x22AA) {
-                        s2ndRotateFlags |= CAM_MOVE_ROTATE_RIGHT;
+            // Rotate Right and left
+            if (gPlayer1Controller->buttonPressed & R_CBUTTONS) {
+                if (sModeOffsetYaw > -0x800) {
+                    // The camera is now rotating right
+                    if (!(gCameraMovementFlags & CAM_MOVE_ROTATE_RIGHT)) {
+                        gCameraMovementFlags |= CAM_MOVE_ROTATE_RIGHT;
                     }
 
-                    if (sModeOffsetYaw == DEGREES(105)) {
-                        play_sound_button_change_blocked();
+                    if (c->mode == CAMERA_MODE_RADIAL) {
+                        // if > ~48 degrees, we're rotating for the second time.
+                        if (sModeOffsetYaw > 0x22AA) {
+                            s2ndRotateFlags |= CAM_MOVE_ROTATE_RIGHT;
+                        }
+
+                        if (sModeOffsetYaw == DEGREES(105)) {
+                            play_sound_button_change_blocked();
+                        } else {
+                            play_sound_cbutton_side();
+                        }
                     } else {
-                        play_sound_cbutton_side();
+                        if (sModeOffsetYaw == DEGREES(60)) {
+                            play_sound_button_change_blocked();
+                        } else {
+                            play_sound_cbutton_side();
+                        }
                     }
                 } else {
-                    if (sModeOffsetYaw == DEGREES(60)) {
-                        play_sound_button_change_blocked();
-                    } else {
-                        play_sound_cbutton_side();
-                    }
+                    gCameraMovementFlags |= CAM_MOVE_RETURN_TO_MIDDLE;
+                    play_sound_cbutton_up();
                 }
-            } else {
-                gCameraMovementFlags |= CAM_MOVE_RETURN_TO_MIDDLE;
-                play_sound_cbutton_up();
+            }
+            if (gPlayer1Controller->buttonPressed & L_CBUTTONS) {
+                if (sModeOffsetYaw < 0x800) {
+                    if (!(gCameraMovementFlags & CAM_MOVE_ROTATE_LEFT)) {
+                        gCameraMovementFlags |= CAM_MOVE_ROTATE_LEFT;
+                    }
+
+                    if (c->mode == CAMERA_MODE_RADIAL) {
+                        // if < ~48 degrees, we're rotating for the second time.
+                        if (sModeOffsetYaw < -0x22AA) {
+                            s2ndRotateFlags |= CAM_MOVE_ROTATE_LEFT;
+                        }
+
+                        if (sModeOffsetYaw == DEGREES(-105)) {
+                            play_sound_button_change_blocked();
+                        } else {
+                            play_sound_cbutton_side();
+                        }
+                    } else {
+                        if (sModeOffsetYaw == DEGREES(-60)) {
+                            play_sound_button_change_blocked();
+                        } else {
+                            play_sound_cbutton_side();
+                        }
+                    }
+                } else {
+                    gCameraMovementFlags |= CAM_MOVE_RETURN_TO_MIDDLE;
+                    play_sound_cbutton_up();
+                }
             }
         }
-        if (gPlayer1Controller->buttonPressed & L_CBUTTONS) {
-            if (sModeOffsetYaw < 0x800) {
-                if (!(gCameraMovementFlags & CAM_MOVE_ROTATE_LEFT)) {
-                    gCameraMovementFlags |= CAM_MOVE_ROTATE_LEFT;
-                }
 
-                if (c->mode == CAMERA_MODE_RADIAL) {
-                    // if < ~48 degrees, we're rotating for the second time.
-                    if (sModeOffsetYaw < -0x22AA) {
-                        s2ndRotateFlags |= CAM_MOVE_ROTATE_LEFT;
-                    }
-
-                    if (sModeOffsetYaw == DEGREES(-105)) {
-                        play_sound_button_change_blocked();
-                    } else {
-                        play_sound_cbutton_side();
-                    }
-                } else {
-                    if (sModeOffsetYaw == DEGREES(-60)) {
-                        play_sound_button_change_blocked();
-                    } else {
-                        play_sound_cbutton_side();
-                    }
-                }
-            } else {
-                gCameraMovementFlags |= CAM_MOVE_RETURN_TO_MIDDLE;
+        // Zoom in / enter C-Up
+        if (gPlayer1Controller->buttonPressed & U_CBUTTONS) {
+            if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
+                gCameraMovementFlags &= ~CAM_MOVE_ZOOMED_OUT;
                 play_sound_cbutton_up();
+            } else {
+                set_mode_c_up(c);
+            }
+        }
+
+        // Zoom out
+        if (gPlayer1Controller->buttonPressed & D_CBUTTONS) {
+            if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
+                gCameraMovementFlags |= CAM_MOVE_ALREADY_ZOOMED_OUT;
+                play_camera_buzz_if_cdown();
+            } else {
+                gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
+                play_sound_cbutton_down();
             }
         }
     }
-
-    // Zoom in / enter C-Up
-    if (gPlayer1Controller->buttonPressed & U_CBUTTONS) {
-        if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
-            gCameraMovementFlags &= ~CAM_MOVE_ZOOMED_OUT;
-            play_sound_cbutton_up();
-        } else {
-            set_mode_c_up(c);
-        }
-    }
-
-    // Zoom out
-    if (gPlayer1Controller->buttonPressed & D_CBUTTONS) {
-        if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
-            gCameraMovementFlags |= CAM_MOVE_ALREADY_ZOOMED_OUT;
-            play_camera_buzz_if_cdown();
-        } else {
-            gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
-            play_sound_cbutton_down();
-        }
+    else {
+        play_camera_buzz_if_cbutton();
     }
 }
 
@@ -6066,6 +6106,9 @@ struct CameraTrigger sCamBBH[] = {
  *
  * Each table is terminated with NULL_TRIGGER
  */
+struct CameraTrigger sCamTotWC[] = {
+	NULL_TRIGGER
+};
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
     NULL,
     #include "levels/level_defines.h"
@@ -10401,26 +10444,26 @@ u8 sDanceCutsceneIndexTable[][4] = {
  * and if the result is non-zero, the camera will zoom out.
  */
 u8 sZoomOutAreaMasks[] = {
-    ZOOMOUT_AREA_MASK(0,0,0,0, 0,0,0,0), // Unused         | Unused
-    ZOOMOUT_AREA_MASK(0,0,0,0, 0,0,0,0), // Unused         | Unused
-    ZOOMOUT_AREA_MASK(0,0,0,0, 1,0,0,0), // BBH            | CCM
-    ZOOMOUT_AREA_MASK(0,0,0,0, 0,0,0,0), // CASTLE_INSIDE  | HMC
-    ZOOMOUT_AREA_MASK(1,0,0,0, 1,0,0,0), // SSL            | BOB
-    ZOOMOUT_AREA_MASK(1,0,0,0, 1,0,0,0), // SL             | WDW
-    ZOOMOUT_AREA_MASK(0,0,0,0, 1,1,0,0), // JRB            | THI
-    ZOOMOUT_AREA_MASK(0,0,0,0, 1,0,0,0), // TTC            | RR
-    ZOOMOUT_AREA_MASK(1,0,0,0, 1,0,0,0), // CASTLE_GROUNDS | BITDW
-    ZOOMOUT_AREA_MASK(0,0,0,0, 1,0,0,0), // VCUTM          | BITFS
-    ZOOMOUT_AREA_MASK(0,0,0,0, 1,0,0,0), // SA             | BITS
-    ZOOMOUT_AREA_MASK(1,0,0,0, 0,0,0,0), // LLL            | DDD
-    ZOOMOUT_AREA_MASK(1,0,0,0, 0,0,0,0), // WF             | ENDING
-    ZOOMOUT_AREA_MASK(0,0,0,0, 0,0,0,0), // COURTYARD      | PSS
-    ZOOMOUT_AREA_MASK(0,0,0,0, 1,0,0,0), // COTMC          | TOTWC
-    ZOOMOUT_AREA_MASK(1,0,0,0, 1,0,0,0), // BOWSER_1       | WMOTR
-    ZOOMOUT_AREA_MASK(0,0,0,0, 1,0,0,0), // Unused         | BOWSER_2
-    ZOOMOUT_AREA_MASK(1,0,0,0, 0,0,0,0), // BOWSER_3       | Unused
-    ZOOMOUT_AREA_MASK(1,0,0,0, 0,0,0,0), // TTM            | Unused
-    ZOOMOUT_AREA_MASK(0,0,0,0, 0,0,0,0), // Unused         | Unused
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // BBH            | CCM
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // CASTLE_INSIDE  | HMC
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // SSL            | BOB
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // SL             | WDW
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 1, 0, 0), // JRB            | THI
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // TTC            | RR
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // CASTLE_GROUNDS | BITDW
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // VCUTM          | BITFS
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // SA             | BITS
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // LLL            | DDD
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // WF             | ENDING
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // COURTYARD      | PSS
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // COTMC          | TOTWC
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // BOWSER_1       | WMOTR
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // Unused         | BOWSER_2
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // BOWSER_3       | Unused
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // TTM            | Unused
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
 };
 
 STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");
