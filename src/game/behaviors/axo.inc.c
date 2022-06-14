@@ -1,11 +1,23 @@
 extern u8 totwc_dl_canvas_i4[];
 extern u8 totwc_dl_reference_i4[];
 extern u8 totwc_dl_safezone_i4[];
+extern u8 totwc_dl_undostate_i4[];
 
 void bhv_axo_controller_loop(void) {
     s16 i, j;
+    u8 *canvas = segmented_to_virtual(totwc_dl_canvas_i4);
+    u8 *reference = segmented_to_virtual(totwc_dl_reference_i4);
+    u8 *safezone = segmented_to_virtual(totwc_dl_safezone_i4);
+    u8 *undostate = segmented_to_virtual(totwc_dl_undostate_i4);
+
     gMarioState->vel[2] = 0;
     gMarioState->pos[2] = 0;
+
+    if (gPlayer1Controller->buttonPressed & R_TRIG) {
+        for (i = 0; i < 2752; i++) {
+            undostate[i] = canvas[i];
+        }
+    }
 
     if (
         gMarioState->pos[0] >= -400.0f &&
@@ -14,7 +26,6 @@ void bhv_axo_controller_loop(void) {
         gMarioState->pos[1] <= 1600.0f &&
         gPlayer1Controller->buttonDown & R_TRIG
     ) {
-        u8 *image = segmented_to_virtual(totwc_dl_canvas_i4);
         s16 marioImageX = (s16)((gMarioState->pos[0] + 400) * 0.1075f);
         s16 marioImageY = (s16)((gMarioState->pos[1] - 1000) * 0.106667f);
         for (i = 0; i < 5; i++) {
@@ -32,7 +43,7 @@ void bhv_axo_controller_loop(void) {
                             )
                         ) {
                             u8 pixelNibble = pixelY % 2 == 0 ? 0x0F : 0xF0;
-                            image[32 * pixelX + (pixelY / 2)] &= pixelNibble;
+                            canvas[32 * pixelX + (pixelY / 2)] &= pixelNibble;
                         }
                     }
                 }
@@ -41,15 +52,12 @@ void bhv_axo_controller_loop(void) {
     }
 
     if (gPlayer1Controller->buttonPressed & L_TRIG) {
-        u8 *image = segmented_to_virtual(totwc_dl_canvas_i4);
         for (i = 0; i < 2752; i++) {
-            image[i] = 0xFF;
+            canvas[i] = undostate[i];
+            undostate[i] = 0xFF;
         }
     }
 
-    u8 *canvas = segmented_to_virtual(totwc_dl_canvas_i4);
-    u8 *reference = segmented_to_virtual(totwc_dl_reference_i4);
-    u8 *safezone = segmented_to_virtual(totwc_dl_safezone_i4);
     s16 numWrong = 0;
 
     for (i = 0; i < 2752; i++) {
