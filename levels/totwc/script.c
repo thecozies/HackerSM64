@@ -35,7 +35,7 @@ const LevelScript level_totwc_entry[] = {
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_1), 
 	JUMP_LINK(script_func_global_9), 
-	LOAD_MODEL_FROM_GEO(MODEL_LEVEL_GEOMETRY_03, totwc_geo_000160), 
+	LOAD_MODEL_FROM_GEO(MODEL_FLIPNOTE_FROG, flipnote_frog_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -45,6 +45,7 @@ const LevelScript level_totwc_entry[] = {
 		WARP_NODE(0xF0, LEVEL_SL, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_SL, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvAxoController),
+		OBJECT(MODEL_FLIPNOTE_FROG, -361, 1000, 0, 0, 90, 0, 0x00000000, bhvMessagePanel),
 		OBJECT(MODEL_NONE, 0, 1000, 0, 0, -180, 0, 0x000A0000, bhvSpinAirborneWarp),
 		MARIO_POS(0x01, -180, 0, 1000, 0),
 		TERRAIN(totwc_area_1_collision),
