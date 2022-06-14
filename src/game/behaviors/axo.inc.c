@@ -53,9 +53,25 @@ void bhv_axo_controller_loop(void) {
 
     if (gPlayer1Controller->buttonPressed & L_TRIG) {
         for (i = 0; i < 2752; i++) {
+            u8 redoByte = canvas[i];
             canvas[i] = undostate[i];
-            undostate[i] = 0xFF;
+            undostate[i] = redoByte;
         }
+    }
+
+    if (gPlayer1Controller->buttonDown & L_TRIG) {
+        if (o->oF4 >= 0) {
+            o->oF4++;
+            if (o->oF4 >= 90) {
+                for (i = 0; i < 2752; i++) {
+                    canvas[i] = 0xFF;
+                    o->oF4 = -1;
+                }
+            }
+        }
+    }
+    else {
+        o->oF4 = 0;
     }
 
     s16 numWrong = 0;
