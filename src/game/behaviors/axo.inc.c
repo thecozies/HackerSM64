@@ -158,18 +158,22 @@ void flipnote_frog_act_idle(void) {
 void flipnote_frog_act_talk(void) {
     if (set_mario_npc_dialog(MARIO_DIALOG_LOOK_FRONT) == MARIO_DIALOG_STATUS_SPEAK) {
         o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
-        u32 text = DIALOG_150 << 16;
+        u32 text;
+        u8 spawnStar = FALSE;
         if (o->oF4 == 0) { // The frog object's o->oF4 refers to whether or not the star has already been spawned
             s16 accuracy = (s16)(calculate_flipnote_accuracy() * 100);
             if (accuracy <= -50) {
                 text = DIALOG_151;
             }
             else {
-                if (accuracy >= 50 && accuracy < 75) {
+                if (accuracy < 50) {
+                    text = DIALOG_150 << 16;
+                }
+                else if (accuracy < 75) {
                     text = DIALOG_152 << 16;
                 }
-                else if (accuracy >= 75) {
-                    o->oF4 = 1;
+                else {
+                    spawnStar = TRUE;
                     if (accuracy < 85) {
                         text = DIALOG_153 << 16;
                     }
@@ -191,8 +195,9 @@ void flipnote_frog_act_talk(void) {
             o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;
             o->oInteractStatus = INT_STATUS_NONE;
             o->oAction = FLIPNOTE_FROG_ACT_IDLE;
-            if (o->oF4 > 0) {
-                cur_obj_spawn_star_at_y_offset(0.0f, 1300.0f, 0.0f, 200.0f);
+            if (spawnStar) {
+                cur_obj_spawn_star_at_y_offset(0.0f, 1300.0f, 0.0f, 50.0f);
+                o->oF4 = 1;
             }
         }
     }
