@@ -75,6 +75,7 @@ void bhv_axo_controller_loop(void) {
     }
 
     s16 numWrong = 0;
+    s16 numRight = 0;
 
     for (i = 0; i < 2752; i++) {
         for (j = 0; j < 2; j++) {
@@ -91,10 +92,14 @@ void bhv_axo_controller_loop(void) {
                     numWrong++;
                 }
             }
+            else if (referencePixel == 0x0) {
+                numRight++;
+            }
         }
     }
 
-    f32 accuracy = 1.0f - (numWrong / 1190.0f);
+    f32 baseAccuracy = 1.0f - (numWrong / 1190.0f);
+    f32 scaledAccuracy = baseAccuracy > 0 ? baseAccuracy + ((baseAccuracy - (baseAccuracy * baseAccuracy)) * (numRight / 1190.0f)) : 0;
 
-    print_text_fmt_int(16, 224, "%d PERCENT", (s16)(accuracy * 100));
+    print_text_fmt_int(16, 224, "%d PERCENT", (s16)(scaledAccuracy * 100));
 }
