@@ -1383,4 +1383,6 @@ os16112*/
 #define oBowserWarpCtlTarget    OBJECT_FIELD_S32(0x1B)
 #define oBowserWarpCtlDirection OBJECT_FIELD_S32(0x1C)
 
+#define oBowserPieceCtlKlepto OBJECT_FIELD_OBJ(0x1B)
+
 #endif // OBJECT_FIELDS_H

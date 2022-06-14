@@ -2514,6 +2514,8 @@ void bowser_pieces_init()
         obj_set_collision_data(o, bdf_p3_collision);
     
     obj_scale(o, 0.2f);
+    f32 d;
+    o->oBowserPieceCtlKlepto = cur_obj_find_nearest_object_with_behavior(bhvKlepto, &d);
 }
 
 void bowser_pieces_loop()
@@ -2523,9 +2525,41 @@ void bowser_pieces_loop()
         o->oMoveAngleYaw += 0x134;
         o->oMoveAnglePitch += 0x104;
 
-        if (o->oDistanceToMario < 100.f)
+        if (2 == o->oBehParams2ndByte)
         {
-            o->oAction = 1;
+            if (o->oBowserPieceCtlKlepto->oAction == KLEPTO_ACT_STRUCK_BY_MARIO)
+            {
+                cur_obj_play_sound_2(SOUND_GENERAL_BUBBLES);
+                o->oAction = 1;
+            }
+
+            Vec3s rotation;
+            Mat4 displaceMatrix;
+            rotation[0] = o->oBowserPieceCtlKlepto->oAngleVelPitch;
+            rotation[1] = o->oBowserPieceCtlKlepto->oAngleVelYaw;
+            rotation[2] = o->oBowserPieceCtlKlepto->oAngleVelRoll;
+            Vec3f relativeOffset;
+            Vec3f currentObjectOffset = { 0.f, 0.f, 0.f };
+            Vec3f fromOffset = { -200.f, 0.f, 0.f };
+            
+            mtxf_rotate_zxy_and_translate(displaceMatrix, currentObjectOffset, rotation);
+            linear_mtxf_transpose_mul_vec3f(displaceMatrix, relativeOffset, fromOffset);
+
+            o->oPosX = o->oBowserPieceCtlKlepto->oPosX + relativeOffset[0];
+            o->oPosY = o->oBowserPieceCtlKlepto->oPosY + relativeOffset[1];
+            o->oPosZ = o->oBowserPieceCtlKlepto->oPosZ + relativeOffset[2];
+
+            o->parentObj->oPosX = o->oPosX;
+            o->parentObj->oPosY = o->oPosY - 140.f;
+            o->parentObj->oPosZ = o->oPosZ;
+        }
+        else
+        {
+            if (o->oDistanceToMario < 120.f)
+            {
+                cur_obj_play_sound_2(SOUND_GENERAL_BUBBLES);
+                o->oAction = 1;
+            }
         }
     }
     else
