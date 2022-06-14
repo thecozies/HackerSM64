@@ -592,6 +592,7 @@ extern const BehaviorScript bhvVcmArrow[];
 extern const BehaviorScript bhvOWCtl[];
 extern const BehaviorScript bhvBowserCourseWarpCtl[];
 extern const BehaviorScript bhvBowserPieces[];
+extern const BehaviorScript bhvBowserMetalBoxPush[];
 extern const BehaviorScript bhvCheckpoint[];
 extern const BehaviorScript bhvStaticObjectEx[];
 extern const BehaviorScript bhvStaticObjectBillboardEx[];

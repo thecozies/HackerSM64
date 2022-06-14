@@ -2625,3 +2625,12 @@ void ow_ctl_loop()
         }
     }
 }
+
+void bowser_metal_box_push_init()
+{
+    obj_scale_xyz(o, 3.f, 4.f, 0.1f);
+}
+
+void bowser_metal_box_push_loop()
+{
+}
