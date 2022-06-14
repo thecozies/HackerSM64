@@ -184,7 +184,9 @@ void flipnote_frog_act_talk(void) {
                         text = DIALOG_155 << 16;
                     }
                 }
-                text += accuracy;
+                if (accuracy > 0) {
+                    text += accuracy;
+                }
             }
         }
         else {

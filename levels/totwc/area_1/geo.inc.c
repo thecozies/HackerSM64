@@ -11,6 +11,7 @@ const GeoLayout totwc_area_1_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_ALPHA, totwc_dl_DSi_mesh_layer_4),
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 1000, -2000, totwc_dl_Safezone_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 750, -145, totwc_dl_Sticky_Note_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 1000, -2500, totwc_dl_Undo_State_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
