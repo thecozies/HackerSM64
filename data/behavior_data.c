@@ -6697,3 +6697,13 @@ const BehaviorScript bhvBowserPieces[] = {
         // CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void ow_ctl_init();
+extern void ow_ctl_loop();
+const BehaviorScript bhvOWCtl[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    CALL_NATIVE(ow_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(ow_ctl_loop),
+    END_LOOP(),
+};

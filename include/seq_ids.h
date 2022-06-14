@@ -55,6 +55,9 @@ enum SeqId {
     SEQ_SLIDE,
     SEQ_V6,
     SEQ_BOWSER,
+    SEQ_FIGHT1,
+    SEQ_FIGHT2,
+    SEQ_DUCKTALES,
     SEQ_COUNT
 };
 

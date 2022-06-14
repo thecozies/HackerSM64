@@ -3,7 +3,7 @@
     "00_sound_player": ["00", "01_terrain", "02_water", "03", "04", "05", "06", "07", "08_mario", "09", "0A_mario_peach"],
     "01_cutscene_collect_star": ["22"],
     "02_menu_title_screen": ["11"],
-    "03_level_grass": ["22"],
+    "03_level_grass": ["0C"],
     "04_level_inside_castle": ["0E"],
     "05_level_water": ["13"],
     "06_level_hot": ["0F"],
@@ -33,7 +33,7 @@
     "1E_cutscene_intro": ["1B"],
     "1F_cutscene_victory": ["1A"],
     "20_cutscene_ending": ["23"],
-    "21_menu_file_select": ["24"],
+    "21_menu_file_select": ["0C"],
     "22_cutscene_lakitu": {"ifdef": ["VERSION_US", "VERSION_EU", "VERSION_SH"], "banks": ["1B"]},
     "23_custom_draculas_tears_castlevania_dawn_of_sorrow": ["0C"],
     "24_custom_c1": ["0C"],
@@ -43,5 +43,9 @@
     "28_custom_c2": ["0C"],
     "29_custom_slide": ["25"],
     "2A_custom_slide": ["0C"],
-    "2B_custom_v6": ["26_v6"]
+    "2B_custom_v6": ["26_v6"],
+    "2C_custom_bowser_course": ["0C"],
+    "2D_custom_fight1": ["0C"],
+    "2E_custom_fight2": ["0C"],
+    "2F_custom_ducktales": ["0C"]
 }

@@ -1,3 +1,8 @@
+#include "audio/external.h"
+#include "seq_ids.h"
+
+extern void seq_player_play_sequence(u8 player, u8 seqId, u16 arg2);
+
 extern const Trajectory ab_area_1_spline_manta_path[];
 extern u8 gDoInertia;
 extern u8 gDoPlatformDisplacement;
@@ -2390,17 +2395,17 @@ static struct Pos gBowserPadFarPositions[] =
 
 extern Gfx mat_bdf_dl_bg_4_0_002[];
 extern Gfx mat_bdf_dl_bg_4_0_001[];
-extern Gfx mat_bdf_dl_bg_4_0[];
+extern Gfx mat_bdf_dl_bg_0_0[];
 
 static Gfx* sBowserWarpCtlGfxs[] = {
     mat_bdf_dl_bg_4_0_001, 
-    mat_bdf_dl_bg_4_0,
+    mat_bdf_dl_bg_0_0,
     mat_bdf_dl_bg_4_0_002, 
 };
 
 static int sBowserWarpCtlGfxOffsets[] = {
     18 * 8 + 7, 
-    11 * 8 + 7, 
+    4 * 8 + 7, 
     18 * 8 + 7,
 };
 
@@ -2411,7 +2416,7 @@ extern void bowser_course_warp_ctl_init()
     *a = 0;
     a = (u8*) segmented_to_virtual(mat_bdf_dl_bg_4_0_001) + 18 * 8 + 7;
     *a = 0;
-    a = (u8*) segmented_to_virtual(mat_bdf_dl_bg_4_0) + 11 * 8 + 7;
+    a = (u8*) segmented_to_virtual(mat_bdf_dl_bg_0_0) + 4 * 8 + 7;
     *a = 0;
 }
 
@@ -2548,6 +2553,41 @@ void bowser_pieces_loop()
             o->oPosY = gBowserPiecesPositions[o->oBehParams2ndByte - 1].y;
             o->oPosZ = gBowserPiecesPositions[o->oBehParams2ndByte - 1].z;
             obj_scale(o, 1.f);
+        }
+    }
+}
+
+void ow_ctl_init()
+{
+    gDoInertia = 1;
+    gDoPlatformDisplacement = 1;
+}
+
+void ow_ctl_loop()
+{
+    if (gIsGravityFlipped)
+    {
+        gMarioStates->health = 0x880;
+        if (0 == o->oTimer)
+            seq_player_play_sequence(SEQ_PLAYER_LEVEL, 0, 0);
+
+        if (30 == o->oTimer)
+            seq_player_play_sequence(SEQ_PLAYER_LEVEL, SEQ_DUCKTALES, 0);
+
+        if (o->oTimer > 120)
+        {
+            print_text_centered(160, 40, "GAME OVER");
+            print_text_centered(160, 180, "PRESS L TO RESTART");
+            if (gPlayer1Controller->buttonPressed & L_TRIG)
+            {
+                gIsGravityFlipped = 0;
+                o->activeFlags = 0;
+            }
+        }
+
+        if (gMarioStates->pos[1] < -6000.f)
+        {
+            gMarioStates->pos[1] = -6000.f;
         }
     }
 }
