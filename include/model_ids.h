@@ -623,5 +623,6 @@
 #define MODEL_BDF_P1 0x36
 #define MODEL_BDF_P2 0x37
 #define MODEL_BDF_P3 0x38
+#define MODEL_BDF_PUSHER 0x39
 
 #endif // MODEL_IDS_H

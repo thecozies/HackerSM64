@@ -6697,13 +6697,15 @@ const BehaviorScript bhvBowserPieces[] = {
     END_LOOP(),
 };
 
+extern const Collision bdf_pusher_collision[];
 extern void bowser_metal_box_push_init();
 extern void bowser_metal_box_push_loop();
 const BehaviorScript bhvBowserMetalBoxPush[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
     CALL_NATIVE(bowser_metal_box_push_init),
-    LOAD_COLLISION_DATA(metal_box_seg8_collision_08024C28),
+    LOAD_COLLISION_DATA(bdf_pusher_collision),
+    SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(bowser_metal_box_push_loop),
         CALL_NATIVE(load_object_collision_model),

@@ -2426,9 +2426,9 @@ void bowser_course_warp_ctl_loop()
     {
         struct Surface* floor = gMarioStates->floor;
         int type = floor ? floor->type : 0;
-        if (SURFACE_INSTANT_WARP_1B <= type && type <= SURFACE_INSTANT_WARP_1E)
+        if (SURFACE_INSTANT_WARP_1B <= type && type <= SURFACE_INSTANT_WARP_1E && gMarioStates->pos[1] == gMarioStates->floorHeight)
         {
-            print_text_centered(160, 20, "PRESS L TO WARP");
+            print_text_centered(160, 20, "PRESS L TO GO");
             if (gPlayer1Controller->buttonPressed & L_TRIG)
             {
                 o->oAction = 1;
@@ -2628,9 +2628,35 @@ void ow_ctl_loop()
 
 void bowser_metal_box_push_init()
 {
-    obj_scale_xyz(o, 3.f, 4.f, 0.1f);
+    o->oPosY -= 20.f;
 }
 
 void bowser_metal_box_push_loop()
 {
+    if (0 == o->oAction)
+    {
+        if (-200.f  < gMarioStates->pos[2] && gMarioStates->pos[2] < 200.f
+         && -1600.f < gMarioStates->pos[0] && gMarioStates->pos[0] < -1100.f
+         && 1000.f  < gMarioStates->pos[1] && gMarioStates->pos[1] < 2000.f)
+         {
+            o->oAction = 1;
+         }
+    }
+    else if (1 == o->oAction)
+    {
+        o->oPosX -= 25.f;
+        if (30 == o->oTimer)
+        {
+            o->oAction = 2;
+        }
+    }
+    else
+    {
+        o->oPosX += 10.f;
+        if (75 == o->oTimer)
+        {
+            o->oPosX = o->oHomeX;
+            o->oAction = 0;
+        }
+    }
 }

@@ -39,6 +39,7 @@ const LevelScript level_bdf_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_BDF_P1, bdf_p1_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BDF_P2, bdf_p2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BDF_P3, bdf_p3_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BDF_PUSHER, bdf_pusher_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -73,7 +74,7 @@ const LevelScript level_bdf_entry[] = {
 		OBJECT(MODEL_KOOPA_WITHOUT_SHELL, -10561, 296, -2017, 0, 0, 0, 0x00000000, bhvKoopa),
 		OBJECT(MODEL_KLEPTO, -9297, 1898, -15, 0, 0, 0, 0x00000000, bhvKlepto),
 		OBJECT(MODEL_NONE, 2191, 763, -109, 0, -89, 0, (0xa << 16), bhvInstantActiveWarp),
-		OBJECT(MODEL_METAL_BOX, -1116, 1603, -40, 0, 0, 0, 0x00000000, bhvBowserMetalBoxPush),
+		OBJECT(MODEL_BDF_PUSHER, -967, 1603, -40, 0, 0, 0, 0x00000000, bhvBowserMetalBoxPush),
 		OBJECT(MODEL_RED_COIN, 4953, 367, -7243, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, -11351, 1602, 1201, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 3946, -2024, 7686, 0, 0, 0, 0x00000000, bhvRedCoin),

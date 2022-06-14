@@ -19,3 +19,5 @@
 #include "levels/bdf/bdf_p2/collision.inc.c"
 #include "levels/bdf/bdf_p3/collision.inc.c"
 #include "levels/bdf/bdf_p3/model.inc.c"
+#include "levels/bdf/bdf_pusher/collision.inc.c"
+#include "levels/bdf/bdf_pusher/model.inc.c"

@@ -19,3 +19,4 @@
 #include "levels/bdf/bdf_p1/geo.inc.c"
 #include "levels/bdf/bdf_p2/geo.inc.c"
 #include "levels/bdf/bdf_p3/geo.inc.c"
+#include "levels/bdf/bdf_pusher/geo.inc.c"

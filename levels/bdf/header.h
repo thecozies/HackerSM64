@@ -21,4 +21,8 @@ extern const LevelScript level_bdf_entry[];
 
 #include "levels/bdf/bdf_p3/geo_header.h"
 
+#include "levels/bdf/bdf_pusher/collision_header.h"
+
+#include "levels/bdf/bdf_pusher/geo_header.h"
+
 #endif
