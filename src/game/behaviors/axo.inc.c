@@ -5,9 +5,8 @@ extern u8 totwc_dl_undostate_i4[];
 
 void bhv_axo_controller_loop(void) {
     s16 i, j;
+
     u8 *canvas = segmented_to_virtual(totwc_dl_canvas_i4);
-    u8 *reference = segmented_to_virtual(totwc_dl_reference_i4);
-    u8 *safezone = segmented_to_virtual(totwc_dl_safezone_i4);
     u8 *undostate = segmented_to_virtual(totwc_dl_undostate_i4);
 
     gMarioState->vel[2] = 0;
@@ -60,7 +59,7 @@ void bhv_axo_controller_loop(void) {
     }
 
     if (gPlayer1Controller->buttonDown & L_TRIG) {
-        if (o->oF4 >= 0) {
+        if (o->oF4 >= 0) { // The controller object's o->oF4 refers to the timer for how long L has been held
             o->oF4++;
             if (o->oF4 >= 90) {
                 for (i = 0; i < 2752; i++) {
@@ -73,6 +72,14 @@ void bhv_axo_controller_loop(void) {
     else {
         o->oF4 = 0;
     }
+}
+
+f32 calculate_flipnote_accuracy(void) {
+    s16 i, j;
+    
+    u8 *canvas = segmented_to_virtual(totwc_dl_canvas_i4);
+    u8 *reference = segmented_to_virtual(totwc_dl_reference_i4);
+    u8 *safezone = segmented_to_virtual(totwc_dl_safezone_i4);
 
     s16 numWrong = 0;
     s16 numRight = 0;
@@ -99,7 +106,113 @@ void bhv_axo_controller_loop(void) {
     }
 
     f32 baseAccuracy = 1.0f - (numWrong / 1190.0f);
-    f32 scaledAccuracy = baseAccuracy > 0 ? baseAccuracy + ((baseAccuracy - (baseAccuracy * baseAccuracy)) * (numRight / 1190.0f)) : 0;
+    f32 scaledAccuracy = baseAccuracy > 0 ? baseAccuracy + ((baseAccuracy - (baseAccuracy * baseAccuracy)) * (numRight / 1190.0f)) : baseAccuracy;
 
-    print_text_fmt_int(16, 224, "%d PERCENT", (s16)(scaledAccuracy * 100));
+    return scaledAccuracy;
+}
+
+void bhv_flipnote_frog_init(void) {
+    o->oInteractionSubtype = INT_SUBTYPE_NPC;
+}
+
+enum oActionsFlipnoteFrog {
+    FLIPNOTE_FROG_ACT_IDLE,
+    FLIPNOTE_FROG_ACT_TALK
+};
+
+void flipnote_frog_act_idle(void) {
+
+    // Frame animation
+    if (o->oTimer < 30) {          // 1000ms, 30 frames, 30 total
+        o->oAnimState = 0;
+    }
+    else if (o->oTimer < 34) {     // 130ms, 3.9 frames, 33.9 total
+        o->oAnimState = 1;
+    }
+    else if (o->oTimer < 94) {     // 2000ms, 60 frames, 93.9 total
+        o->oAnimState = 0;
+    }
+    else if (o->oTimer < 97) {     // 100ms, 3 frames, 96.9 total
+        o->oAnimState = 2;
+    }
+    else if (o->oTimer < 100) {    // 100ms, 3 frames, 99.9 total
+        o->oAnimState = 3;
+    }
+    else if (o->oTimer < 103) {    // 100ms, 3 frames, 102.9 total
+        o->oAnimState = 2;
+    }
+    else if (o->oTimer < 163) {    // 2000ms, 60 frames, 162.9 total
+        o->oAnimState = 0;
+    }
+    else {
+        o->oTimer = 0;
+        o->oAnimState = 0;
+    }
+
+    if (o->oInteractStatus == INT_STATUS_INTERACTED) {
+        o->oAction = FLIPNOTE_FROG_ACT_TALK;
+        cur_obj_play_sound_2(SOUND_ACTION_READ_SIGN);
+    }
+}
+
+void flipnote_frog_act_talk(void) {
+    if (set_mario_npc_dialog(MARIO_DIALOG_LOOK_FRONT) == MARIO_DIALOG_STATUS_SPEAK) {
+        o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
+        u32 text = DIALOG_150 << 16;
+        if (o->oF4 == 0) { // The frog object's o->oF4 refers to whether or not the star has already been spawned
+            s16 accuracy = (s16)(calculate_flipnote_accuracy() * 100);
+            if (accuracy <= -50) {
+                text = DIALOG_151;
+            }
+            else {
+                if (accuracy >= 50 && accuracy < 75) {
+                    text = DIALOG_152 << 16;
+                }
+                else if (accuracy >= 75) {
+                    o->oF4 = 1;
+                    if (accuracy < 85) {
+                        text = DIALOG_153 << 16;
+                    }
+                    else if (accuracy < 95) {
+                        text = DIALOG_154 << 16;
+                    }
+                    else {
+                        text = DIALOG_155 << 16;
+                    }
+                }
+                text += accuracy;
+            }
+        }
+        else {
+            text = DIALOG_156;
+        }
+        if (cutscene_object_with_dialog(CUTSCENE_DIALOG, o, text)) {
+            set_mario_npc_dialog(MARIO_DIALOG_STOP);
+            o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;
+            o->oInteractStatus = INT_STATUS_NONE;
+            o->oAction = FLIPNOTE_FROG_ACT_IDLE;
+            if (o->oF4 > 0) {
+                cur_obj_spawn_star_at_y_offset(0.0f, 1300.0f, 0.0f, 200.0f);
+            }
+        }
+    }
+}
+
+void bhv_flipnote_frog_loop(void) {
+    switch (o->oAction) {
+        case FLIPNOTE_FROG_ACT_IDLE:
+            flipnote_frog_act_idle();
+            break;
+
+        case FLIPNOTE_FROG_ACT_TALK:
+            flipnote_frog_act_talk();
+            break;
+    }
+    if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+        cur_obj_play_sound_2(SOUND_ACTION_READ_SIGN);
+        if (set_mario_npc_dialog(MARIO_DIALOG_LOOK_FRONT) == MARIO_DIALOG_STATUS_SPEAK) {
+            o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
+        }
+    }
+    o->oInteractStatus = INT_STATUS_NONE;
 }

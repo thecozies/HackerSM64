@@ -543,6 +543,7 @@ extern const BehaviorScript bhvUnusedFakeStar[];
 
 // axo start
 extern const BehaviorScript bhvAxoController[];
+extern const BehaviorScript bhvFlipnoteFrog[];
 // axo end
 
 #endif // BEHAVIOR_DATA_H

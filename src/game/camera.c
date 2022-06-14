@@ -121,7 +121,7 @@ extern s16 sSelectionFlags;
 extern s16 s2ndRotateFlags;
 extern s16 sCameraSoundFlags;
 extern u16 sCButtonsPressed;
-extern s16 sCutsceneDialogID;
+extern s32 sCutsceneDialogID;
 extern struct LakituState gLakituState;
 extern s16 sAreaYaw;
 extern s16 sAreaYawChange;
@@ -241,7 +241,7 @@ u16 sCButtonsPressed;
 /**
  * A copy of gDialogID, the dialog displayed during the cutscene.
  */
-s16 sCutsceneDialogID;
+s32 sCutsceneDialogID;
 /**
  * The currently playing shot in the cutscene.
  */
@@ -6614,7 +6614,7 @@ UNUSED s32 unused_dialog_cutscene_response(u8 cutscene) {
     }
 }
 
-s16 cutscene_object_with_dialog(u8 cutscene, struct Object *obj, s16 dialogID) {
+s16 cutscene_object_with_dialog(u8 cutscene, struct Object *obj, s32 dialogID) {
     s16 response = DIALOG_RESPONSE_NONE;
 
     if ((gCamera->cutscene == CUTSCENE_NONE) && (sObjectCutscene == CUTSCENE_NONE)) {
@@ -8638,7 +8638,12 @@ void cutscene_dialog_create_dialog_box(struct Camera *c) {
     if (c->cutscene == CUTSCENE_RACE_DIALOG) {
         create_dialog_box_with_response(sCutsceneDialogID);
     } else {
-        create_dialog_box(sCutsceneDialogID);
+        if (GET_HIGH_U16_OF_32(sCutsceneDialogID) == 0) {
+            create_dialog_box(GET_LOW_U16_OF_32(sCutsceneDialogID));
+        }
+        else {
+            create_dialog_box_with_var(GET_HIGH_U16_OF_32(sCutsceneDialogID), GET_LOW_U16_OF_32(sCutsceneDialogID));
+        }
     }
 
     //! Unused. This may have been used before sCutsceneDialogResponse was implemented.

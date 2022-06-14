@@ -552,6 +552,8 @@ void bhv_volcano_trap_loop(void);
 
 // axo start
 void bhv_axo_controller_loop(void);
+void bhv_flipnote_frog_init(void);
+void bhv_flipnote_frog_loop(void);
 // axo end
 
 Gfx *geo_move_mario_part_from_parent(s32 callContext, UNUSED struct GraphNode *node, Mat4 mtx);
