@@ -169,12 +169,12 @@ void flipnote_frog_act_talk(void) {
                 if (accuracy < 50) {
                     text = DIALOG_150 << 16;
                 }
-                else if (accuracy < 75) {
+                else if (accuracy < 80) {
                     text = DIALOG_152 << 16;
                 }
                 else {
                     spawnStar = TRUE;
-                    if (accuracy < 85) {
+                    if (accuracy < 90) {
                         text = DIALOG_153 << 16;
                     }
                     else if (accuracy < 95) {
