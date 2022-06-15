@@ -1781,95 +1781,39 @@ pull back to slow down.\n\
 If you slide really\n\
 fast, you'll win the Star!"))
 
-DEFINE_DIALOG(DIALOG_150, 1, 5, 30, 200, _("\
-Waaaa! You've flooded my\n\
-house! Wh-why?? Look at\n\
-this mess! What am I\n\
-going to do now?\n\
-\n\
-The ceiling's ruined, the\n\
-floor is soaked...what to\n\
-do, what to do? Huff...\n\
-huff...it makes me so...\n\
-MAD!!!\n\
-Everything's been going\n\
-wrong ever since I got\n\
-this Star...It's so shiny,\n\
-but it makes me feel...\n\
-strange..."))
+DEFINE_DIALOG(DIALOG_150, 1, 3, 30, 200, _("\
+Try to recreate the star!\n\
+Your current drawing is\n\
+[%] percent accurate."))
 
-DEFINE_DIALOG(DIALOG_151, 1, 4, 30, 200, _("\
-I can't take this\n\
-anymore! First you get\n\
-me all wet, then you\n\
-stomp on me!\n\
-Now I'm really, really,\n\
-REALLY mad!\n\
-Waaaaaaaaaaaaaaaaa!!!"))
+DEFINE_DIALOG(DIALOG_151, 1, 3, 30, 200, _("\
+What are you doing?\n\
+This isn't anything like\n\
+the star..."))
 
 DEFINE_DIALOG(DIALOG_152, 1, 3, 30, 200, _("\
-Owwch! Uncle! Uncle!\n\
-Okay, I give up. Take this\n\
-Star!\n\
-Whew! I feel better now.\n\
-I don't really need it\n\
-anymore, anyway--\n\
-I can see the stars\n\
-through my ceiling at\n\
-night.\n\
-They make me feel...\n\
-...peaceful. Please, come\n\
-back and visit anytime."))
+You're close!\n\
+Your current drawing is\n\
+[%] percent accurate."))
 
-DEFINE_DIALOG(DIALOG_153, 1, 4, 30, 200, _("\
-Hey! Who's there?\n\
-What's climbing on me?\n\
-Is it an ice ant?\n\
-A snow flea?\n\
-Whatever it is, it's\n\
-bugging me! I think I'll\n\
-blow it away!"))
+DEFINE_DIALOG(DIALOG_153, 1, 3, 30, 200, _("\
+You've done it, with\n\
+[%] percent accuracy!\n\
+Here you go!"))
 
-DEFINE_DIALOG(DIALOG_154, 1, 5, 30, 200, _("\
-Hold on to your hat! If\n\
-you lose it, you'll be\n\
-easily injured. If you\n\
-lose it, look for it in the\n\
-course where you lost it.\n\
-Speaking of lost, the\n\
-Princess is still stuck in\n\
-the walls somewhere.\n\
-Please help, Mario!\n\
-\n\
-Oh, you know that there\n\
-are secret worlds in the\n\
-walls as well as in the\n\
-paintings, right?"))
+DEFINE_DIALOG(DIALOG_154, 1, 3, 30, 200, _("\
+I'm impressed--you got\n\
+an entire [%] percent!\n\
+You've earned this!"))
 
-DEFINE_DIALOG(DIALOG_155, 1, 6, 30, 200, _("\
-Thanks to the power of\n\
-the Stars, life is\n\
-returning to the castle.\n\
-Please, Mario, you have\n\
-to give Bowser the boot!\n\
-\n\
-Here, let me tell you a\n\
-little something about the\n\
-castle. In the room with\n\
-the mirrors, look carefully\n\
-for anything that's not\n\
-reflected in the mirror.\n\
-And when you go to the\n\
-water town, you can flood\n\
-it with a high jump into\n\
-the painting."))
+DEFINE_DIALOG(DIALOG_155, 1, 3, 30, 200, _("\
+...Are you even human?\n\
+[%] percent, wow!\n\
+Just take it!"))
 
-DEFINE_DIALOG(DIALOG_156, 1, 5, 30, 200, _("\
-The world inside the\n\
-clock is so strange!\n\
-When you jump inside,\n\
-watch the position of\n\
-the big hand!"))
+DEFINE_DIALOG(DIALOG_156, 1, 2, 30, 200, _("\
+The star's all yours!\n\
+Go ahead!"))
 
 DEFINE_DIALOG(DIALOG_157, 1, 5, 30, 200, _("\
 Watch out! Don't let\n\

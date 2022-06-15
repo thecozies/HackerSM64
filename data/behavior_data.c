@@ -6146,6 +6146,30 @@ const BehaviorScript bhvIntroScene[] = {
     END_LOOP(),
 };
 
+// axo start
+
+const BehaviorScript bhvAxoController[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_axo_controller_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvFlipnoteFrog[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 100),
+    CALL_NATIVE(bhv_flipnote_frog_init),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_flipnote_frog_loop),
+    END_LOOP(),
+};
+
+// axo end
+
 extern const Collision ab_lavawall_collision[];
 const BehaviorScript bhvAbRotatingWall[] = {
     BEGIN(OBJ_LIST_SURFACE),

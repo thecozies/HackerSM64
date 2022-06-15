@@ -549,6 +549,11 @@ extern const BehaviorScript bhvEndBirds2[];
 extern const BehaviorScript bhvIntroScene[];
 extern const BehaviorScript bhvUnusedFakeStar[];
 
+// axo start
+extern const BehaviorScript bhvAxoController[];
+extern const BehaviorScript bhvFlipnoteFrog[];
+// axo end
+
 extern const BehaviorScript bhvAbRotatingWall[];
 extern const BehaviorScript bhvAbManta[];
 extern const BehaviorScript bhvAbSand[];
