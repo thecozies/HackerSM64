@@ -48,6 +48,7 @@ void bhv_axo_controller_loop(void) {
                 }
             }
         }
+        play_sound(SOUND_ENV_SLIDING, gMarioObject->header.gfx.cameraToObject);
     }
 
     if (gPlayer1Controller->buttonPressed & L_TRIG) {
@@ -55,16 +56,22 @@ void bhv_axo_controller_loop(void) {
             u8 redoByte = canvas[i];
             canvas[i] = undostate[i];
             undostate[i] = redoByte;
+            play_sound(SOUND_ACTION_BRUSH_HAIR, gMarioObject->header.gfx.cameraToObject);
         }
     }
 
     if (gPlayer1Controller->buttonDown & L_TRIG) {
         if (o->oF4 >= 0) { // The controller object's o->oF4 refers to the timer for how long L has been held
             o->oF4++;
-            if (o->oF4 >= 90) {
+            if (o->oF4 >= 5) {
+                play_sound(SOUND_ENV_MOVINGSAND, gMarioObject->header.gfx.cameraToObject);
+            }
+            if (o->oF4 >= 60) {
                 for (i = 0; i < 2752; i++) {
                     canvas[i] = 0xFF;
                     o->oF4 = -1;
+                    set_environmental_camera_shake(SHAKE_ENV_EXPLOSION);
+                    play_sound(SOUND_GENERAL2_BOBOMB_EXPLOSION, gMarioObject->header.gfx.cameraToObject);
                 }
             }
         }
