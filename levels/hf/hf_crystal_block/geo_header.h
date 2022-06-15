@@ -1,0 +1,11 @@
+extern const GeoLayout hf_crystal_block_geo[];
+extern Lights1 hf_crystal_block_tile_lights;
+extern u8 hf_crystal_block_tex1_64x64_69914EB596611B6E_12_ci4[];
+extern u8 hf_crystal_block_tex1_64x64_69914EB596611B6E_12_ci4_pal_rgba16[];
+extern Vtx hf_crystal_block_Plane_mesh_layer_1_vtx_cull[8];
+extern Vtx hf_crystal_block_Plane_mesh_layer_1_vtx_0[24];
+extern Gfx hf_crystal_block_Plane_mesh_layer_1_tri_0[];
+extern Gfx mat_hf_crystal_block_tile[];
+extern Gfx mat_revert_hf_crystal_block_tile[];
+extern Gfx hf_crystal_block_Plane_mesh_layer_1[];
+extern Gfx hf_crystal_block_material_revert_render_settings[];

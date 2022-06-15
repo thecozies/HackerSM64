@@ -2,8 +2,10 @@
 
 static void fire_spitter_act_idle(void) {
     approach_f32_ptr(&o->header.gfx.scale[0], 0.2f, 0.002f);
-
-    if (o->oTimer > 150 && o->oDistanceToMario < 800.0f && !(o->oMoveFlags & OBJ_MOVE_MASK_IN_WATER)) {
+    
+    int time = o->oBehParams2ndByte ? 5 : 150;
+    f32 dtm = o->oBehParams2ndByte ? 1500.f : 800.f;
+    if (o->oTimer > time && o->oDistanceToMario < dtm && !(o->oMoveFlags & OBJ_MOVE_MASK_IN_WATER)) {
         o->oAction = FIRE_SPITTER_ACT_SPIT_FIRE;
         o->oFireSpitterScaleVel = 0.05f;
     }

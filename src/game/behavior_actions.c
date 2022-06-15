@@ -46,6 +46,10 @@
 #include "rumble_init.h"
 #include "puppylights.h"
 
+#include "behaviors/scut_objs.inc.c"
+
+
+
 #include "behaviors/star_door.inc.c"
 #include "behaviors/mr_i.inc.c"
 #include "behaviors/pole.inc.c"

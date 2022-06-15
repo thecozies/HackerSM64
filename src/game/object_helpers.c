@@ -602,6 +602,29 @@ u32 get_object_list_from_behavior(const BehaviorScript *behavior) {
     return objectList;
 }
 
+struct Object *cur_obj_find_nearest_object_with_behavior_and_bparam(const BehaviorScript *behavior, u32 bp) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct Object *closestObj = NULL;
+    struct Object *obj;
+    struct ObjectNode *listHead;
+
+    listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    obj = (struct Object *) listHead->next;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr) {
+            if (obj->activeFlags != ACTIVE_FLAG_DEACTIVATED && obj != o) {
+                if (obj->oBehParams == bp) {
+                    return obj;
+                }
+            }
+        }
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return NULL;
+}
+
 struct Object *cur_obj_nearest_object_with_behavior(const BehaviorScript *behavior) {
     f32 dist;
     return cur_obj_find_nearest_object_with_behavior(behavior, &dist);

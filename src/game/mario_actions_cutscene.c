@@ -28,6 +28,8 @@
 #include "sound_init.h"
 #include "rumble_init.h"
 
+#include "config/config_collision.h"
+
 static struct Object *sIntroWarpPipeObj;
 static struct Object *sEndPeachObj;
 static struct Object *sEndRightToadObj;
@@ -208,20 +210,7 @@ Gfx *geo_switch_peach_eyes(s32 callContext, struct GraphNode *node, UNUSED s32 c
  * numStars has reached a milestone and prevNumStarsForDialog has not reached it.
  */
 s32 get_star_collection_dialog(struct MarioState *m) {
-    s32 i;
-    s32 dialogID = 0;
-    s32 numStarsRequired;
-
-    for (i = 0; i < ARRAY_COUNT(sStarsNeededForDialog); i++) {
-        numStarsRequired = sStarsNeededForDialog[i];
-        if (m->prevNumStarsForDialog < numStarsRequired && m->numStars >= numStarsRequired) {
-            dialogID = i + DIALOG_141;
-            break;
-        }
-    }
-
-    m->prevNumStarsForDialog = m->numStars;
-    return dialogID;
+    return 0;
 }
 
 // save menu handler
@@ -383,7 +372,7 @@ s32 act_reading_npc_dialog(struct MarioState *m) {
             set_mario_action(m, m->heldObj == NULL ? ACT_IDLE : ACT_HOLD_IDLE, 0);
         }
     }
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
     vec3s_set(m->marioBodyState->headAngle, m->actionTimer, 0, 0);
 
@@ -398,7 +387,7 @@ s32 act_reading_npc_dialog(struct MarioState *m) {
 s32 act_waiting_for_dialog(struct MarioState *m) {
     set_mario_animation(m, m->heldObj == NULL ? MARIO_ANIM_FIRST_PERSON
                                               : MARIO_ANIM_IDLE_WITH_LIGHT_OBJ);
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
     return FALSE;
 }
@@ -507,7 +496,7 @@ s32 act_reading_sign(struct MarioState *m) {
             break;
     }
 
-    vec3f_copy(marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(marioObj->header.gfx.pos, m->pos);
     vec3s_set(marioObj->header.gfx.angle, 0x0, m->faceAngle[1], 0x0);
     return FALSE;
 }
@@ -555,8 +544,12 @@ s32 act_debug_free_move(struct MarioState *m) {
     }
 
     // TODO: Add ability to ignore collision
-    //      - spawn pseudo floor object to prevent OOB death
-    resolve_and_return_wall_collisions(pos, 60.0f, 50.0f, &wallData);
+    //      - spawn pseudo floor object to prevent OOB death or make ALLOW_NULL_FLOORS a variable
+#ifdef RAYCAST_WALL_COLLISION
+    raycast_collision_walls(m->pos, pos, MARIO_COLLISION_OFFSET_DEBUG_FREE_MOVE);
+#endif
+
+    resolve_and_return_wall_collisions(pos, MARIO_COLLISION_OFFSET_DEBUG_FREE_MOVE, MARIO_COLLISION_RADIUS_UPPER, &wallData);
 
     set_mario_wall(m, ((wallData.numWalls > 0) ? wallData.walls[0] : NULL));
     f32 floorHeight = find_floor(pos[0], pos[1], pos[2], &floor);
@@ -575,7 +568,7 @@ s32 act_debug_free_move(struct MarioState *m) {
     }
 
     m->faceAngle[1] = m->intendedYaw;
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
 
     return FALSE;
@@ -646,7 +639,7 @@ s32 act_star_dance_water(struct MarioState *m) {
     m->faceAngle[1] = m->area->camera->yaw;
     set_mario_animation(m, m->actionState == ACT_STATE_STAR_DANCE_RETURN ? MARIO_ANIM_RETURN_FROM_WATER_STAR_DANCE
                                                                          : MARIO_ANIM_WATER_STAR_DANCE);
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
     general_star_dance_handler(m, TRUE);
     if (m->actionState != ACT_STATE_STAR_DANCE_RETURN && m->actionTimer >= 62) {
@@ -1556,7 +1549,7 @@ s32 act_squished(struct MarioState *m) {
     }
 
     // steep floor
-    if (m->floor != NULL && m->floor->normal.y < 0.5f) {
+    if (m->floor != NULL && ABS(m->floor->normal.y) < 0.5f) {
         surfAngle = m->floorYaw;
         underSteepSurf = TRUE;
     }
@@ -1877,7 +1870,7 @@ static void jumbo_star_cutscene_taking_off(struct MarioState *m) {
 
     vec3f_set(m->pos, 0.0f, 307.0, marioObj->oMarioJumboStarCutscenePosZ);
     update_mario_pos_for_anim(m);
-    vec3f_copy(marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(marioObj->header.gfx.pos, m->pos);
     vec3s_set(marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
 }
 
@@ -1916,7 +1909,7 @@ static void jumbo_star_cutscene_flying(struct MarioState *m) {
     }
 
     m->marioBodyState->handState = MARIO_HAND_RIGHT_OPEN;
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
     m->particleFlags |= PARTICLE_SPARKLES;
 
     if (m->actionTimer++ == 500) {
@@ -1952,13 +1945,9 @@ void generate_yellow_sparkles(s16 x, s16 y, s16 z, f32 radius) {
     spawn_object_abs_with_rot(gCurrentObject, 0, MODEL_NONE, bhvSparkleSpawn, x + offsetX, y + offsetY,
                               z + offsetZ, 0, 0, 0);
 
-    //! copy paste error
     offsetX = offsetX * 4 / 3;
-    offsetX = offsetY * 4 / 3;
-    offsetX = offsetZ * 4 / 3;
-    // Fix below:
-    // offsetY = offsetY * 4 / 3;
-    // offsetZ = offsetZ * 4 / 3;
+    offsetY = offsetY * 4 / 3;
+    offsetZ = offsetZ * 4 / 3;
 
     spawn_object_abs_with_rot(gCurrentObject, 0, MODEL_NONE, bhvSparkleSpawn, x - offsetX, y - offsetY,
                               z - offsetZ, 0, 0, 0);
@@ -2142,7 +2131,7 @@ static void end_peach_cutscene_run_to_peach(struct MarioState *m) {
     set_mario_anim_with_accel(m, MARIO_ANIM_RUNNING, 0x00080000);
     play_step_sound(m, 9, 45);
 
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
     m->particleFlags |= PARTICLE_DUST;
 }
 
@@ -2535,7 +2524,7 @@ static s32 act_credits_cutscene(struct MarioState *m) {
             set_camera_mode(m->area->camera, CAMERA_MODE_BEHIND_MARIO, 1);
         }
         set_mario_animation(m, MARIO_ANIM_WATER_IDLE);
-        vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+        vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
         // will copy over roll and pitch, if set
         vec3s_copy(m->marioObj->header.gfx.angle, m->faceAngle);
         m->particleFlags |= PARTICLE_BUBBLE;

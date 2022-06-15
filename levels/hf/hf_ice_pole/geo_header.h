@@ -1,0 +1,11 @@
+extern const GeoLayout hf_ice_pole_geo[];
+extern Lights1 hf_ice_pole_f3d_material_005_lights;
+extern u8 hf_ice_pole_tex1_64x64_436D2B9AC96807B4_12_ci4[];
+extern u8 hf_ice_pole_tex1_64x64_436D2B9AC96807B4_12_ci4_pal_rgba16[];
+extern Vtx hf_ice_pole_Plane_001_mesh_layer_1_vtx_cull[8];
+extern Vtx hf_ice_pole_Plane_001_mesh_layer_1_vtx_0[80];
+extern Gfx hf_ice_pole_Plane_001_mesh_layer_1_tri_0[];
+extern Gfx mat_hf_ice_pole_f3d_material_005[];
+extern Gfx mat_revert_hf_ice_pole_f3d_material_005[];
+extern Gfx hf_ice_pole_Plane_001_mesh_layer_1[];
+extern Gfx hf_ice_pole_material_revert_render_settings[];

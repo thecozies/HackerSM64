@@ -134,7 +134,6 @@ extern f32 sZeroZoomDist;
 extern s16 sCUpCameraPitch;
 extern s16 sModeOffsetYaw;
 extern s16 sSpiralStairsYawOffset;
-extern s16 s8DirModeBaseYaw;
 extern s16 s8DirModeYawOffset;
 extern f32 sPanDistance;
 extern f32 sCannonYOffset;
@@ -304,10 +303,6 @@ s16 sModeOffsetYaw;
  */
 s16 sSpiralStairsYawOffset;
 
-/**
- * The constant offset to 8-direction mode's yaw.
- */
-s16 s8DirModeBaseYaw;
 /**
  * Player-controlled yaw offset in 8-direction mode, a multiple of 45 degrees.
  */
@@ -675,7 +670,7 @@ void focus_on_mario(Vec3f focus, Vec3f pos, f32 posYOff, f32 focYOff, f32 dist, 
     marioPos[1] = sMarioCamState->pos[1] + posYOff;
     marioPos[2] = sMarioCamState->pos[2];
 
-    vec3f_set_dist_and_angle(marioPos, pos, dist, pitch + sLakituPitch, yaw);
+    vec3f_set_dist_and_angle(marioPos, pos, dist, (gGravityMode ? -pitch-sLakituPitch : pitch + sLakituPitch), yaw);
 
     focus[0] = sMarioCamState->pos[0];
     focus[1] = sMarioCamState->pos[1] + focYOff;
@@ -867,7 +862,7 @@ s32 update_radial_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
  * Update the camera during 8 directional mode
  */
 s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
-    s16 camYaw = s8DirModeBaseYaw + s8DirModeYawOffset;
+    s16 camYaw = s8DirModeYawOffset;
     s16 pitch = look_down_slopes(camYaw);
     f32 posY;
     f32 focusY;
@@ -2954,7 +2949,8 @@ void update_camera(struct Camera *c) {
     if (c->cutscene == CUTSCENE_NONE) {
         sYawSpeed = 0x400;
 
-        if (sSelectionFlags & CAM_MODE_MARIO_ACTIVE) {
+        if (sSelectionFlags & CAM_MODE_MARIO_ACTIVE) {        
+            s8DirModeYawOffset = snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
             switch (c->mode) {
                 case CAMERA_MODE_BEHIND_MARIO:
                     mode_behind_mario_camera(c);
@@ -3172,7 +3168,6 @@ void reset_camera(struct Camera *c) {
     sZeroZoomDist = 0.f;
     sBehindMarioSoundTimer = 0;
     sCSideButtonYaw = 0;
-    s8DirModeBaseYaw = 0;
     s8DirModeYawOffset = 0;
     c->doorStatus = DOOR_DEFAULT;
     sMarioCamState->headRotation[0] = 0;
@@ -5252,8 +5247,7 @@ void set_camera_mode_8_directions(struct Camera *c) {
     if (c->mode != CAMERA_MODE_8_DIRECTIONS) {
         c->mode = CAMERA_MODE_8_DIRECTIONS;
         sStatusFlags &= ~CAM_FLAG_SMOOTH_MOVEMENT;
-        s8DirModeBaseYaw = 0;
-        s8DirModeYawOffset = 0;
+        s8DirModeYawOffset = snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
     }
 }
 
@@ -5366,7 +5360,6 @@ void check_blocking_area_processing(UNUSED const u8 *mode) {
 
 void cam_rr_exit_building_side(struct Camera *c) {
     set_camera_mode_8_directions(c);
-    s8DirModeBaseYaw = DEGREES(90);
 }
 
 void cam_rr_exit_building_top(struct Camera *c) {
@@ -5416,7 +5409,6 @@ void cam_cotmc_exit_waterfall(UNUSED struct Camera *c) {
 void cam_sl_snowman_head_8dir(struct Camera *c) {
     sStatusFlags |= CAM_FLAG_BLOCK_AREA_PROCESSING;
     transition_to_camera_mode(c, CAMERA_MODE_8_DIRECTIONS, 60);
-    s8DirModeBaseYaw = 0x1D27;
 }
 
 /**
@@ -5955,9 +5947,7 @@ struct CameraTrigger sCamRR[] = {
  * to free_roam when Mario is not walking up the tower.
  */
 struct CameraTrigger sCamBOB[] = {
-    {  1, cam_bob_tower, 2468, 2720, -4608, 3263, 1696, 3072, 0 },
-    { -1, cam_bob_default_free_roam, 0, 0, 0, 0, 0, 0, 0 },
-    NULL_TRIGGER
+	NULL_TRIGGER
 };
 
 /**
@@ -6107,6 +6097,33 @@ struct CameraTrigger sCamBBH[] = {
  * Each table is terminated with NULL_TRIGGER
  */
 struct CameraTrigger sCamTotWC[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamAb[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamCastleGrounds[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamDf[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamMf[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamMtc[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamHf[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamPSS[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamVcm[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamBdf[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -6306,7 +6323,6 @@ s16 camera_course_processing(struct Camera *c) {
                     switch (sMarioGeometry.currFloorType) {
                         case SURFACE_CAMERA_8_DIR:
                             transition_to_camera_mode(c, CAMERA_MODE_8_DIRECTIONS, 90);
-                            s8DirModeBaseYaw = DEGREES(90);
                             break;
 
                         case SURFACE_BOSS_FIGHT_CAMERA:
@@ -6555,6 +6571,8 @@ void find_mario_floor_and_ceil(struct PlayerGeometry *pg) {
     s32 tempCollisionFlags = gCollisionFlags;
     gCollisionFlags |= COLLISION_FLAG_CAMERA;
 
+    gGravityMode = gIsGravityFlipped; // Enable gravity for checks
+
     if (find_floor(sMarioCamState->pos[0], sMarioCamState->pos[1] + 10.f,
                    sMarioCamState->pos[2], &surf) != FLOOR_LOWER_LIMIT) {
         pg->currFloorType = surf->type;
@@ -6578,6 +6596,8 @@ void find_mario_floor_and_ceil(struct PlayerGeometry *pg) {
                                    sMarioCamState->pos[2], &pg->currCeil);
     pg->waterHeight = find_water_level(sMarioCamState->pos[0], sMarioCamState->pos[2]);
     gCollisionFlags = tempCollisionFlags;
+    
+    gGravityMode = 0;
 }
 
 /**
@@ -8303,6 +8323,27 @@ void cutscene_death_stomach(struct Camera *c) {
     cutscene_event(cutscene_death_stomach_goto_mario, c, 0, -1);
     sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
     set_handheld_shake(HAND_CAM_SHAKE_CUTSCENE);
+}
+
+void cutscene_aglab_wooden_post_cs(struct Camera *c) {
+    cutscene_event(cutscene_reset_spline, c, 0, 0);
+    c->pos[0] = -2507.f;
+    c->pos[1] = 2560.f;
+    c->pos[2] = -88.f;
+    c->focus[0] = 464.f;
+    c->focus[1] = 1000.f;
+    c->focus[2] = -2773.f;
+}
+
+void cutscene_aglab_mtc_cs(struct Camera *c)
+{
+    cutscene_event(cutscene_reset_spline, c, 0, 0);
+    c->pos[0] = 10999.f;
+    c->pos[1] = 850.f;
+    c->pos[2] = 6048.f;
+    c->focus[0] = 10999.f;
+    c->focus[1] = -629.f;
+    c->focus[2] = 7888.f;
 }
 
 void cutscene_bbh_death_start(struct Camera *c) {
@@ -10248,6 +10289,14 @@ struct Cutscene sCutsceneEnterPool[] = {
     { cutscene_exit_to_castle_grounds_end, 0 }
 };
 
+struct Cutscene sCutsceneAglabWoodenPostCs[] = {
+    { cutscene_aglab_wooden_post_cs, CUTSCENE_LOOP },
+};
+
+struct Cutscene sCutsceneAglabMtcCs[] = {
+    { cutscene_aglab_mtc_cs, CUTSCENE_LOOP },
+};
+
 /**
  * Cutscene that plays when Mario dies on his stomach.
  */
@@ -10462,13 +10511,16 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // SA             | BITS
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // LLL            | DDD
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // WF             | ENDING
-	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // COURTYARD      | PSS
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // COURTYARD      | PSS
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // COTMC          | TOTWC
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // BOWSER_1       | WMOTR
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // Unused         | BOWSER_2
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // BOWSER_3       | Unused
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // TTM            | Unused
-	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 1, 0, 0), // Unused         | Unused
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 0, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
 };
 
 STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");
@@ -10861,6 +10913,10 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_RACE_DIALOG,          sCutsceneDialog)
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)
         CUTSCENE(CUTSCENE_SSL_PYRAMID_EXPLODE,  sCutscenePyramidTopExplode)
+
+        
+        CUTSCENE(CUTSCENE_AGLAB_WOODEN_POST_CS, sCutsceneAglabWoodenPostCs)
+        CUTSCENE(CUTSCENE_AGLAB_MTC_CS,         sCutsceneAglabMtcCs)
     }
 
 #undef CUTSCENE

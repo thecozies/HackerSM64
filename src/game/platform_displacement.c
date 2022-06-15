@@ -19,6 +19,8 @@ struct Object *gMarioPlatform = NULL;
  * Determine if Mario is standing on a platform object, meaning that he is
  * within 4 units of the floor. Set his referenced platform object accordingly.
  */
+ 
+//scut update, add in support for hanging from platform and sticky walls
 void update_mario_platform(void) {
     struct Surface *floor;
     f32 marioX, marioY, marioZ;
@@ -34,12 +36,31 @@ void update_mario_platform(void) {
     //  of displacement since he is considered to be far from the platform's
     //  axis of rotation.
 
-    marioX = gMarioObject->oPosX;
-    marioY = gMarioObject->oPosY;
-    marioZ = gMarioObject->oPosZ;
+    gGravityMode = gIsGravityFlipped; // This does not take place during Mario's update function, so flip gravity again
+
+    marioX = gMarioState->pos[0];
+    marioY = gMarioState->pos[1];
+    marioZ = gMarioState->pos[2];
     floorHeight = find_floor(marioX, marioY, marioZ, &floor);
 
     awayFromFloor =  absf(marioY - floorHeight) >= 4.0f;
+	
+	if (gMarioState->wall != NULL) {
+		if(gMarioState->wall->type == SURFACE_STICKY){
+			if(gMarioState->wall->object){
+				gMarioPlatform = gMarioState->wall->object;
+				gMarioObject->platform = gMarioState->wall->object;
+				return;
+			}
+		}
+	}
+	if (gMarioState->ceil != NULL && gMarioState->action & ACT_FLAG_HANGING) {
+		if(gMarioState->ceil->object){
+			gMarioPlatform = gMarioState->ceil->object;
+			gMarioObject->platform = gMarioState->ceil->object;
+			return;
+		}
+	}
 
     if (awayFromFloor) {
         gMarioPlatform = NULL;
@@ -53,6 +74,8 @@ void update_mario_platform(void) {
             gMarioObject->platform = NULL;
         }
     }
+    
+    gGravityMode = 0; // Reset gravity
 }
 
 /**

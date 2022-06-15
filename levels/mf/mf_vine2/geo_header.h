@@ -1,0 +1,11 @@
+extern const GeoLayout mf_vine2_geo[];
+extern Lights1 mf_vine2_f3d_material_003_lights;
+extern u8 mf_vine2_tex1_64x64_B72158079F5F4E40_12_ci4[];
+extern u8 mf_vine2_tex1_64x64_B72158079F5F4E40_12_ci4_pal_rgba16[];
+extern Vtx mf_vine2_string_001_mesh_layer_1_vtx_cull[8];
+extern Vtx mf_vine2_string_001_mesh_layer_1_vtx_0[16];
+extern Gfx mf_vine2_string_001_mesh_layer_1_tri_0[];
+extern Gfx mat_mf_vine2_f3d_material_003[];
+extern Gfx mat_revert_mf_vine2_f3d_material_003[];
+extern Gfx mf_vine2_string_001_mesh_layer_1[];
+extern Gfx mf_vine2_material_revert_render_settings[];

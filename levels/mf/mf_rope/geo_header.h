@@ -1,0 +1,11 @@
+extern const GeoLayout mf_rope_geo[];
+extern Lights1 mf_rope_arrows_lights;
+extern u8 mf_rope_arrows_ci4[];
+extern u8 mf_rope_arrows_ci4_pal_rgba16[];
+extern Vtx mf_rope_Plane_013_mesh_layer_4_vtx_cull[8];
+extern Vtx mf_rope_Plane_013_mesh_layer_4_vtx_0[4];
+extern Gfx mf_rope_Plane_013_mesh_layer_4_tri_0[];
+extern Gfx mat_mf_rope_arrows[];
+extern Gfx mat_revert_mf_rope_arrows[];
+extern Gfx mf_rope_Plane_013_mesh_layer_4[];
+extern Gfx mf_rope_material_revert_render_settings[];

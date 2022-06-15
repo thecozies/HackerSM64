@@ -65,6 +65,9 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_RAW_WITH_CODE( /*seg*/ SEGMENT_COMMON1_GEO,   _common1_geoSegmentRomStart,  _common1_geoSegmentRomEnd, _common1_geoSegmentBssStart, _common1_geoSegmentBssEnd),
     LOAD_RAW_WITH_CODE( /*seg*/ SEGMENT_BEHAVIOR_DATA,    _behaviorSegmentRomStart,     _behaviorSegmentRomEnd,   _behaviorSegmentBssStart,     _behaviorSegmentBssEnd),
     ALLOC_LEVEL_POOL(),
+    LOAD_MODEL_FROM_GEO(MODEL_STICKY_PLAT,                   Sticky_Plat_Geo),
+    LOAD_MODEL_FROM_GEO(MODEL_HANGING_PLAT,                   Hanging_Plat_Geo),
+    LOAD_MODEL_FROM_GEO(MODEL_FLOATING_PLAT,                   Floating_Plat_Geo),
     LOAD_MODEL_FROM_GEO(MODEL_MARIO,                   mario_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SMOKE,                   smoke_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SPARKLES,                sparkles_geo),
@@ -206,6 +209,8 @@ const LevelScript script_func_global_2[] = {
     LOAD_MODEL_FROM_GEO(MODEL_YOSHI_EGG,               yoshi_egg_geo),
     LOAD_MODEL_FROM_GEO(MODEL_THWOMP,                  thwomp_geo),
     LOAD_MODEL_FROM_GEO(MODEL_HEAVE_HO,                heave_ho_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOO,                     boo_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MAD_PIANO,               mad_piano_geo),
     RETURN(),
 };
 
@@ -236,7 +241,6 @@ const LevelScript script_func_global_6[] = {
     LOAD_MODEL_FROM_GEO(MODEL_POKEY_HEAD,              pokey_head_geo),
     LOAD_MODEL_FROM_GEO(MODEL_POKEY_BODY_PART,         pokey_body_part_geo),
     LOAD_MODEL_FROM_GEO(MODEL_TWEESTER,                tweester_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_KLEPTO,                  klepto_geo),
     LOAD_MODEL_FROM_GEO(MODEL_EYEROK_LEFT_HAND,        eyerok_left_hand_geo),
     LOAD_MODEL_FROM_GEO(MODEL_EYEROK_RIGHT_HAND,       eyerok_right_hand_geo),
     RETURN(),
@@ -266,10 +270,8 @@ const LevelScript script_func_global_9[] = {
 };
 
 const LevelScript script_func_global_10[] = {
-    LOAD_MODEL_FROM_GEO(MODEL_BOO,                     boo_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BETA_BOO_KEY,               small_key_geo),
     LOAD_MODEL_FROM_GEO(MODEL_HAUNTED_CHAIR,           haunted_chair_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_MAD_PIANO,               mad_piano_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BOOKEND_PART,            bookend_part_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BOOKEND,                 bookend_geo),
     LOAD_MODEL_FROM_GEO(MODEL_HAUNTED_CAGE,            haunted_cage_geo),
@@ -325,6 +327,7 @@ const LevelScript script_func_global_15[] = {
     LOAD_MODEL_FROM_GEO(MODEL_CHAIN_CHOMP,             chain_chomp_geo),
     LOAD_MODEL_FROM_GEO(MODEL_KOOPA_FLAG,              koopa_flag_geo),
     LOAD_MODEL_FROM_GEO(MODEL_WOODEN_POST,             wooden_post_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_KLEPTO,                  klepto_geo),
     RETURN(),
 };
 

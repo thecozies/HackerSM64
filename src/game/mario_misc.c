@@ -563,7 +563,14 @@ Gfx *geo_switch_mario_hand_grab_pos(s32 callContext, struct GraphNode *node, Mat
                     vec3s_set(asHeldObj->translation, 145, -173, 180);
                     break;
                 case GRAB_POS_BOWSER:
-                    vec3s_set(asHeldObj->translation, 80, -270, 1260);
+                    if (gCurrCourseNum == COURSE_MF)
+                    {
+                        vec3s_set(asHeldObj->translation, 50, 0, 0);
+                    }
+                    else
+                    {
+                        vec3s_set(asHeldObj->translation, 80, -270, 1260);
+                    }
                     break;
             }
         }

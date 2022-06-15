@@ -76,21 +76,7 @@ static void klepto_anim_dive(void) {
 }
 
 void bhv_klepto_init(void) {
-    if (o->oBehParams2ndByte != KLEPTO_BP_NO_STAR) {
-        if (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_SSL)) & STAR_FLAG_ACT_1) {
-            o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_TRANSPARENT_STAR;
-        } else {
-            o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_STAR;
-        }
-    } else {
-        vec3f_copy(&o->oKleptoStartPosVec, &o->oPosVec);
-
-        if (save_file_get_flags() & SAVE_FLAG_CAP_ON_KLEPTO) {
-            o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP;
-        } else {
-            o->oAction = KLEPTO_ACT_WAIT_FOR_MARIO;
-        }
-    }
+    o->oAction = KLEPTO_ACT_WAIT_FOR_MARIO;
 }
 
 static void klepto_change_target(void) {
@@ -176,10 +162,10 @@ static void klepto_approach_target(f32 targetSpeed) {
 
 static void klepto_act_wait_for_mario(void) {
     if (o->oKleptoDistanceToTarget < 1000.0f) {
-        klepto_target_mario();
+        // klepto_target_mario();
         if (o->oKleptoDistanceToTarget < 1000.0f) {
-            o->oAction = KLEPTO_ACT_TURN_TOWARD_MARIO;
-            o->oFlags &= ~OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
+            //o->oAction = KLEPTO_ACT_TURN_TOWARD_MARIO;
+            //o->oFlags &= ~OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
         }
     }
 
@@ -249,7 +235,7 @@ static void klepto_act_dive_at_mario(void) {
                 && dy > 50.0f
                 && dy < 90.0f
                 && mario_lose_cap_to_enemy(1)) {
-                o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP;
+                // o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP;
             }
         }
     }
@@ -289,7 +275,7 @@ static void klepto_act_retreat(void) {
     if (obj_face_yaw_approach(o->oMoveAngleYaw, 1000)
         && abs_angle_diff(o->oFaceAnglePitch, o->oMoveAnglePitch) == 0) {
         o->oAction = KLEPTO_ACT_RESET_POSITION;
-        o->oHomeY = 1500.0f;
+        // o->oHomeY = 1500.0f;
         o->oKleptoDiveTimer = -100;
         o->oFlags |= OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
         cur_obj_become_tangible();
@@ -300,9 +286,9 @@ static void klepto_act_reset_position(void) {
     if (o->oTimer < 300) {
         klepto_circle_target(300.0f, 20.0f);
     } else if (o->oBehParams2ndByte != 0) {
-        o->oHomeX = -2000.0f;
-        o->oHomeZ = -1000.0f;
-        o->oHomeY = o->oKleptoDistanceToTarget = 9999.0f;
+        //o->oHomeX = -2000.0f;
+        //o->oHomeZ = -1000.0f;
+        //o->oHomeY = o->oKleptoDistanceToTarget = 9999.0f;
 
         if (o->oPosY > 5000.0f) {
             obj_mark_for_deletion(o);
@@ -311,7 +297,7 @@ static void klepto_act_reset_position(void) {
         }
     } else {
         o->oAction = KLEPTO_ACT_WAIT_FOR_MARIO;
-        vec3f_copy(&o->oHomeVec, &o->oKleptoStartPosVec);
+        // vec3f_copy(&o->oHomeVec, &o->oKleptoStartPosVec);
     }
 }
 
@@ -355,6 +341,7 @@ void bhv_klepto_update(void) {
                 break;
         }
 
+        
         if (obj_handle_attacks(&sKleptoHitbox, o->oAction, sKleptoAttackHandlers)) {
             cur_obj_play_sound_2(SOUND_OBJ_KLEPTO_ATTACKED);
 

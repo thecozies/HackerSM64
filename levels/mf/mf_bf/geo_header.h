@@ -1,0 +1,11 @@
+extern const GeoLayout mf_bf_geo[];
+extern Lights1 mf_bf__3_f3d_lights;
+extern u8 mf_bf__3_ci4[];
+extern u8 mf_bf__3_ci4_pal_rgba16[];
+extern Vtx mf_bf_xsd_001_mesh_layer_1_vtx_cull[8];
+extern Vtx mf_bf_xsd_001_mesh_layer_1_vtx_0[48];
+extern Gfx mf_bf_xsd_001_mesh_layer_1_tri_0[];
+extern Gfx mat_mf_bf__3_f3d[];
+extern Gfx mat_revert_mf_bf__3_f3d[];
+extern Gfx mf_bf_xsd_001_mesh_layer_1[];
+extern Gfx mf_bf_material_revert_render_settings[];

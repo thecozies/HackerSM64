@@ -19,8 +19,7 @@ void clam_act_0(void) {
         cur_obj_become_tangible();
 
         o->oClamShakeTimer = 10;
-        o->oTimer = 0;
-    } else if (o->oTimer > 150 && o->oDistanceToMario < 500.0f) {
+    } else if (o->oTimer > 50) {
         cur_obj_play_sound_2(SOUND_GENERAL_CLAM_SHELL_OPEN);
         o->oAction = 1;
     } else if (o->oClamShakeTimer != 0) {
@@ -33,22 +32,19 @@ void clam_act_1(void) {
     s16 i;
     s16 bubblesX, bubblesZ;
 
-    if (o->oTimer > 150) {
+    if (o->oTimer > 50) {
         o->oAction = 0;
     } else if (obj_is_rendering_enabled() && cur_obj_init_anim_check_frame(1, 8)) {
-        for (i = -0x2000; i < 0x2000; i += 0x555) {
-            bubblesX = (s16)(100.0f * sins(i));
-            bubblesZ = (s16)(100.0f * coss(i));
-
-            spawn_object_relative(0, bubblesX, 30, bubblesZ, o, MODEL_BUBBLE, bhvBubbleMaybe);
-        }
+        // -
     } else if (cur_obj_check_anim_frame(30)) {
         cur_obj_become_intangible();
     }
 }
 
 void bhv_clam_loop(void) {
-    o->header.gfx.scale[1] = 1.5f;
+    o->header.gfx.scale[0] = 1.5f;
+    o->header.gfx.scale[1] = 2.f;
+    o->header.gfx.scale[2] = 1.5f;
 
     switch (o->oAction) {
         case 0:
@@ -57,6 +53,25 @@ void bhv_clam_loop(void) {
         case 1:
             clam_act_1();
             break;
+    }
+
+    if (0 == o->oVelX)
+    {
+        o->oVelX = 40.f;
+    }
+
+    if (o->oBehParams2ndByte == 2)
+    {
+        o->oPosX += o->oVelX;
+        f32 pos = find_floor_height(o->oPosX + o->oVelX * 7.f, o->oPosY + 100.f, o->oPosZ);
+        if (pos < 0)
+        {
+            o->oVelX = -o->oVelX;
+        }
+        else
+        {
+            o->oPosY = find_floor_height(o->oPosX, o->oPosY + 100.f, o->oPosZ);
+        }
     }
 
     obj_check_attacks(&sClamShellHitbox, o->oAction);

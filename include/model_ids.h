@@ -31,6 +31,12 @@
 #define MODEL_LEVEL_GEOMETRY_15                0x15
 #define MODEL_LEVEL_GEOMETRY_16                0x16
 
+
+//scut models
+#define MODEL_STICKY_PLAT                     0xFD
+#define MODEL_HANGING_PLAT                    0xFE
+#define MODEL_FLOATING_PLAT                   0xFF
+
 #define MODEL_BOB_BUBBLY_TREE                  0x17        // bubbly_tree_geo
 #define MODEL_WDW_BUBBLY_TREE                  0x17        // bubbly_tree_geo
 #define MODEL_CASTLE_GROUNDS_BUBBLY_TREE       0x17        // bubbly_tree_geo
@@ -125,6 +131,10 @@
 #define MODEL_WDW_EXPRESS_ELEVATOR                0x3A        // wdw_geo_000610
 #define MODEL_WDW_RECTANGULAR_FLOATING_PLATFORM   0x3B        // wdw_geo_000628
 #define MODEL_WDW_ROTATING_PLATFORM               0x3C        // wdw_geo_000640
+
+// ab
+#define MODEL_AB_LAVAWALL 0x35
+#define MODEL_AB_SAND 0x36
 
 // jrb
 #define MODEL_JRB_SHIP_LEFT_HALF_PART             0x35        // jrb_geo_000978
@@ -313,8 +323,8 @@
 
 // first set of actor bins (0x54-0x63)
 // group 1
-#define MODEL_BULLET_BILL                 0x54        // bullet_bill_geo
-#define MODEL_YELLOW_SPHERE               0x55        // yellow_sphere_geo
+#define MODEL_BULLET_BILL                 0x5C        // bullet_bill_geo
+#define MODEL_YELLOW_SPHERE               0x5B        // yellow_sphere_geo
 #define MODEL_HOOT                        0x56        // hoot_geo
 #define MODEL_YOSHI_EGG                   0x57        // yoshi_egg_geo
 #define MODEL_THWOMP                      0x58        // thwomp_geo
@@ -341,7 +351,7 @@
 #define MODEL_POKEY_HEAD                  0x54        // pokey_head_geo
 #define MODEL_POKEY_BODY_PART             0x55        // pokey_body_part_geo
 #define MODEL_TWEESTER                    0x56        // tweester_geo
-#define MODEL_KLEPTO                      0x57        // klepto_geo
+#define MODEL_KLEPTO                      0x6C        // klepto_geo
 #define MODEL_EYEROK_LEFT_HAND            0x58        // eyerok_left_hand_geo
 #define MODEL_EYEROK_RIGHT_HAND           0x59        // eyerok_right_hand_geo
 
@@ -363,13 +373,13 @@
 #define MODEL_CAP_SWITCH_BASE             0x56        // cap_switch_base_seg5_dl_05003120
 
 // group 9
-#define MODEL_BOO                         0x54        // boo_geo
+#define MODEL_BOO                         0x5B        // boo_geo
 #define MODEL_BETA_BOO_KEY                0x55        // small_key_geo
 #define MODEL_HAUNTED_CHAIR               0x56        // haunted_chair_geo
-#define MODEL_MAD_PIANO                   0x57        // mad_piano_geo
+#define MODEL_MAD_PIANO                   0x5A        // mad_piano_geo
 #define MODEL_BOOKEND_PART                0x58        // bookend_part_geo
 #define MODEL_BOOKEND                     0x59        // bookend_geo
-#define MODEL_HAUNTED_CAGE                0x5A        // haunted_cage_geo
+#define MODEL_HAUNTED_CAGE                0x57        // haunted_cage_geo
 
 // group 10
 #define MODEL_BIRDS                       0x54        // birds_geo
@@ -575,5 +585,48 @@
 #define MODEL_THI_WARP_PIPE                       MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 #define MODEL_VCUTM_WARP_PIPE                     MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 #define MODEL_CASTLE_GROUNDS_WARP_PIPE            MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
+
+#define MODEL_MF_BF 0x36
+#define MODEL_MF_VINE 0x37
+#define MODEL_MF_VINE2 0x38
+#define MODEL_MF_MILL 0x39
+#define MODEL_MF_HELP 0x3A
+#define MODEL_MF_PILLAR 0x3B
+#define MODEL_MF_ROPE 0x3C
+#define MODEL_MF_ROPE_MAIN 0x3D
+#define MODEL_MF_KNIFE 0x3E
+#define MODEL_MF_KQ 0x3F
+
+#define MODEL_DF_ARROW 0x36
+
+#define MODEL_MTC_BALL 0x36
+#define MODEL_MTC_PROPELLER 0x37
+#define MODEL_MTC_PLATSPIN 0x38
+#define MODEL_MTC_LINE_ACTIVE 0x39
+#define MODEL_MTC_LINE_INACTIVE 0x3A
+#define MODEL_MTC_LINE_WHOLE 0x3B
+#define MODEL_MTC_LINE_SWITCH 0x3C
+#define MODEL_MTC_LINE_SWITCH_OFF 0x3D
+#define MODEL_MTC_ICE_ROTAT 0x3E
+
+#define MODEL_HF_BOO 0x36
+#define MODEL_HF_GOO 0x37
+#define MODEL_HF_CRYSTAL 0x38
+#define MODEL_HF_CRYSTAL_PLAT 0x39
+#define MODEL_HF_ICE 0x3A
+#define MODEL_HF_ICE_POLE 0x3B
+#define MODEL_HF_ICE_POLE2 0x3C
+#define MODEL_HF_ICE_BRIDGE 0x3D
+#define MODEL_HF_BRIDGE1 0x3E
+#define MODEL_HF_BRIDGE2 0x3F
+#define MODEL_HF_JOEL 0x40
+#define MODEL_HF_SCARY_BOO 0x35
+
+#define MODEL_VCM_ARROW 0x36
+
+#define MODEL_BDF_P1 0x36
+#define MODEL_BDF_P2 0x37
+#define MODEL_BDF_P3 0x38
+#define MODEL_BDF_PUSHER 0x39
 
 #endif // MODEL_IDS_H

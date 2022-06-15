@@ -3,6 +3,14 @@
 
 #include "types.h"
 
+//scut defines
+extern const BehaviorScript bhvStickyPlat[];
+extern const BehaviorScript bhvFloatingPlatSwitch[];
+extern const BehaviorScript bhvHangingPlat[];
+extern const BehaviorScript bhvFloatingPlat[];
+extern const BehaviorScript bhvMessagePanel_TE[];
+
+//default defines
 extern const BehaviorScript bhvStarDoor[];
 extern const BehaviorScript bhvMrI[];
 extern const BehaviorScript bhvMrIIris[];
@@ -545,5 +553,54 @@ extern const BehaviorScript bhvUnusedFakeStar[];
 extern const BehaviorScript bhvAxoController[];
 extern const BehaviorScript bhvFlipnoteFrog[];
 // axo end
+
+extern const BehaviorScript bhvAbRotatingWall[];
+extern const BehaviorScript bhvAbManta[];
+extern const BehaviorScript bhvAbSand[];
+extern const BehaviorScript bhvAbClamCtl[];
+extern const BehaviorScript bhvAbTroll[];
+extern const BehaviorScript bhvAbMusic[];
+extern const BehaviorScript bhvMfButterfly[];
+extern const BehaviorScript bhvMfMill[];
+extern const BehaviorScript bhvMfLavaCtl[];
+extern const BehaviorScript bhvMfWoodenPostAnchor[];
+extern const BehaviorScript bhvMfWoodenPostMain[];
+extern const BehaviorScript bhvMfKnife[];
+extern const BehaviorScript bhvMfKQ[];
+extern const BehaviorScript bhvDfLevelReset[];
+extern const BehaviorScript bhvDfArrow[];
+extern const BehaviorScript bhvMtcYellowSpawner[];
+extern const BehaviorScript bhvMtcYellowBall[];
+extern const BehaviorScript bhvMtcYellowPurpleSwitch[];
+extern const BehaviorScript bhvMtcGreenPlatspin[];
+extern const BehaviorScript bhvMtcGreenLineSwitch[];
+extern const BehaviorScript bhvMtcBlueRotat[];
+extern const BehaviorScript bhvMtcRedGround[];
+extern const BehaviorScript bhvMtcBrickCtl[];
+extern const BehaviorScript bhvHfBoo[];
+extern const BehaviorScript bhvHfBooCtl[];
+extern const BehaviorScript bhvHfGoo[];
+extern const BehaviorScript bhvHfCrystal[];
+extern const BehaviorScript bhvHfCrystalBlock[];
+extern const BehaviorScript bhvHfIce[];
+extern const BehaviorScript bhvHfIcePole[];
+extern const BehaviorScript bhvHfIcePole2[];
+extern const BehaviorScript bhvHfIceBridgeCtl[];
+extern const BehaviorScript bhvHfBridgeMover[];
+extern const BehaviorScript bhvHfBridge1[];
+extern const BehaviorScript bhvHfBridge2[];
+extern const BehaviorScript bhvHfJoel[];
+extern const BehaviorScript bhvHfWind[];
+extern const BehaviorScript bhvHfScaryBoo[];
+extern const BehaviorScript bhvVcmCtl[];
+extern const BehaviorScript bhvVcmArrow[];
+extern const BehaviorScript bhvOWCtl[];
+extern const BehaviorScript bhvBowserCourseWarpCtl[];
+extern const BehaviorScript bhvBowserPieces[];
+extern const BehaviorScript bhvBowserMetalBoxPush[];
+extern const BehaviorScript bhvCheckpoint[];
+extern const BehaviorScript bhvStaticObjectEx[];
+extern const BehaviorScript bhvStaticObjectBillboardEx[];
+extern const BehaviorScript bhvSparkler[];
 
 #endif // BEHAVIOR_DATA_H
