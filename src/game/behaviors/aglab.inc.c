@@ -478,6 +478,7 @@ void bhv_mf_wooden_post_anchor_loop()
 {
     switch (o->oHeldState) {
         case HELD_FREE:
+        {
             struct Object* sparkle = spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
             sparkle->oPosY += 10.f;
             o->oMfWoodenPostAnchorFixAngle = 0;
@@ -486,6 +487,7 @@ void bhv_mf_wooden_post_anchor_loop()
                 gCamera->cutscene = 0;
                 reset_camera(gCamera);
             }
+        }
             break;
 
         case HELD_HELD:
@@ -2659,4 +2661,14 @@ void bowser_metal_box_push_loop()
             o->oAction = 0;
         }
     }
+}
+
+void slide_checkpoint_init()
+{
+
+}
+
+void slide_checkpoint_loop()
+{
+
 }
