@@ -93,11 +93,13 @@ f32 calculate_flipnote_accuracy(void) {
 
     for (i = 0; i < 2752; i++) {
         for (j = 0; j < 2; j++) {
-            u8 canvasPixel = canvas[i] & (0xF << (4 * j));
-            u8 referencePixel = reference[i] & (0xF << (4 * j));
+            s16 shift = 4 * j;
+            s16 selectedNibble = 0xF << shift;
+            u8 canvasPixel = (canvas[i] & selectedNibble) >> shift;
+            u8 referencePixel = (reference[i] & selectedNibble) >> shift;
             if (canvasPixel != referencePixel) {
                 if (referencePixel == 0xF) {
-                    u8 safezonePixel = safezone[i] & (0xF << (4 * j));
+                    u8 safezonePixel = (safezone[i] & selectedNibble) >> shift;
                     if (safezonePixel == 0xF) {
                         numWrong++;
                     }
