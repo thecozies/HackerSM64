@@ -271,4 +271,7 @@ void cur_obj_spawn_loot_blue_coin(void);
 
 void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 offsetY);
 
+// Reonu
+Gfx *geo_set_spring_color(s32 callContext, struct GraphNode *node, UNUSED void *context);
+
 #endif // OBJECT_HELPERS_H

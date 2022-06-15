@@ -20,3 +20,4 @@
 #include "Floating_Plat/geo.inc.c"
 #include "Hanging_Plat/geo.inc.c"
 #include "Sticky_Plat/geo.inc.c"
+#include "spring/geo.inc.c"

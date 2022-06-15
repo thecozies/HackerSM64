@@ -37,6 +37,9 @@
 #define MODEL_HANGING_PLAT                    0xFE
 #define MODEL_FLOATING_PLAT                   0xFF
 
+//reonu models
+#define MODEL_SPRING                          0x100
+
 #define MODEL_BOB_BUBBLY_TREE                  0x17        // bubbly_tree_geo
 #define MODEL_WDW_BUBBLY_TREE                  0x17        // bubbly_tree_geo
 #define MODEL_CASTLE_GROUNDS_BUBBLY_TREE       0x17        // bubbly_tree_geo
