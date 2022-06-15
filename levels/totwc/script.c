@@ -50,7 +50,7 @@ const LevelScript level_totwc_entry[] = {
 		MARIO_POS(0x01, -180, 0, 1000, 0),
 		TERRAIN(totwc_area_1_collision),
 		MACRO_OBJECTS(totwc_area_1_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_FLIPNOTE),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
