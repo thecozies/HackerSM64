@@ -20,4 +20,8 @@ extern const LevelScript level_sa_entry[];
 
 #include "levels/sa/galaxy_background/header.h"
 
+#include "levels/sa/yellow_platform/geo_header.h"
+
+#include "levels/sa/yellow_platform/collision_header.h"
+
 #endif

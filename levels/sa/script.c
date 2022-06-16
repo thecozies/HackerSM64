@@ -36,6 +36,7 @@ const LevelScript level_sa_entry[] = {
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_5), 
 	JUMP_LINK(script_func_global_14), 
+	LOAD_MODEL_FROM_GEO(MODEL_YELLOW_PLATFORM, yellow_platform_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -48,6 +49,7 @@ const LevelScript level_sa_entry[] = {
 		OBJECT(MODEL_SPRING, -185, 100, -324, 0, 0, 0, (0x00 << 16), bhvSpring),
 		OBJECT(MODEL_SPRING, -6, 100, -324, 0, 0, 0, (0x01 << 16), bhvSpring),
 		OBJECT(MODEL_SPRING, 164, 100, -324, 0, 0, 0, (0x02 << 16), bhvSpring),
+		OBJECT(MODEL_YELLOW_PLATFORM, -405, 100, -324, 0, 0, 0, (0x00 << 16), bhvStaticObject),
 		OBJECT(MODEL_NONE, 0, 200, 0, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),
 		TERRAIN(sa_area_1_collision),
 		MACRO_OBJECTS(sa_area_1_macro_objs),

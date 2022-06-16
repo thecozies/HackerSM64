@@ -17,3 +17,5 @@
 #include "levels/sa/leveldata.inc.c"
 
 #include "levels/sa/galaxy_background/model.inc.c"
+#include "levels/sa/yellow_platform/model.inc.c"
+#include "levels/sa/yellow_platform/collision.inc.c"
