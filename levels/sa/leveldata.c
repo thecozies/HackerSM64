@@ -15,3 +15,5 @@
 #include "levels/sa/areas/1/macro.inc.c"
 
 #include "levels/sa/leveldata.inc.c"
+
+#include "levels/sa/galaxy_background/model.inc.c"

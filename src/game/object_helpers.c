@@ -28,6 +28,8 @@
 #include "spawn_sound.h"
 #include "puppylights.h"
 
+#include "levels/sa/header.h"
+
 static s8 sLevelsWithRooms[] = { LEVEL_BBH, LEVEL_CASTLE, LEVEL_HMC, -1 };
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
@@ -2427,7 +2429,7 @@ Gfx *geo_render_INFBG(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4
         gMatStackIndex++;
         mtxf_to_mtx(mtx, gMatStack[gMatStackIndex]);
         gMatStackFixed[gMatStackIndex] = mtx;
-        geo_append_display_list(c8background_BG_mesh, 0); // DL pointer
+        geo_append_display_list(galaxy_background_AAAGalaxyBackground_mesh, 0); // DL pointer
         gMatStackIndex--;
     }
     return 0;

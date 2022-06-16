@@ -3,6 +3,7 @@
 const GeoLayout sa_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0x01, geo_render_INFBG),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, sa_dl_Cube_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
