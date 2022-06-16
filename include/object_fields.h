@@ -1385,4 +1385,7 @@ os16112*/
 
 #define oBowserPieceCtlKlepto OBJECT_FIELD_OBJ(0x1B)
 
+#define oSlideCheckpointFire0 OBJECT_FIELD_OBJ(0x1B)
+#define oSlideCheckpointCount OBJECT_FIELD_S32(0x49)
+
 #endif // OBJECT_FIELDS_H

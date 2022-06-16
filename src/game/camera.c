@@ -1096,18 +1096,7 @@ void mode_radial_camera(struct Camera *c) {
 }
 
 s32 snap_to_45_degrees(s16 angle) {
-    if (angle % DEGREES(45)) {
-        s16 d1 = ABS(angle) % DEGREES(45);
-        s16 d2 = DEGREES(45) - d1;
-        if (angle > 0) {
-            if (d1 < d2) return angle - d1;
-            else return angle + d2;
-        } else {
-            if (d1 < d2) return angle + d1;
-            else return angle - d2;
-        }
-    }
-    return angle;
+    return (angle + 0x1000) & 0xe000;
 }
 
 /**
@@ -3168,7 +3157,7 @@ void reset_camera(struct Camera *c) {
     sZeroZoomDist = 0.f;
     sBehindMarioSoundTimer = 0;
     sCSideButtonYaw = 0;
-    s8DirModeYawOffset = 0;
+    s8DirModeYawOffset = snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
     c->doorStatus = DOOR_DEFAULT;
     sMarioCamState->headRotation[0] = 0;
     sMarioCamState->headRotation[1] = 0;
