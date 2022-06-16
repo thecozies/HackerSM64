@@ -1,5 +1,12 @@
 #include "src/game/envfx_snow.h"
 
+const GeoLayout flipnote_frog_Exclamation_Mark_Switch_opt1[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_ANIMATED_PART(LAYER_ALPHA, 0, 80, 45, flipnote_frog_Exclamation_Mark_Geometry_mesh_layer_1_mat_override_Frog_Default_0),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
 const GeoLayout flipnote_frog_Material_Switch_opt1[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
@@ -28,6 +35,14 @@ const GeoLayout flipnote_frog_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 0, 0, NULL),
 			GEO_OPEN_NODE(),
+				GEO_SWITCH_CASE(3, geo_switch_flipnote_frog_exclamation_mark),
+				GEO_OPEN_NODE(),
+					GEO_NODE_START(),
+					GEO_OPEN_NODE(),
+						GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 80, 45, flipnote_frog_Exclamation_Mark_Geometry_mesh_layer_1),
+					GEO_CLOSE_NODE(),
+					GEO_BRANCH(1, flipnote_frog_Exclamation_Mark_Switch_opt1),
+				GEO_CLOSE_NODE(),
 				GEO_SWITCH_CASE(4, geo_switch_anim_state),
 				GEO_OPEN_NODE(),
 					GEO_NODE_START(),
@@ -40,6 +55,7 @@ const GeoLayout flipnote_frog_geo[] = {
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, flipnote_frog_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, flipnote_frog_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
