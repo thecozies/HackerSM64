@@ -2612,8 +2612,8 @@ void ow_ctl_loop()
 
         if (o->oTimer > 120)
         {
-            print_text_centered(160, 40, "GAME OVER");
-            print_text_centered(160, 180, "PRESS L TO RESTART");
+            print_text_centered(160, 180, "GAME OVER");
+            print_text_centered(160, 60, "PRESS L TO RESTART");
             if (gPlayer1Controller->buttonPressed & L_TRIG)
             {
                 gIsGravityFlipped = 0;
