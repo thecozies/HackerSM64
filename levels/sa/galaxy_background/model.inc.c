@@ -928,31 +928,31 @@ Gfx galaxy_background_AAAGalaxyBackground_mesh_tri_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_galaxy_background_bigtexturemode_layer1[] = {
+Gfx mat_galaxy_background_bigtexturemode_layer0[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, 0, SHADE, 0, TEXEL1, COMBINED, 0, 0, 0, 0),
-	gsSPGeometryMode(G_LIGHTING, 0),
+	gsSPGeometryMode(G_ZBUFFER | G_LIGHTING, 0),
 	gsDPSetCycleType(G_CYC_2CYCLE),
-	gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_OPA_SURF2),
+	gsDPSetRenderMode(G_RM_PASS, G_RM_OPA_SURF2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetPrimColor(0, 0, 67, 65, 35, 255),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_galaxy_background_bigtexturemode_layer1[] = {
+Gfx mat_revert_galaxy_background_bigtexturemode_layer0[] = {
 	gsDPPipeSync(),
-	gsSPGeometryMode(0, G_LIGHTING),
+	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
 	gsDPSetCycleType(G_CYC_1CYCLE),
-	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
+	gsDPSetRenderMode(G_RM_ZB_OPA_SURF, G_RM_ZB_OPA_SURF2),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_galaxy_background_solid_purple_layer1[] = {
+Gfx mat_galaxy_background_solid_purple_layer0[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, 0, SHADE, 0, TEXEL1, COMBINED, 0, 0, 0, 0),
-	gsSPGeometryMode(G_LIGHTING, 0),
+	gsSPGeometryMode(G_ZBUFFER | G_LIGHTING, 0),
 	gsDPSetCycleType(G_CYC_2CYCLE),
-	gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_OPA_SURF2),
+	gsDPSetRenderMode(G_RM_PASS, G_RM_OPA_SURF2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
 	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_8b_LOAD_BLOCK, 1, galaxy_background_stars_i8),
@@ -966,11 +966,11 @@ Gfx mat_galaxy_background_solid_purple_layer1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_galaxy_background_solid_purple_layer1[] = {
+Gfx mat_revert_galaxy_background_solid_purple_layer0[] = {
 	gsDPPipeSync(),
-	gsSPGeometryMode(0, G_LIGHTING),
+	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
 	gsDPSetCycleType(G_CYC_1CYCLE),
-	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
+	gsDPSetRenderMode(G_RM_ZB_OPA_SURF, G_RM_ZB_OPA_SURF2),
 	gsSPEndDisplayList(),
 };
 
@@ -979,12 +979,12 @@ Gfx galaxy_background_AAAGalaxyBackground_mesh[] = {
 	gsSPVertex(galaxy_background_AAAGalaxyBackground_mesh_vtx_cull + 0, 8, 0),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPCullDisplayList(0, 7),
-	gsSPDisplayList(mat_galaxy_background_bigtexturemode_layer1),
+	gsSPDisplayList(mat_galaxy_background_bigtexturemode_layer0),
 	gsSPDisplayList(galaxy_background_AAAGalaxyBackground_mesh_tri_0),
-	gsSPDisplayList(mat_revert_galaxy_background_bigtexturemode_layer1),
-	gsSPDisplayList(mat_galaxy_background_solid_purple_layer1),
+	gsSPDisplayList(mat_revert_galaxy_background_bigtexturemode_layer0),
+	gsSPDisplayList(mat_galaxy_background_solid_purple_layer0),
 	gsSPDisplayList(galaxy_background_AAAGalaxyBackground_mesh_tri_1),
-	gsSPDisplayList(mat_revert_galaxy_background_solid_purple_layer1),
+	gsSPDisplayList(mat_revert_galaxy_background_solid_purple_layer0),
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPClearGeometryMode(G_TEXTURE_GEN),

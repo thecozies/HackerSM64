@@ -2406,6 +2406,34 @@ Gfx *geo_set_spring_color(s32 callContext, struct GraphNode *node, UNUSED void *
     return dlStart;
 }
 
+Gfx *geo_set_blinking_platform_prim_alpha(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart, *dlHead;
+    struct Object *objectGraphNode;
+    struct GraphNodeGenerated *currentGraphNode;
+    u8 layer;
+    dlStart = NULL;
+    if (callContext == GEO_CONTEXT_RENDER) {
+        currentGraphNode = (struct GraphNodeGenerated *) node;
+        objectGraphNode = (struct Object *) gCurGraphNodeObject;
+        layer = currentGraphNode->parameter & 0xFF;
+
+        if (layer != 0) {
+            currentGraphNode->fnNode.node.flags =
+                (layer << 8) | (currentGraphNode->fnNode.node.flags & 0xFF);
+        }
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+        dlHead = dlStart;
+        u8 r = (objectGraphNode->oUnusedCoinParams >> 16) & 0xff;
+        u8 g = (objectGraphNode->oUnusedCoinParams >> 8) & 0xff;
+        u8 b = objectGraphNode->oUnusedCoinParams & 0xff;
+        u8 alpha = objectGraphNode->os16F6;
+        gDPSetPrimColor(dlHead++, 0, 0, r, g, b, alpha);
+        gSPEndDisplayList(dlHead);
+    }
+    return dlStart;    
+}
+
 extern struct AllocOnlyPool *gDisplayListHeap;
 extern void geo_append_display_list(void *displayList, s16 layer);
 extern s16 gMatStackIndex;

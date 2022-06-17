@@ -40,7 +40,7 @@
 //reonu models
 #define MODEL_SPRING                          0x100
 
-#define MODEL_YELLOW_PLATFORM                 0xFC
+#define MODEL_BLINKING_PLATFORM                0xFC
 
 #define MODEL_BOB_BUBBLY_TREE                  0x17        // bubbly_tree_geo
 #define MODEL_WDW_BUBBLY_TREE                  0x17        // bubbly_tree_geo

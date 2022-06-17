@@ -17,4 +17,4 @@
 
 #include "levels/sa/geo.inc.c"
 
-#include "levels/sa/yellow_platform/geo.inc.c"
+#include "levels/sa/blinking_platform/geo.inc.c"

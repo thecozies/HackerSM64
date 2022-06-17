@@ -604,5 +604,6 @@ extern const BehaviorScript bhvStaticObjectEx[];
 extern const BehaviorScript bhvStaticObjectBillboardEx[];
 extern const BehaviorScript bhvSparkler[];
 extern const BehaviorScript bhvSpring[];
+extern const BehaviorScript bhvBlinkingPlatform[];
 
 #endif // BEHAVIOR_DATA_H

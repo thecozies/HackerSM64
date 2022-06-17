@@ -6774,3 +6774,16 @@ const BehaviorScript bhvSpring[] = {
         SET_INT(oInteractStatus, 0),
     END_LOOP(),
 };
+
+extern void bhv_blinking_platform_init();
+extern void bhv_blinking_platform_loop();
+const BehaviorScript bhvBlinkingPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_COMPUTE_DIST_TO_MARIO),
+    LOAD_COLLISION_DATA(blinking_platform_collision),
+    CALL_NATIVE(bhv_init_room),
+    CALL_NATIVE(bhv_blinking_platform_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_blinking_platform_loop),
+    END_LOOP(),
+};
