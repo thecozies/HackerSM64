@@ -219,8 +219,8 @@ void bhv_flipnote_frog_loop(void) {
     if (o->oF8 < 2) { // The frog object's o->oF8 refers to the state of the exclamation mark
         u16 newButtonState = gPlayer1Controller->buttonDown;
         if (
-            ((o->oFC & L_TRIG) && !(newButtonState & L_TRIG)) ||    // The frog object's o->oFC refers to the button state on the previous frame
-            ((o->oFC & R_TRIG) && !(newButtonState & R_TRIG))       // This only checks accuracy when the L or R buttons are released
+            (gPlayer1Controller->buttonReleased & L_TRIG) ||
+            (gPlayer1Controller->buttonReleased & R_TRIG)
         ) {
             f32 accuracy = calculate_flipnote_accuracy();
             if (accuracy >= 0.8f) {
