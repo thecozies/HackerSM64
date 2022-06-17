@@ -1,0 +1,15 @@
+extern const GeoLayout teleporter_geo[];
+extern Lights1 teleporter_green_stuff_lights;
+extern Lights1 teleporter_base_lights;
+extern u8 teleporter_Glover_1E250DF4_0_0_B760BEBE_ciByRGBA_ci4[];
+extern u8 teleporter_Glover_1E250DF4_0_0_B760BEBE_ciByRGBA_ci4_pal_rgba16[];
+extern Vtx teleporter_teleporter_mesh_layer_1_vtx_cull[8];
+extern Vtx teleporter_teleporter_mesh_layer_1_vtx_0[25];
+extern Gfx teleporter_teleporter_mesh_layer_1_tri_0[];
+extern Vtx teleporter_teleporter_mesh_layer_1_vtx_1[40];
+extern Gfx teleporter_teleporter_mesh_layer_1_tri_1[];
+extern Gfx mat_teleporter_green_stuff[];
+extern Gfx mat_revert_teleporter_green_stuff[];
+extern Gfx mat_teleporter_base[];
+extern Gfx teleporter_teleporter_mesh_layer_1[];
+extern Gfx teleporter_material_revert_render_settings[];

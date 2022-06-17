@@ -5,6 +5,8 @@ const GeoLayout sa_area_1_geo[] = {
 	GEO_OPEN_NODE(),
 		GEO_ASM(0x00, geo_render_INFBG),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 15144, 0, 0, sa_dl_Cube_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 10190, 127, 0, sa_dl_teleporter_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 10818, 1027, 472, sa_dl_teleporter_001_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

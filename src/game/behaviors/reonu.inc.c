@@ -57,6 +57,11 @@ void bhv_spring_loop(void) {
 #define PLATFORM_YELLOW 0x01
 #define PLATFORM_RED 0x02
 
+#define X1           0x0A
+#define X2           0x14
+#define X3           0x1E
+#define X4           0x28
+
 enum oActionsYellowPlatform {
     YELLOW_PLATFORM_ACT_IDLE,
     YELLOW_PLATFORM_ACT_BLINKING,
@@ -81,11 +86,11 @@ void bhv_blinking_platform_init(void) {
     }
 
     if (BPARAM2)
-        o->header.gfx.scale[0] *= BPARAM2;
+        o->header.gfx.scale[0] *= BPARAM2/10;
     if (BPARAM3)
-        o->header.gfx.scale[2] *= BPARAM3;
+        o->header.gfx.scale[2] *= BPARAM3/10;
     if (BPARAM4)
-        o->header.gfx.scale[1] *= BPARAM4; 
+        o->header.gfx.scale[1] *= BPARAM4/10; 
 
 }
 
