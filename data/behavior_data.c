@@ -6766,6 +6766,10 @@ const BehaviorScript bhvSlideCheckpointCtl[] = {
     END_LOOP(),
 };
 
+extern const Collision gear_1_collision[];
+extern const Collision gear_2_collision[];
+extern const Collision gear_3_collision[];
+extern const Collision gear_4_collision[];
 const BehaviorScript bhvAgtGear1[] = {
     BEGIN(OBJ_LIST_SURFACE),
     LOAD_COLLISION_DATA(gear_1_collision),

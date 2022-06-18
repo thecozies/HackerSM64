@@ -37,6 +37,11 @@ const LevelScript level_cotmc_entry[] = {
 	JUMP_LINK(script_func_global_9), 
 	JUMP_LINK(script_func_global_18), 
 	JUMP_LINK(script_func_global_1), 
+    LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR1, gear_1_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR2, gear_2_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR3, gear_3_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR4, gear_4_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_AGT_GEARKURO, gear_kuromame_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

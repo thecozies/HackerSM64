@@ -13,6 +13,12 @@
 
 #include "levels/cotmc/header.h"
 
+#include "gear_1/geo.inc.c"
+#include "gear_2/geo.inc.c"
+#include "gear_3/geo.inc.c"
+#include "gear_4/geo.inc.c"
+#include "gear_kuromame/geo.inc.c"
+
 #include "levels/cotmc/areas/1/geo.inc.c"
 
 #include "levels/cotmc/geo.inc.c"

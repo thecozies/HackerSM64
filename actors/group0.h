@@ -331,24 +331,6 @@ extern const Gfx white_particle_small_dl_end[];
 extern const Gfx white_particle_small_dl[];
 extern const Gfx white_particle_small_unused_dl[];
 
-#include "gear_1/geo_header.h"
-
-#include "gear_1/collision_header.h"
-
-#include "gear_2/geo_header.h"
-
-#include "gear_2/collision_header.h"
-
-#include "gear_3/geo_header.h"
-
-#include "gear_3/collision_header.h"
-
-#include "gear_4/collision_header.h"
-
-#include "gear_4/geo_header.h"
-
-#include "gear_kuromame/geo_header.h"
-
 #include "Floating_Plat/geo_header.h"
 
 #include "Hanging_Plat/geo_header.h"

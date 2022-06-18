@@ -20,6 +20,23 @@ extern const Gfx cotmc_dl_water[];
 // script
 extern const LevelScript level_cotmc_entry[];
 
+#include "gear_1/geo_header.h"
+
+#include "gear_1/collision_header.h"
+
+#include "gear_2/geo_header.h"
+
+#include "gear_2/collision_header.h"
+
+#include "gear_3/geo_header.h"
+
+#include "gear_3/collision_header.h"
+
+#include "gear_4/collision_header.h"
+
+#include "gear_4/geo_header.h"
+
+#include "gear_kuromame/geo_header.h"
 
 #include "levels/cotmc/header.inc.h"
 
