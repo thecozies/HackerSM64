@@ -8,8 +8,12 @@ const GeoLayout sa_area_1_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, sa_dl_Cylinder_mesh_layer_5),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 565, 510, -880, -6, 0, 0, sa_dl_Cylinder_001_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, sa_dl_Cylinder_002_mesh_layer_5),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 1279, 2471, 85, 0, 0, -9, sa_dl_Cylinder_003_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 777, 176, -114, 0, -2, 0, sa_dl_Cylinder_006_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -96, 59, 139, -8, -2, 70, sa_dl_Cylinder_007_mesh_layer_1),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 1205, 2471, 85),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -794, 4331, 85, sa_dl_Shaft_Horizontal_Collision_mesh_layer_5),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 100, 3443, 85, sa_dl_Shaft_Vertical_Collision_mesh_layer_5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

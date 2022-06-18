@@ -545,5 +545,6 @@ extern const BehaviorScript bhvAgtGear1[];
 extern const BehaviorScript bhvAgtGear2[];
 extern const BehaviorScript bhvAgtGear3[];
 extern const BehaviorScript bhvAgtGear4[];
+extern const BehaviorScript bhvGearSounds[];
 
 #endif // BEHAVIOR_DATA_H

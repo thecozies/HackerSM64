@@ -6129,3 +6129,10 @@ const BehaviorScript bhvAgtGear4[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+const BehaviorScript bhvGearSounds[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_gear_sounds_loop),
+    END_LOOP(),
+};
