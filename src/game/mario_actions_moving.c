@@ -812,8 +812,16 @@ s32 act_walking(struct MarioState *m) {
             break;
 
         case GROUND_STEP_HIT_WALL:
-            push_or_sidle_wall(m, startPos);
-            m->actionTimer = 0;
+            // aglab note - running in the lava wall will make mario burn
+            if (m->wall && m->wall->type == SURFACE_BURNING)
+            {
+                set_mario_action(m, ACT_LAVA_BOOST, 0);
+            }
+            else
+            {
+                push_or_sidle_wall(m, startPos);
+                m->actionTimer = 0;
+            }
             break;
     }
 

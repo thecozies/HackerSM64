@@ -6766,6 +6766,19 @@ const BehaviorScript bhvSlideCheckpointCtl[] = {
     END_LOOP(),
 };
 
+extern void fight_platform_ctl_init();
+extern void fight_platform_ctl_loop();
+const BehaviorScript bhvFightPlatformCtl[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    CALL_NATIVE(fight_platform_ctl_init),
+    LOAD_COLLISION_DATA(fight_platform_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_platform_ctl_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
 extern const Collision gear_1_collision[];
 extern const Collision gear_2_collision[];
 extern const Collision gear_3_collision[];

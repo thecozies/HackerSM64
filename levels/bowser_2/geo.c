@@ -15,3 +15,7 @@
 
 #include "levels/bowser_2/tilting_platform/geo.inc.c"
 #include "levels/bowser_2/areas/1/geo.inc.c"
+
+#include "levels/bowser_2/geo.inc.c"
+
+#include "levels/bowser_2/fight_platform/geo.inc.c"

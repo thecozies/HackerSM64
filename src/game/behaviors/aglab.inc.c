@@ -2854,3 +2854,21 @@ extern void slide_checkpoint_ctl_loop()
         }
     }
 }
+
+void fight_platform_ctl_init()
+{
+    f32 d;
+    o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvBowser, &d);
+}
+
+void fight_platform_ctl_loop()
+{
+    o->oPosY = 0.f;
+    o->parentObj->oAction = 0;
+    o->oMoveAngleYaw += 0x172;
+    o->parentObj->oFaceAngleYaw = o->oMoveAngleYaw;
+
+    o->parentObj->oPosX = o->oPosX;
+    o->parentObj->oPosY = o->oPosY + 180.f;
+    o->parentObj->oPosZ = o->oPosZ;
+}
