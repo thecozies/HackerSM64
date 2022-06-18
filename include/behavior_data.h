@@ -549,6 +549,11 @@ extern const BehaviorScript bhvEndBirds2[];
 extern const BehaviorScript bhvIntroScene[];
 extern const BehaviorScript bhvUnusedFakeStar[];
 
+extern const BehaviorScript bhvAgtGear1[];
+extern const BehaviorScript bhvAgtGear2[];
+extern const BehaviorScript bhvAgtGear3[];
+extern const BehaviorScript bhvAgtGear4[];
+extern const BehaviorScript bhvGearSounds[];
 // axo start
 extern const BehaviorScript bhvAxoController[];
 extern const BehaviorScript bhvFlipnoteFrog[];

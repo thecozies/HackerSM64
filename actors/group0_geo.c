@@ -17,6 +17,12 @@
 #include "sparkle_animation/geo.inc.c"
 #include "mario/geo.inc.c"
 
+#include "gear_1/geo.inc.c"
+#include "gear_2/geo.inc.c"
+#include "gear_3/geo.inc.c"
+#include "gear_4/geo.inc.c"
+#include "gear_kuromame/geo.inc.c"
+
 #include "Floating_Plat/geo.inc.c"
 #include "Hanging_Plat/geo.inc.c"
 #include "Sticky_Plat/geo.inc.c"

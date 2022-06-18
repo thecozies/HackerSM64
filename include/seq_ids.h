@@ -59,6 +59,7 @@ enum SeqId {
     SEQ_FIGHT2,
     SEQ_DUCKTALES,
     SEQ_FLIPNOTE,
+    SEQ_AGT,
     SEQ_COUNT
 };
 

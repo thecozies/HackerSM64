@@ -13,57 +13,73 @@
 
 #include "actors/common1.h"
 
+/* Fast64 begin persistent block [includes] */
+/* Fast64 end persistent block [includes] */
+
 #include "make_const_nonconst.h"
 #include "levels/cotmc/header.h"
 
-static const LevelScript script_func_local_1[] = {
-    OBJECT(/*model*/ MODEL_CAP_SWITCH, /*pos*/ 0,  363, -6144, /*angle*/ 0, 0, 0, /*behParam*/ 0x00010000, /*beh*/ bhvCapSwitch),
-    OBJECT(/*model*/ MODEL_NONE,       /*pos*/ 0,  500, -7373, /*angle*/ 0, 0, 0, /*behParam*/ 0x00000000, /*beh*/ bhvWaterfallSoundLoop),
-    OBJECT(/*model*/ MODEL_NONE,       /*pos*/ 0,  500,  3584, /*angle*/ 0, 0, 0, /*behParam*/ 0x00000000, /*beh*/ bhvWaterfallSoundLoop),
-    RETURN(),
-};
-
-static const LevelScript script_func_local_2[] = {
-    OBJECT(/*model*/ MODEL_NONE,       /*pos*/ 0, -200, -7000, /*angle*/ 0, 0, 0, /*behParam*/ 0x00000000, /*beh*/ bhvHiddenRedCoinStar),
-    RETURN(),
-};
+/* Fast64 begin persistent block [scripts] */
+/* Fast64 end persistent block [scripts] */
 
 const LevelScript level_cotmc_entry[] = {
-    INIT_LEVEL(),
-    LOAD_YAY0(        /*seg*/ 0x07, _cotmc_segment_7SegmentRomStart, _cotmc_segment_7SegmentRomEnd),
-    LOAD_YAY0_TEXTURE(/*seg*/ 0x09, _cave_yay0SegmentRomStart, _cave_yay0SegmentRomEnd),
-    LOAD_YAY0(        /*seg*/ 0x05, _group8_yay0SegmentRomStart, _group8_yay0SegmentRomEnd),
-    LOAD_RAW(         /*seg*/ 0x0C, _group8_geoSegmentRomStart,  _group8_geoSegmentRomEnd),
-    LOAD_YAY0(        /*seg*/ 0x06, _group17_yay0SegmentRomStart, _group17_yay0SegmentRomEnd),
-    LOAD_RAW(         /*seg*/ 0x0D, _group17_geoSegmentRomStart,  _group17_geoSegmentRomEnd),
-    LOAD_YAY0(        /*seg*/ 0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd),
-    LOAD_RAW(         /*seg*/ 0x0F, _common0_geoSegmentRomStart,  _common0_geoSegmentRomEnd),
-    ALLOC_LEVEL_POOL(),
-    MARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),
-    JUMP_LINK(script_func_global_9),
-    JUMP_LINK(script_func_global_18),
-    JUMP_LINK(script_func_global_1),
+	INIT_LEVEL(),
+	LOAD_YAY0(0x07, _cotmc_segment_7SegmentRomStart, _cotmc_segment_7SegmentRomEnd), 
+	LOAD_YAY0_TEXTURE(0x09, _cave_yay0SegmentRomStart, _cave_yay0SegmentRomEnd), 
+	LOAD_YAY0(0x05, _group8_yay0SegmentRomStart, _group8_yay0SegmentRomEnd), 
+	LOAD_RAW(0x0C, _group8_geoSegmentRomStart, _group8_geoSegmentRomEnd), 
+	LOAD_YAY0(0x06, _group17_yay0SegmentRomStart, _group17_yay0SegmentRomEnd), 
+	LOAD_RAW(0x0D, _group17_geoSegmentRomStart, _group17_geoSegmentRomEnd), 
+	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
+	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
+	ALLOC_LEVEL_POOL(),
+	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	JUMP_LINK(script_func_global_9), 
+	JUMP_LINK(script_func_global_18), 
+	JUMP_LINK(script_func_global_1), 
 
-    AREA(/*index*/ 1, cotmc_geo_0001A0),
-        OBJECT(/*model*/ MODEL_NONE, /*pos*/ -4185, 1020, -47, /*angle*/ 0, 90, 0, /*behParam*/ 0x000A0000, /*beh*/ bhvAirborneWarp),
-        WARP_NODE(/*id*/ 0x0A, /*destLevel*/ LEVEL_COTMC, /*destArea*/ 0x01, /*destNode*/ 0x0A, /*flags*/ WARP_NO_CHECKPOINT),
-        WARP_NODE(/*id*/ 0xF0, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x03, /*destNode*/ 0x34, /*flags*/ WARP_NO_CHECKPOINT),
-        WARP_NODE(/*id*/ 0xF1, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x03, /*destNode*/ 0x66, /*flags*/ WARP_NO_CHECKPOINT),
-        WARP_NODE(/*id*/ 0xF3, /*destLevel*/ LEVEL_CASTLE_GROUNDS, /*destArea*/ 0x01, /*destNode*/ 0x14, /*flags*/ WARP_NO_CHECKPOINT),
-        JUMP_LINK(script_func_local_2),
-        JUMP_LINK(script_func_local_1),
-        TERRAIN(/*terrainData*/ cotmc_seg7_collision_level),
-        MACRO_OBJECTS(/*objList*/ cotmc_seg7_macro_objs),
-        SHOW_DIALOG(/*index*/ 0x00, DIALOG_130),
-        SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0004, /*seq*/ SEQ_LEVEL_UNDERGROUND),
-        TERRAIN_TYPE(/*terrainType*/ TERRAIN_STONE),
-    END_AREA(),
+	/* Fast64 begin persistent block [level commands] */
+	/* Fast64 end persistent block [level commands] */
 
-    FREE_LEVEL_POOL(),
-    MARIO_POS(/*area*/ 1, /*yaw*/ 90, /*pos*/ -4185, 20, -47),
-    CALL(/*arg*/ 0, /*func*/ lvl_init_or_update),
-    CALL_LOOP(/*arg*/ 1, /*func*/ lvl_init_or_update),
-    CLEAR_LEVEL(),
-    SLEEP_BEFORE_EXIT(/*frames*/ 1),
-    EXIT(),
+	AREA(1, cotmc_area_1),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, 95, 2203, 1569, 0, 0, 0, 0x00000000, bhvCoinFormation),
+		OBJECT(MODEL_NONE, -563, 3712, 338, 0, 0, 0, (0 << 24) | (1 << 16) | (0 << 8) | (0), bhvCoinFormation),
+		OBJECT(MODEL_NONE, -563, 3712, -162, 0, 0, 0, (0 << 24) | (1 << 16) | (0 << 8) | (0), bhvCoinFormation),
+		OBJECT(MODEL_NONE, 1935, 2745, 88, 0, 0, 0, (0 << 24) | (1 << 16) | (0 << 8) | (0), bhvCoinFormation),
+		OBJECT(MODEL_NONE, 331, 1367, -22, 0, -15, 0, 0x00000000, bhvCoinFormation),
+		OBJECT(MODEL_NONE, -500, 1567, -1777, 0, 0, 0, (0 << 24) | (2 << 16) | (0 << 8) | (0), bhvCoinFormation),
+		OBJECT(MODEL_NONE, 1333, 2892, 88, 0, 0, 0, (0 << 24) | (2 << 16) | (0 << 8) | (0), bhvCoinFormation),
+		OBJECT(MODEL_NONE, 101, 3635, 88, 0, 0, 0, (0 << 24) | (0b10010 << 16) | (0 << 8) | (0), bhvCoinFormation),
+		OBJECT(MODEL_NONE, -1665, 5593, 88, 0, 0, 0, (0 << 24) | (1 << 16) | (0 << 8) | (0), bhvCoinFormation),
+		OBJECT(MODEL_NONE, 0, 3595, 0, 0, 0, 0, 0x00000000, bhvGearSounds),
+		OBJECT(MODEL_AGT_GEARKURO, 790, 466, -115, 0, 0, 0, 0x00000000, bhvFireSpitter),
+		OBJECT(MODEL_AGT_GEARKURO, -74, 312, 125, 0, 0, 0, 0x00000000, bhvFireSpitter),
+		OBJECT(MODEL_AGT_GEARKURO, -500, 1567, -1777, 0, 0, 0, 0x00000000, bhvFireSpitter),
+		OBJECT(MODEL_AGT_GEARKURO, 1208, 3784, 84, 0, 0, 0, 0x00000000, bhvFireSpitter),
+		OBJECT(MODEL_AGT_GEARKURO, 101, 4666, 1284, 0, 0, 0, 0x00000000, bhvFireSpitter),
+		OBJECT(MODEL_AGT_GEARKURO, 101, 4666, -1116, 0, 0, 0, 0x00000000, bhvFireSpitter),
+		MARIO_POS(0x01, -180, 0, 200, 1500),
+		OBJECT(MODEL_STAR, 0, 6885, 0, 0, 0, 0, 0x00000000, bhvStar),
+		OBJECT(MODEL_NONE, 0, 200, 1500, 0, -180, 0, 0x000A0000, bhvSpinAirborneWarp),
+		OBJECT(MODEL_AGT_GEAR2, 100, 3443, 85, 0, 0, 0, 0x00000000, bhvAgtGear2),
+		OBJECT(MODEL_AGT_GEAR3, -794, 4331, 85, 0, 0, 0, 0x00000000, bhvAgtGear3),
+		OBJECT(MODEL_AGT_GEAR4, -1666, 5224, 85, 0, 0, 0, 0x00000000, bhvAgtGear4),
+		TERRAIN(cotmc_area_1_collision),
+		MACRO_OBJECTS(cotmc_area_1_macro_objs),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_AGT),
+		TERRAIN_TYPE(TERRAIN_GRASS),
+		/* Fast64 begin persistent block [area commands] */
+		/* Fast64 end persistent block [area commands] */
+	END_AREA(),
+
+	FREE_LEVEL_POOL(),
+	MARIO_POS(0x01, -180, 0, 200, 1500),
+	CALL(0, lvl_init_or_update),
+	CALL_LOOP(1, lvl_init_or_update),
+	CLEAR_LEVEL(),
+	SLEEP_BEFORE_EXIT(1),
+	EXIT(),
 };
