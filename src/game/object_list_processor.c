@@ -229,7 +229,7 @@ void copy_mario_state_to_object(void) {
     gCurrentObject->oVelZ = gMarioStates[i].vel[2];
 
     gCurrentObject->oPosX = gMarioStates[i].pos[0];
-    gCurrentObject->oPosY = gMarioStates[i].pos[1];
+    gCurrentObject->oPosY = (gGravityMode ? 9000.f - gMarioStates[i].pos[1] : gMarioStates[i].pos[1]);
     gCurrentObject->oPosZ = gMarioStates[i].pos[2];
 
     gCurrentObject->oMoveAnglePitch = gCurrentObject->header.gfx.angle[0];
@@ -260,9 +260,13 @@ void spawn_particle(u32 activeParticleFlag, ModelID16 model, const BehaviorScrip
 /**
  * Mario's primary behavior update function.
  */
+extern struct Controller *gPlayer1Controller;
+
 void bhv_mario_update(void) {
     u32 particleFlags = 0;
     s32 i;
+
+    gGravityMode = gIsGravityFlipped;
 
     particleFlags = execute_mario_action(gCurrentObject);
     gCurrentObject->oMarioParticleFlags = particleFlags;
@@ -280,6 +284,9 @@ void bhv_mario_update(void) {
 
         i++;
     }
+
+    if (gGravityMode) gMarioObject->header.gfx.angle[2] += 0x8000; // Turn Mario upside down
+    gGravityMode = FALSE; // Gravity must only be flipped when checking Mario's collision, not other objects.
 }
 
 /**
@@ -601,6 +608,7 @@ UNUSED static u16 unused_get_elapsed_time(u64 *cycleCounts, s32 index) {
     return time;
 }
 
+u8 gDoPlatformDisplacement = 1;
 /**
  * Update all objects. This includes script execution, object collision detection,
  * and object surface management.
@@ -637,7 +645,8 @@ void update_objects(UNUSED s32 unused) {
     // displacement now
     //! If the platform object unloaded and a different object took its place,
     //  displacement could be applied incorrectly
-    apply_mario_platform_displacement();
+    if (gDoPlatformDisplacement)
+        apply_mario_platform_displacement();
 
     // Detect which objects are intersecting
     // cycleCounts[3] = get_clock_difference(cycleCounts[0]);

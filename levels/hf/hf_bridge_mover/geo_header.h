@@ -1,0 +1,11 @@
+extern const GeoLayout hf_bridge_mover_geo[];
+extern Lights1 hf_bridge_mover_ice_002_lights;
+extern u8 hf_bridge_mover_tex1_64x64_DA371CD350B211F5_12_ci4[];
+extern u8 hf_bridge_mover_tex1_64x64_DA371CD350B211F5_12_ci4_pal_rgba16[];
+extern Vtx hf_bridge_mover_Plane_004_mesh_layer_1_vtx_cull[8];
+extern Vtx hf_bridge_mover_Plane_004_mesh_layer_1_vtx_0[18];
+extern Gfx hf_bridge_mover_Plane_004_mesh_layer_1_tri_0[];
+extern Gfx mat_hf_bridge_mover_ice_002[];
+extern Gfx mat_revert_hf_bridge_mover_ice_002[];
+extern Gfx hf_bridge_mover_Plane_004_mesh_layer_1[];
+extern Gfx hf_bridge_mover_material_revert_render_settings[];

@@ -88,29 +88,16 @@ to talk to them--they'll\n\
 set up cannons for you."))
 
 DEFINE_DIALOG(DIALOG_004, 1, 3, 95, 200, _("\
-We're peace-loving\n\
-Bob-ombs, so we don't use\n\
-cannons.\n\
-But if you'd like\n\
-to blast off, we don't\n\
-mind. Help yourself.\n\
-We'll prepare all of the\n\
-cannons in this course for\n\
-you to use. Bon Voyage!"))
+Did you get that\n\
+secret near the rock?\n\
+You probably want it."))
 
 DEFINE_DIALOG(DIALOG_005, 1, 3, 30, 200, _("\
-Hey, Mario! Is it true\n\
-that you beat the Big\n\
-Bob-omb? Cool!\n\
-You must be strong. And\n\
-pretty fast. So, how fast\n\
-are you, anyway?\n\
-Fast enough to beat me...\n\
-Koopa the Quick? I don't\n\
-think so. Just try me.\n\
-How about a race to the\n\
-mountaintop, where the\n\
-Big Bob-omb was?\n\
+Hey, Mario! Here we met\n\
+again! Wanna race to\n\
+the top you plumber?\n\
+There is no chance\n\
+you will win this time!\n\
 Whaddya say? When I say\n\
 『Go,』 let the race begin!\n\
 \n\
@@ -133,19 +120,16 @@ fast! A human blur!\n\
 Here you go--you've won\n\
 it, fair and square!"))
 
-DEFINE_DIALOG(DIALOG_008, 1, 4, 30, 200, _("\
-BEWARE OF CHAIN CHOMP\n\
-Extreme Danger!\n\
-Get close and press [C]^\n\
-for a better look.\n\
-Scary, huh?\n\
-See the Red Coin on top\n\
-of the stake?\n\
-\n\
-When you collect eight of\n\
-them, a Power Star will\n\
-appear in the meadow\n\
-across the bridge."))
+DEFINE_DIALOG(DIALOG_008, 1, 5, 30, 200, _("\
+You may step outside of\n\
+checkpoint only for 10\n\
+seconds! If time runs out,\n\
+you will be warped back\n\
+to the checkpoint.\n\
+Use L button to warp\n\
+back to the checkpoint.\n\
+Collect all 8 coins to\n\
+get the star!"))
 
 DEFINE_DIALOG(DIALOG_009, 1, 5, 30, 200, _("\
 Long time, no see! Wow,\n\
@@ -212,9 +196,9 @@ Do you want to Save?\n\
 
 DEFINE_DIALOG(DIALOG_014, 1, 4, 30, 200, _("\
 Wow! Another Power Star!\n\
-Mario gains more courage\n\
-from the power of the\n\
-castle.\n\
+Mario gains more courage!\n\
+Gaming! Speed! Fast!\n\
+\n\
 Do you want to Save?\n\
 \n\
 //You Bet//Not Now"))
@@ -229,10 +213,9 @@ press [B], too. To throw\n\
 something you're holding,\n\
 press [B] again."))
 
-DEFINE_DIALOG(DIALOG_016, 1, 3, 30, 200, _("\
-Hop on the shiny shell and\n\
-ride wherever you want to\n\
-go! Shred those enemies!"))
+DEFINE_DIALOG(DIALOG_016, 1, 2, 30, 200, _("\
+You can press L button\n\
+to do the magic trick!"))
 
 DEFINE_DIALOG(DIALOG_017, 1, 4, 30, 200, _("\
 I'm the Big Bob-omb, lord\n\
@@ -267,8 +250,8 @@ like being disturbed.\n\
 Please walk quietly."))
 
 DEFINE_DIALOG(DIALOG_019, 1, 2, 30, 200, _("\
-Shhh! Please walk\n\
-quietly in the hallway!"))
+You can press L button\n\
+to restart the puzzle."))
 
 DEFINE_DIALOG(DIALOG_020, 1, 6, 95, 150, _("\
 Dear Mario:\n\
@@ -432,27 +415,11 @@ For now, reporting live,\n\
 this has been the\n\
 Lakitu Bros."))
 
-DEFINE_DIALOG(DIALOG_035, 1, 5, 30, 200, _("\
-There are four camera, or\n\
-『[C],』 Buttons. Press [C]^\n\
-to look around using the\n\
-Control Stick.\n\
-\n\
-You'll usually see Mario\n\
-through Lakitu's camera.\n\
-It is the camera\n\
-recommended for normal\n\
-play.\n\
-You can change angles by\n\
-pressing [C]>. If you press\n\
-[R], the view switches to\n\
-Mario's camera, which\n\
-is directly behind him.\n\
-Press [R] again to return\n\
-to Lakitu's camera. Press\n\
-[C]| to see Mario from\n\
-afar, using either\n\
-Lakitu's or Mario's view."))
+DEFINE_DIALOG(DIALOG_035, 1, 4, 30, 200, _("\
+Try using L button!\n\
+Works only when standing\n\
+on the ground, no air\n\
+shenanigans allowed!"))
 
 DEFINE_DIALOG(DIALOG_036, 1, 5, 30, 200, _("\
 OBSERVATION PLATFORM\n\
@@ -483,26 +450,13 @@ power, the door slowly\n\
 opens."))
 
 DEFINE_DIALOG(DIALOG_039, 1, 4, 30, 200, _("\
-No visitors allowed,\n\
-by decree of\n\
-the Big Bob-omb\n\
-\n\
-I shall never surrender my\n\
-Stars, for they hold the\n\
-power of the castle in\n\
-their glow.\n\
-They were a gift from\n\
-Bowser, the Koopa King\n\
-himself, and they lie well\n\
-hidden within my realm.\n\
-Not a whisper of their\n\
-whereabouts shall leave\n\
-my lips. Oh, all right,\n\
-perhaps one hint:\n\
-Heed the Star names at\n\
-the beginning of the\n\
-course.\n\
-//--The Big Bob-omb"))
+These are friendly boos!\n\
+You can hop on them if\n\
+you are facing the same\n\
+way!\n\
+Make sure to hold the A\n\
+button to keep the jump\n\
+momentum"))
 
 DEFINE_DIALOG(DIALOG_040, 1, 3, 30, 200, _("\
 Warning!\n\
@@ -794,17 +748,8 @@ Even the Big Boo will be\n\
 fooled--and you can walk\n\
 through secret walls, too."))
 
-DEFINE_DIALOG(DIALOG_064, 1, 5, 30, 200, _("\
-When you put on the Wing\n\
-Cap that comes from a\n\
-red block, do the Triple\n\
-Jump to soar high into\n\
-the sky.\n\
-Use the Control Stick to\n\
-guide Mario. Pull back to\n\
-to fly up, press forward\n\
-to nose down, and press [Z]\n\
-to land."))
+DEFINE_DIALOG(DIALOG_064, 1, 7, 30, 200, _("\
+"))
 
 DEFINE_DIALOG(DIALOG_065, 1, 6, 30, 200, _("\
 Swimming Lessons!\n\
@@ -1149,12 +1094,13 @@ Red Circle: Elevator 2\n\
 Arrow: You are here"))
 
 DEFINE_DIALOG(DIALOG_090, 1, 6, 30, 200, _("\
-Bwa ha ha ha!\n\
-You've stepped right into\n\
-my trap, just as I knew\n\
-you would! I warn you,\n\
-『Friend,』 watch your\n\
-step!"))
+Did you really think I'll\n\
+just let you in through\n\
+the main entrance?\n\
+Silly Mario! You'll never\n\
+find the proper way to\n\
+meet me! Bwahaha!\n\
+            -- Bowser"))
 
 DEFINE_DIALOG(DIALOG_091, 2, 2, 30, 200, _("\
 Danger!\n\
@@ -1835,95 +1781,39 @@ pull back to slow down.\n\
 If you slide really\n\
 fast, you'll win the Star!"))
 
-DEFINE_DIALOG(DIALOG_150, 1, 5, 30, 200, _("\
-Waaaa! You've flooded my\n\
-house! Wh-why?? Look at\n\
-this mess! What am I\n\
-going to do now?\n\
-\n\
-The ceiling's ruined, the\n\
-floor is soaked...what to\n\
-do, what to do? Huff...\n\
-huff...it makes me so...\n\
-MAD!!!\n\
-Everything's been going\n\
-wrong ever since I got\n\
-this Star...It's so shiny,\n\
-but it makes me feel...\n\
-strange..."))
+DEFINE_DIALOG(DIALOG_150, 1, 3, 30, 200, _("\
+Try to recreate the star!\n\
+Your current drawing is\n\
+[%] percent accurate."))
 
-DEFINE_DIALOG(DIALOG_151, 1, 4, 30, 200, _("\
-I can't take this\n\
-anymore! First you get\n\
-me all wet, then you\n\
-stomp on me!\n\
-Now I'm really, really,\n\
-REALLY mad!\n\
-Waaaaaaaaaaaaaaaaa!!!"))
+DEFINE_DIALOG(DIALOG_151, 1, 3, 30, 200, _("\
+What are you doing?\n\
+This isn't anything like\n\
+the star..."))
 
 DEFINE_DIALOG(DIALOG_152, 1, 3, 30, 200, _("\
-Owwch! Uncle! Uncle!\n\
-Okay, I give up. Take this\n\
-Star!\n\
-Whew! I feel better now.\n\
-I don't really need it\n\
-anymore, anyway--\n\
-I can see the stars\n\
-through my ceiling at\n\
-night.\n\
-They make me feel...\n\
-...peaceful. Please, come\n\
-back and visit anytime."))
+You're close!\n\
+Your current drawing is\n\
+[%] percent accurate."))
 
-DEFINE_DIALOG(DIALOG_153, 1, 4, 30, 200, _("\
-Hey! Who's there?\n\
-What's climbing on me?\n\
-Is it an ice ant?\n\
-A snow flea?\n\
-Whatever it is, it's\n\
-bugging me! I think I'll\n\
-blow it away!"))
+DEFINE_DIALOG(DIALOG_153, 1, 3, 30, 200, _("\
+You've done it, with\n\
+[%] percent accuracy!\n\
+Here you go!"))
 
-DEFINE_DIALOG(DIALOG_154, 1, 5, 30, 200, _("\
-Hold on to your hat! If\n\
-you lose it, you'll be\n\
-easily injured. If you\n\
-lose it, look for it in the\n\
-course where you lost it.\n\
-Speaking of lost, the\n\
-Princess is still stuck in\n\
-the walls somewhere.\n\
-Please help, Mario!\n\
-\n\
-Oh, you know that there\n\
-are secret worlds in the\n\
-walls as well as in the\n\
-paintings, right?"))
+DEFINE_DIALOG(DIALOG_154, 1, 3, 30, 200, _("\
+I'm impressed--you got\n\
+an entire [%] percent!\n\
+You've earned this!"))
 
-DEFINE_DIALOG(DIALOG_155, 1, 6, 30, 200, _("\
-Thanks to the power of\n\
-the Stars, life is\n\
-returning to the castle.\n\
-Please, Mario, you have\n\
-to give Bowser the boot!\n\
-\n\
-Here, let me tell you a\n\
-little something about the\n\
-castle. In the room with\n\
-the mirrors, look carefully\n\
-for anything that's not\n\
-reflected in the mirror.\n\
-And when you go to the\n\
-water town, you can flood\n\
-it with a high jump into\n\
-the painting."))
+DEFINE_DIALOG(DIALOG_155, 1, 3, 30, 200, _("\
+...Are you even human?\n\
+[%] percent, wow!\n\
+Just take it!"))
 
-DEFINE_DIALOG(DIALOG_156, 1, 5, 30, 200, _("\
-The world inside the\n\
-clock is so strange!\n\
-When you jump inside,\n\
-watch the position of\n\
-the big hand!"))
+DEFINE_DIALOG(DIALOG_156, 1, 2, 30, 200, _("\
+The star's all yours!\n\
+Go ahead!"))
 
 DEFINE_DIALOG(DIALOG_157, 1, 5, 30, 200, _("\
 Watch out! Don't let\n\

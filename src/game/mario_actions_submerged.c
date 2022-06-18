@@ -19,6 +19,8 @@
 #include "level_table.h"
 #include "rumble_init.h"
 
+#include "config/config_collision.h"
+
 #define MIN_SWIM_STRENGTH 160
 #define MIN_SWIM_SPEED 16.0f
 
@@ -174,6 +176,19 @@ static u32 perform_water_step(struct MarioState *m) {
         apply_water_current(m, step);
     }
 
+#ifdef RAYCAST_WALL_COLLISION
+    vec3f_sum(nextPos, m->pos, step);
+
+    s32 waterHeight = m->waterLevel - 80;
+
+    if (nextPos[1] > waterHeight) {
+        nextPos[1] = waterHeight;
+        m->vel[1] = 0.0f;
+    }
+
+    raycast_collision_walls(m->pos, nextPos, MARIO_COLLISION_OFFSET_WATER);
+    stepResult = perform_water_full_step(m, nextPos);
+#else
     nextPos[0] = m->pos[0] + step[0];
     nextPos[1] = m->pos[1] + step[1];
     nextPos[2] = m->pos[2] + step[2];
@@ -184,8 +199,9 @@ static u32 perform_water_step(struct MarioState *m) {
     }
 
     stepResult = perform_water_full_step(m, nextPos);
+#endif
 
-    vec3f_copy(marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(marioObj->header.gfx.pos, m->pos);
     vec3s_set(marioObj->header.gfx.angle, -m->faceAngle[0], m->faceAngle[1], m->faceAngle[2]);
 
     return stepResult;
@@ -1084,7 +1100,7 @@ static s32 act_caught_in_whirlpool(struct MarioState *m) {
     m->faceAngle[1] = atan2s(dz, dx) + 0x8000;
 
     set_mario_animation(m, MARIO_ANIM_GENERAL_FALL);
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
 #if ENABLE_RUMBLE
     reset_rumble_timers_slip();
@@ -1116,7 +1132,7 @@ static void update_metal_water_walking_speed(struct MarioState *m) {
         m->forwardVel += 1.1f;
     } else if (m->forwardVel <= targetSpeed) {
         m->forwardVel += 1.1f - m->forwardVel / 43.0f;
-    } else if (m->floor->normal.y >= 0.95f) {
+    } else if (ABS(m->floor->normal.y) >= 0.95f) {
         m->forwardVel -= 1.0f;
     }
 

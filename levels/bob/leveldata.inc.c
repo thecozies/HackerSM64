@@ -1,0 +1,7 @@
+#include "levels/bob/area_1/collision.inc.c"
+#include "levels/bob/area_1/macro.inc.c"
+#include "levels/bob/area_1/spline.inc.c"
+#include "levels/bob/area_7/collision.inc.c"
+#include "levels/bob/area_7/macro.inc.c"
+#include "levels/bob/area_7/spline.inc.c"
+#include "levels/bob/model.inc.c"

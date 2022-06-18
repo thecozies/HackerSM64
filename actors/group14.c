@@ -38,3 +38,7 @@ UNUSED static const u64 binid_5 = 5;
 #include "chain_chomp/anims/data.inc.c"
 #include "chain_chomp/anims/table.inc.c"
 UNUSED static const u64 binid_6 = 6;
+
+#include "klepto/model.inc.c"
+#include "klepto/anims/data.inc.c"
+#include "klepto/anims/table.inc.c"

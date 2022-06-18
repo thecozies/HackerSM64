@@ -16,3 +16,7 @@
 #include "levels/totwc/areas/1/collision.inc.c"
 #include "levels/totwc/areas/1/macro.inc.c"
 #include "levels/totwc/cloud/collision.inc.c" // Blank File
+
+#include "levels/totwc/leveldata.inc.c"
+
+#include "levels/totwc/flipnote_frog/model.inc.c"

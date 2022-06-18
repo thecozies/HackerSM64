@@ -1,0 +1,28 @@
+#include <ultra64.h>"
+#include "sm64.h"
+#include "surface_terrains.h"
+#include "moving_texture_macros.h"
+#include "level_misc_macros.h"
+#include "macro_preset_names.h"
+#include "special_preset_names.h"
+#include "textures.h"
+#include "dialog_ids.h"
+
+#include "make_const_nonconst.h"
+
+
+#include "levels/mtc/leveldata.inc.c"
+
+#include "levels/mtc/mtc_ball/model.inc.c"
+#include "levels/mtc/mtc_ball/collision.inc.c"
+#include "levels/mtc/mtc_platspin/model.inc.c"
+#include "levels/mtc/mtc_platspin/collision.inc.c"
+#include "levels/mtc/mtc_spinner/model.inc.c"
+#include "levels/mtc/mtc_line_active/model.inc.c"
+#include "levels/mtc/mtc_line_inactive/model.inc.c"
+#include "levels/mtc/mtc_line_whole/model.inc.c"
+#include "levels/mtc/mtc_line_switch/model.inc.c"
+#include "levels/mtc/mtc_line_switch_off/model.inc.c"
+#include "levels/mtc/mtc_blue_rotat/model.inc.c"
+#include "levels/mtc/mtc_blue_rotat/collision.inc.c"
+#include "levels/mtc/mtc_ground/collision.inc.c"

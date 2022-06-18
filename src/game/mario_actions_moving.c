@@ -14,6 +14,7 @@
 #include "memory.h"
 #include "behavior_data.h"
 #include "rumble_init.h"
+#include "camera.h"
 
 #include "config.h"
 
@@ -66,18 +67,21 @@ void play_step_sound(struct MarioState *m, s16 frame1, s16 frame2) {
 
 void align_with_floor(struct MarioState *m) {
     struct Surface *floor = m->floor;
-    if ((floor != NULL) && (m->pos[1] < (m->floorHeight + 80.0f))) {
-        m->pos[1] = m->floorHeight;
+    if (!gGravityMode && (floor != NULL) && (m->pos[1] < (m->floorHeight + 80.0f))) {
+        // Use a temp position so m->pos is not passed to the function
+        Vec3f tempPos;
+        vec3f_copy(tempPos,m->pos);
+        tempPos[1] = m->floorHeight;
 #ifdef FAST_FLOOR_ALIGN
         if (absf(m->forwardVel) > FAST_FLOOR_ALIGN) {
             Vec3f floorNormal;
             surface_normal_to_vec3f(floorNormal, floor);
-            mtxf_align_terrain_normal(sFloorAlignMatrix[m->playerID], floorNormal, m->pos, m->faceAngle[1]);
+            mtxf_align_terrain_normal(sFloorAlignMatrix[m->playerID], floorNormal, tempPos, m->faceAngle[1]);
         } else {
-            mtxf_align_terrain_triangle(sFloorAlignMatrix[m->playerID], m->pos, m->faceAngle[1], 40.0f);
+            mtxf_align_terrain_triangle(sFloorAlignMatrix[m->playerID], tempPos, m->faceAngle[1], 40.0f);
         }
 #else
-        mtxf_align_terrain_triangle(sFloorAlignMatrix[m->playerID], m->pos, m->faceAngle[1], 40.0f);
+        mtxf_align_terrain_triangle(sFloorAlignMatrix[m->playerID], tempPos, m->faceAngle[1], 40.0f);
 #endif
         m->marioObj->header.gfx.throwMatrix = &sFloorAlignMatrix[m->playerID];
     }
@@ -359,7 +363,7 @@ void update_shell_speed(struct MarioState *m) {
         m->forwardVel += 1.1f;
     } else if (m->forwardVel <= targetSpeed) {
         m->forwardVel += 1.1f - m->forwardVel / 58.0f;
-    } else if (m->floor->normal.y >= 0.95f) {
+    } else if (ABS(m->floor->normal.y) >= 0.95f) {
         m->forwardVel -= 1.0f;
     }
 
@@ -437,7 +441,7 @@ void update_walking_speed(struct MarioState *m) {
     } else if (m->forwardVel <= targetSpeed) {
         // If accelerating
         m->forwardVel += 1.1f - m->forwardVel / 43.0f;
-    } else if (m->floor->normal.y >= 0.95f) {
+    } else if (ABS(m->floor->normal.y)  >= 0.95f) {
         m->forwardVel -= 1.0f;
     }
 
@@ -505,7 +509,7 @@ s32 begin_braking_action(struct MarioState *m) {
         return set_mario_action(m, ACT_STANDING_AGAINST_WALL, 0);
     }
 
-    if (m->forwardVel >= 16.0f && m->floor->normal.y >= COS80) {
+    if (m->forwardVel >= 16.0f && ABS(m->floor->normal.y) >= COS80) {
         return set_mario_action(m, ACT_BRAKING, 0);
     }
 
@@ -1217,11 +1221,14 @@ s32 act_riding_shell_ground(struct MarioState *m) {
             break;
 
         case GROUND_STEP_HIT_WALL:
-            mario_stop_riding_object(m);
-            play_sound(m->flags & MARIO_METAL_CAP ? SOUND_ACTION_METAL_BONK : SOUND_ACTION_BONK,
-                       m->marioObj->header.gfx.cameraToObject);
-            m->particleFlags |= PARTICLE_VERTICAL_STAR;
-            set_mario_action(m, ACT_BACKWARD_GROUND_KB, 0);
+            if (gCurrLevelNum != LEVEL_HF)
+            {
+                mario_stop_riding_object(m);
+                play_sound(m->flags & MARIO_METAL_CAP ? SOUND_ACTION_METAL_BONK : SOUND_ACTION_BONK,
+                        m->marioObj->header.gfx.cameraToObject);
+                m->particleFlags |= PARTICLE_VERTICAL_STAR;
+                set_mario_action(m, ACT_BACKWARD_GROUND_KB, 0);
+            }
             break;
     }
 
@@ -1671,6 +1678,7 @@ s32 act_ground_bonk(struct MarioState *m) {
     return FALSE;
 }
 
+extern struct Object *gMarioObject;
 s32 act_death_exit_land(struct MarioState *m) {
     s32 animFrame;
 
@@ -1690,6 +1698,7 @@ s32 act_death_exit_land(struct MarioState *m) {
         set_mario_action(m, ACT_IDLE, 0);
     }
 
+    gMarioObject->header.gfx.angle[2] = 0;
     return FALSE;
 }
 
@@ -1734,7 +1743,7 @@ s32 common_landing_cancels(struct MarioState *m, struct LandingAction *landingAc
     //! Everything here, including floor steepness, is checked before checking
     // if Mario is actually on the floor. This leads to e.g. remote sliding.
 
-    if (m->floor->normal.y < COS73) {
+    if (ABS(m->floor->normal.y)  < COS73) {
         return mario_push_off_steep_floor(m, landingAction->verySteepAction, 0);
     }
 

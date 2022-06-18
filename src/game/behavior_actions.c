@@ -46,6 +46,10 @@
 #include "rumble_init.h"
 #include "puppylights.h"
 
+#include "behaviors/scut_objs.inc.c"
+
+
+
 #include "behaviors/star_door.inc.c"
 #include "behaviors/mr_i.inc.c"
 #include "behaviors/pole.inc.c"
@@ -236,3 +240,4 @@ void set_obj_anim_with_accel_and_sound(s16 frame1, s16 frame2, s32 sound) {
 #include "behaviors/sl_walking_penguin.inc.c"
 
 #include "behaviors/gear_sounds.inc.c"
+#include "behaviors/axo.inc.c"

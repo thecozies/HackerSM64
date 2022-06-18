@@ -1,0 +1,11 @@
+extern const GeoLayout mtc_line_switch_geo[];
+extern Lights1 mtc_line_switch_f3d_material_001_lights;
+extern u8 mtc_line_switch__0E012050_ci4[];
+extern u8 mtc_line_switch__0E012050_ci4_pal_rgba16[];
+extern Vtx mtc_line_switch_Plane_002_mesh_layer_4_vtx_cull[8];
+extern Vtx mtc_line_switch_Plane_002_mesh_layer_4_vtx_0[24];
+extern Gfx mtc_line_switch_Plane_002_mesh_layer_4_tri_0[];
+extern Gfx mat_mtc_line_switch_f3d_material_001[];
+extern Gfx mat_revert_mtc_line_switch_f3d_material_001[];
+extern Gfx mtc_line_switch_Plane_002_mesh_layer_4[];
+extern Gfx mtc_line_switch_material_revert_render_settings[];

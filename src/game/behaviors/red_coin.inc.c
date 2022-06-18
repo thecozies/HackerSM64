@@ -50,14 +50,21 @@ void bhv_red_coin_loop(void) {
             o->parentObj->oHiddenStarTriggerCounter++;
 
             // Spawn the orange number counter, as long as it isn't the last coin.
-            if (o->parentObj->oHiddenStarTriggerCounter != 8) {
-                spawn_orange_number(o->parentObj->oHiddenStarTriggerCounter, 0, 0, 0);
-            }
+            if (1)
+            {
+                if (o->parentObj->oHiddenStarTriggerCounter != 8) {
+                    spawn_orange_number(o->parentObj->oHiddenStarTriggerCounter, 0, 0, 0);
+                }
 
-            // On all versions but the JP version, each coin collected plays a higher noise.
-            play_sound(SOUND_MENU_COLLECT_RED_COIN
-                       + (((u8) o->parentObj->oHiddenStarTriggerCounter - 1) << 16),
-                       gGlobalSoundSource);
+                // On all versions but the JP version, each coin collected plays a higher noise.
+                play_sound(SOUND_MENU_COLLECT_RED_COIN
+                        + (((u8) o->parentObj->oHiddenStarTriggerCounter - 1) << 16),
+                        gGlobalSoundSource);
+            }
+            else
+            {
+                play_sound(SOUND_MENU_COLLECT_RED_COIN, gGlobalSoundSource);
+            }
         }
 
         coin_collected();

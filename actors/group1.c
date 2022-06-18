@@ -28,3 +28,8 @@ UNUSED static const u64 binid_4 = 4;
 #include "heave_ho/anims/data.inc.c"
 #include "heave_ho/anims/table.inc.c"
 UNUSED static const u64 binid_5 = 5;
+
+#include "boo/model.inc.c"
+#include "mad_piano/model.inc.c"
+#include "mad_piano/anims/data.inc.c"
+#include "mad_piano/anims/table.inc.c"

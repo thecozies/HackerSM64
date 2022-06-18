@@ -425,9 +425,16 @@ u32 mario_check_object_grab(struct MarioState *m) {
             if (facingDYaw >= -0x2AAA && facingDYaw <= 0x2AAA) {
                 m->usedObj = m->interactObj;
 
-                if (!(m->action & ACT_FLAG_AIR)) {
-                    set_mario_action(
-                        m, (m->action & ACT_FLAG_DIVING) ? ACT_DIVE_PICKING_UP : ACT_PICKING_UP, 0);
+                if (script == bhvMfWoodenPostAnchor)
+                {
+                    result = set_mario_action(m, ACT_PICKING_UP_BOWSER, 0);
+                }
+                else
+                {
+                    if (!(m->action & ACT_FLAG_AIR)) {
+                        set_mario_action(
+                            m, (m->action & ACT_FLAG_DIVING) ? ACT_DIVE_PICKING_UP : ACT_PICKING_UP, 0);
+                    }
                 }
 
                 result = TRUE;
@@ -1317,7 +1324,7 @@ u32 interact_hit_from_below(struct MarioState *m, UNUSED u32 interactType, struc
         attack_object(obj, interaction);
         bounce_back_from_attack(m, interaction);
 
-        if (interaction & INT_HIT_FROM_BELOW) {
+        if ((interaction & INT_HIT_FROM_BELOW) && (!gGravityMode)) {
             hit_object_from_below(m, obj);
         }
 
@@ -1444,7 +1451,7 @@ u32 interact_koopa_shell(struct MarioState *m, UNUSED u32 interactType, struct O
 
             attack_object(obj, interaction);
             update_mario_sound_and_camera(m);
-            play_shell_music();
+            // play_shell_music();
             mario_drop_held_object(m);
 
             //! Puts Mario in ground action even when in air, making it easy to
@@ -1588,7 +1595,7 @@ u32 interact_cap(struct MarioState *m, UNUSED u32 interactType, struct Object *o
         play_sound(SOUND_MENU_STAR_SOUND, m->marioObj->header.gfx.cameraToObject);
         play_sound(SOUND_MARIO_HERE_WE_GO, m->marioObj->header.gfx.cameraToObject);
 
-        if (capMusic != 0) {
+        if (gCurrCourseNum != COURSE_DF && capMusic != 0) {
             play_cap_music(capMusic);
         }
 
@@ -1730,6 +1737,37 @@ u32 check_read_sign(struct MarioState *m, struct Object *obj) {
     return FALSE;
 }
 
+#include "text_engine.h"
+u32 check_read_sign_TE(struct MarioState *m, struct Object *obj) {
+	if (mario_can_talk(m, 0) && object_facing_mario(m, obj, SIGN_RANGE)) {
+#ifdef DIALOG_INDICATOR
+        if (obj->behavior == segmented_to_virtual(bhvSignOnWall)) {
+            spawn_object_relative(ORANGE_NUMBER_A, 0, 180, 32, obj, MODEL_NUMBER, bhvOrangeNumber);
+        } else {
+            spawn_object_relative(ORANGE_NUMBER_A, 0, 160,  8, obj, MODEL_NUMBER, bhvOrangeNumber);
+        }
+#endif
+		if((m->input & READ_MASK)){
+			s16 facingDYaw = (s16)(obj->oMoveAngleYaw + 0x8000) - m->faceAngle[1];
+			if (facingDYaw >= -SIGN_RANGE && facingDYaw <= SIGN_RANGE) {
+				f32 targetX = obj->oPosX + 105.0f * sins(obj->oMoveAngleYaw);
+				f32 targetZ = obj->oPosZ + 105.0f * coss(obj->oMoveAngleYaw);
+
+				m->marioObj->oMarioReadingSignDYaw = facingDYaw;
+				m->marioObj->oMarioReadingSignDPosX = targetX - m->pos[0];
+				m->marioObj->oMarioReadingSignDPosZ = targetZ - m->pos[2];
+				SetupTextEngine(32,60,TE_Strings[obj->oBehParams],TE_STATE_MAIN);
+
+				m->interactObj = obj;
+				m->usedObj = obj;
+				return set_mario_action(m, ACT_WAITING_FOR_DIALOG, 0);
+			}
+		}
+	}
+
+    return FALSE;
+}
+
 u32 check_npc_talk(struct MarioState *m, struct Object *obj) {
 #ifdef EASIER_DIALOG_TRIGGER
     if (
@@ -1768,7 +1806,9 @@ u32 interact_text(struct MarioState *m, UNUSED u32 interactType, struct Object *
 
     if (obj->oInteractionSubtype & INT_SUBTYPE_SIGN) {
         interact = check_read_sign(m, obj);
-    } else if (obj->oInteractionSubtype & INT_SUBTYPE_NPC) {
+    } else if (obj->oInteractionSubtype & INT_SUBTYPE_TE) {
+        interact = check_read_sign_TE(m, obj);
+	}else if (obj->oInteractionSubtype & INT_SUBTYPE_NPC) {
         interact = check_npc_talk(m, obj);
     } else {
         push_mario_out_of_object(m, obj, 2.0f);

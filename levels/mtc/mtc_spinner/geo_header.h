@@ -1,0 +1,10 @@
+extern const GeoLayout mtc_spinner_geo[];
+extern Lights1 mtc_spinner_spin_lights;
+extern u8 mtc_spinner__0E001040_ia8[];
+extern Vtx mtc_spinner_Plane_mesh_layer_4_vtx_cull[8];
+extern Vtx mtc_spinner_Plane_mesh_layer_4_vtx_0[4];
+extern Gfx mtc_spinner_Plane_mesh_layer_4_tri_0[];
+extern Gfx mat_mtc_spinner_spin[];
+extern Gfx mat_revert_mtc_spinner_spin[];
+extern Gfx mtc_spinner_Plane_mesh_layer_4[];
+extern Gfx mtc_spinner_material_revert_render_settings[];

@@ -9,10 +9,11 @@
 #include "game_init.h"
 #include "interaction.h"
 #include "mario_step.h"
+#include "camera.h"
 
 #include "config.h"
 
-static s16 sMovingSandSpeeds[] = { 12, 8, 4, 0 };
+static s16 sMovingSandSpeeds[] = { 120, 8, 4, 0 };
 
 struct Surface gWaterSurfacePseudoFloor = {
     SURFACE_VERY_SLIPPERY,      // type
@@ -245,7 +246,7 @@ void stop_and_set_height_to_floor(struct MarioState *m) {
     //! This is responsible for some downwarps.
     m->pos[1] = m->floorHeight;
 
-    vec3f_copy(marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(marioObj->header.gfx.pos, m->pos);
     vec3s_set(marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
 }
 
@@ -264,7 +265,7 @@ s32 stationary_ground_step(struct MarioState *m) {
             m->pos[1] = m->floorHeight;
         }
 
-        vec3f_copy(marioObj->header.gfx.pos, m->pos);
+        vec3f_copy_with_gravity_switch(marioObj->header.gfx.pos, m->pos);
         vec3s_set(marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
     }
 
@@ -350,9 +351,18 @@ s32 perform_ground_step(struct MarioState *m) {
 
     set_mario_wall(m, NULL);
 
+#ifdef RAYCAST_WALL_COLLISION
+    f32 ny = ((m->floor != NULL) ? m->floor->normal.y : 1.0f);
+    intendedPos[0] = m->pos[0] + (ny * m->vel[0]);
+    intendedPos[2] = m->pos[2] + (ny * m->vel[2]);
+    intendedPos[1] = m->pos[1];
+
+    raycast_collision_walls(m->pos, intendedPos, MARIO_COLLISION_OFFSET_GROUND_UPPER);
+    stepResult = perform_ground_quarter_step(m, intendedPos);
+#else
     for (i = 0; i < 4; i++) {
-        intendedPos[0] = m->pos[0] + m->floor->normal.y * (m->vel[0] / numSteps);
-        intendedPos[2] = m->pos[2] + m->floor->normal.y * (m->vel[2] / numSteps);
+        intendedPos[0] = m->pos[0] + ABS(m->floor->normal.y) * (m->vel[0] / numSteps);
+        intendedPos[2] = m->pos[2] + ABS(m->floor->normal.y) * (m->vel[2] / numSteps);
         intendedPos[1] = m->pos[1];
 
         stepResult = perform_ground_quarter_step(m, intendedPos);
@@ -360,9 +370,10 @@ s32 perform_ground_step(struct MarioState *m) {
             break;
         }
     }
+#endif
 
     m->terrainSoundAddend = mario_get_terrain_sound_addend(m);
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
 
     if (stepResult == GROUND_STEP_HIT_WALL_CONTINUE_QSTEPS) {
@@ -683,6 +694,12 @@ s32 perform_air_step(struct MarioState *m, u32 stepArg) {
 
     set_mario_wall(m, NULL);
 
+#ifdef RAYCAST_WALL_COLLISION
+    vec3f_sum(intendedPos, m->pos, m->vel);
+
+    raycast_collision_walls(m->pos, intendedPos, MARIO_COLLISION_OFFSET_AIR_UPPER);
+    stepResult = perform_air_quarter_step(m, intendedPos, stepArg);
+#else
     for (i = 0; i < 4; i++) {
         intendedPos[0] = m->pos[0] + m->vel[0] / numSteps;
         intendedPos[1] = m->pos[1] + m->vel[1] / numSteps;
@@ -700,6 +717,7 @@ s32 perform_air_step(struct MarioState *m, u32 stepArg) {
             break;
         }
     }
+#endif
 
     if (m->vel[1] >= 0.0f) {
         m->peakHeight = m->pos[1];
@@ -712,7 +730,7 @@ s32 perform_air_step(struct MarioState *m, u32 stepArg) {
     }
     apply_vertical_wind(m);
 
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
 
     return stepResult;

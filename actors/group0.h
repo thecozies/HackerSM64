@@ -349,4 +349,10 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "gear_kuromame/geo_header.h"
 
+#include "Floating_Plat/geo_header.h"
+
+#include "Hanging_Plat/geo_header.h"
+
+#include "Sticky_Plat/geo_header.h"
+
 #endif

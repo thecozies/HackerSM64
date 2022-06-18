@@ -689,6 +689,8 @@
 #define /*0x100*/ oKoopaRaceEndpointDialog        OBJECT_FIELD_S32(0x1E)
 #define /*0x104*/ oKoopaRaceEndpointRaceEnded     OBJECT_FIELD_S32(0x1F)
 
+#define oMfKoopaRaceHelp OBJECT_FIELD_OBJ(0x48)
+
 /* Koopa Shell Flame */
 #define /*0x0F4*/ oKoopaShellFlameUnused OBJECT_FIELD_F32(0x1B)
 #define /*0x0F8*/ oKoopaShellFlameScale  OBJECT_FIELD_F32(0x1C)
@@ -1340,5 +1342,50 @@ os16112*/
 #define /*0x110*/ os16110                                       OBJECT_FIELD_S16(0x22, 0)
 #define /*0x112*/ os16112                                       OBJECT_FIELD_S16(0x22, 1)
 
+#define oAbClamCtlObj0 OBJECT_FIELD_OBJ(0x1B)
+#define oAbClamCtlObj1 OBJECT_FIELD_OBJ(0x1C)
+#define oAbClamCtlObj2 OBJECT_FIELD_OBJ(0x1D)
+#define oAbClamCtlDistance OBJECT_FIELD_F32(0x49)
+
+#define oMfButterflyVine OBJECT_FIELD_OBJ(0x1B)
+
+#define oMfWoodenPostAnchorMain OBJECT_FIELD_OBJ(0x1B)
+#define oMfWoodenPostAnchorFixAngle OBJECT_FIELD_S32(0x1C)
+#define oMfWoodenPostAnchorLastMarioYaw OBJECT_FIELD_S32(0x1D)
+#define oMfWoodenPostAnchorDistance OBJECT_FIELD_F32(0x1E)
+
+#define oMfWoodenPostMainPosts OBJECT_FIELD_OBJ(0x1B)
+#define oMfWoodenPostMainRope OBJECT_FIELD_OBJ(0x49)
+
+#define oDfLastCheckpoint OBJECT_FIELD_S32(0x1B)
+
+#define oMtcGreenLineActiveStatus OBJECT_FIELD_S32(0x1B)
+
+#define oMtcRedStatus OBJECT_FIELD_S32(0x1B)
+
+#define oMtcBricksStatus OBJECT_FIELD_S32(0x1B)
+#define oMtcBricksCount OBJECT_FIELD_S32(0x1C)
+
+#define oMtcGoldBrickFakeStar0 OBJECT_FIELD_OBJ(0x1B)
+#define oMtcGoldBrickFakeStar1 OBJECT_FIELD_OBJ(0x1C)
+#define oMtcGoldBrickCount OBJECT_FIELD_S32(0x1D)
+#define oMtcGoldBrickToSwap0 OBJECT_FIELD_OBJ(0x1E)
+#define oMtcGoldBrickToSwap1 OBJECT_FIELD_OBJ(0x1F)
+#define oMtcGoldBrickSkillIssue OBJECT_FIELD_S32(0x20)
+
+#define oDfDirection OBJECT_FIELD_S32(0x1B)
+
+#define oDfAngleVel OBJECT_FIELD_F32(0x1B)
+#define oDfAngleYaw OBJECT_FIELD_S32(0x1C)
+
+#define oVcmLastGoodY OBJECT_FIELD_F32(0x1B)
+
+#define oBowserWarpCtlTarget    OBJECT_FIELD_S32(0x1B)
+#define oBowserWarpCtlDirection OBJECT_FIELD_S32(0x1C)
+
+#define oBowserPieceCtlKlepto OBJECT_FIELD_OBJ(0x1B)
+
+#define oSlideCheckpointFire0 OBJECT_FIELD_OBJ(0x1B)
+#define oSlideCheckpointCount OBJECT_FIELD_S32(0x49)
 
 #endif // OBJECT_FIELDS_H

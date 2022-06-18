@@ -1,3 +1,4 @@
+#include "texscroll.h"
 #include <ultra64.h>
 
 #include "sm64.h"
@@ -336,6 +337,8 @@ void init_mario_after_warp(void) {
         gPlayerSpawnInfos[0].startAngle[1] = spawnNode->object->oMoveAngleYaw;
         gPlayerSpawnInfos[0].startAngle[2] = 0;
 
+        if (gIsGravityFlipped) gPlayerSpawnInfos[0].startPos[1] = 9000.f - gPlayerSpawnInfos[0].startPos[1]; // If gravity is flipped when warping
+
         if (marioSpawnType == MARIO_SPAWN_DOOR_WARP) {
             init_door_warp(&gPlayerSpawnInfos[0], sWarpDest.arg);
         }
@@ -650,6 +653,7 @@ void initiate_painting_warp(void) {
                 }
 
                 initiate_warp(warpNode.destLevel & 0x7F, warpNode.destArea, warpNode.destNode, WARP_FLAGS_NONE);
+                gIsGravityFlipped = FALSE;
                 check_if_should_set_warp_checkpoint(&warpNode);
 
                 play_transition_after_delay(WARP_TRANSITION_FADE_INTO_COLOR, 30, 255, 255, 255, 45);
@@ -738,6 +742,26 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
 #else
                     sSourceWarpNodeId = WARP_NODE_DEATH;
 #endif
+                }
+
+                if (gCurrCourseNum == COURSE_HF)
+                {
+                    if (gMarioStates->pos[2] > 5100.f)
+                    {
+                        sSourceWarpNodeId = 0x20;
+                    }
+                    else if (gMarioStates->pos[0] > 3100.f)
+                    {
+                        sSourceWarpNodeId = 0x21;
+                    }
+                    else if (gMarioStates->pos[2] < -5400.f)
+                    {
+                        sSourceWarpNodeId = 0x22;
+                    }
+                    else if (gMarioStates->pos[2] > 0.f && gMarioStates->pos[1] < -6000.f)
+                    {
+                        sSourceWarpNodeId = 0x23;
+                    }
                 }
 
                 sDelayedWarpTimer = 20;
@@ -998,7 +1022,7 @@ s32 play_mode_normal(void) {
         } else if (sTransitionTimer != 0) {
             set_play_mode(PLAY_MODE_CHANGE_AREA);
         } else if (pressed_pause()) {
-            lower_background_noise(1);
+            lower_background_noise(2);
 #if ENABLE_RUMBLE
             cancel_rumble();
 #endif
@@ -1014,7 +1038,7 @@ s32 play_mode_paused(void) {
     if (gMenuOptSelectIndex == MENU_OPT_NONE) {
         set_menu_mode(MENU_MODE_RENDER_PAUSE_SCREEN);
     } else if (gMenuOptSelectIndex == MENU_OPT_DEFAULT) {
-        raise_background_noise(1);
+        raise_background_noise(2);
         gCameraMovementFlags &= ~CAM_MOVE_PAUSE_SCREEN;
         set_play_mode(PLAY_MODE_NORMAL);
 #ifndef DISABLE_EXIT_COURSE
@@ -1022,8 +1046,17 @@ s32 play_mode_paused(void) {
         if (gDebugLevelSelect) {
             fade_into_special_warp(WARP_SPECIAL_LEVEL_SELECT, 1);
         } else {
-            initiate_warp(EXIT_COURSE_LEVEL, EXIT_COURSE_AREA, EXIT_COURSE_NODE, WARP_FLAGS_NONE);
-            fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+            if (gCurrCourseNum == COURSE_DF)
+            {
+                initiate_warp(EXIT_COURSE_LEVEL, EXIT_COURSE_AREA, EXIT_COURSE_NODE, WARP_FLAGS_NONE);
+                fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+            }
+            else
+            {
+                struct ObjectWarpNode* warpNode = area_get_warp_node(0xf1);
+                initiate_warp(warpNode->node.destLevel, warpNode->node.destArea, warpNode->node.destNode, 0);
+            }
+            fade_into_special_warp(0, 0);
             gSavedCourseNum = COURSE_NONE;
         }
 
@@ -1128,7 +1161,7 @@ s32 update_level(void) {
 
     switch (sCurrPlayMode) {
         case PLAY_MODE_NORMAL:
-            changeLevel = play_mode_normal();
+            changeLevel = play_mode_normal(); scroll_textures();
             break;
         case PLAY_MODE_PAUSED:
             changeLevel = play_mode_paused();
@@ -1301,8 +1334,6 @@ s32 lvl_set_current_level(UNUSED s16 initOrUpdate, s32 levelNum) {
     sWarpCheckpointActive = FALSE;
     gCurrLevelNum = levelNum;
     gCurrCourseNum = gLevelToCourseNumTable[levelNum - 1];
-	if (gCurrLevelNum == LEVEL_COTMC) return 0;
-	if (gCurrLevelNum == LEVEL_SA) return 0;
 
     if (gCurrDemoInput != NULL || gCurrCreditsEntry != NULL || gCurrCourseNum == COURSE_NONE) {
         return FALSE;

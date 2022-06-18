@@ -1,0 +1,23 @@
+const Collision mf_vine_collision[] = {
+	COL_INIT(),
+	COL_VERTEX_INIT(8),
+	COL_VERTEX(0, 2370, 16),
+	COL_VERTEX(0, 2370, -16),
+	COL_VERTEX(0, 7, -16),
+	COL_VERTEX(0, 7, 16),
+	COL_VERTEX(19, 2370, 16),
+	COL_VERTEX(19, 7, 16),
+	COL_VERTEX(20, 7, -15),
+	COL_VERTEX(20, 2370, -15),
+	COL_TRI_INIT(SURFACE_DEFAULT, 8),
+	COL_TRI(0, 1, 2),
+	COL_TRI(0, 2, 3),
+	COL_TRI(4, 5, 6),
+	COL_TRI(4, 6, 7),
+	COL_TRI(1, 7, 6),
+	COL_TRI(1, 6, 2),
+	COL_TRI(3, 5, 4),
+	COL_TRI(3, 4, 0),
+	COL_TRI_STOP(),
+	COL_END()
+};

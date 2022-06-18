@@ -1,0 +1,18 @@
+extern const GeoLayout mtc_blue_rotat_geo[];
+extern Lights1 mtc_blue_rotat_wal_lights;
+extern Lights1 mtc_blue_rotat_tile_lights;
+extern u8 mtc_blue_rotat_tex1_64x64_9D39104B6C56C94C_12_ci4[];
+extern u8 mtc_blue_rotat_tex1_64x64_9D39104B6C56C94C_12_ci4_pal_rgba16[];
+extern u8 mtc_blue_rotat_tex1_64x64_C840DC548E55D7BE_12_ci4[];
+extern u8 mtc_blue_rotat_tex1_64x64_C840DC548E55D7BE_12_ci4_pal_rgba16[];
+extern Vtx mtc_blue_rotat_Plane_003_mesh_layer_1_vtx_cull[8];
+extern Vtx mtc_blue_rotat_Plane_003_mesh_layer_1_vtx_0[8];
+extern Gfx mtc_blue_rotat_Plane_003_mesh_layer_1_tri_0[];
+extern Vtx mtc_blue_rotat_Plane_003_mesh_layer_1_vtx_1[10];
+extern Gfx mtc_blue_rotat_Plane_003_mesh_layer_1_tri_1[];
+extern Gfx mat_mtc_blue_rotat_wal[];
+extern Gfx mat_revert_mtc_blue_rotat_wal[];
+extern Gfx mat_mtc_blue_rotat_tile[];
+extern Gfx mat_revert_mtc_blue_rotat_tile[];
+extern Gfx mtc_blue_rotat_Plane_003_mesh_layer_1[];
+extern Gfx mtc_blue_rotat_material_revert_render_settings[];

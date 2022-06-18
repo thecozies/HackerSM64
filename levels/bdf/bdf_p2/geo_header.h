@@ -1,0 +1,17 @@
+extern const GeoLayout bdf_p2_geo[];
+extern Lights1 bdf_p2__auto_5_f3d_lights;
+extern Lights1 bdf_p2__auto_8_f3d_lights;
+extern u8 bdf_p2__auto_5_ci8[];
+extern u8 bdf_p2__auto_5_ci8_pal_rgba16[];
+extern u8 bdf_p2__auto_8_ci8[];
+extern u8 bdf_p2__auto_8_ci8_pal_rgba16[];
+extern Vtx bdf_p2_bowser_stuff_010_mesh_layer_1_vtx_0[20];
+extern Gfx bdf_p2_bowser_stuff_010_mesh_layer_1_tri_0[];
+extern Vtx bdf_p2_bowser_stuff_010_mesh_layer_1_vtx_1[4];
+extern Gfx bdf_p2_bowser_stuff_010_mesh_layer_1_tri_1[];
+extern Gfx mat_bdf_p2__auto_5_f3d[];
+extern Gfx mat_revert_bdf_p2__auto_5_f3d[];
+extern Gfx mat_bdf_p2__auto_8_f3d[];
+extern Gfx mat_revert_bdf_p2__auto_8_f3d[];
+extern Gfx bdf_p2_bowser_stuff_010_mesh_layer_1[];
+extern Gfx bdf_p2_material_revert_render_settings[];

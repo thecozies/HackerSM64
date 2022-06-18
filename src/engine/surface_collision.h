@@ -7,6 +7,9 @@
 
 #include "config/config_world.h"
 
+extern u32 gGravityMode;
+extern u32 gIsGravityFlipped;
+
 // The y coord is moved upward by this amount when finding floors.
 // Vanilla value is 78.
 #define FIND_FLOOR_BUFFER 78
@@ -61,5 +64,7 @@ s32 find_poison_gas_level(s32 x, s32 z);
 #ifdef VANILLA_DEBUG
 void debug_surface_list_info(f32 xPos, f32 zPos);
 #endif
+
+void raycast_collision_walls(Vec3f pos, Vec3f intendedPos, f32 yOffset);
 
 #endif // SURFACE_COLLISION_H

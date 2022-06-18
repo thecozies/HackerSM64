@@ -121,7 +121,7 @@ extern s16 sSelectionFlags;
 extern s16 s2ndRotateFlags;
 extern s16 sCameraSoundFlags;
 extern u16 sCButtonsPressed;
-extern s16 sCutsceneDialogID;
+extern s32 sCutsceneDialogID;
 extern struct LakituState gLakituState;
 extern s16 sAreaYaw;
 extern s16 sAreaYawChange;
@@ -134,7 +134,6 @@ extern f32 sZeroZoomDist;
 extern s16 sCUpCameraPitch;
 extern s16 sModeOffsetYaw;
 extern s16 sSpiralStairsYawOffset;
-extern s16 s8DirModeBaseYaw;
 extern s16 s8DirModeYawOffset;
 extern f32 sPanDistance;
 extern f32 sCannonYOffset;
@@ -241,7 +240,7 @@ u16 sCButtonsPressed;
 /**
  * A copy of gDialogID, the dialog displayed during the cutscene.
  */
-s16 sCutsceneDialogID;
+s32 sCutsceneDialogID;
 /**
  * The currently playing shot in the cutscene.
  */
@@ -304,10 +303,6 @@ s16 sModeOffsetYaw;
  */
 s16 sSpiralStairsYawOffset;
 
-/**
- * The constant offset to 8-direction mode's yaw.
- */
-s16 s8DirModeBaseYaw;
 /**
  * Player-controlled yaw offset in 8-direction mode, a multiple of 45 degrees.
  */
@@ -675,7 +670,7 @@ void focus_on_mario(Vec3f focus, Vec3f pos, f32 posYOff, f32 focYOff, f32 dist, 
     marioPos[1] = sMarioCamState->pos[1] + posYOff;
     marioPos[2] = sMarioCamState->pos[2];
 
-    vec3f_set_dist_and_angle(marioPos, pos, dist, pitch + sLakituPitch, yaw);
+    vec3f_set_dist_and_angle(marioPos, pos, dist, (gGravityMode ? -pitch-sLakituPitch : pitch + sLakituPitch), yaw);
 
     focus[0] = sMarioCamState->pos[0];
     focus[1] = sMarioCamState->pos[1] + focYOff;
@@ -867,7 +862,7 @@ s32 update_radial_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
  * Update the camera during 8 directional mode
  */
 s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
-    s16 camYaw = s8DirModeBaseYaw + s8DirModeYawOffset;
+    s16 camYaw = s8DirModeYawOffset;
     s16 pitch = look_down_slopes(camYaw);
     f32 posY;
     f32 focusY;
@@ -1101,18 +1096,7 @@ void mode_radial_camera(struct Camera *c) {
 }
 
 s32 snap_to_45_degrees(s16 angle) {
-    if (angle % DEGREES(45)) {
-        s16 d1 = ABS(angle) % DEGREES(45);
-        s16 d2 = DEGREES(45) - d1;
-        if (angle > 0) {
-            if (d1 < d2) return angle - d1;
-            else return angle + d2;
-        } else {
-            if (d1 < d2) return angle + d1;
-            else return angle - d2;
-        }
-    }
-    return angle;
+    return (angle + 0x1000) & 0xe000;
 }
 
 /**
@@ -1124,30 +1108,35 @@ void mode_8_directions_camera(struct Camera *c) {
 
     radial_camera_input(c);
 
-    if (gPlayer1Controller->buttonPressed & R_CBUTTONS) {
-        s8DirModeYawOffset += DEGREES(45);
-        play_sound_cbutton_side();
-    }
-    if (gPlayer1Controller->buttonPressed & L_CBUTTONS) {
-        s8DirModeYawOffset -= DEGREES(45);
-        play_sound_cbutton_side();
-    }
+    if (gCurrCourseNum != COURSE_TOTWC) {
+        if (gPlayer1Controller->buttonPressed & R_CBUTTONS) {
+            s8DirModeYawOffset += DEGREES(45);
+            play_sound_cbutton_side();
+        }
+        if (gPlayer1Controller->buttonPressed & L_CBUTTONS) {
+            s8DirModeYawOffset -= DEGREES(45);
+            play_sound_cbutton_side();
+        }
 #ifdef PARALLEL_LAKITU_CAM
-    // extra functionality
-    else if (gPlayer1Controller->buttonPressed & U_JPAD) {
-        s8DirModeYawOffset = 0;
-        s8DirModeYawOffset = gMarioState->faceAngle[1] - 0x8000;
-    }
-    else if (gPlayer1Controller->buttonDown & L_JPAD) {
-        s8DirModeYawOffset -= DEGREES(2);
-    }
-    else if (gPlayer1Controller->buttonDown & R_JPAD) {
-        s8DirModeYawOffset += DEGREES(2);
-    }
-    else if (gPlayer1Controller->buttonPressed & D_JPAD) {
-        s8DirModeYawOffset = snap_to_45_degrees(s8DirModeYawOffset);
-    }
+        // extra functionality
+        else if (gPlayer1Controller->buttonPressed & U_JPAD) {
+            s8DirModeYawOffset = 0;
+            s8DirModeYawOffset = gMarioState->faceAngle[1] - 0x8000;
+        }
+        else if (gPlayer1Controller->buttonDown & L_JPAD) {
+            s8DirModeYawOffset -= DEGREES(2);
+        }
+        else if (gPlayer1Controller->buttonDown & R_JPAD) {
+            s8DirModeYawOffset += DEGREES(2);
+        }
+        else if (gPlayer1Controller->buttonPressed & D_JPAD) {
+            s8DirModeYawOffset = snap_to_45_degrees(s8DirModeYawOffset);
+        }
 #endif
+    }
+    else {
+        play_camera_buzz_if_c_sideways();
+    }
 
     lakitu_zoom(400.f, 0x900);
     c->nextYaw = update_8_directions_camera(c, c->focus, pos);
@@ -2883,7 +2872,8 @@ void update_camera(struct Camera *c) {
 #endif
         && gCurrentArea->camera->mode != CAMERA_MODE_INSIDE_CANNON) {
         // Only process R_TRIG if 'fixed' is not selected in the menu
-        if (cam_select_alt_mode(CAM_SELECTION_NONE) == CAM_SELECTION_MARIO) {
+        if (cam_select_alt_mode(CAM_SELECTION_NONE) == CAM_SELECTION_MARIO &&
+            gCurrCourseNum != COURSE_TOTWC) {
             if (gPlayer1Controller->buttonPressed & R_TRIG) {
                 if (set_cam_angle(0) == CAM_ANGLE_LAKITU) {
                     set_cam_angle(CAM_ANGLE_MARIO);
@@ -2949,6 +2939,7 @@ void update_camera(struct Camera *c) {
         sYawSpeed = 0x400;
 
         if (sSelectionFlags & CAM_MODE_MARIO_ACTIVE) {
+            s8DirModeYawOffset = snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
             switch (c->mode) {
                 case CAMERA_MODE_BEHIND_MARIO:
                     mode_behind_mario_camera(c);
@@ -3078,6 +3069,17 @@ void update_camera(struct Camera *c) {
     }
 #endif
 
+    if (gCurrCourseNum == COURSE_TOTWC) {
+        c->pos[0] = 0.0f;
+        c->pos[1] = 1400.0f;
+        c->pos[2] = 1750.0f;
+        c->focus[0] = 0.0f;
+        c->focus[1] = 1400.0f;
+        c->focus[2] = 0.0f;
+        c->yaw = calculate_yaw(c->focus, c->pos);
+        c->nextYaw = c->yaw;
+    }
+
     update_lakitu(c);
 #ifdef PUPPYCAM
     }
@@ -3155,8 +3157,7 @@ void reset_camera(struct Camera *c) {
     sZeroZoomDist = 0.f;
     sBehindMarioSoundTimer = 0;
     sCSideButtonYaw = 0;
-    s8DirModeBaseYaw = 0;
-    s8DirModeYawOffset = 0;
+    s8DirModeYawOffset = snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
     c->doorStatus = DOOR_DEFAULT;
     sMarioCamState->headRotation[0] = 0;
     sMarioCamState->headRotation[1] = 0;
@@ -3370,23 +3371,36 @@ void zoom_out_if_paused_and_outside(struct GraphNodeCamera *camera) {
     }
     if (gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN) {
         if (sFramesPaused >= 2) {
-            if (sZoomOutAreaMasks[areaMaskIndex] & areaBit) {
-
-                camera->focus[0] = gCamera->areaCenX;
-                camera->focus[1] = (sMarioCamState->pos[1] + gCamera->areaCenY) / 2;
-                camera->focus[2] = gCamera->areaCenZ;
-                vec3f_get_yaw(camera->focus, sMarioCamState->pos, &yaw);
-                vec3f_set_dist_and_angle(sMarioCamState->pos, camera->pos, 6000.f, 0x1000, yaw);
+            if (gCurrCourseNum == COURSE_TOTWC) {
+                if (gCurrCourseNum != COURSE_TOTWC) {
+                    camera->focus[0] = gCamera->areaCenX;
+                    camera->focus[1] = (sMarioCamState->pos[1] + gCamera->areaCenY) / 2;
+                    camera->focus[2] = gCamera->areaCenZ;
+                    vec3f_get_yaw(camera->focus, sMarioCamState->pos, &yaw);
+                    vec3f_set_dist_and_angle(sMarioCamState->pos, camera->pos, 6000.f, 0x1000, yaw);
 #ifdef ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS
-                if (gCurrLevelNum != LEVEL_THI) {
-                    find_in_bounds_yaw_wdw_bob_thi(camera->pos, camera->focus, 0);
-                }
+                    if (gCurrLevelNum != LEVEL_THI) {
+                        find_in_bounds_yaw_wdw_bob_thi(camera->pos, camera->focus, 0);
+                    }
 #endif
+                }
+                else {
+                    camera->pos[0] = 1812;
+                    camera->pos[1] = 1061;
+                    camera->pos[2] = 984;
+                    camera->focus[0] = 1509;
+                    camera->focus[1] = 1196;
+                    camera->focus[2] = 759;
+                    camera->roll = 0xCE00;
+                }
             }
         } else {
             sFramesPaused++;
         }
     } else {
+        if (sFramesPaused != 0) {
+            camera->roll = 0;
+        }
         sFramesPaused = 0;
     }
 }
@@ -3754,19 +3768,24 @@ s32 find_c_buttons_pressed(u16 currentState, u16 buttonsPressed, u16 buttonsDown
 s32 update_camera_hud_status(struct Camera *c) {
     s16 status = CAM_STATUS_NONE;
 
-    if (c->cutscene != CUTSCENE_NONE
-        || ((gPlayer1Controller->buttonDown & R_TRIG) && cam_select_alt_mode(0) == CAM_SELECTION_FIXED)) {
+    if (gCurrCourseNum != COURSE_TOTWC) {
+        if (c->cutscene != CUTSCENE_NONE
+            || ((gPlayer1Controller->buttonDown & R_TRIG) && cam_select_alt_mode(0) == CAM_SELECTION_FIXED)) {
+            status |= CAM_STATUS_FIXED;
+        } else if (set_cam_angle(0) == CAM_ANGLE_MARIO) {
+            status |= CAM_STATUS_MARIO;
+        } else {
+            status |= CAM_STATUS_LAKITU;
+        }
+        if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
+            status |= CAM_STATUS_C_DOWN;
+        }
+        if (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) {
+            status |= CAM_STATUS_C_UP;
+        }
+    }
+    else {
         status |= CAM_STATUS_FIXED;
-    } else if (set_cam_angle(0) == CAM_ANGLE_MARIO) {
-        status |= CAM_STATUS_MARIO;
-    } else {
-        status |= CAM_STATUS_LAKITU;
-    }
-    if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
-        status |= CAM_STATUS_C_DOWN;
-    }
-    if (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) {
-        status |= CAM_STATUS_C_UP;
     }
     set_hud_camera_status(status);
     return status;
@@ -4584,98 +4603,103 @@ void play_sound_if_cam_switched_to_lakitu_or_mario(void) {
  * Handles input for radial, outwards radial, parallel tracking, and 8 direction mode.
  */
 void radial_camera_input(struct Camera *c) {
-    if ((gCameraMovementFlags & CAM_MOVE_ENTERED_ROTATE_SURFACE) || !(gCameraMovementFlags & CAM_MOVE_ROTATE)) {
+    if (gCurrCourseNum != COURSE_TOTWC) {
+        if ((gCameraMovementFlags & CAM_MOVE_ENTERED_ROTATE_SURFACE) || !(gCameraMovementFlags & CAM_MOVE_ROTATE)) {
 
-        // If C-L or C-R are pressed, the camera is rotating
-        if (gPlayer1Controller->buttonPressed & (L_CBUTTONS | R_CBUTTONS)) {
-            gCameraMovementFlags &= ~CAM_MOVE_ENTERED_ROTATE_SURFACE;
-            //  @bug this does not clear the rotation flags set by the surface. It's possible to set
-            //       both ROTATE_LEFT and ROTATE_RIGHT, locking the camera.
-            //       Ex: If a surface set CAM_MOVE_ROTATE_RIGHT and the user presses C-R, it locks the
-            //       camera until a different mode is activated
-        }
+            // If C-L or C-R are pressed, the camera is rotating
+            if (gPlayer1Controller->buttonPressed & (L_CBUTTONS | R_CBUTTONS)) {
+                gCameraMovementFlags &= ~CAM_MOVE_ENTERED_ROTATE_SURFACE;
+                //  @bug this does not clear the rotation flags set by the surface. It's possible to set
+                //       both ROTATE_LEFT and ROTATE_RIGHT, locking the camera.
+                //       Ex: If a surface set CAM_MOVE_ROTATE_RIGHT and the user presses C-R, it locks the
+                //       camera until a different mode is activated
+            }
 
-        // Rotate Right and left
-        if (gPlayer1Controller->buttonPressed & R_CBUTTONS) {
-            if (sModeOffsetYaw > -0x800) {
-                // The camera is now rotating right
-                if (!(gCameraMovementFlags & CAM_MOVE_ROTATE_RIGHT)) {
-                    gCameraMovementFlags |= CAM_MOVE_ROTATE_RIGHT;
-                }
-
-                if (c->mode == CAMERA_MODE_RADIAL) {
-                    // if > ~48 degrees, we're rotating for the second time.
-                    if (sModeOffsetYaw > 0x22AA) {
-                        s2ndRotateFlags |= CAM_MOVE_ROTATE_RIGHT;
+            // Rotate Right and left
+            if (gPlayer1Controller->buttonPressed & R_CBUTTONS) {
+                if (sModeOffsetYaw > -0x800) {
+                    // The camera is now rotating right
+                    if (!(gCameraMovementFlags & CAM_MOVE_ROTATE_RIGHT)) {
+                        gCameraMovementFlags |= CAM_MOVE_ROTATE_RIGHT;
                     }
 
-                    if (sModeOffsetYaw == DEGREES(105)) {
-                        play_sound_button_change_blocked();
+                    if (c->mode == CAMERA_MODE_RADIAL) {
+                        // if > ~48 degrees, we're rotating for the second time.
+                        if (sModeOffsetYaw > 0x22AA) {
+                            s2ndRotateFlags |= CAM_MOVE_ROTATE_RIGHT;
+                        }
+
+                        if (sModeOffsetYaw == DEGREES(105)) {
+                            play_sound_button_change_blocked();
+                        } else {
+                            play_sound_cbutton_side();
+                        }
                     } else {
-                        play_sound_cbutton_side();
+                        if (sModeOffsetYaw == DEGREES(60)) {
+                            play_sound_button_change_blocked();
+                        } else {
+                            play_sound_cbutton_side();
+                        }
                     }
                 } else {
-                    if (sModeOffsetYaw == DEGREES(60)) {
-                        play_sound_button_change_blocked();
-                    } else {
-                        play_sound_cbutton_side();
-                    }
+                    gCameraMovementFlags |= CAM_MOVE_RETURN_TO_MIDDLE;
+                    play_sound_cbutton_up();
                 }
-            } else {
-                gCameraMovementFlags |= CAM_MOVE_RETURN_TO_MIDDLE;
-                play_sound_cbutton_up();
+            }
+            if (gPlayer1Controller->buttonPressed & L_CBUTTONS) {
+                if (sModeOffsetYaw < 0x800) {
+                    if (!(gCameraMovementFlags & CAM_MOVE_ROTATE_LEFT)) {
+                        gCameraMovementFlags |= CAM_MOVE_ROTATE_LEFT;
+                    }
+
+                    if (c->mode == CAMERA_MODE_RADIAL) {
+                        // if < ~48 degrees, we're rotating for the second time.
+                        if (sModeOffsetYaw < -0x22AA) {
+                            s2ndRotateFlags |= CAM_MOVE_ROTATE_LEFT;
+                        }
+
+                        if (sModeOffsetYaw == DEGREES(-105)) {
+                            play_sound_button_change_blocked();
+                        } else {
+                            play_sound_cbutton_side();
+                        }
+                    } else {
+                        if (sModeOffsetYaw == DEGREES(-60)) {
+                            play_sound_button_change_blocked();
+                        } else {
+                            play_sound_cbutton_side();
+                        }
+                    }
+                } else {
+                    gCameraMovementFlags |= CAM_MOVE_RETURN_TO_MIDDLE;
+                    play_sound_cbutton_up();
+                }
             }
         }
-        if (gPlayer1Controller->buttonPressed & L_CBUTTONS) {
-            if (sModeOffsetYaw < 0x800) {
-                if (!(gCameraMovementFlags & CAM_MOVE_ROTATE_LEFT)) {
-                    gCameraMovementFlags |= CAM_MOVE_ROTATE_LEFT;
-                }
 
-                if (c->mode == CAMERA_MODE_RADIAL) {
-                    // if < ~48 degrees, we're rotating for the second time.
-                    if (sModeOffsetYaw < -0x22AA) {
-                        s2ndRotateFlags |= CAM_MOVE_ROTATE_LEFT;
-                    }
-
-                    if (sModeOffsetYaw == DEGREES(-105)) {
-                        play_sound_button_change_blocked();
-                    } else {
-                        play_sound_cbutton_side();
-                    }
-                } else {
-                    if (sModeOffsetYaw == DEGREES(-60)) {
-                        play_sound_button_change_blocked();
-                    } else {
-                        play_sound_cbutton_side();
-                    }
-                }
-            } else {
-                gCameraMovementFlags |= CAM_MOVE_RETURN_TO_MIDDLE;
+        // Zoom in / enter C-Up
+        if (gPlayer1Controller->buttonPressed & U_CBUTTONS) {
+            if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
+                gCameraMovementFlags &= ~CAM_MOVE_ZOOMED_OUT;
                 play_sound_cbutton_up();
+            } else {
+                set_mode_c_up(c);
+            }
+        }
+
+        // Zoom out
+        if (gPlayer1Controller->buttonPressed & D_CBUTTONS) {
+            if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
+                gCameraMovementFlags |= CAM_MOVE_ALREADY_ZOOMED_OUT;
+                play_camera_buzz_if_cdown();
+            } else {
+                gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
+                play_sound_cbutton_down();
             }
         }
     }
-
-    // Zoom in / enter C-Up
-    if (gPlayer1Controller->buttonPressed & U_CBUTTONS) {
-        if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
-            gCameraMovementFlags &= ~CAM_MOVE_ZOOMED_OUT;
-            play_sound_cbutton_up();
-        } else {
-            set_mode_c_up(c);
-        }
-    }
-
-    // Zoom out
-    if (gPlayer1Controller->buttonPressed & D_CBUTTONS) {
-        if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
-            gCameraMovementFlags |= CAM_MOVE_ALREADY_ZOOMED_OUT;
-            play_camera_buzz_if_cdown();
-        } else {
-            gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
-            play_sound_cbutton_down();
-        }
+    else {
+        play_camera_buzz_if_cbutton();
     }
 }
 
@@ -5212,8 +5236,7 @@ void set_camera_mode_8_directions(struct Camera *c) {
     if (c->mode != CAMERA_MODE_8_DIRECTIONS) {
         c->mode = CAMERA_MODE_8_DIRECTIONS;
         sStatusFlags &= ~CAM_FLAG_SMOOTH_MOVEMENT;
-        s8DirModeBaseYaw = 0;
-        s8DirModeYawOffset = 0;
+        s8DirModeYawOffset = snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
     }
 }
 
@@ -5326,7 +5349,6 @@ void check_blocking_area_processing(UNUSED const u8 *mode) {
 
 void cam_rr_exit_building_side(struct Camera *c) {
     set_camera_mode_8_directions(c);
-    s8DirModeBaseYaw = DEGREES(90);
 }
 
 void cam_rr_exit_building_top(struct Camera *c) {
@@ -5376,7 +5398,6 @@ void cam_cotmc_exit_waterfall(UNUSED struct Camera *c) {
 void cam_sl_snowman_head_8dir(struct Camera *c) {
     sStatusFlags |= CAM_FLAG_BLOCK_AREA_PROCESSING;
     transition_to_camera_mode(c, CAMERA_MODE_8_DIRECTIONS, 60);
-    s8DirModeBaseYaw = 0x1D27;
 }
 
 /**
@@ -5915,9 +5936,7 @@ struct CameraTrigger sCamRR[] = {
  * to free_roam when Mario is not walking up the tower.
  */
 struct CameraTrigger sCamBOB[] = {
-    {  1, cam_bob_tower, 2468, 2720, -4608, 3263, 1696, 3072, 0 },
-    { -1, cam_bob_default_free_roam, 0, 0, 0, 0, 0, 0, 0 },
-    NULL_TRIGGER
+	NULL_TRIGGER
 };
 
 /**
@@ -6065,7 +6084,34 @@ struct CameraTrigger sCamBBH[] = {
  *
  * Each table is terminated with NULL_TRIGGER
  */
-struct CameraTrigger sCamSA[] = {
+struct CameraTrigger sCamTotWC[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamAb[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamCastleGrounds[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamDf[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamMf[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamMtc[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamHf[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamPSS[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamVcm[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamBdf[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -6265,7 +6311,6 @@ s16 camera_course_processing(struct Camera *c) {
                     switch (sMarioGeometry.currFloorType) {
                         case SURFACE_CAMERA_8_DIR:
                             transition_to_camera_mode(c, CAMERA_MODE_8_DIRECTIONS, 90);
-                            s8DirModeBaseYaw = DEGREES(90);
                             break;
 
                         case SURFACE_BOSS_FIGHT_CAMERA:
@@ -6514,6 +6559,8 @@ void find_mario_floor_and_ceil(struct PlayerGeometry *pg) {
     s32 tempCollisionFlags = gCollisionFlags;
     gCollisionFlags |= COLLISION_FLAG_CAMERA;
 
+    gGravityMode = gIsGravityFlipped; // Enable gravity for checks
+
     if (find_floor(sMarioCamState->pos[0], sMarioCamState->pos[1] + 10.f,
                    sMarioCamState->pos[2], &surf) != FLOOR_LOWER_LIMIT) {
         pg->currFloorType = surf->type;
@@ -6537,6 +6584,8 @@ void find_mario_floor_and_ceil(struct PlayerGeometry *pg) {
                                    sMarioCamState->pos[2], &pg->currCeil);
     pg->waterHeight = find_water_level(sMarioCamState->pos[0], sMarioCamState->pos[2]);
     gCollisionFlags = tempCollisionFlags;
+
+    gGravityMode = 0;
 }
 
 /**
@@ -6573,7 +6622,7 @@ UNUSED s32 unused_dialog_cutscene_response(u8 cutscene) {
     }
 }
 
-s16 cutscene_object_with_dialog(u8 cutscene, struct Object *obj, s16 dialogID) {
+s16 cutscene_object_with_dialog(u8 cutscene, struct Object *obj, s32 dialogID) {
     s16 response = DIALOG_RESPONSE_NONE;
 
     if ((gCamera->cutscene == CUTSCENE_NONE) && (sObjectCutscene == CUTSCENE_NONE)) {
@@ -8264,6 +8313,27 @@ void cutscene_death_stomach(struct Camera *c) {
     set_handheld_shake(HAND_CAM_SHAKE_CUTSCENE);
 }
 
+void cutscene_aglab_wooden_post_cs(struct Camera *c) {
+    cutscene_event(cutscene_reset_spline, c, 0, 0);
+    c->pos[0] = -2507.f;
+    c->pos[1] = 2560.f;
+    c->pos[2] = -88.f;
+    c->focus[0] = 464.f;
+    c->focus[1] = 1000.f;
+    c->focus[2] = -2773.f;
+}
+
+void cutscene_aglab_mtc_cs(struct Camera *c)
+{
+    cutscene_event(cutscene_reset_spline, c, 0, 0);
+    c->pos[0] = 10999.f;
+    c->pos[1] = 850.f;
+    c->pos[2] = 6048.f;
+    c->focus[0] = 10999.f;
+    c->focus[1] = -629.f;
+    c->focus[2] = 7888.f;
+}
+
 void cutscene_bbh_death_start(struct Camera *c) {
     Vec3f dir = { 0, 40.f, 60.f };
 
@@ -8597,7 +8667,12 @@ void cutscene_dialog_create_dialog_box(struct Camera *c) {
     if (c->cutscene == CUTSCENE_RACE_DIALOG) {
         create_dialog_box_with_response(sCutsceneDialogID);
     } else {
-        create_dialog_box(sCutsceneDialogID);
+        if (GET_HIGH_U16_OF_32(sCutsceneDialogID) == 0) {
+            create_dialog_box(GET_LOW_U16_OF_32(sCutsceneDialogID));
+        }
+        else {
+            create_dialog_box_with_var(GET_HIGH_U16_OF_32(sCutsceneDialogID), GET_LOW_U16_OF_32(sCutsceneDialogID));
+        }
     }
 
     //! Unused. This may have been used before sCutsceneDialogResponse was implemented.
@@ -10202,6 +10277,14 @@ struct Cutscene sCutsceneEnterPool[] = {
     { cutscene_exit_to_castle_grounds_end, 0 }
 };
 
+struct Cutscene sCutsceneAglabWoodenPostCs[] = {
+    { cutscene_aglab_wooden_post_cs, CUTSCENE_LOOP },
+};
+
+struct Cutscene sCutsceneAglabMtcCs[] = {
+    { cutscene_aglab_mtc_cs, CUTSCENE_LOOP },
+};
+
 /**
  * Cutscene that plays when Mario dies on his stomach.
  */
@@ -10413,16 +10496,19 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // TTC            | RR
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // CASTLE_GROUNDS | BITDW
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // VCUTM          | BITFS
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // SA             | BITS
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // SA             | BITS
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // LLL            | DDD
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // WF             | ENDING
-	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // COURTYARD      | PSS
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // COTMC          | TOTWC
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // COURTYARD      | PSS
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // COTMC          | TOTWC
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // BOWSER_1       | WMOTR
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // Unused         | BOWSER_2
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // BOWSER_3       | Unused
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // TTM            | Unused
-	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 1, 0, 0), // Unused         | Unused
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 0, 0),
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0),
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0),
 };
 
 STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");
@@ -10815,6 +10901,9 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_RACE_DIALOG,          sCutsceneDialog)
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)
         CUTSCENE(CUTSCENE_SSL_PYRAMID_EXPLODE,  sCutscenePyramidTopExplode)
+
+        CUTSCENE(CUTSCENE_AGLAB_WOODEN_POST_CS, sCutsceneAglabWoodenPostCs)
+        CUTSCENE(CUTSCENE_AGLAB_MTC_CS,         sCutsceneAglabMtcCs)
     }
 
 #undef CUTSCENE

@@ -16,6 +16,15 @@ void play_penguin_walking_sound(s32 walk);
 s32 update_angle_from_move_flags(s32 *angle);
 void cur_obj_spawn_strong_wind_particles(s32 windSpread, f32 scale, f32 relPosX, f32 relPosY, f32 relPosZ);
 
+
+//scut bhvs
+void bhv_sticky_plat_loop(void);
+void bhv_hanging_plat_init(void);
+void bhv_hanging_plat_loop(void);
+void bhv_floating_plat_init(void);
+void bhv_floating_plat_loop(void);
+
+
 //! Lots of these are duplicates
 void bhv_cap_switch_loop(void);
 void bhv_tiny_star_particles_init(void);
@@ -550,6 +559,13 @@ void bhv_dust_smoke_loop(void);
 void bhv_yoshi_loop(void);
 void bhv_volcano_trap_loop(void);
 void bhv_gear_sounds_loop(void);
+
+// axo start
+void bhv_axo_controller_loop(void);
+void bhv_flipnote_frog_init(void);
+void bhv_flipnote_frog_loop(void);
+Gfx *geo_switch_flipnote_frog_exclamation_mark(s32 callContext, struct GraphNode *node, UNUSED void *context);
+// axo end
 
 Gfx *geo_move_mario_part_from_parent(s32 callContext, UNUSED struct GraphNode *node, Mat4 mtx);
 
