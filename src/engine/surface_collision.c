@@ -166,6 +166,26 @@ static s32 find_wall_collisions_from_list(struct SurfaceNode *surfaceNode, struc
 }
 #undef CALC_OFFSET
 
+s32 f32_find_wall_collision_ex(struct WallCollisionData* collision, f32 *xPtr, f32 *yPtr, f32 *zPtr, f32 offsetY, f32 radius)
+{
+    collision->offsetY = offsetY;
+    collision->radius = radius;
+
+    collision->x = *xPtr;
+    collision->y = *yPtr;
+    collision->z = *zPtr;
+
+    collision->numWalls = 0;
+
+    s32 numCollisions = find_wall_collisions(collision);
+
+    *xPtr = collision->x;
+    *yPtr = collision->y;
+    *zPtr = collision->z;
+
+    return numCollisions;
+}
+
 /**
  * Formats the position and wall search for find_wall_collisions.
  */

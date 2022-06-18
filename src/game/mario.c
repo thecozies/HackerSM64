@@ -1258,15 +1258,43 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     }
 }
 
+extern s32 f32_find_wall_collision_ex(struct WallCollisionData* collision, f32 *xPtr, f32 *yPtr, f32 *zPtr, f32 offsetY, f32 radius);
+static s32 sWallBoostColldown = 0;
+
+static void check_boost(struct WallCollisionData* collData, struct MarioState *m, s32* boosted)
+{
+    if (*boosted)
+        return;
+
+    for (int i = 0; i < collData->numWalls; i++)
+    {
+        struct Surface* wall = collData->walls[i];
+        if (wall->type == SURFACE_BURNING)
+        {
+            *boosted = 1;
+            sWallBoostColldown = 4;
+            return (void) drop_and_set_mario_action(m, ACT_LAVA_BOOST, 0);
+        }
+    }
+}
+
 /**
  * Resolves wall collisions, and updates a variety of inputs.
  */
 void update_mario_geometry_inputs(struct MarioState *m) {
     f32 gasLevel;
     f32 ceilToFloorDist;
+    struct WallCollisionData collData;
+    // If boosted, code to check for boost won't trigger.
+    // No boost CD and stationary are required.
+    s32 boosted = !!sWallBoostColldown || !(m->action & ACT_FLAG_STATIONARY);
+    if (sWallBoostColldown)
+        sWallBoostColldown--;
 
-    f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 60.0f, 50.0f);
-    f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 30.0f, 24.0f);
+    f32_find_wall_collision_ex(&collData, &m->pos[0], &m->pos[1], &m->pos[2], 60.0f, 50.0f);
+    check_boost(&collData, m, &boosted);
+    f32_find_wall_collision_ex(&collData, &m->pos[0], &m->pos[1], &m->pos[2], 30.0f, 24.0f);
+    check_boost(&collData, m, &boosted);
 
     m->floorHeight = find_floor(m->pos[0], m->pos[1], m->pos[2], &m->floor);
 
