@@ -52,6 +52,8 @@ const LevelScript level_sa_entry[] = {
 		OBJECT(MODEL_BLINKING_PLATFORM, 12468, 1000, 0, 0, 0, 0, (0x1E << 8), bhvBlinkingPlatform),
 		OBJECT(MODEL_BLINKING_PLATFORM, 10186, 1000, 0, 0, 0, 0, (0x01 << 24) | (0x1E << 8), bhvBlinkingPlatform),
 		OBJECT(MODEL_BLINKING_PLATFORM, 10486, 1000, 0, 0, 0, 0, (0x00 << 24) | (0x1E << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 8431, 2800, 0, 0, 0, 0, (0x01 << 24) | (20 << 8) | (60), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 9181, 3100, 0, 0, 0, 0, (0x01 << 24) | (30 << 8) | (60), bhvBlinkingPlatform),
 		OBJECT(MODEL_BLINKING_PLATFORM, 9886, 1000, 0, 0, 0, 0, (0x02 << 24) | (0x1E << 8), bhvBlinkingPlatform),
 		MARIO_POS(0x01, 0, 15144, 200, 0),
 		OBJECT(MODEL_SPRING, 14959, 100, -324, 0, 0, 0, (0x00 << 16), bhvSpring),

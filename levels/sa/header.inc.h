@@ -6,7 +6,7 @@ extern u8 sa_dl_sa2_space_ground_ci4_ci4[];
 extern u8 sa_dl_sa2_space_ground_ci4_ci4_pal_rgba16[];
 extern u8 sa_dl_arrows_i4_i8[];
 extern Vtx sa_dl_Cube_mesh_layer_1_vtx_cull[8];
-extern Vtx sa_dl_Cube_mesh_layer_1_vtx_0[128];
+extern Vtx sa_dl_Cube_mesh_layer_1_vtx_0[156];
 extern Gfx sa_dl_Cube_mesh_layer_1_tri_0[];
 extern Vtx sa_dl_teleporter_mesh_layer_1_vtx_cull[8];
 extern Vtx sa_dl_teleporter_mesh_layer_1_vtx_0[14];

@@ -100,7 +100,7 @@ void blinking_platformact_idle(void) {
     cur_obj_become_tangible;
     load_object_collision_model();
 
-    if (gMarioObject->platform == o) {
+    if ((gMarioObject->platform == o) || ((gMarioState->wall) && (gMarioState->wall->object == o))) {
         cur_obj_play_sound_2(SOUND_GENERAL_DOOR_TURN_KEY);
         o->oAction = YELLOW_PLATFORM_ACT_BLINKING;
     }
