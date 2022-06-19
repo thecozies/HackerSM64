@@ -1388,4 +1388,7 @@ os16112*/
 #define oSlideCheckpointFire0 OBJECT_FIELD_OBJ(0x1B)
 #define oSlideCheckpointCount OBJECT_FIELD_S32(0x49)
 
+#define oFightCtlBomb OBJECT_FIELD_OBJ(0x1B)
+#define oFightCtlBombCooldown OBJECT_FIELD_S32(0x1C)
+
 #endif // OBJECT_FIELDS_H

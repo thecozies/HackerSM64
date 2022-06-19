@@ -2859,16 +2859,294 @@ void fight_platform_ctl_init()
 {
     f32 d;
     o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvBowser, &d);
+    o->oPosY - 300.f;
 }
+
+static void fight_platform_rotate()
+{
+    o->oMoveAngleYaw += o->oAngleVelYaw;
+    o->parentObj->oFaceAngleYaw = o->oMoveAngleYaw;
+}
+
+static void fight_platform_magnet_bowser()
+{
+    o->parentObj->oPosX = o->oPosX;
+    o->parentObj->oPosZ = o->oPosZ;
+}
+
+static void fight_calm_bowser()
+{
+    if (o->parentObj->oAction != BOWSER_ACT_HIT_MINE
+     && o->parentObj->oAction != BOWSER_ACT_DEAD
+     && o->parentObj->oAction != BOWSER_ACT_DANCE)
+    {
+        o->parentObj->oAction = BOWSER_ACT_WAIT;
+    }
+}
+
+// #define FIGHT_DEBUG
 
 void fight_platform_ctl_loop()
 {
-    o->oPosY = 0.f;
-    o->parentObj->oAction = 0;
-    o->oMoveAngleYaw += 0x172;
-    o->parentObj->oFaceAngleYaw = o->oMoveAngleYaw;
+    if (0 == o->oAction && o->oTimer < 10)
+        return;
 
-    o->parentObj->oPosX = o->oPosX;
-    o->parentObj->oPosY = o->oPosY + 180.f;
-    o->parentObj->oPosZ = o->oPosZ;
+    // intro
+    if (gCamera->cutscene)
+        return;
+
+    static const f32 ArenaSize = 1150.f;
+
+    fight_calm_bowser();
+    fight_platform_magnet_bowser();
+
+    if (0 == o->oAction)
+    {
+        o->oMoveAngleYaw = o->parentObj->oFaceAngleYaw = 0x4000;
+        o->parentObj->oPosZ = 0;
+        // 1450 is not arena size for platform - it is for mario arena size
+        if (gMarioStates->pos[0] < 1450.f)
+        {
+            o->oAction = 1;
+            o->oPosX = o->parentObj->oPosX;
+            o->oPosZ = o->parentObj->oPosZ = 0;
+        }
+    }
+    else if (1 == o->oAction)
+    {
+        o->oMoveAngleYaw = o->parentObj->oFaceAngleYaw = 0x4000;
+        o->oPosY += 7.f;
+        if (30 == o->oTimer)
+        {
+#ifdef FIGHT_DEBUG
+            seq_player_fade_out(0, 100);
+            o->oAction = 3;
+#else
+            o->oAction = 2;
+#endif
+            o->oVelX = -30.f;
+            o->oVelZ = -40.f;
+            o->oAngleVelYaw = 0x172;
+        }
+    }
+    else if (2 == o->oAction)
+    {
+        if (o->parentObj->oAction == BOWSER_ACT_DEAD && o->parentObj->oTimer > 10)
+        {
+            // the fake death
+            o->oAction = 3;
+            seq_player_fade_out(0, 100);
+        }
+
+        fight_platform_rotate();
+        // Bowser must bounce around in the circles.
+        // One of the velocities is constant, other one is gravitated towards the side bowser is moving along/
+        // Initially it is X axis that is Bowser graviated to, Z speed is kept constant.
+        s32 gravTowardsX = 0 == (o->oSubAction & 1);
+        f32 accel        =      (o->oSubAction & 2) ? -8.f : 8.f;
+        if (gravTowardsX)
+        {
+            // towards X
+            o->oVelX -= accel;
+        }
+        else
+        {
+            // towards Z
+            o->oVelZ -= accel;
+        }
+        
+        // apply speed and check for clamping
+        o->oPosX += o->oVelX;
+        o->oPosZ += o->oVelZ;
+
+        s32 clampX = -ArenaSize > o->oPosX || o->oPosX > ArenaSize;
+        s32 clampZ = -ArenaSize > o->oPosZ || o->oPosZ > ArenaSize;
+
+        // condition for bouncing moment
+        if ((gravTowardsX && clampZ) || (!gravTowardsX && clampX))
+        {
+            cur_obj_play_sound_2(SOUND_GENERAL_POUND_ROCK);
+            for (int i = 0; i < 3; i++)
+            {
+                if (o->parentObj->oHealth == 3 && i != 1)
+                {
+                    continue;
+                }
+
+                struct Object* flame = spawn_object(o, MODEL_BLUE_FLAME, bhvFightFlame);
+                flame->oForwardVel = 50.f;
+                flame->oMoveAngleYaw = -0x1000 + 0x1000 * i - 0x4000 * o->oSubAction; 
+            }
+            // we need to switch directions
+            // clamp both coordinates first, it will be fixed next frame if stuff goes raw
+            o->oSubAction++;
+            o->oPosX = CLAMP(o->oPosX, -ArenaSize, ArenaSize);
+            o->oPosZ = CLAMP(o->oPosZ, -ArenaSize, ArenaSize);
+
+            f32 newGravTowardsX = 0 == (o->oSubAction & 1);
+            f32 newVelForAccel = (o->oSubAction & 2) ? 80.f : -80.f;
+            s32 mask = o->oSubAction & 3;
+            if (newGravTowardsX)
+            {
+                o->oVelX = newVelForAccel;
+                o->oVelZ = (mask == 0 || mask == 3) ? -40.f : 40.f;
+            }
+            else
+            {
+                o->oVelZ = newVelForAccel;
+                o->oVelX = (mask == 0 || mask == 3) ? -40.f : 40.f;
+            }
+        }
+        else
+        {
+            // check for regular bouncing
+            if (clampX)
+            {
+                o->oVelX = -o->oVelX;
+                o->oPosX = CLAMP(o->oPosX, -ArenaSize, ArenaSize);
+            }
+
+            if (clampZ)
+            {
+                o->oVelZ = -o->oVelZ;
+                o->oPosZ = CLAMP(o->oPosZ, -ArenaSize, ArenaSize);
+            }
+
+            if (clampX || clampZ)
+            {
+                cur_obj_play_sound_2(SOUND_ACTION_METAL_BONK);
+                if (o->parentObj->oHealth <= 1)
+                {
+                    struct Object* flame = spawn_object(o, MODEL_BLUE_FLAME, bhvFightFlame);
+                    flame->oForwardVel = 50.f;
+                    flame->oMoveAngleYaw = 0x4000 - 0x4000 * o->oSubAction; //  + 0x1000 * i
+                }
+            }
+        }
+    }
+    else if (3 == o->oAction)
+    {
+        // troll death, decelerate, when hit zero kill the lad
+        o->oAngleVelYaw *= 0.97f;
+        fight_platform_rotate();
+
+        if (0 == o->oAngleVelYaw)
+        {
+            o->oAction = 4;
+            o->parentObj->oAction = BOWSER_ACT_DANCE;
+            seq_player_play_sequence(0, SEQ_FIGHT2, 0);
+        }
+    }
+    else if (4 == o->oAction)
+    {
+        // spin back up
+        o->oAngleVelYaw += 150;
+        fight_platform_rotate();
+
+        if (o->oAngleVelYaw > 2000)
+        {
+            o->oAction = 5;
+            f32 dx = gMarioStates->pos[0] - o->oPosX;
+            f32 dz = gMarioStates->pos[2] - o->oPosZ;
+            f32 d = sqrtf(dx*dx + dz*dz);
+            o->oVelX = dx / d * 50.f;
+            o->oVelZ = dz / d * 50.f;
+        }
+    }
+    else if (5 == o->oAction)
+    {
+        // target mario
+        fight_platform_rotate();
+        o->oPosX += o->oVelX;
+        o->oPosZ += o->oVelZ;
+        s32 clampX = -ArenaSize > o->oPosX || o->oPosX > ArenaSize;
+        s32 clampZ = -ArenaSize > o->oPosZ || o->oPosZ > ArenaSize;
+        if (clampX || clampZ)
+        {
+            o->oAction = 6;
+        }
+    }
+    else if (6 == o->oAction)
+    {
+        approach_f32_asymptotic_bool(&o->oPosX, CLAMP(-gMarioStates->pos[0], -ArenaSize, ArenaSize), 0.1f);
+        approach_f32_asymptotic_bool(&o->oPosZ, CLAMP(-gMarioStates->pos[2], -ArenaSize, ArenaSize), 0.1f);
+    }
+}
+
+struct ObjectHitbox sFightBowserFlameHitbox = {
+    /* interactType: */ INTERACT_FLAME,
+    /* downOffset: */ 0,
+    /* damageOrCoinValue: */ 1,
+    /* health: */ 0,
+    /* numLootCoins: */ 0,
+    /* radius: */ 5,
+    /* height: */ 20,
+    /* hurtboxRadius: */ 0,
+    /* hurtboxHeight: */ 0,
+};
+
+void fight_flame_init()
+{
+    o->oVelY = -28.0f;
+    o->oPosY += 10.f;
+    o->oFlameScale = 3.f;
+}
+
+void fight_flame_loop()
+{
+    obj_scale(o, o->oFlameScale);
+    obj_set_hitbox(o, &sFightBowserFlameHitbox);
+    o->oBounciness = -1.f;
+    cur_obj_update_floor_and_walls();
+    cur_obj_move_standard(78);
+    o->oInteractStatus = 0;
+
+    f32 dist = o->oPosX * o->oPosX + o->oPosZ * o->oPosZ;
+    if (dist > 1900.f * 1900.f)
+        o->activeFlags = 0; 
+}
+
+void fight_bomb_ctl_init()
+{
+    f32 d;
+    o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvFightPlatformCtl, &d);
+}
+
+void fight_bomb_ctl_loop()
+{
+    if (0 == o->oAction)
+    {
+        if (2 == o->parentObj->oAction)
+        {
+            o->oAction = 1;
+            o->oFightCtlBombCooldown = 100;
+        }
+    }
+    else
+    {
+        if (3 == o->parentObj->oAction)
+        {
+            o->activeFlags = 0;
+        }
+
+        if (!o->oFightCtlBomb)
+        {
+            if (o->oFightCtlBombCooldown)
+            {
+                o->oFightCtlBombCooldown--;
+            }
+            else
+            {
+                if (o->oDistanceToMario > 300.f)
+                {
+                    o->oFightCtlBomb = spawn_object(o, MODEL_BOWSER_BOMB, bhvBowserBomb);
+                    o->oFightCtlBomb->parentObj = o; // just in case lol
+                }
+                else
+                {
+                    o->oFightCtlBombCooldown = 30;
+                }
+            }
+        }
+    }
 }

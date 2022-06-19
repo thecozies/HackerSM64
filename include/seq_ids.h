@@ -60,6 +60,7 @@ enum SeqId {
     SEQ_DUCKTALES,
     SEQ_FLIPNOTE,
     SEQ_AGT,
+    SEQ_SEA,
     SEQ_COUNT
 };
 

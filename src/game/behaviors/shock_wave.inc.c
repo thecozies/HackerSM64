@@ -3,13 +3,13 @@
 /**
  * Shockwave scale distance hit points
  */
-f32 sBowserShockwaveHitPoints[] = { 1.9f, 2.4f, 4.0f, 4.8f };
+f32 sBowserShockwaveHitPoints[] = { 2.0f, 2.3f, 4.1f, 4.7f };
 
 /**
  * Bowser's shockwave attack main loop
  */
 void bhv_bowser_shock_wave_loop(void) {
-    s16 fadeFrames = 70;
+    s16 fadeFrames = 14;
 
     // Scale shockwave as the timer goes on
     o->oBowserShockWaveScale = o->oTimer * 10;
@@ -17,7 +17,7 @@ void bhv_bowser_shock_wave_loop(void) {
 
     // Slightly reduce opacity each 3 frames
     if (gGlobalTimer % 3 != 0) {
-        o->oOpacity--;
+        o->oOpacity -= 5;
     }
     // Reduce opacity faster after 70 frames have passed
     if (o->oTimer > fadeFrames) {
@@ -28,7 +28,7 @@ void bhv_bowser_shock_wave_loop(void) {
         obj_mark_for_deletion(o);
     }
     // If object times is less than 70 frame and Mario is not in the air...
-    if (o->oTimer < fadeFrames && !mario_is_in_air_action()) {
+    if (o->oTimer < 30 && !mario_is_in_air_action()) {
         // ..define distance values depending of the scale multiplied by hit points
         f32 distMin1 = o->oBowserShockWaveScale * sBowserShockwaveHitPoints[0];
         f32 distMax1 = o->oBowserShockWaveScale * sBowserShockwaveHitPoints[1];

@@ -235,6 +235,16 @@ void bowser_act_wait(void) {
     o->oForwardVel = 0.0f;
     cur_obj_init_animation_with_sound(BOWSER_ANIM_IDLE);
     bowser_init_camera_actions();
+
+    // Hit mine check, reduce health and set specific action depending of it
+    if (bowser_check_hit_mine()) {
+        o->oHealth--;
+        if (o->oHealth <= 0) {
+            o->oAction = BOWSER_ACT_DEAD;
+        } else {
+            o->oAction = BOWSER_ACT_HIT_MINE;
+        }
+    }
 }
 
 /**
@@ -928,7 +938,7 @@ void bowser_act_charge_mario(void) {
 s32 bowser_check_hit_mine(void) {
     f32 dist;
     struct Object *mine = cur_obj_find_nearest_object_with_behavior(bhvBowserBomb, &dist);
-    if (mine != NULL && dist < 800.0f) {
+    if (mine != NULL && dist < 400.0f) {
         mine->oInteractStatus |= INT_STATUS_HIT_MINE;
         return TRUE;
     }
@@ -1417,6 +1427,7 @@ void bowser_act_tilt_lava_platform(void) {
  * Check if Bowser is offstage from a large distance or landed on a lethal floor
  */
 s32 bowser_check_fallen_off_stage(void) {
+    return FALSE;
     if (o->oAction != BOWSER_ACT_JUMP_ONTO_STAGE && o->oAction != BOWSER_ACT_TILT_LAVA_PLATFORM) {
         if (o->oPosY < o->oHomeY - 1000.0f) {
             return TRUE;
@@ -1704,7 +1715,7 @@ void bhv_bowser_init(void) {
     o->oBehParams2ndByte = level;
     // Set health and rainbow light depending of the level
     o->oBowserRainbowLight = sBowserRainbowLight[level];
-    o->oHealth = sBowserHealth[level];
+    o->oHealth = 3;
     // Start camera event, this event is not defined so maybe
     // the "start arena" cutscene was originally called this way
     cur_obj_start_cam_event(o, CAM_EVENT_BOWSER_INIT);
