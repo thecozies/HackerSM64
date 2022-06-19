@@ -6795,6 +6795,21 @@ const BehaviorScript bhvFightFlame[] = {
     END_LOOP(),
 };
 
+extern void fight_flame_square_init();
+extern void fight_flame_square_loop();
+const BehaviorScript bhvFightFlameSquare[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_FLAME),
+    BILLBOARD(),
+    CALL_NATIVE(fight_flame_square_init),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_flame_square_loop),
+        ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
 extern void fight_bomb_ctl_init();
 extern void fight_bomb_ctl_loop();
 const BehaviorScript bhvFightBombCtl[] = {

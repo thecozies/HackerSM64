@@ -97,6 +97,50 @@ Gfx *geo_update_layer_transparency(s32 callContext, struct GraphNode *node, UNUS
     return dlStart;
 }
 
+struct RGBA
+{
+    u8 r, g, b, a;
+};
+
+Gfx *geo_update_layer_envcolor(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct Object *objectGraphNode = (struct Object *) gCurGraphNodeObject; // TODO: change this to object pointer?
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        s32 parameter = currentGraphNode->parameter;
+
+        if (gCurGraphNodeHeldObject != NULL) {
+            objectGraphNode = gCurGraphNodeHeldObject->objNode;
+        }
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+
+        Gfx *dlHead = dlStart;
+        struct RGBA* colors = (struct RGBA*) &objectGraphNode->oFightFlameColor;
+
+        {
+            if (parameter == GEO_TRANSPARENCY_MODE_DECAL) {
+                SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT_DECAL);
+            } else if (parameter == GEO_TRANSPARENCY_MODE_INTER) {
+                SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT_INTER);
+            } else {
+                SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT);
+            }
+
+            if (parameter != GEO_TRANSPARENCY_MODE_NO_DITHER
+                && (objectGraphNode->activeFlags & ACTIVE_FLAG_DITHERED_ALPHA)) {
+                gDPSetAlphaCompare(dlHead++, G_AC_DITHER);
+            }
+        }
+
+        gDPSetEnvColor(dlHead++, colors->r, colors->g, colors->b, colors->a);
+        gSPEndDisplayList(dlHead);
+    }
+
+    return dlStart;
+}
+
 Gfx *geo_switch_anim_state(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     if (callContext == GEO_CONTEXT_RENDER) {
         struct Object *obj = gCurGraphNodeObjectNode;

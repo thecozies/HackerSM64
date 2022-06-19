@@ -147,8 +147,10 @@ const Gfx flame_seg3_dl_0301B470[] = {
 };
 
 // 0x0301B470 - 0x0301B500
-const Gfx fight_flame_seg3_dl_0301B470[] = {
+// this a copypaste from flame_seg3_dl_0301B470
+Gfx fight_flame_seg3_dl_0301B470[] = {
     gsSPClearGeometryMode(G_LIGHTING | G_SHADING_SMOOTH),
+    // gsDPSetEnvColor(255, 255, 255, 255),
     gsDPSetCombineMode(G_CC_FADEA, G_CC_FADEA),
     gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_CLAMP, 5, G_TX_NOLOD, G_TX_CLAMP, 5, G_TX_NOLOD),
     gsDPLoadSync(),
