@@ -1,5 +1,6 @@
 // bowser_bomb.inc.c
 
+extern void fight_set_lines_alpha(u8 a);
 void bhv_bowser_bomb_loop(void) {
     if (obj_check_if_collided_with_object(o, gMarioObject) == TRUE) {
         o->oInteractStatus &= ~INT_STATUS_INTERACTED;
@@ -31,6 +32,7 @@ void bhv_bowser_bomb_loop(void) {
         o->parentObj->oFightCtlBomb = NULL;
         o->parentObj->oFightCtlBombCooldown = 100;
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+        fight_set_lines_alpha(200);
     }
 
     set_object_visibility(o, 7000);

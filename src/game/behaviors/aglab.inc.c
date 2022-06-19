@@ -2855,11 +2855,27 @@ extern void slide_checkpoint_ctl_loop()
     }
 }
 
+extern Gfx mat_bowser_2_dl_f3d_material_001_layer5[];
+static void fight_set_lines_color(u8 r, u8 g, u8 b)
+{
+    u8* color = (u8*)segmented_to_virtual(mat_bowser_2_dl_f3d_material_001_layer5) + 14 * 8 + 4;
+    color[0] = r;
+    color[1] = g;
+    color[2] = b;
+}
+
+void fight_set_lines_alpha(u8 a)
+{
+    u8* color = (u8*)segmented_to_virtual(mat_bowser_2_dl_f3d_material_001_layer5) + 14 * 8 + 4;
+    color[3] = a;
+}
+
 void fight_platform_ctl_init()
 {
     f32 d;
     o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvBowser, &d);
     o->oPosY - 300.f;
+    fight_set_lines_alpha(0);
 }
 
 static void fight_platform_rotate()
@@ -2884,10 +2900,163 @@ static void fight_calm_bowser()
     }
 }
 
-// #define FIGHT_DEBUG
+#define FIGHT_DEBUG
+extern Vtx bowser_2_dl_cupol_mesh_layer_1_vtx_0[62];
+static void fight_animate_bg()
+{
+    o->oFightCtlAnimTimer++;
+    Vtx* vertices = segmented_to_virtual(bowser_2_dl_cupol_mesh_layer_1_vtx_0);
+    f32 val = 140;
+    s16 biasX = 198; 
+    s16 biasZ = 0;
+
+    for (int i = 0; i < 62; i++)
+    {
+        Vtx* vtx = &vertices[i];
+        if (vtx->v.ob[0] == biasX && vtx->v.ob[2] == biasZ)
+            continue;
+
+        s16 dx = vtx->v.ob[0] - biasX;
+        s16 dz = vtx->v.ob[2] - biasZ;
+        s32 angle = atan2s(dx, dz);
+        // there are 12 vertices, i want to have a periodic thing so I multiply angle to have 4 spots
+        //  + vtx->v.ob[1] * 5.f
+        f32 angleVal = (1.f + sins(o->oFightCtlAnimTimer * 562 + angle * 4)) / 2.f;
+        vtx->v.cn[0] = angleVal * val;
+        vtx->v.cn[1] = angleVal * val;
+        vtx->v.cn[2] = angleVal * val;
+    }
+}
+
+static void fight_decay_lines_alpha()
+{
+    u8* color = (u8*)segmented_to_virtual(mat_bowser_2_dl_f3d_material_001_layer5) + 14 * 8 + 4;
+    u8 a = color[3];
+    if (a < 4)
+    {
+        color[3] = 0;
+    }
+    else
+    {
+        color[3] = a - 4;
+    }
+}
+
+typedef struct {
+    u8 r;
+    u8 g;
+    u8 b;
+} rgb;
+
+typedef struct {
+    u16 h;         // mario angles
+    u8  v;         // value as u8
+    float s;       // a fraction between 0 and 1
+} hsv;
+
+static void rgb2hsv(rgb* in, hsv* out)
+{
+    u8 min = in->r < in->g ? in->r : in->g;
+    min = min  < in->b ? min  : in->b;
+
+    u8 max = in->r > in->g ? in->r : in->g;
+    max = max  > in->b ? max  : in->b;
+
+    out->v = max;
+    if (min == max)
+    {
+        out->s = 0;
+        out->h = 0; // undefined, maybe nan?
+        return;
+    }
+    
+    f32 delta = max - min;
+    if( max > 0 ) { // NOTE: if Max is == 0, this divide would cause a crash
+        out->s = (delta / max);                  // s
+    } else {
+        // if max is 0, then r = g = b = 0              
+        // s = 0, h is undefined
+        out->s = 0.0;
+        out->h = 0;
+    }
+
+    float h;
+    if( in->r >= max )                           // > is bogus, just keeps compilor happy
+        h = ( in->g - in->b ) / delta;        // between yellow & magenta
+    else
+    if( in->g >= max )
+        h = 2.0f + ( in->b - in->r ) / delta;  // between cyan & yellow
+    else
+        h = 4.0f + ( in->r - in->g ) / delta;  // between magenta & cyan
+
+    out->h = h * 10923;
+}
+
+static void hsv2rgb(hsv* in, rgb* out)
+{
+    if(in->s <= 0.0) {       // < is bogus, just shuts up warnings
+        out->r = in->v;
+        out->g = in->v;
+        out->b = in->v;
+        return;
+    }
+    f32 hh = in->h / 10923.f;
+    int i = (int) hh;
+    f32 ff = hh - i;
+    u8 p = in->v * (1.0 - in->s);
+    u8 q = in->v * (1.0 - (in->s * ff));
+    u8 t = in->v * (1.0 - (in->s * (1.0 - ff)));
+
+    switch(i) {
+    case 0:
+        out->r = in->v;
+        out->g = t;
+        out->b = p;
+        break;
+    case 1:
+        out->r = q;
+        out->g = in->v;
+        out->b = p;
+        break;
+    case 2:
+        out->r = p;
+        out->g = in->v;
+        out->b = t;
+        break;
+
+    case 3:
+        out->r = p;
+        out->g = q;
+        out->b = in->v;
+        break;
+    case 4:
+        out->r = t;
+        out->g = p;
+        out->b = in->v;
+        break;
+    case 5:
+    default:
+        out->r = in->v;
+        out->g = p;
+        out->b = q;
+        break;
+    }
+}
+
+static void fight_approach_lines_color(hsv* target)
+{
+    rgb* color = (rgb*) ((u8*)segmented_to_virtual(mat_bowser_2_dl_f3d_material_001_layer5) + 14 * 8 + 4);
+    hsv hsv;
+    rgb2hsv(color, &hsv);
+    hsv.h = approach_angle(hsv.h, target->h, 1000);
+    approach_f32_asymptotic_bool(&hsv.s, target->s, 0.1f);
+    hsv.v = approach_s16(hsv.v, target->v, 1, 1);
+    hsv2rgb(&hsv, color);
+}
 
 void fight_platform_ctl_loop()
 {
+    fight_animate_bg();
     if (0 == o->oAction && o->oTimer < 10)
         return;
 
@@ -2915,10 +3084,11 @@ void fight_platform_ctl_loop()
     else if (1 == o->oAction)
     {
         o->oMoveAngleYaw = o->parentObj->oFaceAngleYaw = 0x4000;
-        o->oPosY += 7.f;
+        o->oPosY += 5.5f;
         if (30 == o->oTimer)
         {
 #ifdef FIGHT_DEBUG
+            fight_set_lines_alpha(200);
             seq_player_fade_out(0, 100);
             o->oAction = 3;
 #else
@@ -2931,6 +3101,7 @@ void fight_platform_ctl_loop()
     }
     else if (2 == o->oAction)
     {
+        fight_decay_lines_alpha();
         if (o->parentObj->oAction == BOWSER_ACT_DEAD && o->parentObj->oTimer > 10)
         {
             // the fake death
@@ -2938,7 +3109,6 @@ void fight_platform_ctl_loop()
             seq_player_fade_out(0, 100);
         }
 
-        fight_platform_rotate();
         // Bowser must bounce around in the circles.
         // One of the velocities is constant, other one is gravitated towards the side bowser is moving along/
         // Initially it is X axis that is Bowser graviated to, Z speed is kept constant.
@@ -3028,7 +3198,6 @@ void fight_platform_ctl_loop()
     {
         // troll death, decelerate, when hit zero kill the lad
         o->oAngleVelYaw *= 0.97f;
-        fight_platform_rotate();
 
         if (0 == o->oAngleVelYaw)
         {
@@ -3041,7 +3210,6 @@ void fight_platform_ctl_loop()
     {
         // spin back up
         o->oAngleVelYaw += 150;
-        fight_platform_rotate();
 
         if (o->oAngleVelYaw > 2000)
         {
@@ -3056,21 +3224,45 @@ void fight_platform_ctl_loop()
     else if (5 == o->oAction)
     {
         // target mario
-        fight_platform_rotate();
         o->oPosX += o->oVelX;
         o->oPosZ += o->oVelZ;
         s32 clampX = -ArenaSize > o->oPosX || o->oPosX > ArenaSize;
         s32 clampZ = -ArenaSize > o->oPosZ || o->oPosZ > ArenaSize;
         if (clampX || clampZ)
         {
+            struct Object* wave = spawn_object(o, MODEL_BOWSER_WAVE, bhvBowserShockWave);
+            wave->oPosY += 50.f;
             o->oAction = 6;
         }
     }
     else if (6 == o->oAction)
     {
+        o->oFightCtlAttack = random_u16() % 5;
+        o->oAction = 7;
+    }
+    else if (7 == o->oAction)
+    {
+        // pick attack and start swapping to it
         approach_f32_asymptotic_bool(&o->oPosX, CLAMP(-gMarioStates->pos[0], -ArenaSize, ArenaSize), 0.1f);
         approach_f32_asymptotic_bool(&o->oPosZ, CLAMP(-gMarioStates->pos[2], -ArenaSize, ArenaSize), 0.1f);
+        hsv color;
+        color.h = o->oFightCtlAttack * (0x10000 / 5);
+        color.s = 1.f;
+        color.v = 200;
+        fight_approach_lines_color(&color);
+
+        switch (o->oFightCtlAttack)
+        {
+        case 0:
+        {
+        }
+            break;            
+        default:
+            break;
+        }
     }
+
+    fight_platform_rotate();
 }
 
 struct ObjectHitbox sFightBowserFlameHitbox = {

@@ -24,6 +24,7 @@
 #include "src/game/texscroll/pss_texscroll.inc.c"
 #include "src/game/texscroll/vcm_texscroll.inc.c"
 #include "src/game/texscroll/bdf_texscroll.inc.c"
+#include "src/game/texscroll/bowser_2_texscroll.inc.c"
 void scroll_textures() {
 	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_castle_grounds_segment_7SegmentRomStart)) {
 		scroll_textures_castle_grounds();
@@ -66,6 +67,10 @@ void scroll_textures() {
 
 	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_bdf_segment_7SegmentRomStart)) {
 		scroll_textures_bdf();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_bowser_2_segment_7SegmentRomStart)) {
+		scroll_textures_bowser_2();
 	}
 
 }

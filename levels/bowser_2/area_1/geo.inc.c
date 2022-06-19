@@ -3,12 +3,13 @@
 const GeoLayout bowser_2_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, bowser_2_dl_cupol_mesh_layer_1),
 		GEO_ROTATION_NODE_WITH_DL(LAYER_ALPHA, 90, 0, 0, bowser_2_dl_fight_mesh_layer_4),
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_OPAQUE, bowser_2_dl_fight_mesh_layer_1),
 		GEO_CLOSE_NODE(),
-		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, bowser_2_dl_fight_001_mesh_layer_1),
-		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, bowser_2_dl_fight_002_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, bowser_2_dl_fight_002_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, bowser_2_dl_fight_003_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, -3859, 0, bowser_2_dl_Plane_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
@@ -37,6 +38,7 @@ const GeoLayout bowser_2_area_1[] = {
 		GEO_CLOSE_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, bowser_2_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, bowser_2_dl_material_revert_render_settings),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, bowser_2_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

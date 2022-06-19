@@ -938,7 +938,7 @@ void bowser_act_charge_mario(void) {
 s32 bowser_check_hit_mine(void) {
     f32 dist;
     struct Object *mine = cur_obj_find_nearest_object_with_behavior(bhvBowserBomb, &dist);
-    if (mine != NULL && dist < 400.0f) {
+    if (mine != NULL && dist < 450.0f) {
         mine->oInteractStatus |= INT_STATUS_HIT_MINE;
         return TRUE;
     }

@@ -1390,5 +1390,7 @@ os16112*/
 
 #define oFightCtlBomb OBJECT_FIELD_OBJ(0x1B)
 #define oFightCtlBombCooldown OBJECT_FIELD_S32(0x1C)
+#define oFightCtlAnimTimer OBJECT_FIELD_S32(0x1D)
+#define oFightCtlAttack OBJECT_FIELD_S32(0x1E)
 
 #endif // OBJECT_FIELDS_H
