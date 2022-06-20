@@ -19,3 +19,5 @@
 #include "levels/sa/galaxy_background/model.inc.c"
 #include "levels/sa/blinking_platform/model.inc.c"
 #include "levels/sa/blinking_platform/collision.inc.c"
+#include "levels/sa/meteor_a/model.inc.c"
+#include "levels/sa/meteor_b/model.inc.c"

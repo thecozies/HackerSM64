@@ -153,3 +153,20 @@ void bhv_blinking_platform_loop(void) {
     print_text_fmt_int(20,60, "BLINK %d", BLINKING_COUNTER);*/
 
 }
+
+// METEOR
+#define FACE_ANGLE_SPEED o->os16F4
+#define FACE_ROLL_SPEED o->os16F6
+
+void bhv_meteor_init(void) {
+    o->oFaceAngleYaw = random_u16();
+    o->oFaceAngleRoll = random_u16();
+
+    FACE_ANGLE_SPEED = (random_u16() * 15) / 65536 + 10;
+    FACE_ROLL_SPEED = (random_u16() * 15) / 65536 + 10;
+}
+
+void bhv_meteor_loop(void) {
+    o->oFaceAngleYaw += FACE_ANGLE_SPEED;
+    o->oFaceAngleRoll += FACE_ROLL_SPEED;
+}

@@ -39,8 +39,9 @@
 
 //reonu models
 #define MODEL_SPRING                          0x100
-
-#define MODEL_BLINKING_PLATFORM                0xFC
+#define MODEL_BLINKING_PLATFORM               0xFF
+#define MODEL_METEOR_A                        0xFE
+#define MODEL_METEOR_B                        0xFD
 
 #define MODEL_BOB_BUBBLY_TREE                  0x17        // bubbly_tree_geo
 #define MODEL_WDW_BUBBLY_TREE                  0x17        // bubbly_tree_geo

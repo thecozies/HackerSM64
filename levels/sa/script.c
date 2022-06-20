@@ -37,6 +37,8 @@ const LevelScript level_sa_entry[] = {
 	JUMP_LINK(script_func_global_5), 
 	JUMP_LINK(script_func_global_14), 
 	LOAD_MODEL_FROM_GEO(MODEL_BLINKING_PLATFORM, blinking_platform_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_METEOR_A, meteor_a_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_METEOR_B, meteor_b_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -53,12 +55,14 @@ const LevelScript level_sa_entry[] = {
 		OBJECT(MODEL_BLINKING_PLATFORM, 10186, 1000, 0, 0, 0, 0, (0x01 << 24) | (0x1E << 8), bhvBlinkingPlatform),
 		OBJECT(MODEL_BLINKING_PLATFORM, 10486, 1000, 0, 0, 0, 0, (0x00 << 24) | (0x1E << 8), bhvBlinkingPlatform),
 		OBJECT(MODEL_BLINKING_PLATFORM, 8431, 2800, 0, 0, 0, 0, (0x01 << 24) | (20 << 8) | (60), bhvBlinkingPlatform),
-		OBJECT(MODEL_BLINKING_PLATFORM, 9181, 3100, 0, 0, 0, 0, (0x01 << 24) | (30 << 8) | (60), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 9181, 3100, 0, 0, 0, 0, (0x01 << 24) | (20 << 8) | (60), bhvBlinkingPlatform),
 		OBJECT(MODEL_BLINKING_PLATFORM, 9886, 1000, 0, 0, 0, 0, (0x02 << 24) | (0x1E << 8), bhvBlinkingPlatform),
 		MARIO_POS(0x01, 0, 15144, 200, 0),
-		OBJECT(MODEL_SPRING, 14959, 100, -324, 0, 0, 0, (0x00 << 16), bhvSpring),
-		OBJECT(MODEL_SPRING, 15138, 100, -324, 0, 0, 0, (0x01 << 16), bhvSpring),
-		OBJECT(MODEL_SPRING, 15309, 100, -324, 0, 0, 0, (0x02 << 16), bhvSpring),
+		OBJECT(MODEL_METEOR_A, 15277, 368, 2873, 0, 0, 0, 0x00000000, bhvMeteor),
+		OBJECT(MODEL_METEOR_B, 13332, 824, 3572, 0, 0, 0, 0x00000000, bhvMeteor),
+		OBJECT(MODEL_METEOR_A, 11630, 1679, 2873, 0, 0, 0, 0x00000000, bhvMeteor),
+		OBJECT(MODEL_METEOR_B, 9896, 1279, 4099, 0, 0, 0, 0x00000000, bhvMeteor),
+		OBJECT(MODEL_METEOR_B, 8224, 1750, 2041, 0, 0, 0, 0x00000000, bhvMeteor),
 		OBJECT(MODEL_NONE, 10188, 138, 11, 0, 0, 0, (0x30 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 10822, 2276, 485, 0, 0, 0, (0x31 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 15144, 200, 0, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),

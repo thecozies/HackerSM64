@@ -24,4 +24,8 @@ extern const LevelScript level_sa_entry[];
 
 #include "levels/sa/blinking_platform/collision_header.h"
 
+#include "levels/sa/meteor_a/geo_header.h"
+
+#include "levels/sa/meteor_b/geo_header.h"
+
 #endif

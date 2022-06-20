@@ -6787,3 +6787,16 @@ const BehaviorScript bhvBlinkingPlatform[] = {
         CALL_NATIVE(bhv_blinking_platform_loop),
     END_LOOP(),
 };
+
+extern void bhv_meteor_init();
+extern void bhv_meteor_loop();
+const BehaviorScript bhvMeteor[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    CALL_NATIVE(bhv_init_room),
+    SET_HOME(),
+    CALL_NATIVE(bhv_meteor_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_meteor_loop),
+    END_LOOP(),
+};
