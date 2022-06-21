@@ -858,8 +858,18 @@ s32 update_radial_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
     return camYaw;
 }
 
+// Reonu stuff
+s16 approach_yaw(s16 curYaw, s16 target, f32 speed) {
+    return (s16) (target - approach_f32_asymptotic(
+        (s16) (target - curYaw),
+        0,
+        speed
+    ));
+}
+    // End of reonu stuff
+
 /**
- * Update the camera during 8 directional mode
+ * Update the camera during 8 directional modesolike    
  */
 s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
     s16 camYaw = s8DirModeYawOffset;
@@ -871,6 +881,35 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
 
     sAreaYaw = camYaw;
     calc_y_to_curr_floor(&posY, 1.f, 200.f, &focusY, 0.9f, 200.f);
+
+    // Reonu stuff
+
+    if (gCurrLevelNum == LEVEL_SA && gMarioState->floor != NULL) {
+
+        if ((gMarioState->floor->object == NULL) && (gMarioState->floor->force != 0x00)) {
+            gMarioState->force2 = gMarioState->floor->force;
+        }
+        //print_text_fmt_int(20,40,"%x",gMarioState->force2);
+        switch ((gMarioState->force2 >> 8) & 0xFF) {
+            case 0x01:
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, DEGREES(90), 0.09f);
+                break;
+            case 0x02:
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, DEGREES(180), 0.09f);
+                //print_text(20,20,"hi");
+                break;
+            case 0x03:
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, DEGREES(270), 0.09f);
+                break;
+
+            
+            case 0xFF:
+                break;
+        }
+    }
+
+    // End of Reonu stuff
+
     focus_on_mario(focus, pos, posY + yOff, focusY + yOff, sLakituDist + baseDist, pitch, camYaw);
     pan_ahead_of_player(c);
 #ifdef ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS
@@ -10511,7 +10550,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // TTC            | RR
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // CASTLE_GROUNDS | BITDW
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // VCUTM          | BITFS
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // SA             | BITS
+	ZOOMOUT_AREA_MASK(1, 1, 0, 0, 1, 0, 0, 0), // SA             | BITS
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // LLL            | DDD
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // WF             | ENDING
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // COURTYARD      | PSS

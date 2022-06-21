@@ -1741,6 +1741,23 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             return ACTIVE_PARTICLE_NONE;
         }
 
+        // Reonu stuff
+        if (gCurrLevelNum != LEVEL_SA) {
+            gMarioModel = 0;
+        } else {
+            if (gCurrAreaIndex % 2) {
+                gMarioModel = 0;
+            } else {
+                gMarioModel = 1;
+            }
+        }
+        if (gMarioModel == 0) {
+            obj_set_model(gMarioState->marioObj, MODEL_MARIO);
+        } else {
+            obj_set_model(gMarioState->marioObj, MODEL_LUIGI);
+        }
+        // End of reonu stuff
+
         // The function can loop through many action shifts in one frame,
         // which can lead to unexpected sub-frame behavior. Could potentially hang
         // if a loop of actions were found, but there has not been a situation found.

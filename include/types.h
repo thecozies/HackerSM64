@@ -485,6 +485,7 @@ struct MarioState {
 #ifdef PREVENT_DEATH_LOOP
              u8  isDead : 1;
 #endif
+            s16 force2; //Reonu
            Vec3f lastSafePos;
            Vec3f prevPos;
              f32 lateralSpeed;
