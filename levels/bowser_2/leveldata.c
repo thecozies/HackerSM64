@@ -18,3 +18,7 @@
 
 #include "levels/bowser_2/fight_platform/model.inc.c"
 #include "levels/bowser_2/fight_platform/collision.inc.c"
+#include "levels/bowser_2/fight_bomb/model.inc.c"
+#include "levels/bowser_2/fight_plat_shadow/model.inc.c"
+#include "levels/bowser_2/fight_spikes/model.inc.c"
+#include "levels/bowser_2/fight_spikes/collision.inc.c"

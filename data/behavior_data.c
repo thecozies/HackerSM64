@@ -6821,6 +6821,27 @@ const BehaviorScript bhvFightBombCtl[] = {
     END_LOOP(),
 };
 
+extern void fight_shadow_loop();
+const BehaviorScript bhvFightShadow[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_shadow_loop),
+    END_LOOP(),
+};
+
+extern void fight_spikes_loop();
+const BehaviorScript bhvFightSpikes[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(fight_spikes_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_spikes_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
 extern const Collision gear_1_collision[];
 extern const Collision gear_2_collision[];
 extern const Collision gear_3_collision[];

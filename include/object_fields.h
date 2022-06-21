@@ -1392,8 +1392,11 @@ os16112*/
 #define oFightCtlBombCooldown OBJECT_FIELD_S32(0x1C)
 #define oFightCtlAnimTimer OBJECT_FIELD_S32(0x1D)
 #define oFightCtlAttack OBJECT_FIELD_S32(0x1E)
+#define oFightCtlBombMap OBJECT_FIELD_S32(0x1F)
+#define oFightCtlEmptiesMap OBJECT_FIELD_S32(0x20)
 
 #define oFightFlameColor OBJECT_FIELD_S32(0x1F)
 #define oFightFlameAlphaSpeed OBJECT_FIELD_S32(0x20)
+#define oFightFlameFlags OBJECT_FIELD_F32(0x49)
 
 #endif // OBJECT_FIELDS_H

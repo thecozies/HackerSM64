@@ -3061,6 +3061,36 @@ static void fight_magnet_bowser_to_opposite_side()
     approach_f32_asymptotic_bool(&o->oPosZ, CLAMP(-gMarioStates->pos[2], -1150.f, 1150.f), 0.1f);
 }
 
+extern Gfx mat_fight_bomb_f3d_material_002[]; // +19
+extern Gfx mat_fight_plat_shadow_f3d_material_003[]; // +12
+
+void fight_shadow_set_alpha(u8 v)
+{
+    u8* a;
+    a = (u8*) segmented_to_virtual(mat_fight_bomb_f3d_material_002) + 19*8 + 7;
+    *a = v;
+    a = (u8*) segmented_to_virtual(mat_fight_plat_shadow_f3d_material_003) + 12*8 + 7;
+    *a = v;
+}
+
+void fight_shadow_set_color(rgb* v)
+{
+    rgb* c = (rgb*) ((u8*) segmented_to_virtual(mat_fight_plat_shadow_f3d_material_003) + 12*8 + 4);
+    c->r = v->r;
+    c->g = v->g;
+    c->b = v->b;
+}
+
+s32 fight_is_bomb(int i, int j)
+{
+    return !!(o->oFightCtlBombMap & (1 << (i*5 + j)));
+}
+
+void fight_set_bomb(int i, int j)
+{
+    o->oFightCtlBombMap |= 1 << (i*5 + j); 
+}
+
 void fight_platform_ctl_loop()
 {
     fight_animate_bg();
@@ -3072,6 +3102,9 @@ void fight_platform_ctl_loop()
         return;
 
     static const f32 ArenaSize = 1150.f;
+
+    print_text_fmt_int(20, 20, "%d", o->oTimer);
+    print_text_fmt_int(20, 40, "%d", o->oAction);
 
     fight_calm_bowser();
     fight_platform_magnet_bowser();
@@ -3220,6 +3253,7 @@ void fight_platform_ctl_loop()
 
         if (0 == o->oAngleVelYaw)
         {
+            o->parentObj->oHealth = 3;
             o->oAction = 4;
             o->parentObj->oAction = BOWSER_ACT_DANCE;
             seq_player_play_sequence(0, SEQ_FIGHT2, 0);
@@ -3256,13 +3290,14 @@ void fight_platform_ctl_loop()
     }
     else if (6 == o->oAction)
     {
+        // pick attack and maybe prepare it
         fight_magnet_bowser_to_opposite_side();
         o->oFightCtlAttack = 0; // random_u16() % 5;
         o->oAction = 7;
     }
     else if (7 == o->oAction)
     {
-        // pick attack and start swapping to it
+        // do mario attack
         fight_magnet_bowser_to_opposite_side();
         hsv color;
         color.h = o->oFightCtlAttack * (0x10000 / 5);
@@ -3275,13 +3310,13 @@ void fight_platform_ctl_loop()
         case 0:
         {
             // square attack
-            if (0 == o->oTimer || 70 == o->oTimer || 130 == o->oTimer)
+            if (0 == o->oTimer || 140 == o->oTimer)
             {
                 for (int i = 0; i < 40; i++)
                 {
                     struct Object* flame = spawn_object(o, MODEL_FIGHT_FLAME, bhvFightFlameSquare);
                     hsv2rgb(&color, (rgb*) &flame->oFightFlameColor);
-                    flame->oFightFlameAlphaSpeed = 2;
+                    flame->oFightFlameAlphaSpeed = 0 == o->oTimer ? 2 : 7;
 
                     int pt = i / 10;
                     int num = i % 10;
@@ -3300,7 +3335,7 @@ void fight_platform_ctl_loop()
                 }
             }
 
-            if (400 == o->oTimer)
+            if (250 == o->oTimer)
             {
                 o->oAction = 8;
             }
@@ -3314,9 +3349,116 @@ void fight_platform_ctl_loop()
     {
         fight_magnet_bowser_to_opposite_side();
         // do the panels/bombs attack
+        // this is 5x5 attack encompassing the whole area of the fight
+        if (0 == o->oTimer)
+        {
+            o->oFightCtlBombMap = 0;
+            // pick 4 random spots where bombs will be in 4 quarters
+            s32 negativeX = gMarioStates->pos[0] < 0;
+            s32 negativeZ = gMarioStates->pos[2] < 0;
+            if (!negativeX || !negativeZ)
+            {
+                u8 pos = random_u16() % 8;
+                fight_set_bomb(0 + pos % 3, 0 + pos / 3); // -/-
+            }
+
+            if (!negativeX || negativeZ)
+            {
+                u8 pos = random_u16() % 8;
+                fight_set_bomb(0 + pos % 3, 4 - pos / 3); // -/+
+            }
+
+            if (negativeX || !negativeZ)
+            {
+                u8 pos = random_u16() % 8;
+                fight_set_bomb(4 - pos / 3, 0 + pos % 3); // +/-
+            }
+
+            if (negativeX || negativeZ)
+            {
+                u8 pos = random_u16() % 8;
+                fight_set_bomb(4 - pos / 3, 4 - pos % 3); // +/+
+            }
+
+            fight_shadow_set_alpha(0);
+            for (int i = 0; i < 5; i++)
+            for (int j = 0; j < 5; j++)
+            {
+                if (fight_is_bomb(4-i, 4-j))
+                    continue;
+
+                s32 is_bomb = fight_is_bomb(i, j);
+                struct Object* plat = spawn_object(o, is_bomb ? MODEL_FIGHT_BOMB_SHADOW : MODEL_FIGHT_PLAT_SHADOW, bhvFightShadow);
+                plat->oFaceAngleYaw = 0;
+                plat->oBehParams2ndByte = is_bomb;
+                plat->parentObj = o;
+                plat->oPosX = i * 600.f - 1200.f;
+                plat->oPosY = 10.f;
+                plat->oPosZ = j * 600.f - 1200.f;
+            }
+        }
+        else if (o->oTimer < 200)
+        {
+            rgb color;
+            color.r = 150 + 50 * sins(0x345 * o->oTimer);
+            color.g = 50;
+            color.b = 50;
+            fight_shadow_set_color(&color);
+            fight_shadow_set_alpha(o->oTimer);
+        }
+        else if (o->oTimer == 200)
+        {
+            for (int i = 0; i < 5; i++)
+            for (int j = 0; j < 5; j++)
+            {
+                if (fight_is_bomb(4-i, 4-j))
+                    continue;
+
+                s32 is_bomb = fight_is_bomb(i, j);
+                struct Object* stuff;
+                if (is_bomb)
+                {
+                    stuff = spawn_object(o, MODEL_BOWSER_BOMB, bhvBowserBomb);
+                    stuff->oBehParams2ndByte = 2;
+                    stuff->oPosY = 430.f;
+                }
+                else
+                {
+                    stuff = spawn_object(o, MODEL_FIGHT_SPIKES, bhvFightSpikes);
+                    stuff->oPosY = -400.f;
+                }
+                stuff->oFaceAngleYaw = 0;
+                stuff->parentObj = o;
+                stuff->oPosX = i * 600.f - 1200.f;
+                stuff->oPosZ = j * 600.f - 1200.f;
+            }
+        }
+        else if (o->oTimer == 300)
+        {
+            o->oAction = 6;
+        }
     }
 
     fight_platform_rotate();
+}
+
+void fight_shadow_loop()
+{
+    if (o->oBehParams2ndByte)
+    {
+        o->oFaceAngleYaw += 0x269;
+        o->oPosY = o->oHomeY + 10.f * sins(0x656 * o->oTimer);
+    }
+    else
+    {
+        o->oPosX = o->oHomeX + 10.f * sins(0x456 * o->oTimer);
+        o->oPosZ = o->oHomeZ + 10.f * coss(0x156 * o->oTimer);
+    }
+
+    if (201 == o->oTimer)
+    {
+        o->activeFlags = 0;
+    }
 }
 
 struct ObjectHitbox sFightBowserFlameHitbox = {
@@ -3378,19 +3520,21 @@ void fight_flame_square_loop()
     rgb* c = (rgb*) &o->oFightFlameColor;
     if (c->a > 255 - o->oFightFlameAlphaSpeed)
     {
+        if (!o->oFightFlameFlags)
+        {
+            o->oFightFlameFlags = 1;
+            o->oTimer = 0;
+        }
+
         c->a = 255;
         obj_set_hitbox(o, &sFightBowserFlameHitbox);
     
-        o->oPosX = (1.f - 0.02f * o->oTimer) * o->oHomeX * sins(o->oFaceAngleYaw + o->oTimer * 0x145);
-        o->oPosZ = (1.f - 0.02f * o->oTimer) * o->oHomeX * coss(o->oFaceAngleYaw + o->oTimer * 0x145);
+        o->oPosX = (1.f - 0.000002f * o->oTimer * o->oTimer * o->oTimer) * o->oHomeX * sins(o->oFaceAngleYaw + o->oTimer * 0x145);
+        o->oPosZ = (1.f - 0.000002f * o->oTimer * o->oTimer * o->oTimer) * o->oHomeX * coss(o->oFaceAngleYaw + o->oTimer * 0x145);
     }
     else
     {
         c->a += o->oFightFlameAlphaSpeed;
-        if (c->a > 250)
-        {
-            o->oTimer = 0;
-        }
     }
     obj_scale(o, o->oFlameScale);
     cur_obj_update_floor_and_walls();
@@ -3436,6 +3580,7 @@ void fight_bomb_ctl_loop()
                 if (o->oDistanceToMario > 300.f)
                 {
                     o->oFightCtlBomb = spawn_object(o, MODEL_BOWSER_BOMB, bhvBowserBomb);
+                    o->oFightCtlBomb->oBehParams2ndByte = 1;
                     o->oFightCtlBomb->parentObj = o; // just in case lol
                 }
                 else
@@ -3444,5 +3589,23 @@ void fight_bomb_ctl_loop()
                 }
             }
         }
+    }
+}
+
+void fight_spikes_loop()
+{
+    if (o->oTimer < 10)
+    {
+        o->oPosY += 30.f;
+    }
+
+    if (o->oTimer > 50)
+    {
+        o->oPosY -= 5.f;
+    }
+
+    if (o->oTimer == 150)
+    {
+        o->activeFlags = 0;
     }
 }
