@@ -42,7 +42,15 @@ void scroll_sa_dl_teleporter_001_mesh_layer_1_vtx_0() {
 	currentY += deltaY;
 }
 
+void scroll_sts_mat_sa_dl_water_layer5() {
+	Gfx *mat = segmented_to_virtual(mat_sa_dl_water_layer5);
+	shift_s_down(mat, 12, PACK_TILESIZE(0, 1));
+	shift_s(mat, 20, PACK_TILESIZE(0, 1));
+	shift_t(mat, 20, PACK_TILESIZE(0, 1));
+};
+
 void scroll_sa() {
 	scroll_sa_dl_teleporter_mesh_layer_1_vtx_0();
 	scroll_sa_dl_teleporter_001_mesh_layer_1_vtx_0();
+	scroll_sts_mat_sa_dl_water_layer5();
 }
