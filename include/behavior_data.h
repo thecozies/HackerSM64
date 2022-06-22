@@ -549,6 +549,11 @@ extern const BehaviorScript bhvEndBirds2[];
 extern const BehaviorScript bhvIntroScene[];
 extern const BehaviorScript bhvUnusedFakeStar[];
 
+extern const BehaviorScript bhvAgtGear1[];
+extern const BehaviorScript bhvAgtGear2[];
+extern const BehaviorScript bhvAgtGear3[];
+extern const BehaviorScript bhvAgtGear4[];
+extern const BehaviorScript bhvGearSounds[];
 // axo start
 extern const BehaviorScript bhvAxoController[];
 extern const BehaviorScript bhvFlipnoteFrog[];
@@ -596,6 +601,13 @@ extern const BehaviorScript bhvVcmCtl[];
 extern const BehaviorScript bhvVcmArrow[];
 extern const BehaviorScript bhvOWCtl[];
 extern const BehaviorScript bhvSlideCheckpoint[];
+extern const BehaviorScript bhvSlideCheckpointCtl[];
+extern const BehaviorScript bhvFightPlatformCtl[];
+extern const BehaviorScript bhvFightFlame[];
+extern const BehaviorScript bhvFightFlameSquare[];
+extern const BehaviorScript bhvFightBombCtl[];
+extern const BehaviorScript bhvFightShadow[];
+extern const BehaviorScript bhvFightSpikes[];
 extern const BehaviorScript bhvBowserCourseWarpCtl[];
 extern const BehaviorScript bhvBowserPieces[];
 extern const BehaviorScript bhvBowserMetalBoxPush[];

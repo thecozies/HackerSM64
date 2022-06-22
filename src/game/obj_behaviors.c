@@ -784,3 +784,4 @@ UNUSED s32 debug_sequence_tracker(s16 debugInputSequence[]) {
 #include "behaviors/aglab.inc.c"
 
 #include "behaviors/reonu.inc.c"
+#include "behaviors/omm.inc.c"

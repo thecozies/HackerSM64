@@ -1,0 +1,11 @@
+extern const GeoLayout fight_bomb_geo[];
+extern Lights1 fight_bomb_f3d_material_002_lights;
+extern u8 fight_bomb_tex1_64x64_844AC5811E03316F_12_ci4[];
+extern u8 fight_bomb_tex1_64x64_844AC5811E03316F_12_ci4_pal_rgba16[];
+extern Vtx fight_bomb_bomb_shadow_mesh_layer_5_vtx_cull[8];
+extern Vtx fight_bomb_bomb_shadow_mesh_layer_5_vtx_0[125];
+extern Gfx fight_bomb_bomb_shadow_mesh_layer_5_tri_0[];
+extern Gfx mat_fight_bomb_f3d_material_002[];
+extern Gfx mat_revert_fight_bomb_f3d_material_002[];
+extern Gfx fight_bomb_bomb_shadow_mesh_layer_5[];
+extern Gfx fight_bomb_material_revert_render_settings[];

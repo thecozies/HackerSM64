@@ -3,7 +3,7 @@
 /**
  * Shockwave scale distance hit points
  */
-f32 sBowserShockwaveHitPoints[] = { 1.9f, 2.4f, 4.0f, 4.8f };
+f32 sBowserShockwaveHitPoints[] = { 2.0f, 2.3f, 4.1f, 4.7f };
 
 /**
  * Bowser's shockwave attack main loop

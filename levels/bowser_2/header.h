@@ -17,4 +17,19 @@ extern const Collision bowser_2_seg7_collision_tilting_platform[];
 // script
 extern const LevelScript level_bowser_2_entry[];
 
+
+#include "levels/bowser_2/header.inc.h"
+
+#include "levels/bowser_2/fight_platform/geo_header.h"
+
+#include "levels/bowser_2/fight_platform/collision_header.h"
+
+#include "levels/bowser_2/fight_bomb/geo_header.h"
+
+#include "levels/bowser_2/fight_plat_shadow/geo_header.h"
+
+#include "levels/bowser_2/fight_spikes/geo_header.h"
+
+#include "levels/bowser_2/fight_spikes/collision_header.h"
+
 #endif

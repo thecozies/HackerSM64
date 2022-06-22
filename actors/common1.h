@@ -169,6 +169,7 @@ extern const Gfx explosion_seg3_dl_03004328[];
 extern const GeoLayout red_flame_shadow_geo[];
 extern const GeoLayout red_flame_geo[];
 extern const GeoLayout blue_flame_geo[];
+extern const GeoLayout fight_flame_geo[];
 extern const Gfx flame_seg3_dl_0301B320[];
 extern const Gfx flame_seg3_dl_0301B3B0[];
 extern const Gfx flame_seg3_dl_0301B3C8[];
@@ -187,6 +188,15 @@ extern const Gfx flame_seg3_dl_0301B560[];
 extern const Gfx flame_seg3_dl_0301B578[];
 extern const Gfx flame_seg3_dl_0301B590[];
 extern const Gfx flame_seg3_dl_0301B5A8[];
+
+extern const Gfx fight_flame_seg3_dl_0301B500[];
+extern const Gfx fight_flame_seg3_dl_0301B518[];
+extern const Gfx fight_flame_seg3_dl_0301B530[];
+extern const Gfx fight_flame_seg3_dl_0301B548[];
+extern const Gfx fight_flame_seg3_dl_0301B560[];
+extern const Gfx fight_flame_seg3_dl_0301B578[];
+extern const Gfx fight_flame_seg3_dl_0301B590[];
+extern const Gfx fight_flame_seg3_dl_0301B5A8[];
 
 // leaves
 extern const GeoLayout leaves_geo[];
@@ -252,6 +262,14 @@ extern const Gfx star_seg3_sub_dl_body[];
 extern const Gfx star_seg3_dl_body[];
 extern const Gfx star_seg3_sub_dl_eyes[];
 extern const Gfx star_seg3_dl_eyes[];
+
+extern Gfx omm_star_glow_gfx[];
+extern Gfx omm_star_ray_0_gfx[];
+extern Gfx omm_star_ray_1_gfx[];
+extern Gfx omm_star_ray_2_gfx[];
+extern Gfx omm_star_ray_3_gfx[];
+extern Gfx omm_star_ray_4_gfx[];
+extern Gfx omm_star_ray_5_gfx[];
 
 // transparent_star
 extern const GeoLayout transparent_star_geo[];

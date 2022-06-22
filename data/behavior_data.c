@@ -6814,3 +6814,143 @@ const BehaviorScript bhvCastleGate[] = {
         CALL_NATIVE(bhv_castle_gate_loop),
     END_LOOP(),
 };
+extern void slide_checkpoint_ctl_init();
+extern void slide_checkpoint_ctl_loop();
+const BehaviorScript bhvSlideCheckpointCtl[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    CALL_NATIVE(slide_checkpoint_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(slide_checkpoint_ctl_loop),
+    END_LOOP(),
+};
+
+extern void fight_platform_ctl_init();
+extern void fight_platform_ctl_loop();
+const BehaviorScript bhvFightPlatformCtl[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    SET_FLOAT(oCollisionDistance, 20000),
+    CALL_NATIVE(fight_platform_ctl_init),
+    LOAD_COLLISION_DATA(fight_platform_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_platform_ctl_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void fight_flame_init();
+extern void fight_flame_loop();
+const BehaviorScript bhvFightFlame[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_FLAME),
+    BILLBOARD(),
+    CALL_NATIVE(fight_flame_init),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_flame_loop),
+        ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
+extern void fight_flame_square_init();
+extern void fight_flame_square_loop();
+const BehaviorScript bhvFightFlameSquare[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_FLAME),
+    BILLBOARD(),
+    CALL_NATIVE(fight_flame_square_init),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_flame_square_loop),
+        ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
+extern void fight_bomb_ctl_init();
+extern void fight_bomb_ctl_loop();
+const BehaviorScript bhvFightBombCtl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    OR_INT(oFlags, OBJ_FLAG_COMPUTE_DIST_TO_MARIO),
+    CALL_NATIVE(fight_bomb_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_bomb_ctl_loop),
+    END_LOOP(),
+};
+
+extern void fight_shadow_loop();
+const BehaviorScript bhvFightShadow[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_shadow_loop),
+    END_LOOP(),
+};
+
+extern void fight_spikes_loop();
+const BehaviorScript bhvFightSpikes[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(fight_spikes_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_spikes_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const Collision gear_1_collision[];
+extern const Collision gear_2_collision[];
+extern const Collision gear_3_collision[];
+extern const Collision gear_4_collision[];
+const BehaviorScript bhvAgtGear1[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(gear_1_collision),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oAngleVelYaw, 300),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rotating_octagonal_plat_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvAgtGear2[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(gear_2_collision),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oAngleVelYaw, -100),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rotating_octagonal_plat_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvAgtGear3[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(gear_3_collision),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oAngleVelPitch, 100),
+    BEGIN_LOOP(),
+        ADD_INT(oFaceAnglePitch, 100),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvAgtGear4[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(gear_4_collision),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oAngleVelYaw, -100),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rotating_octagonal_plat_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGearSounds[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_gear_sounds_loop),
+    END_LOOP(),
+};

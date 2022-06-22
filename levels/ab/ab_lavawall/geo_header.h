@@ -3,7 +3,7 @@ extern Lights1 ab_lavawall__16_f3d_layer5_lights;
 extern u8 ab_lavawall_lava2_rgba16[];
 extern u8 ab_lavawall_tex1_128x128_EEF278E719905D75_5_2_ia8[];
 extern Vtx ab_lavawall_Azure_Abyss2_lava_003_mesh_layer_5_vtx_cull[8];
-extern Vtx ab_lavawall_Azure_Abyss2_lava_003_mesh_layer_5_vtx_0[23];
+extern Vtx ab_lavawall_Azure_Abyss2_lava_003_mesh_layer_5_vtx_0[18];
 extern Gfx ab_lavawall_Azure_Abyss2_lava_003_mesh_layer_5_tri_0[];
 extern Gfx mat_ab_lavawall__16_f3d_layer5[];
 extern Gfx mat_revert_ab_lavawall__16_f3d_layer5[];

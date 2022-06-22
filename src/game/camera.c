@@ -1150,18 +1150,7 @@ void mode_radial_camera(struct Camera *c) {
 }
 
 s32 snap_to_45_degrees(s16 angle) {
-    if (angle % DEGREES(45)) {
-        s16 d1 = ABS(angle) % DEGREES(45);
-        s16 d2 = DEGREES(45) - d1;
-        if (angle > 0) {
-            if (d1 < d2) return angle - d1;
-            else return angle + d2;
-        } else {
-            if (d1 < d2) return angle + d1;
-            else return angle - d2;
-        }
-    }
-    return angle;
+    return (angle + 0x1000) & 0xe000;
 }
 
 /**
@@ -3003,7 +2992,7 @@ void update_camera(struct Camera *c) {
     if (c->cutscene == CUTSCENE_NONE) {
         sYawSpeed = 0x400;
 
-        if (sSelectionFlags & CAM_MODE_MARIO_ACTIVE) {        
+        if (sSelectionFlags & CAM_MODE_MARIO_ACTIVE) {
             s8DirModeYawOffset = snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
             switch (c->mode) {
                 case CAMERA_MODE_BEHIND_MARIO:
@@ -3222,7 +3211,7 @@ void reset_camera(struct Camera *c) {
     sZeroZoomDist = 0.f;
     sBehindMarioSoundTimer = 0;
     sCSideButtonYaw = 0;
-    s8DirModeYawOffset = 0;
+    s8DirModeYawOffset = snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
     c->doorStatus = DOOR_DEFAULT;
     sMarioCamState->headRotation[0] = 0;
     sMarioCamState->headRotation[1] = 0;
@@ -3436,7 +3425,7 @@ void zoom_out_if_paused_and_outside(struct GraphNodeCamera *camera) {
     }
     if (gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN) {
         if (sFramesPaused >= 2) {
-            if (sZoomOutAreaMasks[areaMaskIndex] & areaBit) {
+            if (gCurrCourseNum == COURSE_TOTWC) {
                 if (gCurrCourseNum != COURSE_TOTWC) {
                     camera->focus[0] = gCamera->areaCenX;
                     camera->focus[1] = (sMarioCamState->pos[1] + gCamera->areaCenY) / 2;
@@ -6009,8 +5998,7 @@ struct CameraTrigger sCamBOB[] = {
  * The CotMC trigger is only used to prevent fix Lakitu in place when Mario exits through the waterfall.
  */
 struct CameraTrigger sCamCotMC[] = {
-    { 1, cam_cotmc_exit_waterfall, 0, 1500, 3500, 550, 10000, 1500, 0 },
-    NULL_TRIGGER
+	NULL_TRIGGER
 };
 
 /**
@@ -6654,7 +6642,7 @@ void find_mario_floor_and_ceil(struct PlayerGeometry *pg) {
                                    sMarioCamState->pos[2], &pg->currCeil);
     pg->waterHeight = find_water_level(sMarioCamState->pos[0], sMarioCamState->pos[2]);
     gCollisionFlags = tempCollisionFlags;
-    
+
     gGravityMode = 0;
 }
 
@@ -10570,7 +10558,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // LLL            | DDD
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // WF             | ENDING
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // COURTYARD      | PSS
-	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // COTMC          | TOTWC
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // COTMC          | TOTWC
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // BOWSER_1       | WMOTR
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // Unused         | BOWSER_2
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // BOWSER_3       | Unused
@@ -10972,7 +10960,6 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)
         CUTSCENE(CUTSCENE_SSL_PYRAMID_EXPLODE,  sCutscenePyramidTopExplode)
 
-        
         CUTSCENE(CUTSCENE_AGLAB_WOODEN_POST_CS, sCutsceneAglabWoodenPostCs)
         CUTSCENE(CUTSCENE_AGLAB_MTC_CS,         sCutsceneAglabMtcCs)
     }

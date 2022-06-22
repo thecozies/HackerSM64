@@ -404,6 +404,7 @@ s32 mario_get_floor_class(struct MarioState *m) {
                 floorClass = SURFACE_CLASS_SLIPPERY;
                 break;
 
+            case SURFACE_SUPER_SLIPPERY:
             case SURFACE_VERY_SLIPPERY:
             case SURFACE_ICE:
             case SURFACE_HARD_VERY_SLIPPERY:
@@ -482,6 +483,7 @@ u32 mario_get_terrain_sound_addend(struct MarioState *m) {
                     floorSoundType = 2;
                     break;
 
+                case SURFACE_SUPER_SLIPPERY:
                 case SURFACE_VERY_SLIPPERY:
                 case SURFACE_ICE:
                 case SURFACE_HARD_VERY_SLIPPERY:
@@ -512,6 +514,9 @@ u32 mario_get_terrain_sound_addend(struct MarioState *m) {
  * Determines if Mario is facing "downhill."
  */
 s32 mario_facing_downhill(struct MarioState *m, s32 turnYaw) {
+    if (m->floor && m->floor->type == SURFACE_SUPER_SLIPPERY)
+        return 0;
+
     s16 faceAngleYaw = m->faceAngle[1];
 
     // This is never used in practice, as turnYaw is
@@ -530,6 +535,8 @@ s32 mario_facing_downhill(struct MarioState *m, s32 turnYaw) {
  */
 u32 mario_floor_is_slippery(struct MarioState *m) {
     f32 normY;
+    if (m->floor->type == SURFACE_SUPER_SLIPPERY)
+        return TRUE;
 
     if ((m->area->terrainType & TERRAIN_MASK) == TERRAIN_SLIDE  && ABS(m->floor->normal.y) < COS1) {
         return TRUE;
@@ -550,6 +557,8 @@ u32 mario_floor_is_slippery(struct MarioState *m) {
  */
 s32 mario_floor_is_slope(struct MarioState *m) {
     f32 normY;
+    if (m->floor->type == SURFACE_SUPER_SLIPPERY)
+        return TRUE;
 
     if ((m->area->terrainType & TERRAIN_MASK) == TERRAIN_SLIDE
         && ABS(m->floor->normal.y) < COS1) {
@@ -571,6 +580,8 @@ s32 mario_floor_is_slope(struct MarioState *m) {
  */
 s32 mario_floor_is_steep(struct MarioState *m) {
     f32 normY;
+    if (m->floor->type == SURFACE_SUPER_SLIPPERY)
+        return TRUE;
 
 #ifdef JUMP_KICK_FIX
     if (m->floor->type == SURFACE_NOT_SLIPPERY || m->floor->type == SURFACE_HARD_NOT_SLIPPERY) {
@@ -1258,15 +1269,43 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     }
 }
 
+extern s32 f32_find_wall_collision_ex(struct WallCollisionData* collision, f32 *xPtr, f32 *yPtr, f32 *zPtr, f32 offsetY, f32 radius);
+static s32 sWallBoostColldown = 0;
+
+static void check_boost(struct WallCollisionData* collData, struct MarioState *m, s32* boosted)
+{
+    if (*boosted)
+        return;
+
+    for (int i = 0; i < collData->numWalls; i++)
+    {
+        struct Surface* wall = collData->walls[i];
+        if (wall->type == SURFACE_BURNING)
+        {
+            *boosted = 1;
+            sWallBoostColldown = 4;
+            return (void) drop_and_set_mario_action(m, ACT_LAVA_BOOST, 0);
+        }
+    }
+}
+
 /**
  * Resolves wall collisions, and updates a variety of inputs.
  */
 void update_mario_geometry_inputs(struct MarioState *m) {
     f32 gasLevel;
     f32 ceilToFloorDist;
+    struct WallCollisionData collData;
+    // If boosted, code to check for boost won't trigger.
+    // No boost CD and stationary are required.
+    s32 boosted = !!sWallBoostColldown || !(m->action & ACT_FLAG_STATIONARY);
+    if (sWallBoostColldown)
+        sWallBoostColldown--;
 
-    f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 60.0f, 50.0f);
-    f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 30.0f, 24.0f);
+    f32_find_wall_collision_ex(&collData, &m->pos[0], &m->pos[1], &m->pos[2], 60.0f, 50.0f);
+    check_boost(&collData, m, &boosted);
+    f32_find_wall_collision_ex(&collData, &m->pos[0], &m->pos[1], &m->pos[2], 30.0f, 24.0f);
+    check_boost(&collData, m, &boosted);
 
     m->floorHeight = find_floor(m->pos[0], m->pos[1], m->pos[2], &m->floor);
 

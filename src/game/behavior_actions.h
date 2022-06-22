@@ -558,11 +558,13 @@ void bhv_intro_scene_loop(void);
 void bhv_dust_smoke_loop(void);
 void bhv_yoshi_loop(void);
 void bhv_volcano_trap_loop(void);
+void bhv_gear_sounds_loop(void);
 
 // axo start
 void bhv_axo_controller_loop(void);
 void bhv_flipnote_frog_init(void);
 void bhv_flipnote_frog_loop(void);
+Gfx *geo_switch_flipnote_frog_exclamation_mark(s32 callContext, struct GraphNode *node, UNUSED void *context);
 // axo end
 
 Gfx *geo_move_mario_part_from_parent(s32 callContext, UNUSED struct GraphNode *node, Mat4 mtx);

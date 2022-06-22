@@ -9,6 +9,17 @@
 #include "dialog_ids.h"
 
 #include "make_const_nonconst.h"
+
+#include "gear_1/model.inc.c"
+#include "gear_1/collision.inc.c"
+#include "gear_2/model.inc.c"
+#include "gear_2/collision.inc.c"
+#include "gear_3/model.inc.c"
+#include "gear_3/collision.inc.c"
+#include "gear_4/collision.inc.c"
+#include "gear_4/model.inc.c"
+#include "gear_kuromame/model.inc.c"
+
 #include "levels/cotmc/texture.inc.c"
 #include "levels/cotmc/areas/1/1/model.inc.c"
 #include "levels/cotmc/areas/1/2/model.inc.c"
@@ -16,3 +27,5 @@
 #include "levels/cotmc/areas/1/collision.inc.c"
 #include "levels/cotmc/areas/1/macro.inc.c"
 #include "levels/cotmc/movtext.inc.c"
+
+#include "levels/cotmc/leveldata.inc.c"

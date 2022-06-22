@@ -474,10 +474,11 @@ void update_walking_speed(struct MarioState *m) {
 
 s32 should_begin_sliding(struct MarioState *m) {
     if (m->input & INPUT_ABOVE_SLIDE) {
+        s32 superSlippery = !m->floor ? 0 : m->floor->type == SURFACE_SUPER_SLIPPERY;
         s32 slideLevel = (m->area->terrainType & TERRAIN_MASK) == TERRAIN_SLIDE;
         s32 movingBackward = m->forwardVel <= -1.0f;
 
-        if (slideLevel || movingBackward || mario_facing_downhill(m, FALSE)) {
+        if (superSlippery || slideLevel || movingBackward || mario_facing_downhill(m, FALSE)) {
             return TRUE;
         }
     }
@@ -812,8 +813,16 @@ s32 act_walking(struct MarioState *m) {
             break;
 
         case GROUND_STEP_HIT_WALL:
-            push_or_sidle_wall(m, startPos);
-            m->actionTimer = 0;
+            // aglab note - running in the lava wall will make mario burn
+            if (m->wall && m->wall->type == SURFACE_BURNING)
+            {
+                set_mario_action(m, ACT_LAVA_BOOST, 0);
+            }
+            else
+            {
+                push_or_sidle_wall(m, startPos);
+                m->actionTimer = 0;
+            }
             break;
     }
 

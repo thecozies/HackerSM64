@@ -480,7 +480,7 @@
 #define MODEL_SPARKLES_ANIMATION          0x8F        // sparkles_animation_geo
 #define MODEL_RED_FLAME                   0x90        // red_flame_geo
 #define MODEL_BLUE_FLAME                  0x91        // blue_flame_geo
-// find me
+#define MODEL_FIGHT_FLAME                 0x92        // blue_flame_geo
 // find me
 #define MODEL_BURN_SMOKE                  0x94        // burn_smoke_geo
 #define MODEL_SPARKLES                    0x95        // sparkles_geo
@@ -593,6 +593,12 @@
 #define MODEL_VCUTM_WARP_PIPE                     MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 #define MODEL_CASTLE_GROUNDS_WARP_PIPE            MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 
+#define MODEL_AGT_GEAR1 0x36
+#define MODEL_AGT_GEAR2 0x37
+#define MODEL_AGT_GEAR3 0x38
+#define MODEL_AGT_GEAR4 0x39
+#define MODEL_AGT_GEARKURO 0x3A
+
 #define MODEL_MF_BF 0x36
 #define MODEL_MF_VINE 0x37
 #define MODEL_MF_VINE2 0x38
@@ -635,5 +641,9 @@
 #define MODEL_BDF_P2 0x37
 #define MODEL_BDF_P3 0x38
 #define MODEL_BDF_PUSHER 0x39
+
+#define MODEL_FIGHT_BOMB_SHADOW 0x37
+#define MODEL_FIGHT_PLAT_SHADOW 0x38
+#define MODEL_FIGHT_SPIKES 0x39
 
 #endif // MODEL_IDS_H

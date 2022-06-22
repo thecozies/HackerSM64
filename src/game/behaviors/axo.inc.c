@@ -209,12 +209,30 @@ void flipnote_frog_act_talk(void) {
             if (spawnStar) {
                 cur_obj_spawn_star_at_y_offset(0.0f, 1300.0f, 0.0f, 50.0f);
                 o->oF4 = 1;
+                o->oF8 = 2;
             }
         }
     }
 }
 
 void bhv_flipnote_frog_loop(void) {
+    if (o->oF8 < 2) { // The frog object's o->oF8 refers to the state of the exclamation mark
+        u16 newButtonState = gPlayer1Controller->buttonDown;
+        if (
+            (gPlayer1Controller->buttonReleased & L_TRIG) ||
+            (gPlayer1Controller->buttonReleased & R_TRIG)
+        ) {
+            f32 accuracy = calculate_flipnote_accuracy();
+            if (accuracy >= 0.8f) {
+                o->oF8 = 1;
+            }
+            else {
+                o->oF8 = 0;
+            }
+        }
+        o->oFC = newButtonState;
+    }
+
     switch (o->oAction) {
         case FLIPNOTE_FROG_ACT_IDLE:
             flipnote_frog_act_idle();
@@ -231,4 +249,29 @@ void bhv_flipnote_frog_loop(void) {
         }
     }
     o->oInteractStatus = INT_STATUS_NONE;
+}
+
+Gfx *geo_switch_flipnote_frog_exclamation_mark(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct Object *obj = gCurGraphNodeObjectNode;
+
+        // move to a local var because GraphNodes are passed in all geo functions.
+        // cast the pointer.
+        struct GraphNodeSwitchCase *switchCase = (struct GraphNodeSwitchCase *) node;
+
+        if (gCurGraphNodeHeldObject != NULL) {
+            obj = gCurGraphNodeHeldObject->objNode;
+        }
+
+        // if the case is greater than the number of cases, set to 0 to avoid overflowing
+        // the switch.
+        if (obj->oF8 >= switchCase->numCases) {
+            obj->oF8 = 0;
+        }
+
+        // assign the case number for execution.
+        switchCase->selectedCase = obj->oF8;
+    }
+
+    return NULL;
 }
