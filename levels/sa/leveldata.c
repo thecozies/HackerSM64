@@ -21,3 +21,5 @@
 #include "levels/sa/blinking_platform/collision.inc.c"
 #include "levels/sa/meteor_a/model.inc.c"
 #include "levels/sa/meteor_b/model.inc.c"
+#include "levels/sa/castle_gate/model.inc.c"
+#include "levels/sa/castle_gate/collision.inc.c"

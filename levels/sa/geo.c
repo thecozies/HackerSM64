@@ -20,3 +20,4 @@
 #include "levels/sa/blinking_platform/geo.inc.c"
 #include "levels/sa/meteor_a/geo.inc.c"
 #include "levels/sa/meteor_b/geo.inc.c"
+#include "levels/sa/castle_gate/geo.inc.c"

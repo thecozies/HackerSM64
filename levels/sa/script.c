@@ -32,13 +32,17 @@ const LevelScript level_sa_entry[] = {
 	LOAD_RAW(0x0C, _group1_geoSegmentRomStart, _group4_geoSegmentRomEnd), 
 	LOAD_YAY0(0x06, _group13_yay0SegmentRomStart, _group13_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0D, _group13_geoSegmentRomStart, _group13_geoSegmentRomEnd), 
+	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
+	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	JUMP_LINK(script_func_global_1), 
 	JUMP_LINK(script_func_global_2), 
 	JUMP_LINK(script_func_global_14), 
 	LOAD_MODEL_FROM_GEO(MODEL_BLINKING_PLATFORM, blinking_platform_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_METEOR_A, meteor_a_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_METEOR_B, meteor_b_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_GATE, castle_gate_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -70,7 +74,7 @@ const LevelScript level_sa_entry[] = {
 		OBJECT(MODEL_METEOR_B, 13447, 1279, -5180, 0, -180, 0, 0x00000000, bhvMeteor),
 		OBJECT(MODEL_METEOR_B, 15120, 1750, -3122, 0, -180, 0, 0x00000000, bhvMeteor),
 		OBJECT(MODEL_SPRING, 14959, 100, -324, 0, 0, 0, (0x00 << 16), bhvSpring),
-		OBJECT(MODEL_SPRING, 15138, 100, -324, 0, 0, 0, (0x01 << 16), bhvSpring),
+		OBJECT(MODEL_GOOMBA, 15138, 100, -324, 0, 0, 0, (0x01 << 16), bhvGoomba),
 		OBJECT(MODEL_SPRING, 15309, 100, -324, 0, 0, 0, (0x02 << 16), bhvSpring),
 		OBJECT(MODEL_NONE, 10188, 138, 11, 0, 0, 0, (0x30 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 10822, 2276, 485, 0, 0, 0, (0x31 << 16), bhvFadingWarp),
@@ -78,14 +82,18 @@ const LevelScript level_sa_entry[] = {
 		TERRAIN(sa_area_1_collision),
 		ROOMS(sa_area_1_collision_rooms),
 		MACRO_OBJECTS(sa_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_C1),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_SLIDE),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 
 	AREA(2, sa_area_2),
-		OBJECT(MODEL_BULLET_BILL, 15214, 5203, -1057, 0, -90, 0, 0x00000000, bhvBulletBill),
+		OBJECT(MODEL_BULLET_BILL, 13894, 4590, -1057, 0, -90, 0, 0x00000000, bhvBulletBill),
+		OBJECT(MODEL_CASTLE_GATE, 14357, 3453, -107, 0, -90, 0, 0x00000000, bhvCastleGate),
+		OBJECT(MODEL_FLYGUY, 12883, 4446, -374, 0, 0, 0, 0x00000000, bhvFlyGuy),
+		OBJECT(MODEL_FLYGUY, 11747, 3739, -374, 0, 0, 0, 0x00000000, bhvFlyGuy),
+		OBJECT(MODEL_PURPLE_SWITCH, 14112, 4694, -95, 0, 0, 0, 0x00000000, bhvFloorSwitchHiddenObjects),
 		TERRAIN(sa_area_2_collision),
 		MACRO_OBJECTS(sa_area_2_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),

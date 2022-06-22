@@ -28,4 +28,8 @@ extern const LevelScript level_sa_entry[];
 
 #include "levels/sa/meteor_b/geo_header.h"
 
+#include "levels/sa/castle_gate/geo_header.h"
+
+#include "levels/sa/castle_gate/collision_header.h"
+
 #endif
