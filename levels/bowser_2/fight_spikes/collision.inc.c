@@ -54,7 +54,7 @@ const Collision fight_spikes_collision[] = {
 	COL_VERTEX(-96, 135, -109),
 	COL_VERTEX(-96, 135, -298),
 	COL_VERTEX(94, 135, -298),
-	COL_TRI_INIT(SURFACE_DEFAULT, 46),
+	COL_TRI_INIT(SURFACE_BURNING, 46),
 	COL_TRI(0, 1, 2),
 	COL_TRI(0, 2, 3),
 	COL_TRI(4, 5, 3),

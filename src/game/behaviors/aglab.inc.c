@@ -3091,6 +3091,16 @@ void fight_set_bomb(int i, int j)
     o->oFightCtlBombMap |= 1 << (i*5 + j); 
 }
 
+s32 fight_is_empty(int i, int j)
+{
+    return !!(o->oFightCtlEmptiesMap & (1 << (i*5 + j)));
+}
+
+void fight_set_empty(int i, int j)
+{
+    o->oFightCtlEmptiesMap |= 1 << (i*5 + j); 
+}
+
 void fight_platform_ctl_loop()
 {
     fight_animate_bg();
@@ -3103,8 +3113,8 @@ void fight_platform_ctl_loop()
 
     static const f32 ArenaSize = 1150.f;
 
-    print_text_fmt_int(20, 20, "%d", o->oTimer);
-    print_text_fmt_int(20, 40, "%d", o->oAction);
+    // print_text_fmt_int(20, 20, "%d", o->oTimer);
+    // print_text_fmt_int(20, 40, "%d", o->oAction);
 
     fight_calm_bowser();
     fight_platform_magnet_bowser();
@@ -3356,35 +3366,63 @@ void fight_platform_ctl_loop()
             // pick 4 random spots where bombs will be in 4 quarters
             s32 negativeX = gMarioStates->pos[0] < 0;
             s32 negativeZ = gMarioStates->pos[2] < 0;
-            if (!negativeX || !negativeZ)
+            s32 lastHit = o->parentObj->oHealth == 1;
+            if ((!lastHit && (!negativeX || !negativeZ)) || (lastHit && !negativeX && !negativeZ))
             {
                 u8 pos = random_u16() % 8;
                 fight_set_bomb(0 + pos % 3, 0 + pos / 3); // -/-
             }
 
-            if (!negativeX || negativeZ)
+            if ((!lastHit && (!negativeX || negativeZ)) || (lastHit && !negativeX && negativeZ))
             {
                 u8 pos = random_u16() % 8;
-                fight_set_bomb(0 + pos % 3, 4 - pos / 3); // -/+
+                s32 x = 0 + pos % 3; s32 z = 4 - pos / 3;
+                if (!fight_is_bomb(x, z))
+                    fight_set_bomb(x, z); // -/+
+                else 
+                    fight_set_bomb(0, 4);
             }
 
-            if (negativeX || !negativeZ)
+            if ((!lastHit && (negativeX || !negativeZ)) || (lastHit && negativeX && !negativeZ))
             {
                 u8 pos = random_u16() % 8;
-                fight_set_bomb(4 - pos / 3, 0 + pos % 3); // +/-
+                s32 x = 4 - pos / 3; s32 z = 0 + pos % 3;
+                if (!fight_is_bomb(x, z))
+                    fight_set_bomb(x, z); // +/-
+                else 
+                    fight_set_bomb(4, 0);
             }
 
-            if (negativeX || negativeZ)
+            if ((!lastHit && (negativeX || negativeZ)) || (lastHit && negativeX && negativeZ))
             {
                 u8 pos = random_u16() % 8;
-                fight_set_bomb(4 - pos / 3, 4 - pos % 3); // +/+
+                s32 x = 4 - pos / 3; s32 z = 4 - pos % 3;
+                if (!fight_is_bomb(x, z))
+                    fight_set_bomb(x, z); // +/+
+                else 
+                    fight_set_bomb(4, 4);
+            }
+
+            if (o->parentObj->oHealth <= 2)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    if (o->parentObj->oHealth == 1 && (i % 2))
+                        continue;
+
+                    int num = i / 2; // from 0 to 3
+                    s32 x = 2 * (num / 2) + random_u16() % 3;
+                    s32 z = 2 * (num % 2) + random_u16() % 3;
+                    if (!fight_is_bomb(x, z))
+                        fight_set_empty(x, z);
+                }
             }
 
             fight_shadow_set_alpha(0);
             for (int i = 0; i < 5; i++)
             for (int j = 0; j < 5; j++)
             {
-                if (fight_is_bomb(4-i, 4-j))
+                if (fight_is_bomb(4-i, 4-j) || fight_is_empty(i, j))
                     continue;
 
                 s32 is_bomb = fight_is_bomb(i, j);
@@ -3411,7 +3449,7 @@ void fight_platform_ctl_loop()
             for (int i = 0; i < 5; i++)
             for (int j = 0; j < 5; j++)
             {
-                if (fight_is_bomb(4-i, 4-j))
+                if (fight_is_bomb(4-i, 4-j) || fight_is_empty(i, j))
                     continue;
 
                 s32 is_bomb = fight_is_bomb(i, j);
@@ -3499,7 +3537,7 @@ void fight_flame_loop()
     o->oInteractStatus = 0;
 
     f32 dist = o->oPosX * o->oPosX + o->oPosZ * o->oPosZ;
-    if (dist > 1900.f * 1900.f)
+    if (dist > 2000.f * 2000.f)
         o->activeFlags = 0; 
 }
 
@@ -3529,8 +3567,8 @@ void fight_flame_square_loop()
         c->a = 255;
         obj_set_hitbox(o, &sFightBowserFlameHitbox);
     
-        o->oPosX = (1.f - 0.000002f * o->oTimer * o->oTimer * o->oTimer) * o->oHomeX * sins(o->oFaceAngleYaw + o->oTimer * 0x145);
-        o->oPosZ = (1.f - 0.000002f * o->oTimer * o->oTimer * o->oTimer) * o->oHomeX * coss(o->oFaceAngleYaw + o->oTimer * 0x145);
+        o->oPosX = (1.f - 0.0000015f * o->oTimer * o->oTimer * o->oTimer) * o->oHomeX * sins(o->oFaceAngleYaw + o->oTimer * 0x145);
+        o->oPosZ = (1.f - 0.0000015f * o->oTimer * o->oTimer * o->oTimer) * o->oHomeX * coss(o->oFaceAngleYaw + o->oTimer * 0x145);
     }
     else
     {
@@ -3542,7 +3580,7 @@ void fight_flame_square_loop()
     o->oInteractStatus = 0;
 
     f32 dist = o->oPosX * o->oPosX + o->oPosZ * o->oPosZ;
-    if (dist > 1900.f * 1900.f)
+    if (dist > 2000.f * 2000.f)
         o->activeFlags = 0;
 }
 
