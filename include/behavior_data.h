@@ -606,5 +606,6 @@ extern const BehaviorScript bhvSparkler[];
 extern const BehaviorScript bhvSpring[];
 extern const BehaviorScript bhvBlinkingPlatform[];
 extern const BehaviorScript bhvMeteor[];   
+extern const BehaviorScript bhvCastleGate[];
 
 #endif // BEHAVIOR_DATA_H

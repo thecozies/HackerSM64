@@ -6800,3 +6800,17 @@ const BehaviorScript bhvMeteor[] = {
         CALL_NATIVE(bhv_meteor_loop),
     END_LOOP(),
 };
+
+extern void bhv_castle_gate_init();
+extern void bhv_castle_gate_loop();
+const BehaviorScript bhvCastleGate[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_COLLISION_DATA(castle_gate_collision),
+    CALL_NATIVE(bhv_init_room),
+    SET_HOME(),
+    CALL_NATIVE(bhv_castle_gate_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_castle_gate_loop),
+    END_LOOP(),
+};
