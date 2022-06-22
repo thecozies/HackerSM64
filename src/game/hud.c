@@ -590,7 +590,8 @@ void render_hud(void) {
 #ifdef PUPPYCAM
             if (!gPuppyCam.enabled) {
 #endif
-            render_hud_camera_status();
+            if (gCurrLevelNum != LEVEL_SA) // Reonu
+                render_hud_camera_status();
 #ifdef PUPPYCAM
             }
 #endif

@@ -866,6 +866,16 @@ s16 approach_yaw(s16 curYaw, s16 target, f32 speed) {
         speed
     ));
 }
+
+// Alows player to slightly rotate the camere
+s16 determine_degrees(s16 angle) {
+    if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
+        angle += DEGREES(20);
+    } else if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
+        angle -= DEGREES(20);
+    }
+    return angle;
+}
     // End of reonu stuff
 
 /**
@@ -878,6 +888,7 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
     f32 focusY;
     f32 yOff = 125.f;
     f32 baseDist = 1000.f;
+    s16 degrees;
 
     sAreaYaw = camYaw;
     calc_y_to_curr_floor(&posY, 1.f, 200.f, &focusY, 0.9f, 200.f);
@@ -892,20 +903,24 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
         //print_text_fmt_int(20,40,"%x",gMarioState->force2);
         switch ((gMarioState->force2 >> 8) & 0xFF) {
             case 0x01:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, DEGREES(90), 0.09f);
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(90)), 0.09f);
                 break;
             case 0x02:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, DEGREES(180), 0.09f);
-                //print_text(20,20,"hi");
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.09f);
                 break;
             case 0x03:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, DEGREES(270), 0.09f);
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(270)), 0.09f);
                 break;
-
-            
+            case 0x04:
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(0)), 0.09f);
+                break;
             case 0xFF:
                 break;
         }
+
+        if (gMarioState->floor->type == SURFACE_SWITCH)
+            baseDist = 2000.f;
+            yOff = 0;
     }
 
     // End of Reonu stuff
@@ -1158,7 +1173,7 @@ void mode_8_directions_camera(struct Camera *c) {
 
     radial_camera_input(c);
 
-    if (gCurrCourseNum != COURSE_TOTWC) {
+    if ((gCurrCourseNum != COURSE_TOTWC) && (gCurrLevelNum != LEVEL_SA)) {
         if (gPlayer1Controller->buttonPressed & R_CBUTTONS) {
             s8DirModeYawOffset += DEGREES(45);
             play_sound_cbutton_side();
@@ -1184,7 +1199,7 @@ void mode_8_directions_camera(struct Camera *c) {
         }
 #endif
     }
-    else {
+    else if (gCurrLevelNum != LEVEL_SA) {
         play_camera_buzz_if_c_sideways();
     }
 
@@ -4628,6 +4643,7 @@ void play_sound_cbutton_down(void) {
 }
 
 void play_sound_cbutton_side(void) {
+    if (gCurrLevelNum != LEVEL_SA)
     play_sound(SOUND_MENU_CAMERA_TURN, gGlobalSoundSource);
 }
 
