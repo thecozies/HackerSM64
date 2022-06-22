@@ -170,3 +170,41 @@ void bhv_meteor_loop(void) {
     o->oFaceAngleYaw += FACE_ANGLE_SPEED;
     o->oFaceAngleRoll += FACE_ROLL_SPEED;
 }
+
+// CASTLE GATE
+
+enum oActionsCastleGate {
+    CASTLE_GATE_ACT_IDLE,
+    CASTLE_GATE_ACT_OPEN,
+};
+
+void bhv_castle_gate_init(void) {
+    o->oHiddenObjectSwitchObj = cur_obj_nearest_object_with_behavior(bhvFloorSwitchHiddenObjects);
+    o->oAction = CASTLE_GATE_ACT_IDLE;
+}
+
+void castle_gate_act_idle(void) {
+    struct Object *switchObj;
+    switchObj = o->oHiddenObjectSwitchObj;
+    
+    if ((switchObj != NULL ) && (switchObj->oAction == 0xFF))
+        o->oAction = CASTLE_GATE_ACT_OPEN;
+}
+
+void castle_gate_act_open(void) {
+    o->oPosY += 20;
+
+    if (o->oPosY > (o->oHomeY + 1200))
+        obj_mark_for_deletion(o);
+}
+
+ObjActionFunc sCastleGateActions[] = {
+    castle_gate_act_idle,
+    castle_gate_act_open,
+};
+
+
+void bhv_castle_gate_loop(void) {
+    load_object_collision_model();
+    cur_obj_call_action_function(sCastleGateActions);
+}
