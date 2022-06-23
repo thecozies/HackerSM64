@@ -3302,7 +3302,7 @@ void fight_platform_ctl_loop()
     {
         // pick attack and maybe prepare it
         fight_magnet_bowser_to_opposite_side();
-        o->oFightCtlAttack = 2; // random_u16() % 5;
+        o->oFightCtlAttack = 1; // random_u16() % 5;
         o->oAction = 7;
     }
     else if (7 == o->oAction)
@@ -3363,7 +3363,88 @@ void fight_platform_ctl_loop()
         break; 
         case 1:
         {
+            /*
+                   /
+             - - -
+                   \
+             */
+            if (o->oTimer < 180 & 0 == (o->oTimer % 4))
+            {
+                f32 zPos = random_f32_around_zero(3200.f);
 
+                // tail parts
+                {
+                    struct Object* flame = spawn_object(o, MODEL_FIGHT_FLAME, bhvFightFlame);
+                    flame->oForwardVel = 100.f;
+                    flame->oMoveAngleYaw = -0x4000;
+                    flame->oPosX = 1600.f;
+                    flame->oPosY = 30.f;
+                    flame->oPosZ = zPos;
+                    rgb* c = (rgb*) &flame->oFightFlameColor;
+                    c->r = 0xfd;
+                    c->g = 0xff;
+                    c->b = 0x9f;
+                    c->a = 0;
+                    flame->oFightFlameAlphaSpeed = o->oTimer < 30 ? 5 : 20;
+                }
+                {
+                    struct Object* flame = spawn_object(o, MODEL_FIGHT_FLAME, bhvFightFlame);
+                    flame->oForwardVel = 100.f;
+                    flame->oMoveAngleYaw = -0x4000;
+                    flame->oPosX = 1550.f;
+                    flame->oPosY = 30.f;
+                    flame->oPosZ = zPos;
+                    rgb* c = (rgb*) &flame->oFightFlameColor;
+                    c->r = 0xff;
+                    c->g = 0xff;
+                    c->b = 0xff;
+                    c->a = 0;
+                    flame->oFightFlameAlphaSpeed = o->oTimer < 30 ? 5 : 20;
+                }
+                {
+                    struct Object* flame = spawn_object(o, MODEL_FIGHT_FLAME, bhvFightFlame);
+                    flame->oForwardVel = 100.f;
+                    flame->oMoveAngleYaw = -0x4000;
+                    flame->oPosX = 1500.f;
+                    flame->oPosY = 30.f;
+                    flame->oPosZ = zPos;
+                    rgb* c = (rgb*) &flame->oFightFlameColor;
+                    c->r = 0x2c;
+                    c->g = 0x77;
+                    c->b = 0x2c;
+                    c->a = 0;
+                    flame->oFightFlameAlphaSpeed = o->oTimer < 30 ? 5 : 20;
+                }
+                // head parts
+                {
+                    struct Object* flame = spawn_object(o, MODEL_FIGHT_FLAME, bhvFightFlame);
+                    flame->oForwardVel = 100.f;
+                    flame->oMoveAngleYaw = -0x4000;
+                    flame->oPosX = 1450.f;
+                    flame->oPosY = 30.f;
+                    flame->oPosZ = zPos + 50.f;
+                    rgb* c = (rgb*) &flame->oFightFlameColor;
+                    c->r = 0x25;
+                    c->g = 0x61;
+                    c->b = 0x2b;
+                    c->a = 0;
+                    flame->oFightFlameAlphaSpeed = o->oTimer < 30 ? 5 : 20;
+                }
+                {
+                    struct Object* flame = spawn_object(o, MODEL_FIGHT_FLAME, bhvFightFlame);
+                    flame->oForwardVel = 100.f;
+                    flame->oMoveAngleYaw = -0x4000;
+                    flame->oPosX = 1450.f;
+                    flame->oPosY = 30.f;
+                    flame->oPosZ = zPos - 50.f;
+                    rgb* c = (rgb*) &flame->oFightFlameColor;
+                    c->r = 0x25;
+                    c->g = 0x61;
+                    c->b = 0x2b;
+                    c->a = 0;
+                    flame->oFightFlameAlphaSpeed = o->oTimer < 30 ? 5 : 20;
+                }
+            }
         }
         break;
         default:
