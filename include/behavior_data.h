@@ -605,6 +605,7 @@ extern const BehaviorScript bhvSlideCheckpointCtl[];
 extern const BehaviorScript bhvFightPlatformCtl[];
 extern const BehaviorScript bhvFightFlame[];
 extern const BehaviorScript bhvFightFlameSquare[];
+extern const BehaviorScript bhvFightFlameCircle[];
 extern const BehaviorScript bhvFightBombCtl[];
 extern const BehaviorScript bhvFightShadow[];
 extern const BehaviorScript bhvFightSpikes[];

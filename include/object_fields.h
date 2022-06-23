@@ -1398,5 +1398,6 @@ os16112*/
 #define oFightFlameColor OBJECT_FIELD_S32(0x1F)
 #define oFightFlameAlphaSpeed OBJECT_FIELD_S32(0x20)
 #define oFightFlameFlags OBJECT_FIELD_F32(0x49)
+#define oFightFlameSquareAngle OBJECT_FIELD_S32(0x4A)
 
 #endif // OBJECT_FIELDS_H
