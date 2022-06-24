@@ -517,7 +517,14 @@ void geo_process_perspective(struct GraphNodePerspective *node) {
  */
 void geo_process_level_of_detail(struct GraphNodeLevelOfDetail *node) {
 #ifdef AUTO_LOD
-    f32 distanceFromCam = gIsConsole ? -gMatStack[gMatStackIndex][3][2] : 50.0f;
+    f32 distanceFromCam;
+
+    if ((gIsConsole) || (gCurrLevelNum == LEVEL_SA)) { // Reonu: Force LODs on my level even on emulator. I need them for some effects
+        distanceFromCam = -gMatStack[gMatStackIndex][3][2];
+    } else {
+        distanceFromCam = 50.0f;
+    }
+
 #else
     f32 distanceFromCam = -gMatStack[gMatStackIndex][3][2];
 #endif
