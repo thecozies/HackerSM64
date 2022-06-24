@@ -14,7 +14,6 @@ void bhv_bowser_bomb_loop(void) {
         }
     }
 
-    print_text_fmt_int(20, 20, "%d", o->oBehParams2ndByte);
     if (2 == o->oBehParams2ndByte)
     {
         if (o->oTimer > 30)
