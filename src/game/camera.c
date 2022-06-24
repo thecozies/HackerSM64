@@ -876,6 +876,13 @@ s16 determine_degrees(s16 angle) {
     }
     return angle;
 }
+f32 determine_speed(void) {
+    if ((gPlayer1Controller->buttonDown && R_CBUTTONS) || (gPlayer1Controller->buttonDown && L_CBUTTONS)) {
+        return 0.2f;
+    } else {
+        return 0.9f;
+    }
+}
     // End of reonu stuff
 
 /**
@@ -903,7 +910,7 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
         //print_text_fmt_int(20,40,"%x",gMarioState->force2);
         switch ((gMarioState->force2 >> 8) & 0xFF) {
             case 0x01:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(90)), 0.09f);
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(90)), determine_speed());
                 break;
             case 0x02:
                 s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.09f);
@@ -10554,7 +10561,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // TTC            | RR
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // CASTLE_GROUNDS | BITDW
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // VCUTM          | BITFS
-	ZOOMOUT_AREA_MASK(1, 1, 0, 0, 1, 0, 0, 0), // SA             | BITS
+	ZOOMOUT_AREA_MASK(1, 1, 1, 0, 1, 0, 0, 0), // SA             | BITS
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // LLL            | DDD
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // WF             | ENDING
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // COURTYARD      | PSS
