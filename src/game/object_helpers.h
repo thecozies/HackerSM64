@@ -275,6 +275,7 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
 Gfx *geo_set_spring_color(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_set_blinking_platform_prim_alpha(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_render_INFBG(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]);
+Gfx *geo_render_INFBG2(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]);
 
 
 #endif // OBJECT_HELPERS_H
