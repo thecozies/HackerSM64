@@ -23,3 +23,4 @@
 #include "levels/sa/meteor_b/model.inc.c"
 #include "levels/sa/castle_gate/model.inc.c"
 #include "levels/sa/castle_gate/collision.inc.c"
+#include "levels/sa/sunset_background/model.inc.c"

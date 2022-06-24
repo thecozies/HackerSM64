@@ -32,4 +32,6 @@ extern const LevelScript level_sa_entry[];
 
 #include "levels/sa/castle_gate/collision_header.h"
 
+#include "levels/sa/sunset_background/header.h"
+
 #endif

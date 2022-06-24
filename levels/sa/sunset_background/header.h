@@ -1,0 +1,15 @@
+extern u8 sunset_background_cloud_panorama_resized_i8[];
+extern Vtx sunset_background_AAABeachBackground_mesh_vtx_cull[8];
+extern Vtx sunset_background_AAABeachBackground_mesh_vtx_0[192];
+extern Gfx sunset_background_AAABeachBackground_mesh_tri_0[];
+extern Vtx sunset_background_AAABeachBackground_mesh_vtx_1[16];
+extern Gfx sunset_background_AAABeachBackground_mesh_tri_1[];
+extern Vtx sunset_background_AAABeachBackground_mesh_vtx_2[16];
+extern Gfx sunset_background_AAABeachBackground_mesh_tri_2[];
+extern Gfx mat_sunset_background_bigtexturemode2_layer0[];
+extern Gfx mat_revert_sunset_background_bigtexturemode2_layer0[];
+extern Gfx mat_sunset_background_solid_purple2_layer0[];
+extern Gfx mat_revert_sunset_background_solid_purple2_layer0[];
+extern Gfx mat_sunset_background_solid_orange_layer0[];
+extern Gfx mat_revert_sunset_background_solid_orange_layer0[];
+extern Gfx sunset_background_AAABeachBackground_mesh[];
