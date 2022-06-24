@@ -20,8 +20,16 @@ void bullet_bill_act_0(void) {
 }
 
 void bullet_bill_act_1(void) {
+    f32 triggerDistance;
+
+    if (gCurrLevelNum != LEVEL_SA) {
+        triggerDistance = 1500.f; // Vanilla
+    } else {
+        triggerDistance = 2500.f;
+    }
+
     s16 sp1E = abs_angle_diff(o->oAngleToMario, o->oMoveAngleYaw);
-    if (sp1E < 0x2000 && 400.0f < o->oDistanceToMario && o->oDistanceToMario < 1500.0f) {
+    if (sp1E < 0x2000 && 400.0f < o->oDistanceToMario && o->oDistanceToMario < triggerDistance) {
         o->oAction = 2;
     }
 }
