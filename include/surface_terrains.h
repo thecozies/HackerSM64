@@ -128,7 +128,7 @@ enum SurfaceTypes {
     SURFACE_009C,                       // 0x009C // Unused
     SURFACE_009D,                       // 0x009D // Unused
     SURFACE_009E,                       // 0x009E // Unused
-    SURFACE_009F,                       // 0x009F // Unused
+    SURFACE_NO_WK,                      // 0x009F // scut use
     SURFACE_00A0,                       // 0x00A0 // Unused
     SURFACE_00A1,                       // 0x00A1 // Unused
     SURFACE_00A2,                       // 0x00A2 // Unused

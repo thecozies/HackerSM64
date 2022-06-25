@@ -1328,6 +1328,9 @@ s32 act_air_hit_wall(struct MarioState *m) {
         mario_drop_held_object(m);
     }
 
+    if (m->wall->type == SURFACE_NO_WK) {
+		return set_mario_action(m, ACT_SOFT_BONK, 0);
+	}
     if (++(m->actionTimer) <= FIRSTY_LAST_FRAME) {
         if (m->input & INPUT_A_PRESSED) {
             m->vel[1] = 52.0f;
