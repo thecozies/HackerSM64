@@ -37,11 +37,10 @@ const LevelScript level_cotmc_entry[] = {
 	JUMP_LINK(script_func_global_9), 
 	JUMP_LINK(script_func_global_18), 
 	JUMP_LINK(script_func_global_1), 
-    LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR1, gear_1_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR2, gear_2_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR3, gear_3_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR4, gear_4_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_AGT_GEARKURO, gear_kuromame_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR2, gear_2_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR3, gear_3_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_AGT_GEAR4, gear_4_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_AGT_GEARKURO, gear_kuromame_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -66,9 +65,9 @@ const LevelScript level_cotmc_entry[] = {
 		OBJECT(MODEL_AGT_GEARKURO, 1208, 3784, 84, 0, 0, 0, 0x00000000, bhvFireSpitter),
 		OBJECT(MODEL_AGT_GEARKURO, 101, 4666, 1284, 0, 0, 0, 0x00000000, bhvFireSpitter),
 		OBJECT(MODEL_AGT_GEARKURO, 101, 4666, -1116, 0, 0, 0, 0x00000000, bhvFireSpitter),
-		MARIO_POS(0x01, -180, 0, 200, 1500),
+		MARIO_POS(0x01, -180, 0, 1030, 1500),
 		OBJECT(MODEL_STAR, 0, 6885, 0, 0, 0, 0, 0x00000000, bhvStar),
-		OBJECT(MODEL_NONE, 0, 200, 1500, 0, -180, 0, 0x000A0000, bhvSpinAirborneWarp),
+		OBJECT(MODEL_NONE, 0, 1030, 1500, 0, -180, 0, 0x000A0000, bhvSpinAirborneWarp),
 		OBJECT(MODEL_AGT_GEAR2, 100, 3443, 85, 0, 0, 0, 0x00000000, bhvAgtGear2),
 		OBJECT(MODEL_AGT_GEAR3, -794, 4331, 85, 0, 0, 0, 0x00000000, bhvAgtGear3),
 		OBJECT(MODEL_AGT_GEAR4, -1666, 5224, 85, 0, 0, 0, 0x00000000, bhvAgtGear4),
@@ -81,7 +80,7 @@ const LevelScript level_cotmc_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, -180, 0, 200, 1500),
+	MARIO_POS(0x01, -180, 0, 1030, 1500),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

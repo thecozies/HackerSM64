@@ -4,6 +4,14 @@
 #include "level_commands.h"
 #include "game/area.h"
 
+#include "levels/ab/header.h"
+#include "levels/df/header.h"
+#include "levels/mf/header.h"
+#include "levels/hf/header.h"
+#include "levels/mtc/header.h"
+#include "levels/vcm/header.h"
+#include "levels/bdf/header.h"
+
 #include "make_const_nonconst.h"
 
 #include "segment_symbols.h"

@@ -64,7 +64,7 @@ extern Gfx cotmc_dl_Cylinder_mesh_layer_1_tri_5[];
 extern Vtx cotmc_dl_Cylinder_mesh_layer_1_vtx_6[37];
 extern Gfx cotmc_dl_Cylinder_mesh_layer_1_tri_6[];
 extern Vtx cotmc_dl_Cylinder_mesh_layer_5_vtx_cull[8];
-extern Vtx cotmc_dl_Cylinder_mesh_layer_5_vtx_0[24];
+extern Vtx cotmc_dl_Cylinder_mesh_layer_5_vtx_0[32];
 extern Gfx cotmc_dl_Cylinder_mesh_layer_5_tri_0[];
 extern Vtx cotmc_dl_Cylinder_001_mesh_layer_1_vtx_cull[8];
 extern Vtx cotmc_dl_Cylinder_001_mesh_layer_1_vtx_0[16];
