@@ -460,7 +460,6 @@ void thread1_idle(UNUSED void *arg) {
             gConfig.tvType = MODE_PAL;
             break;
     }
-    VI.comRegs.vSync = 525*4;
     get_audio_frequency();
     change_vi(&VI, SCREEN_WIDTH, SCREEN_HEIGHT);
     osViSetMode(&VI);
