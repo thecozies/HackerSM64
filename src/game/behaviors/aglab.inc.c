@@ -2899,7 +2899,7 @@ static void fight_calm_bowser()
     }
 }
 
- #define FIGHT_DEBUG
+// #define FIGHT_DEBUG
 extern Vtx bowser_2_dl_cupol_mesh_layer_1_vtx_0[62];
 static void fight_animate_bg()
 {
@@ -3347,6 +3347,7 @@ void fight_platform_ctl_loop()
         else
         {
             // pick and mark attack used
+            // MARK: oFightCtlAttack
             o->oFightCtlAttack = objAttacks[active];
             objAttacks[active] |= 0x80;
         }
@@ -3497,16 +3498,20 @@ void fight_platform_ctl_loop()
         break;
         case 3:
         {
-            if (0 == (o->oTimer % 4) && o->oTimer < 230)
+            if (0 == (o->oTimer % 15) && o->oTimer < 180)
             {
-                struct Object* flame = spawn_object(o, MODEL_FIGHT_FLAME, bhvFightFlameLocus);
-                flame->oForwardVel = 0;
-                flame->oPosX = gMarioStates->pos[0];
-                flame->oPosY = 500.f;
-                flame->oPosZ = gMarioStates->pos[2];
-                rgb* c = (rgb*) &flame->oFightFlameColor;
-                hsv2rgb(&color, c);
-                flame->oFightFlameAlphaSpeed = o->oTimer < 60 ? 5 : 15;
+                for (int i = 0; i < 8; i++)
+                {
+                    struct Object* flame = spawn_object(o, MODEL_FIGHT_FLAME, bhvFightFlameEmperor);
+                    flame->oForwardVel = 50.f;
+                    flame->oFaceAngleYaw = 0x2000 * i;
+                    flame->oPosX = gMarioStates->pos[0];
+                    flame->oPosY = 30.f;
+                    flame->oPosZ = gMarioStates->pos[2];
+                    rgb* c = (rgb*) &flame->oFightFlameColor;
+                    hsv2rgb(&color, c);
+                    flame->oFightFlameAlphaSpeed = o->oTimer < 30 ? 3 : 10;
+                }
             }
         }
         break;
@@ -3904,6 +3909,57 @@ void fight_flame_locus_loop()
             flame->oFightFlameColor = o->oFightFlameColor;
         }
         o->activeFlags = 0;
+    }
+}
+
+void fight_flame_emperor_init()
+{
+    fight_flame_init();
+}
+
+void fight_flame_emperor_loop()
+{
+    f32 d;
+    if (o->oTimer < 30)
+    {
+        o->oFaceAngleYaw += o->oTimer * 0x145;
+        d = o->oTimer * 15.f;
+    }
+    else if (o->oTimer < 70)
+    {
+        o->oFaceAngleYaw += o->oTimer * 0x145 * (70 - o->oTimer) / 40.f;
+        d = 450.f;
+    }
+    else
+    {
+        s32 t = 70 - o->oTimer;
+        d = 450.f - 0.4f * t * t;
+    }
+
+    o->oPosX = o->oHomeX + d * sins(o->oFaceAngleYaw);
+    o->oPosY = 10.f;
+    o->oPosZ = o->oHomeZ + d * coss(o->oFaceAngleYaw);
+
+    rgb* c = (rgb*) &o->oFightFlameColor;
+    if (c->a > 255 - o->oFightFlameAlphaSpeed)
+    {
+        c->a = 255;
+        obj_set_hitbox(o, &sFightBowserFlameHitbox);
+    }
+    else
+    {
+        c->a += o->oFightFlameAlphaSpeed;
+    }
+    obj_scale(o, o->oFlameScale);
+    cur_obj_update_floor_and_walls();
+    cur_obj_move_standard(78);
+    o->oInteractStatus = 0;
+
+    if (o->oTimer > 70)
+    {
+        f32 dist = o->oPosX * o->oPosX + o->oPosZ * o->oPosZ;
+        if (dist > 2000.f * 2000.f)
+            o->activeFlags = 0;
     }
 }
 

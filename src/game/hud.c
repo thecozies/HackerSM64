@@ -26,7 +26,7 @@
  * cannon reticle, and the unused keys.
  **/
 
-#define HUD_POWER_METER_X            140
+#define HUD_POWER_METER_X            60
 #define HUD_POWER_METER_EMPHASIZED_Y 166
 #define HUD_POWER_METER_Y            200
 #define HUD_POWER_METER_HIDDEN_Y     300
@@ -411,16 +411,16 @@ void render_debug_mode(void) {
 }
 #endif
 
+#define HUD_STARS_X 78
+
 /**
  * Renders the amount of coins collected.
  */
 void render_hud_coins(void) {
-    print_text(168, HUD_TOP_Y, "$"); // 'Coin' glyph
-    print_text(184, HUD_TOP_Y, "*"); // 'X' glyph
-    print_text_fmt_int(198, HUD_TOP_Y, "%d", gHudDisplay.coins);
+    print_text(GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_STARS_X), HUD_TOP_Y - 20, "$"); // 'Coin' glyph
+    print_text((GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_STARS_X) + 16), HUD_TOP_Y - 20, "*"); // 'X' glyph
+    print_text_fmt_int(14 + GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_STARS_X - 16), HUD_TOP_Y - 20, "%d", gHudDisplay.coins);
 }
-
-#define HUD_STARS_X 78
 
 /**
  * Renders the amount of stars collected.
