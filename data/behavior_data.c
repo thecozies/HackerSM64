@@ -6425,6 +6425,7 @@ extern void mtc_green_line_switch_loop();
 const BehaviorScript bhvMtcGreenLineSwitch[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_FLOAT(oDrawingDistance, 20000),
     SET_HOME(),
     CALL_NATIVE(mtc_green_line_switch_init),
     BEGIN_LOOP(),
