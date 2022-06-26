@@ -278,7 +278,7 @@ void mario_grab_used_object(struct MarioState *m) {
 void mario_drop_held_object(struct MarioState *m) {
     if (m->heldObj != NULL) {
         if (m->heldObj->behavior == segmented_to_virtual(bhvKoopaShellUnderwater)) {
-            stop_shell_music();
+            // stop_shell_music();
         }
 
         obj_set_held_state(m->heldObj, bhvCarrySomethingDropped);
@@ -300,7 +300,7 @@ void mario_drop_held_object(struct MarioState *m) {
 void mario_throw_held_object(struct MarioState *m) {
     if (m->heldObj != NULL) {
         if (m->heldObj->behavior == segmented_to_virtual(bhvKoopaShellUnderwater)) {
-            stop_shell_music();
+            // stop_shell_music();
         }
 
         obj_set_held_state(m->heldObj, bhvCarrySomethingThrown);
