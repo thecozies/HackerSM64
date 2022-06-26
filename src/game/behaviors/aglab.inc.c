@@ -2899,7 +2899,7 @@ static void fight_calm_bowser()
     }
 }
 
-// #define FIGHT_DEBUG
+ #define FIGHT_DEBUG
 extern Vtx bowser_2_dl_cupol_mesh_layer_1_vtx_0[62];
 static void fight_animate_bg()
 {
@@ -3295,6 +3295,8 @@ void fight_platform_ctl_loop()
             struct Object* wave = spawn_object(o, MODEL_BOWSER_WAVE, bhvBowserShockWave);
             wave->oPosY += 100.f;
             o->oAction = 10;
+
+            struct Object* coiner = spawn_object(o, MODEL_NONE, bhvTenCoinsSpawn);
         }
     }
     else if (6 == o->oAction)
@@ -3535,10 +3537,28 @@ void fight_platform_ctl_loop()
     }
     else if (8 == o->oAction)
     {
+        if (!o->oFightCtlRoped)
+        {
+            o->oFightCtlRoped = spawn_object(o, MODEL_FIGHT_ROPED, bhvStaticObjectEx);
+            o->oFightCtlRoped->oPosX = 0.0f;
+            o->oFightCtlRoped->oPosY = 70.0f;
+            o->oFightCtlRoped->oPosZ = 0.0f;
+        }
+
+        {
+            // minus (0, 0)
+            f32 dx = gMarioStates->pos[0];
+            f32 dz = gMarioStates->pos[2];
+            f32 d = sqrtf(dx*dx + dz*dz);
+            o->oFightCtlRoped->oFaceAngleYaw = atan2s(dz, dx);
+            obj_scale_xyz(o->oFightCtlRoped, 1.5f, 1.f, d / 300.f);
+        }
+
         if (o->parentObj->oHealth == 0)
         {
             cur_obj_become_intangible();
             o->oAction = 9;
+            o->oFightCtlRoped->activeFlags = 0;
             return;
         }
         // o->oFaceAngleRoll = 0x600 * (3 - o->parentObj->oHealth);
@@ -3661,6 +3681,8 @@ void fight_platform_ctl_loop()
         }
         else if (o->oTimer == 300)
         {
+            o->oFightCtlRoped->activeFlags = 0;
+            o->oFightCtlRoped = NULL;
             o->oAction = 6;
         }
     }
@@ -3909,19 +3931,26 @@ void fight_flame_g_loop()
     fight_flame_loop();
 }
 
+extern Gfx mat_fight_arrow_f3d_material_004[];
 void fight_bomb_ctl_init()
 {
     f32 d;
     o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvFightPlatformCtl, &d);
+    
+    u8* a = (u8*) segmented_to_virtual(mat_fight_arrow_f3d_material_004) + 8*19 + 7;
+    *a = 0;
 }
 
 void fight_bomb_ctl_loop()
 {
+    u8* a = (u8*) segmented_to_virtual(mat_fight_arrow_f3d_material_004) + 8*19 + 7;
+
     if (0 == o->oAction)
     {
         if (2 == o->parentObj->oAction)
         {
             o->oAction = 1;
+            o->oSubAction = 0;
             o->oFightCtlBombCooldown = 100;
         }
     }
@@ -3930,6 +3959,34 @@ void fight_bomb_ctl_loop()
         if (3 == o->parentObj->oAction)
         {
             o->activeFlags = 0;
+        }
+
+        if (o->oFightCtlBombArrows)
+        {
+            o->oFightCtlBombArrows->oFaceAngleYaw += 0x169;
+            if (0 == o->oSubAction)
+            {
+                if (*a < 250)
+                {
+                    *a += 2;
+                }
+                else
+                {
+                    *a = 255;
+                }
+            }
+            else
+            {
+                if (*a > 10)
+                {
+                    *a -= 5;
+                }
+                else
+                {
+                    o->oFightCtlBombArrows->activeFlags = 0;
+                    o->oFightCtlBombArrows = NULL;
+                }
+            }
         }
 
         if (!o->oFightCtlBomb)
@@ -3945,6 +4002,10 @@ void fight_bomb_ctl_loop()
                     o->oFightCtlBomb = spawn_object(o, MODEL_BOWSER_BOMB, bhvBowserBomb);
                     o->oFightCtlBomb->oBehParams2ndByte = 1;
                     o->oFightCtlBomb->parentObj = o; // just in case lol
+                    if (0 == o->oSubAction)
+                    {
+                        o->oFightCtlBombArrows = spawn_object(o, MODEL_FIGHT_ARROWS, bhvStaticObjectEx);
+                    }
                 }
                 else
                 {

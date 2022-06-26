@@ -11,6 +11,7 @@ void bhv_bowser_bomb_loop(void) {
             f32 vel = sqrtf(velX * velX + velZ * velZ);
             o->oVelX = velX + 20.f * velX / vel;
             o->oVelZ = velZ + 20.f * velZ / vel;
+            o->parentObj->oSubAction = 1;
         }
     }
 

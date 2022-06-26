@@ -22,3 +22,5 @@
 #include "levels/bowser_2/fight_plat_shadow/model.inc.c"
 #include "levels/bowser_2/fight_spikes/model.inc.c"
 #include "levels/bowser_2/fight_spikes/collision.inc.c"
+#include "levels/bowser_2/fight_arrow/model.inc.c"
+#include "levels/bowser_2/fight_roped/model.inc.c"

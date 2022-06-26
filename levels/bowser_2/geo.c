@@ -22,3 +22,5 @@
 #include "levels/bowser_2/fight_bomb/geo.inc.c"
 #include "levels/bowser_2/fight_plat_shadow/geo.inc.c"
 #include "levels/bowser_2/fight_spikes/geo.inc.c"
+#include "levels/bowser_2/fight_arrow/geo.inc.c"
+#include "levels/bowser_2/fight_roped/geo.inc.c"

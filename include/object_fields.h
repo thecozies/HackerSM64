@@ -1388,13 +1388,16 @@ os16112*/
 #define oSlideCheckpointFire0 OBJECT_FIELD_OBJ(0x1B)
 #define oSlideCheckpointCount OBJECT_FIELD_S32(0x49)
 
-#define oFightCtlBomb OBJECT_FIELD_OBJ(0x1B)
-#define oFightCtlBombCooldown OBJECT_FIELD_S32(0x1C)
 #define oFightCtlAnimTimer OBJECT_FIELD_S32(0x1D)
 #define oFightCtlAttack OBJECT_FIELD_S32(0x1E)
 #define oFightCtlBombMap OBJECT_FIELD_S32(0x1F)
 #define oFightCtlEmptiesMap OBJECT_FIELD_S32(0x20)
 #define oFightCtlAttacksOrder OBJECT_FIELD_S32(0x21)
+#define oFightCtlRoped OBJECT_FIELD_OBJ(0x49)
+
+#define oFightCtlBomb OBJECT_FIELD_OBJ(0x1B)
+#define oFightCtlBombCooldown OBJECT_FIELD_S32(0x1C)
+#define oFightCtlBombArrows OBJECT_FIELD_OBJ(0x1D)
 
 #define oFightFlameColor OBJECT_FIELD_S32(0x1F)
 #define oFightFlameAlphaSpeed OBJECT_FIELD_S32(0x20)
