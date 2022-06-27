@@ -10,8 +10,6 @@
 
 #include "make_const_nonconst.h"
 
-#include "gear_1/model.inc.c"
-#include "gear_1/collision.inc.c"
 #include "gear_2/model.inc.c"
 #include "gear_2/collision.inc.c"
 #include "gear_3/model.inc.c"

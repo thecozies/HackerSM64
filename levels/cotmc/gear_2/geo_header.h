@@ -10,7 +10,7 @@ extern u8 gear_2_wood_beam_cross_section_ci8[];
 extern u8 gear_2_wood_beam_cross_section_ci8_pal_rgba16[];
 extern Vtx gear_2_Cylinder_001_mesh_layer_1_vtx_0[352];
 extern Gfx gear_2_Cylinder_001_mesh_layer_1_tri_0[];
-extern Vtx gear_2_Cylinder_001_mesh_layer_1_vtx_1[39];
+extern Vtx gear_2_Cylinder_001_mesh_layer_1_vtx_1[42];
 extern Gfx gear_2_Cylinder_001_mesh_layer_1_tri_1[];
 extern Vtx gear_2_Cylinder_001_mesh_layer_1_vtx_2[8];
 extern Gfx gear_2_Cylinder_001_mesh_layer_1_tri_2[];

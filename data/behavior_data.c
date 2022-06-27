@@ -6904,20 +6904,9 @@ const BehaviorScript bhvFightSpikes[] = {
     END_LOOP(),
 };
 
-extern const Collision gear_1_collision[];
 extern const Collision gear_2_collision[];
 extern const Collision gear_3_collision[];
 extern const Collision gear_4_collision[];
-const BehaviorScript bhvAgtGear1[] = {
-    BEGIN(OBJ_LIST_SURFACE),
-    LOAD_COLLISION_DATA(gear_1_collision),
-    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    SET_INT(oAngleVelYaw, 300),
-    BEGIN_LOOP(),
-        CALL_NATIVE(bhv_rotating_octagonal_plat_loop),
-        CALL_NATIVE(load_object_collision_model),
-    END_LOOP(),
-};
 
 const BehaviorScript bhvAgtGear2[] = {
     BEGIN(OBJ_LIST_SURFACE),
