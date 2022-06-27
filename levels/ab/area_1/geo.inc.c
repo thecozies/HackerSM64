@@ -27,6 +27,7 @@ const GeoLayout ab_area_1_geo[] = {
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, -434, -1961, -7266, 90, 0, 0, ab_dl_cc_mesh_layer_5),
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_OPAQUE, ab_dl_cc_mesh_layer_1),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, ab_dl_cc_mesh_layer_4),
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_ALPHA, -434, -1961, -7266, ab_dl_Plane_001_mesh_layer_4),
 		GEO_OPEN_NODE(),

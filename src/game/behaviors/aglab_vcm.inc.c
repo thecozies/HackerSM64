@@ -1,3 +1,111 @@
+
+void vcm_ctl_loop()
+{
+    s32 on_floor = gMarioStates->floorHeight == gMarioStates->pos[1];
+    if (!gIsGravityFlipped
+      && on_floor
+      && (gMarioStates->pos[0] < 4000.f || gMarioStates->pos[2] > -3000.f)
+      && gMarioStates->pos[1] > -1500.f)
+    {
+        o->oVcmLastGoodY = gMarioStates->pos[1];
+    }
+
+    if (gMarioState->wallkickedOf == SURFACE_HARD_NOT_SLIPPERY)
+    {
+        set_gravity(!gIsGravityFlipped);
+    }
+    gMarioState->wallkickedOf = 0;
+
+    if (0 == o->oAction)
+    {
+        if (!gIsGravityFlipped && gMarioStates->pos[1] < -1329.f)
+        {
+            play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 10, 0,0,0);
+            o->oAction = 1;
+            return;
+        }
+        if (gIsGravityFlipped && gMarioStates->pos[1] < 4784.f)
+        {
+            play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 10, 0,0,0);
+            o->oAction = 1;
+            return;
+        }
+
+        u32 val4 = get_dialog_id() >= 0;
+        u32 intangible = (gMarioState->action & ACT_FLAG_INTANGIBLE) != 0;
+        if (!intangible
+        && !val4
+        && !gWarpTransition.isActive
+        && sDelayedWarpOp == WARP_OP_NONE
+        && on_floor
+        && (gPlayer1Controller->buttonPressed & L_TRIG))  { // Flip gravity
+            set_gravity(!gIsGravityFlipped);
+        }
+    }
+    else
+    {
+        if (o->oTimer == 12)
+        {
+            set_gravity(0);
+            if (gMarioStates->pos[0] < -3500.f)
+            {
+                // yellow
+                gMarioStates->pos[0] = -3184.f;
+                gMarioStates->pos[1] = 229.f;
+                gMarioStates->pos[2] = 21.f;
+                gMarioStates->faceAngle[1] = -0x4000;
+            }
+            else if (gMarioStates->pos[0] > 0.f && gMarioStates->pos[2] < -3000.f && o->oVcmLastGoodY > 2188.f)
+            {
+                // no A press
+                gMarioStates->pos[0] = 5085.f;
+                gMarioStates->pos[1] = 2636.f;
+                gMarioStates->pos[2] = -2219.f;
+                gMarioStates->faceAngle[1] = 0x8000;
+            }
+            else if (gMarioStates->pos[0] > 4000.f && gMarioStates->pos[2] > 3500.f && o->oVcmLastGoodY < 20.f)
+            {
+                // shoot wall jump bruh
+                gMarioStates->pos[0] = 6000.f;
+                gMarioStates->pos[1] = 438.f;
+                gMarioStates->pos[2] = 3772.f;
+                gMarioStates->faceAngle[1] = 0;
+            }
+            else if (gMarioStates->pos[0] > 3000.f && o->oVcmLastGoodY > 2188.f)
+            {
+                // the top
+                gMarioStates->pos[0] = 6899.f;
+                gMarioStates->pos[1] = 2591.f;
+                gMarioStates->pos[2] = -98.f;
+                gMarioStates->faceAngle[1] = -0x4000;
+            }
+            else
+            {
+                gMarioStates->pos[0] = 0;
+                gMarioStates->pos[1] = 700.f;
+                gMarioStates->pos[2] = 0;
+                gMarioStates->faceAngle[1] = 0;
+            }
+            gMarioStates->vel[0] = 0;
+            gMarioStates->vel[1] = 0;
+            gMarioStates->vel[2] = 0;
+            gMarioStates->forwardVel = 0;
+            drop_and_set_mario_action(gMarioStates, ACT_FREEFALL, 0);
+            reset_camera(gCamera);
+        }
+        if (o->oTimer == 13)
+        {
+            reset_camera(gCamera);
+        }
+        if (o->oTimer == 14)
+        {
+            reset_camera(gCamera);
+            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 10, 0,0,0);
+            o->oAction = 0;
+        }
+    }
+}
+
 void vcm_arrow_loop()
 {
     f32 d;

@@ -3,7 +3,6 @@ extern const Trajectory ab_area_1_spline_manta_path[];
 static void manta_reset()
 {
     struct Waypoint* path = segmented_to_virtual(ab_area_1_spline_manta_path);
-    o->oBehParams2ndByte = 0;
     o->oPathedPrevWaypointFlags = 0;
     o->oPathedStartWaypoint = o->oPathedPrevWaypoint = path;
     o->oPosX = path->pos[0];
@@ -21,6 +20,18 @@ void bhv_ab_manta_ray_init()
 
 void bhv_ab_manta_ray_loop()
 {
+    if (o->oMantaFailTimer)
+    {
+        o->oMantaFailTimer--;
+        print_text_centered(160, 20, "PRESS L TO RETRY");
+        if (gPlayer1Controller->buttonPressed & L_TRIG)
+        {
+            o->oMantaFailTimer = 0;
+            gMarioStates->usedObj = o;
+            level_trigger_warp(gMarioStates, WARP_OP_TELEPORT);
+        }
+    }
+
     if (0 == o->oAction)
     {
         if (gMarioObject->platform == o)
@@ -37,6 +48,7 @@ void bhv_ab_manta_ray_loop()
         {
             manta_reset();
             o->oAction = 0;
+            o->oMantaFailTimer = 120;
             return;
         }
 

@@ -749,6 +749,9 @@
 #define /*0x0F8*/ oMantaTargetYaw            OBJECT_FIELD_S32(O_MANTA_TARGET_YAW_INDEX)
 #define /*0x0FC*/ oMantaTargetRoll           OBJECT_FIELD_S32(O_MANTA_TARGET_ROLL_INDEX) // unused
 
+#define oMantaFailTimer OBJECT_FIELD_S32(0x48)
+#define oMantaFailAction OBJECT_FIELD_S32(0x49)
+
 /* Merry-Go-Round */
 #define /*0x088*/ oMerryGoRoundStopped         OBJECT_FIELD_S32(0x00)
 #define /*0x0F8*/ oMerryGoRoundMusicShouldPlay OBJECT_FIELD_S32(0x1C)

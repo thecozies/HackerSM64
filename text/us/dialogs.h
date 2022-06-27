@@ -491,11 +491,11 @@ scurry up quickly, press\n\
 the [A] Button."))
 
 DEFINE_DIALOG(DIALOG_043, 1, 5, 30, 200, _("\
-If you jump and hold the\n\
-[A] Button, you can hang on\n\
-to some objects overhead.\n\
-It's the same as grabbing\n\
-a flying bird!"))
+You can press [A] button\n\
+to keep swinging longer\n\
+or you can press [Z] button\n\
+to fall quicker.\n\
+Why is that useful?"))
 
 DEFINE_DIALOG(DIALOG_044, 1, 5, 95, 200, _("\
 Whooo's there? Whooo\n\
