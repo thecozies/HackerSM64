@@ -103,6 +103,7 @@ const LevelScript level_sa_entry[] = {
 	END_AREA(),
 
 	AREA(3, sa_area_3),
+		INSTANT_WARP(0x00, 0x04, -20000, -10000, 0),
 		OBJECT(MODEL_BLINKING_PLATFORM, 18563, 5768, 2628, 0, 0, 0, (2 << 24), bhvBlinkingPlatform),
 		OBJECT(MODEL_BLINKING_PLATFORM, 18563, 5768, 2928, 0, 0, 0, (2 << 24), bhvBlinkingPlatform),
 		OBJECT(MODEL_BLINKING_PLATFORM, 18563, 5768, 3228, 0, 0, 0, (2 << 24), bhvBlinkingPlatform),
@@ -115,8 +116,30 @@ const LevelScript level_sa_entry[] = {
 		OBJECT(MODEL_BLINKING_PLATFORM, 19163, 6668, 4728, 0, 0, 0, (2 << 24), bhvBlinkingPlatform),
 		OBJECT(MODEL_BLINKING_PLATFORM, 19463, 6668, 4728, 0, 0, 0, (2 << 24), bhvBlinkingPlatform),
 		OBJECT(MODEL_BLINKING_PLATFORM, 19763, 6668, 4728, 0, 0, 0, (2 << 24), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 20502, 7432, 2414, 0, 0, 0, (2 << 24) | (0x2E << 16), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 20502, 9344, -993, 0, 0, 0, (2 << 24) | (30 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 21402, 9344, -1893, 0, 0, 0, (2 << 24) | (30 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 20602, 10544, -3843, 0, 0, 0, (2 << 24) | (70 << 16) | (40), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 19602, 9344, -1893, 0, 0, 0, (2 << 24) | (30 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 20502, 9344, -2793, 0, 0, 0, (2 << 24) | (30 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 20502, 9344, -1893, 0, 0, 0, (2 << 24) | (30 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 21402, 9344, -2793, 0, 0, 0, (2 << 24) | (30 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 21402, 9344, -993, 0, 0, 0, (2 << 24) | (30 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 19602, 9344, -2793, 0, 0, 0, (2 << 24) | (30 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 19602, 9344, -993, 0, 0, 0, (2 << 24) | (30 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_SPRING, 20490, 6668, 2375, 0, 0, 0, (0x02 << 16), bhvSpring),
+		OBJECT(MODEL_SPRING, 20490, 6668, 2957, 0, 0, 0, (0x01 << 16), bhvSpring),
 		TERRAIN(sa_area_3_collision),
 		MACRO_OBJECTS(sa_area_3_macro_objs),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		TERRAIN_TYPE(TERRAIN_GRASS),
+		/* Fast64 begin persistent block [area commands] */
+		/* Fast64 end persistent block [area commands] */
+	END_AREA(),
+
+	AREA(4, sa_area_4),
+		TERRAIN(sa_area_4_collision),
+		MACRO_OBJECTS(sa_area_4_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */

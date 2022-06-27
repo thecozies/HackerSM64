@@ -21,6 +21,7 @@ const GeoLayout sa_dl_room_00_geo[] = {
 const GeoLayout sa_dl_room_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0x00, geo_set_background_colour),
 		GEO_ASM(0x00, geo_render_INFBG),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 15144, 0, 0, sa_dl_Cube_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 10498, 3100, -9, sa_dl_ground_to_area_2_visual_mesh_layer_1),

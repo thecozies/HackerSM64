@@ -13,7 +13,7 @@ const GeoLayout sa_area_2_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 10977, 3655, -1005, sa_dl_box_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 13735, 4592, -1065, 0, 0, -90, sa_dl_cannon_mesh_layer_1),
-		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 13735, 4592, 1067, 0, 0, -90, sa_dl_cannon_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 13735, 4592, 1069, 0, 0, -90, sa_dl_cannon_001_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 17170, 3667, -65, 0, 0, -90, sa_dl_cannon_002_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 10774, 3453, -91, sa_dl_EndArea2Visual_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 10774, 3453, -91, sa_dl_Plane_mesh_layer_1),

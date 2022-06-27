@@ -1,7 +1,7 @@
 #include "src/game/envfx_snow.h"
 
 const GeoLayout blinking_platform_geo[] = {
-	GEO_NODE_START(),
+	GEO_CULLING_RADIUS(300),
 	GEO_OPEN_NODE(),
 		GEO_ASM(LAYER_TRANSPARENT, geo_set_blinking_platform_prim_alpha),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, blinking_platform_Cube_mesh_layer_5),
