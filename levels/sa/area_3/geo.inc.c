@@ -3,6 +3,7 @@
 const GeoLayout sa_area_3_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0x00, geo_set_background_colour),
 		GEO_ASM(0x00, geo_render_INFBG),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 18530, 5768, 928, sa_dl_Plane_001_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 20504, 6668, 3598, sa_dl_Plane_005_mesh_layer_1),
