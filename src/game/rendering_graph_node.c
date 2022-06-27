@@ -978,9 +978,11 @@ s32 obj_is_in_view(struct GraphNodeObject *node, Mat4 matrix) {
     struct GraphNode *geo = node->sharedChild;
 
     s16 cullingRadius;
-
     if (geo != NULL && geo->type == GRAPH_NODE_TYPE_CULLING_RADIUS) {
         cullingRadius = ((struct GraphNodeCullingRadius *) geo)->cullingRadius;
+
+        cullingRadius *= (MAX(node->scale[0],node->scale[2])); //Reonu: Take object scale into account for culling radius
+
     } else {
         cullingRadius = 300;
     }

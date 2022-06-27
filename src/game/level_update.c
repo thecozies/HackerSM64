@@ -539,7 +539,6 @@ void check_instant_warp(void) {
             s32 index = (floor->force >> 8) & 0xFF;
             if (index >= INSTANT_WARP_INDEX_START && index < INSTANT_WARP_INDEX_STOP
                 && gCurrentArea->instantWarps != NULL && (floor->type >= SURFACE_INSTANT_WARP_1B) && (floor->type <= SURFACE_INSTANT_WARP_1E)) {
-                    print_text(20,20,"hi");
                 struct InstantWarp *warp = &gCurrentArea->instantWarps[index];
 
                 if (warp->id != 0) {

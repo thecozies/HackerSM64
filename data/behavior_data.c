@@ -6780,6 +6780,7 @@ extern void bhv_blinking_platform_loop();
 const BehaviorScript bhvBlinkingPlatform[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, OBJ_FLAG_COMPUTE_DIST_TO_MARIO),
+    SET_FLOAT(oDrawingDistance, 20000),
     LOAD_COLLISION_DATA(blinking_platform_collision),
     CALL_NATIVE(bhv_init_room),
     CALL_NATIVE(bhv_blinking_platform_init),

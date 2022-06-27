@@ -1811,7 +1811,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 case ACT_GROUP_OBJECT:     inLoop = mario_execute_object_action(gMarioState);     break;
             }
         }
-
         sink_mario_in_quicksand(gMarioState);
         squish_mario_model(gMarioState);
         set_submerged_cam_preset_and_spawn_bubbles(gMarioState);

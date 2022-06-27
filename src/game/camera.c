@@ -921,7 +921,17 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
             case 0x04:
                 s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(0)), 0.09f);
                 break;
+            case 0x05:
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(0)), 0.09f);
+                baseDist = 2600.f;
+                break;
             case 0xFF:
+                break;
+        }
+
+        switch (gMarioState->force2 & 0xFF) {
+            case 0x01:
+                baseDist = 2200.f;
                 break;
         }
 
@@ -10561,7 +10571,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // TTC            | RR
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // CASTLE_GROUNDS | BITDW
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // VCUTM          | BITFS
-	ZOOMOUT_AREA_MASK(1, 1, 1, 0, 1, 0, 0, 0), // SA             | BITS
+	ZOOMOUT_AREA_MASK(1, 1, 1, 1, 1, 0, 0, 0), // SA             | BITS
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // LLL            | DDD
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // WF             | ENDING
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // COURTYARD      | PSS

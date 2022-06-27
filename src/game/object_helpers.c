@@ -2529,3 +2529,38 @@ Gfx *geo_render_INFBG2(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][
     }
     return 0;
 }
+
+f32 get_cycle(f32 cycleLength, f32 cycleOffset, s32 timer) {
+    f32 rate = (f32)DEGREES(360/30) * (1.0f/cycleLength);
+    f32 offset = (f32)DEGREES(360) * cycleOffset;
+    return sins(roundf((rate*timer) + offset));
+}
+#define PRIM_VARIATION_AMOUNT 50.0f
+#define PRIM_RGB_CENTER 50 // when the cycle is at 0, the number will be this
+#define PRIM_CYCLE_LENGTH 10.0f // 10 seconds
+Gfx *geo_set_background_colour(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart, *dlHead;
+    struct Object *objectGraphNode;
+    struct GraphNodeGenerated *currentGraphNode;
+    u8 layer;
+    dlStart = NULL;
+    if (callContext == GEO_CONTEXT_RENDER) {
+        currentGraphNode = (struct GraphNodeGenerated *) node;
+        objectGraphNode = (struct Object *) gCurGraphNodeObject;
+        layer = currentGraphNode->parameter & 0xFF;
+
+        if (layer != 0) {
+            currentGraphNode->fnNode.node.flags =
+                (layer << 8) | (currentGraphNode->fnNode.node.flags & 0xFF);
+        }
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+        dlHead = dlStart;
+        s32 r = PRIM_RGB_CENTER + roundf(PRIM_VARIATION_AMOUNT * get_cycle(PRIM_CYCLE_LENGTH, 0.0f, gGlobalTimer));
+        s32 g = PRIM_RGB_CENTER + roundf(PRIM_VARIATION_AMOUNT * get_cycle(PRIM_CYCLE_LENGTH, 1.0f/3.0f, gGlobalTimer));
+        s32 b = PRIM_RGB_CENTER + roundf(PRIM_VARIATION_AMOUNT * get_cycle(PRIM_CYCLE_LENGTH, 2.0f/3.0f, gGlobalTimer));
+        gDPSetPrimColor(dlHead++, 0, 0, r, g, b, 255);
+        gSPEndDisplayList(dlHead);
+    }
+    return dlStart;
+}
