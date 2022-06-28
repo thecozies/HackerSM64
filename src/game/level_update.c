@@ -747,6 +747,25 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                     }
                 }
 
+                if (gCurrCourseNum == COURSE_BOB)
+                {
+                    if (gMarioStates->pos[2] > 6000.f)
+                    {
+                        // near the bottom drop
+                        sSourceWarpNodeId = 0x21;
+                    }
+                    else if (gMarioStates->pos[1] < -1500.f)
+                    {
+                        // center
+                        sSourceWarpNodeId = 0x20;
+                    }
+                    else
+                    {
+                        // near wallkicks
+                        sSourceWarpNodeId = 0x22;
+                    }
+                }
+
                 sDelayedWarpTimer = 20;
                 fadeMusic = !music_unchanged_through_warp(sSourceWarpNodeId);
                 play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, sDelayedWarpTimer, 0x00, 0x00, 0x00);
