@@ -40,12 +40,12 @@ void scroll_sts_mat_vcm_dl__3_f3d() {
 
 void scroll_sts_mat_vcm_dl_arrow1() {
 	Gfx *mat = segmented_to_virtual(mat_vcm_dl_arrow1);
-	shift_t(mat, 18, PACK_TILESIZE(0, 3));
+	shift_t_down(mat, 18, PACK_TILESIZE(0, 3));
 };
 
 void scroll_sts_mat_vcm_dl_arrow2() {
 	Gfx *mat = segmented_to_virtual(mat_vcm_dl_arrow2);
-	shift_t(mat, 18, PACK_TILESIZE(0, 3));
+	shift_t_down(mat, 18, PACK_TILESIZE(0, 3));
 };
 
 void scroll_sts_mat_vcm_dl_scrollgray_f3d() {

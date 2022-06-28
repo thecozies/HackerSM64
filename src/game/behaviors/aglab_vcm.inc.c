@@ -1,6 +1,8 @@
 
 void vcm_ctl_loop()
 {
+    gMarioStates->health = 0x880;
+
     s32 on_floor = gMarioStates->floorHeight == gMarioStates->pos[1];
     if (!gIsGravityFlipped
       && on_floor

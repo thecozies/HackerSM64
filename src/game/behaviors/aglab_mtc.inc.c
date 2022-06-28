@@ -192,6 +192,8 @@ void mtc_green_spinner_loop()
     }
     else if (o->oAction == 1)
     {
+        print_text_fmt_int(20, 20, "T %d", o->oTimer);
+        print_text_fmt_int(20, 40, "S %d", o->oMtcGreenLineActiveStatus);
         if (gGlobalTimer % 4 == 0) {
             cur_obj_play_sound_2(SOUND_GENERAL_ELEVATOR_MOVE_2);
         }
@@ -216,7 +218,23 @@ void mtc_green_spinner_loop()
         vec3_diff(prevToNext, targetWaypoint->pos, lastWaypoint->pos);
         vec3_diff(objToNext, targetWaypoint->pos, &o->oPosVec);
 
-        f32 len = sqrtf(objToNext[0] * objToNext[0] + objToNext[1] * objToNext[1] + objToNext[2] * objToNext[2]) / 15.f;
+        f32 spd = 15.f;
+        if (o->oTimer > 1150)
+        {
+            // last section, be less mean here and let the crystal go slower
+            if (!o->oMtcGreenLineActiveStatus)
+            {
+                spd = 1.5f;
+            }
+            else if (gMarioObject->platform != o)
+            {
+                // last switch was pressed but it still might be too quick so make the thing go slightly slower
+                spd = 10.f;
+            }
+        }
+        print_text_fmt_int(20, 60, "V %d", (int) spd);
+
+        f32 len = sqrtf(objToNext[0] * objToNext[0] + objToNext[1] * objToNext[1] + objToNext[2] * objToNext[2]) / spd;
         if (len > 0.001f)
         {
             objToNext[0] /= len;
@@ -378,12 +396,6 @@ void mtc_blue_rotat_loop()
     }
 }
 
-void sparkler_loop()
-{
-    if (gCamera->cutscene != CUTSCENE_AGLAB_MTC_CS)
-        spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
-}
-
 void mtc_red_ground_init()
 {
 
@@ -418,7 +430,7 @@ extern const Collision mtc_ground2_collision[];
 extern const Collision mtc_ground_safe_collision[];
 void mtc_red_ground_loop()
 {
-    if (gMarioStates->pos[2] < 1600.f || gMarioStates->pos[0] > 1500.f)
+    if (gMarioStates->pos[2] < 1600.f || gMarioStates->pos[0] > 1500.f || gMarioStates->pos[1] > 1128.f)
     {
         if (0 != o->oAction)
         {

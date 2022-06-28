@@ -603,17 +603,9 @@ Jump off from the\n\
 handstand for a high,\n\
 stylin' dismount."))
 
-DEFINE_DIALOG(DIALOG_052, 1, 5, 30, 200, _("\
-Stop and press [Z] to\n\
-crouch, then press [A]\n\
-to do a high, Backward\n\
-Somersault!\n\
-\n\
-To perform a Side\n\
-Somersault, run, do a\n\
-sharp U-turn and jump.\n\
-You can catch lots of\n\
-air with both jumps."))
+DEFINE_DIALOG(DIALOG_052, 1, 2, 30, 200, _("\
+Wing Cap will appear\n\
+here on Act 6."))
 
 DEFINE_DIALOG(DIALOG_053, 1, 5, 30, 200, _("\
 Sometimes, if you pass\n\

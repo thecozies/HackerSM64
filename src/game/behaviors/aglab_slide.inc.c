@@ -72,6 +72,7 @@ void slide_checkpoint_init()
 
 void slide_checkpoint_loop()
 {
+    gMarioStates->health = 0x880;
 /*
     int pieceNum = o->oBehParams2ndByte - 1;
     u8* scratch = segmented_to_virtual(pss_scratch);
