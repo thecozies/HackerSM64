@@ -741,13 +741,14 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                     {
                         sSourceWarpNodeId = 0x22;
                     }
-                    else if (gMarioStates->pos[2] > 0.f && gMarioStates->pos[1] < -6000.f)
+                    else if (gMarioStates->pos[2] > 0.f && gMarioStates->pos[0] < -6000.f)
                     {
                         sSourceWarpNodeId = 0x23;
                     }
                 }
 
                 sDelayedWarpTimer = 20;
+                fadeMusic = !music_unchanged_through_warp(sSourceWarpNodeId);
                 play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, sDelayedWarpTimer, 0x00, 0x00, 0x00);
                 break;
 

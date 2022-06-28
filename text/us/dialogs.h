@@ -456,7 +456,7 @@ you are facing the same\n\
 way!\n\
 Make sure to hold the A\n\
 button to keep the jump\n\
-momentum"))
+momentum."))
 
 DEFINE_DIALOG(DIALOG_040, 1, 3, 30, 200, _("\
 Warning!\n\

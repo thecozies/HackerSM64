@@ -5,6 +5,8 @@ struct MFButterflyConfig
     f32 top;
 };
 
+extern u8 gDontTurnCameraOnReset;
+
 static struct MFButterflyConfig sBFCfg[] =
 {
     { 1.0f, -2178.f },
@@ -206,6 +208,7 @@ void bhv_mf_wooden_post_anchor_loop()
             o->oMfWoodenPostAnchorFixAngle = 0;
             if (gCamera->cutscene == CUTSCENE_AGLAB_WOODEN_POST_CS)
             {
+                gDontTurnCameraOnReset = 1;
                 gCamera->cutscene = 0;
                 reset_camera(gCamera);
             }
@@ -247,6 +250,7 @@ void bhv_mf_wooden_post_anchor_loop()
             o->oPosY = o->oHomeY;
             o->oHeldState = HELD_FREE;
             gCamera->cutscene = 0;
+            gDontTurnCameraOnReset = 1;
             reset_camera(gCamera);
             // cur_obj_get_thrown_or_placed(0.0f, 20.0f, 1);
             break;
@@ -256,6 +260,7 @@ void bhv_mf_wooden_post_anchor_loop()
             o->oPosZ = gMarioStates->pos[2];
             o->oPosY = o->oHomeY;
             gCamera->cutscene = 0;
+            gDontTurnCameraOnReset = 1;
             reset_camera(gCamera);
             cur_obj_get_dropped();
             break;
@@ -304,7 +309,7 @@ void bhv_mf_wooden_post_main_loop()
     {
         i++;
         struct Object* post = *posts;
-        o->oPosY -= 1.5f * (post->oWoodenPostOffsetY);
+        o->oPosY -= 1.6f * (post->oWoodenPostOffsetY);
     }
 }
 

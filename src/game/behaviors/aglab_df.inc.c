@@ -13,6 +13,7 @@ static f32 sDfPositions[][3] = {
 void mf_df_level_reset_loop()
 {
     f32 d;
+    o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
     struct Object* red = cur_obj_find_nearest_object_with_behavior(bhvRedCoin, &d);
     if (!red)
     {

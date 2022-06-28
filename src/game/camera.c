@@ -3128,6 +3128,7 @@ void update_camera(struct Camera *c) {
 /**
  * Reset all the camera variables to their arcane defaults
  */
+u8 gDontTurnCameraOnReset = 0;
 void reset_camera(struct Camera *c) {
     gCamera = c;
     s2ndRotateFlags = 0;
@@ -3157,7 +3158,8 @@ void reset_camera(struct Camera *c) {
     sZeroZoomDist = 0.f;
     sBehindMarioSoundTimer = 0;
     sCSideButtonYaw = 0;
-    s8DirModeYawOffset = snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
+    s8DirModeYawOffset = gDontTurnCameraOnReset ? snap_to_45_degrees(gMarioStates->faceAngle[1]) : snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
+    gDontTurnCameraOnReset = 0;
     c->doorStatus = DOOR_DEFAULT;
     sMarioCamState->headRotation[0] = 0;
     sMarioCamState->headRotation[1] = 0;
