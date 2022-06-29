@@ -88,7 +88,6 @@ const LevelScript level_sa_entry[] = {
 	AREA(2, sa_area_2),
 		INSTANT_WARP(0x00, 0x03, 0, 0, 0),
 		OBJECT(MODEL_BULLET_BILL, 13644, 4590, -1057, 0, -90, 0, 0x00000000, bhvBulletBill),
-		OBJECT(MODEL_BULLET_BILL, 13644, 4590, 1074, 0, -90, 0, 0x00000000, bhvBulletBill),
 		OBJECT(MODEL_BULLET_BILL, 17010, 3655, -59, 0, -90, 0, 0x00000000, bhvBulletBill),
 		OBJECT(MODEL_CASTLE_GATE, 14357, 3453, -107, 0, -90, 0, 0x00000000, bhvCastleGate),
 		OBJECT(MODEL_FLYGUY, 12883, 4446, -374, 0, 0, 0, 0x00000000, bhvFlyGuy),
@@ -138,6 +137,7 @@ const LevelScript level_sa_entry[] = {
 	END_AREA(),
 
 	AREA(4, sa_area_4),
+		OBJECT(MODEL_CASTLE_GATE, 497, 720, -11527, 0, -180, 0, (0x01 << 16), bhvCastleGate),
 		TERRAIN(sa_area_4_collision),
 		MACRO_OBJECTS(sa_area_4_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),

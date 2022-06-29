@@ -6808,6 +6808,7 @@ const BehaviorScript bhvCastleGate[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     LOAD_COLLISION_DATA(castle_gate_collision),
+    SET_HOME(),
     CALL_NATIVE(bhv_init_room),
     SET_HOME(),
     CALL_NATIVE(bhv_castle_gate_init),
@@ -6815,6 +6816,11 @@ const BehaviorScript bhvCastleGate[] = {
         CALL_NATIVE(bhv_castle_gate_loop),
     END_LOOP(),
 };
+
+
+
+//End of Reonu stuff
+
 extern void slide_checkpoint_ctl_init();
 extern void slide_checkpoint_ctl_loop();
 const BehaviorScript bhvSlideCheckpointCtl[] = {

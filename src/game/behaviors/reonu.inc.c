@@ -176,11 +176,21 @@ void bhv_meteor_loop(void) {
 enum oActionsCastleGate {
     CASTLE_GATE_ACT_IDLE,
     CASTLE_GATE_ACT_OPEN,
+    CASTLE_GATE_ACT_IDLE_2,
+    CASTLE_GATE_ACT_CLOSE,
+    CASTLE_GATE_ACT_STAY_CLOSED,
 };
 
 void bhv_castle_gate_init(void) {
-    o->oHiddenObjectSwitchObj = cur_obj_nearest_object_with_behavior(bhvFloorSwitchHiddenObjects);
-    o->oAction = CASTLE_GATE_ACT_IDLE;
+    switch (BPARAM2) {
+        case 0x00:
+            o->oHiddenObjectSwitchObj = cur_obj_nearest_object_with_behavior(bhvFloorSwitchHiddenObjects);
+            o->oAction = CASTLE_GATE_ACT_IDLE;
+            break;
+        case 0x01:
+            o->oAction = CASTLE_GATE_ACT_IDLE_2;
+    }
+
 }
 
 void castle_gate_act_idle(void) {
@@ -198,13 +208,36 @@ void castle_gate_act_open(void) {
         obj_mark_for_deletion(o);
 }
 
+void castle_gate_act_idle_2(void) {
+    if (o->oPosZ > gMarioState->pos[2]) {
+        o->oAction = CASTLE_GATE_ACT_CLOSE;
+    }
+}
+
+void castle_gate_act_close(void) {
+    o->oPosY = approach_f32(o->oPosY, o->oFloorHeight, 150, 150);
+    if (o->oPosY <= o->oFloorHeight) {
+        cur_obj_play_sound_1(SOUND_GENERAL_BIG_POUND);
+        o->oAction = CASTLE_GATE_ACT_STAY_CLOSED;
+    }
+}
+
+void castle_gate_act_stay_closed(void) {
+
+}
+
 ObjActionFunc sCastleGateActions[] = {
     castle_gate_act_idle,
     castle_gate_act_open,
+    castle_gate_act_idle_2,
+    castle_gate_act_close,
+    castle_gate_act_stay_closed,
 };
 
 
 void bhv_castle_gate_loop(void) {
     load_object_collision_model();
     cur_obj_call_action_function(sCastleGateActions);
+        print_text_fmt_int(20,20, "%d", o->oFloorHeight);
+    print_text_fmt_int(20,40, "%d", o->oHomeY);
 }
