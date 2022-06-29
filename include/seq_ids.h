@@ -45,7 +45,7 @@ enum SeqId {
     SEQ_EVENT_CUTSCENE_ENDING,        // 0x20
     SEQ_MENU_FILE_SELECT,             // 0x21
     SEQ_EVENT_CUTSCENE_LAKITU,        // 0x22 (not in JP)
-    SEQ_EVENT_AC,        // 0x23
+    SEQ_EVENT_AC,
     SEQ_C1,
     SEQ_C3,
     SEQ_LMAO,
@@ -61,6 +61,8 @@ enum SeqId {
     SEQ_FLIPNOTE,
     SEQ_SEA,
     SEQ_AGT,
+    SEQ_ARENA,
+    SEQ_TIME,
     SEQ_COUNT
 };
 

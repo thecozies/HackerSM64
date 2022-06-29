@@ -50,5 +50,7 @@
     "2F_custom_ducktales": ["0C"],
     "30_custom_flipnote": ["0C"],
     "31_custom_sea": ["0C"],
-    "32_custom_gear": ["0C"]
+    "32_custom_gear": ["0C"],
+    "33_custom_arena": ["27"],
+    "34_custom_time": ["28"]
 }

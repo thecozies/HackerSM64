@@ -34,3 +34,4 @@
 #include "Floating_Plat/model.inc.c"
 #include "Hanging_Plat/model.inc.c"
 #include "Sticky_Plat/model.inc.c"
+#include "rift/model.inc.c"
