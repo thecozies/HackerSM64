@@ -471,9 +471,40 @@ void warp_credits(void) {
     }
 }
 
+#include "tile_scroll.h"
+
+extern Lights1 wmotr_dl_down_instant_warp_lights;
+extern Vtx wmotr_dl_main_silo_mesh_vtx_1[109];
+extern Gfx mat_wmotr_dl_brick[];
 u16 gDnvicUpCounter   = 0;
 u16 gDnvicDownCounter = 0;
 u16 gDnvicChamber     = 1;
+
+static void shade_lights(Lights1* light, int amt)
+{
+    light->a.l.col[0]   -= amt;
+    light->a.l.col[1]   -= amt;
+    light->a.l.col[2]   -= amt;
+    light->a.l.colc[0]  -= amt;
+    light->a.l.colc[1]  -= amt;
+    light->a.l.colc[2]  -= amt;
+    light->l->l.col[0]  -= 2*amt;
+    light->l->l.col[1]  -= 2*amt;
+    light->l->l.col[2]  -= 2*amt;
+    light->l->l.colc[0] -= 2*amt;
+    light->l->l.colc[1] -= 2*amt;
+    light->l->l.colc[2] -= 2*amt;
+}
+
+static void shade_vcols(Vtx* vtx, int cnt, int amt)
+{
+    for (int i = 0; i < cnt; i++)
+    {
+        vtx[i].v.cn[0] -= amt;
+        vtx[i].v.cn[1] -= amt;
+        vtx[i].v.cn[2] -= amt;
+    }
+}
 
 void check_instant_warp(void) {
     s16 cameraAngle;
@@ -524,6 +555,13 @@ void check_instant_warp(void) {
                                 gDnvicUpCounter = 0;
                                 gDnvicDownCounter = 0;
                             }
+                            if (gDnvicUpCounter > 5 && floor->force == 0x69)
+                            {
+                                Lights1* l0 = (Lights1*) segmented_to_virtual(&wmotr_dl_down_instant_warp_lights);
+                                shade_lights(l0, 2);
+                                Vtx* v0 = (Vtx*) segmented_to_virtual(wmotr_dl_main_silo_mesh_vtx_1);
+                                shade_vcols(v0, 109, 3);
+                            }
                             break;
                         case 2:
                             if(gDnvicUpCounter == 1) {
@@ -561,6 +599,14 @@ void check_instant_warp(void) {
                                 gDnvicChamber = 12;
                                 gDnvicDownCounter = 0;
                                 gDnvicUpCounter = 0;
+                            }
+                            if (gDnvicUpCounter > 1 && floor->force == 0x69)
+                            {
+                                SetTileSize* tile = (SetTileSize*) ((u8*) segmented_to_virtual(mat_wmotr_dl_brick) + 18 * 8);
+                                tile->s += 5;
+                                tile->u += 5;
+                                tile->t += 5;
+                                tile->v += 5;
                             }
                             if(gDnvicDownCounter == 1) {
                                 gDnvicChamber = 2;
