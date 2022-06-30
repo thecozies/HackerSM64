@@ -545,7 +545,7 @@ void check_instant_warp(void) {
                     }
                     switch(gDnvicChamber) {
                         case 1:
-                            if(gDnvicDownCounter == 1 && gDnvicUpCounter == 0) {
+                            if(gDnvicDownCounter == 1 && gDnvicUpCounter < 2) {
                                 gDnvicChamber = 2;
                                 gDnvicDownCounter = 0;
                                 gDnvicUpCounter = 0;
