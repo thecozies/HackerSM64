@@ -471,10 +471,9 @@ void warp_credits(void) {
     }
 }
 
-u16 upCounter = 0;
-u16 downCounter = 0;
-u16 chamber = 1;
-
+u16 gDnvicUpCounter   = 0;
+u16 gDnvicDownCounter = 0;
+u16 gDnvicChamber     = 1;
 
 void check_instant_warp(void) {
     s16 cameraAngle;
@@ -498,94 +497,95 @@ void check_instant_warp(void) {
             struct InstantWarp *warp = &gCurrentArea->instantWarps[index];
 
             if (warp->id != 0) {
-                switch(floor->force) {
-                    case 0x69:
-                        upCounter += 1;
-                        break;
-                    case 0x420:
-                        downCounter += 1;
-                        break;
-                    case 0x4:
-                        upCounter = 0;
-                        downCounter = 0;
-                        chamber = 1;
-                        break;
+                if (gCurrCourseNum == COURSE_WMOTR)
+                {
+                    switch(floor->force) {
+                        case 0x69:
+                            gDnvicUpCounter += 1;
+                            break;
+                        case 0x420:
+                            gDnvicDownCounter += 1;
+                            break;
+                        case 0x4:
+                            gDnvicUpCounter = 0;
+                            gDnvicDownCounter = 0;
+                            gDnvicChamber = 1;
+                            break;
+                    }
+                    switch(gDnvicChamber) {
+                        case 1:
+                            if(gDnvicDownCounter == 1) {
+                                gDnvicChamber = 2;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            if(gDnvicUpCounter == 25) {
+                                gDnvicChamber = 10;
+                                gDnvicUpCounter = 0;
+                                gDnvicDownCounter = 0;
+                            }
+                            break;
+                        case 2:
+                            if(gDnvicUpCounter == 1) {
+                                gDnvicChamber = 3;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            break;
+                        case 3:
+                            if(gDnvicUpCounter == 1) {
+                                gDnvicChamber = 4;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            if(gDnvicDownCounter == 1) {
+                                gDnvicChamber = 5;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            break;
+                        case 4:
+                            if(gDnvicUpCounter == 1) {
+                                gDnvicChamber = 1;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            if(gDnvicDownCounter == 1) {
+                                gDnvicChamber = 2;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            break;
+                        case 5:
+                            if(gDnvicUpCounter == 5) {
+                                gDnvicChamber = 12;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            if(gDnvicDownCounter == 1) {
+                                gDnvicChamber = 2;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            break;
+                    }
+                    switch(gDnvicChamber) {// don't want to wait until the next instant warp in order to warp
+                        case 10:
+                            cameraAngle = gMarioState->area->camera->yaw;
+                            change_area(3);
+                            gMarioState->area = gCurrentArea;
+                            warp_camera(0, 0, 0);
+                            gMarioState->area->camera->yaw = cameraAngle;
+                            return;
+                        case 12:
+                            cameraAngle = gMarioState->area->camera->yaw;
+                            change_area(4);
+                            gMarioState->area = gCurrentArea;
+                            warp_camera(0, 0, 0);
+                            gMarioState->area->camera->yaw = cameraAngle;
+                            return;
+                    }
                 }
-                switch(chamber) {
-                    case 1:
-                        if(downCounter == 1) {
-                            chamber = 2;
-                            downCounter = 0;
-                            upCounter = 0;
-                        }
-                        if(upCounter == 25) {
-                            chamber = 10;
-                            upCounter = 0;
-                            downCounter = 0;
-                        }
-                        break;
-                    case 2:
-                        if(upCounter == 1) {
-                            chamber = 3;
-                            downCounter = 0;
-                            upCounter = 0;
-                        }
-                        break;
-                    case 3:
-                        if(upCounter == 1) {
-                            chamber = 4;
-                            downCounter = 0;
-                            upCounter = 0;
-                        }
-                        if(downCounter == 1) {
-                            chamber = 5;
-                            downCounter = 0;
-                            upCounter = 0;
-                        }
-                        break;
-                    case 4:
-                        if(upCounter == 1) {
-                            chamber = 1;
-                            downCounter = 0;
-                            upCounter = 0;
-                        }
-                        if(downCounter == 1) {
-                            chamber = 2;
-                            downCounter = 0;
-                            upCounter = 0;
-                        }
-                        break;
-                    case 5:
-                        if(upCounter == 5) {
-                            chamber = 12;
-                            downCounter = 0;
-                            upCounter = 0;
-                        }
-                        if(downCounter == 1) {
-                            chamber = 2;
-                            downCounter = 0;
-                            upCounter = 0;
-                        }
-                        break;
-                }
-                switch(chamber) {// don't want to wait until the next instant warp in order to warp
-                    case 10:
-                        cameraAngle = gMarioState->area->camera->yaw;
-                        change_area(3);
-                        gMarioState->area = gCurrentArea;
-                        warp_camera(0, 0, 0);
-                        gMarioState->area->camera->yaw = cameraAngle;
-                        return;
-                    case 12:
-                        cameraAngle = gMarioState->area->camera->yaw;
-                        change_area(4);
-                        gMarioState->area = gCurrentArea;
-                        warp_camera(0, 0, 0);
-                        gMarioState->area->camera->yaw = cameraAngle;
-                        return;
-                }
-                
-                
 
                 gMarioState->pos[0] += warp->displacement[0];
                 gMarioState->pos[1] += warp->displacement[1];
@@ -1095,7 +1095,7 @@ s32 play_mode_normal(void) {
     warp_area();
     check_instant_warp();
     /*char buffer[50]; debug text
-    sprintf(buffer, "up times: %d down times: %d chamber: %d", upCounter, downCounter, chamber); 
+    sprintf(buffer, "up times: %d down times: %d gDnvicChamber: %d", gDnvicUpCounter, gDnvicDownCounter, gDnvicChamber); 
     /dnvic_print_white_text(100, 100, buffer, PRINT_TEXT_ALIGN_CENTRE, PRINT_ALL, 0xFF); */
 
     if (sTimerRunning && gHudDisplay.timer < 17999) {

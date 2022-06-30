@@ -1,7 +1,14 @@
+extern u16 gDnvicUpCounter;
+extern u16 gDnvicDownCounter;
+extern u16 gDnvicChamber;
+
 void ow_ctl_init()
 {
     gDoInertia = 1;
     gDoPlatformDisplacement = 1;
+    gDnvicUpCounter   = 0;
+    gDnvicDownCounter = 0;
+    gDnvicChamber     = 1;
 }
 
 void ow_ctl_loop()
