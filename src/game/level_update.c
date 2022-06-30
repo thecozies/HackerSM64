@@ -506,6 +506,14 @@ static void shade_vcols(Vtx* vtx, int cnt, int amt)
     }
 }
 
+static void stretch_vcols(Vtx* vtx, int cnt)
+{
+    for (int i = 0; i < cnt; i++)
+    {
+        vtx[i].v.tc[1] *= 1.2f;
+    }
+}
+
 void check_instant_warp(void) {
     s16 cameraAngle;
     struct Surface *floor;
@@ -560,7 +568,7 @@ void check_instant_warp(void) {
                                 Lights1* l0 = (Lights1*) segmented_to_virtual(&wmotr_dl_down_instant_warp_lights);
                                 shade_lights(l0, 2);
                                 Vtx* v0 = (Vtx*) segmented_to_virtual(wmotr_dl_main_silo_mesh_vtx_1);
-                                shade_vcols(v0, 109, 3);
+                                shade_vcols(v0, sizeof(wmotr_dl_main_silo_mesh_vtx_1) / sizeof(*wmotr_dl_main_silo_mesh_vtx_1), 3);
                             }
                             break;
                         case 2:
@@ -600,13 +608,10 @@ void check_instant_warp(void) {
                                 gDnvicDownCounter = 0;
                                 gDnvicUpCounter = 0;
                             }
-                            if (gDnvicUpCounter > 1 && floor->force == 0x69)
+                            if (floor->force == 0x69)
                             {
-                                SetTileSize* tile = (SetTileSize*) ((u8*) segmented_to_virtual(mat_wmotr_dl_brick) + 18 * 8);
-                                tile->s += 5;
-                                tile->u += 5;
-                                tile->t += 5;
-                                tile->v += 5;
+                                Vtx* v0 = (Vtx*) segmented_to_virtual(wmotr_dl_main_silo_mesh_vtx_1);
+                                stretch_vcols(v0, sizeof(wmotr_dl_main_silo_mesh_vtx_1) / sizeof(*wmotr_dl_main_silo_mesh_vtx_1));
                             }
                             if(gDnvicDownCounter == 1) {
                                 gDnvicChamber = 2;
