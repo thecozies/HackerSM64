@@ -476,8 +476,7 @@ void warp_credits(void) {
 #include "tile_scroll.h"
 
 extern Lights1 wmotr_dl_down_instant_warp_lights;
-extern Vtx wmotr_dl_main_silo_mesh_vtx_1[109];
-extern Gfx mat_wmotr_dl_brick[];
+extern Vtx wmotr_dl_main_silo_mesh_vtx_2[154];
 u16 gDnvicUpCounter   = 0;
 u16 gDnvicDownCounter = 0;
 u16 gDnvicChamber     = 1;
@@ -570,8 +569,8 @@ void check_instant_warp(void) {
                             {
                                 Lights1* l0 = (Lights1*) segmented_to_virtual(&wmotr_dl_down_instant_warp_lights);
                                 shade_lights(l0, 2);
-                                Vtx* v0 = (Vtx*) segmented_to_virtual(wmotr_dl_main_silo_mesh_vtx_1);
-                                shade_vcols(v0, sizeof(wmotr_dl_main_silo_mesh_vtx_1) / sizeof(*wmotr_dl_main_silo_mesh_vtx_1), 3);
+                                Vtx* v0 = (Vtx*) segmented_to_virtual(wmotr_dl_main_silo_mesh_vtx_2);
+                                shade_vcols(v0, sizeof(wmotr_dl_main_silo_mesh_vtx_2) / sizeof(*wmotr_dl_main_silo_mesh_vtx_2), 3);
                             }
                             break;
                         case 2:
@@ -613,8 +612,8 @@ void check_instant_warp(void) {
                             }
                             if (floor->force == 0x69)
                             {
-                                Vtx* v0 = (Vtx*) segmented_to_virtual(wmotr_dl_main_silo_mesh_vtx_1);
-                                stretch_vcols(v0, sizeof(wmotr_dl_main_silo_mesh_vtx_1) / sizeof(*wmotr_dl_main_silo_mesh_vtx_1));
+                                Vtx* v0 = (Vtx*) segmented_to_virtual(wmotr_dl_main_silo_mesh_vtx_2);
+                                stretch_vcols(v0, sizeof(wmotr_dl_main_silo_mesh_vtx_2) / sizeof(*wmotr_dl_main_silo_mesh_vtx_2));
                             }
                             if(gDnvicDownCounter == 1) {
                                 gDnvicChamber = 2;
@@ -626,6 +625,7 @@ void check_instant_warp(void) {
                     switch(gDnvicChamber) {// don't want to wait until the next instant warp in order to warp
                         case 10:
                             cameraAngle = gMarioState->area->camera->yaw;
+                            gDnvicUpCounter = 0; // fix being stuck forever
                             change_area(3);
                             gMarioState->area = gCurrentArea;
                             warp_camera(0, 0, 0);
