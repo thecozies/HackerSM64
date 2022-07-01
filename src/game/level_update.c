@@ -32,6 +32,7 @@
 #include "puppyprint.h"
 #include "puppylights.h"
 #include "level_commands.h"
+#include "dnvic_print.h" //debug
 
 #include "print.h"
 
@@ -238,24 +239,7 @@ void init_door_warp(struct SpawnInfo *spawnInfo, u32 warpDestFlags) {
 }
 
 void set_mario_initial_cap_powerup(struct MarioState *m) {
-    u32 capCourseIndex = gCurrCourseNum - COURSE_CAP_COURSES;
-
-    switch (capCourseIndex) {
-        case COURSE_COTMC - COURSE_CAP_COURSES:
-            m->flags |= MARIO_METAL_CAP | MARIO_CAP_ON_HEAD;
-            m->capTimer = 600;
-            break;
-
-        case COURSE_TOTWC - COURSE_CAP_COURSES:
-            m->flags |= MARIO_WING_CAP | MARIO_CAP_ON_HEAD;
-            m->capTimer = 1200;
-            break;
-
-        case COURSE_VCUTM - COURSE_CAP_COURSES:
-            m->flags |= MARIO_VANISH_CAP | MARIO_CAP_ON_HEAD;
-            m->capTimer = 600;
-            break;
-    }
+    return;
 }
 
 void set_mario_initial_action(struct MarioState *m, u32 spawnType, u32 actionArg) {
@@ -489,6 +473,49 @@ void warp_credits(void) {
     }
 }
 
+#include "tile_scroll.h"
+
+extern Lights1 wmotr_dl_down_instant_warp_lights;
+extern Vtx wmotr_dl_main_silo_mesh_vtx_1[109];
+extern Gfx mat_wmotr_dl_brick[];
+u16 gDnvicUpCounter   = 0;
+u16 gDnvicDownCounter = 0;
+u16 gDnvicChamber     = 1;
+
+static void shade_lights(Lights1* light, int amt)
+{
+    light->a.l.col[0]   -= amt;
+    light->a.l.col[1]   -= amt;
+    light->a.l.col[2]   -= amt;
+    light->a.l.colc[0]  -= amt;
+    light->a.l.colc[1]  -= amt;
+    light->a.l.colc[2]  -= amt;
+    light->l->l.col[0]  -= 2*amt;
+    light->l->l.col[1]  -= 2*amt;
+    light->l->l.col[2]  -= 2*amt;
+    light->l->l.colc[0] -= 2*amt;
+    light->l->l.colc[1] -= 2*amt;
+    light->l->l.colc[2] -= 2*amt;
+}
+
+static void shade_vcols(Vtx* vtx, int cnt, int amt)
+{
+    for (int i = 0; i < cnt; i++)
+    {
+        vtx[i].v.cn[0] -= amt;
+        vtx[i].v.cn[1] -= amt;
+        vtx[i].v.cn[2] -= amt;
+    }
+}
+
+static void stretch_vcols(Vtx* vtx, int cnt)
+{
+    for (int i = 0; i < cnt; i++)
+    {
+        vtx[i].v.tc[1] *= 1.2f;
+    }
+}
+
 void check_instant_warp(void) {
     s16 cameraAngle;
     struct Surface *floor;
@@ -502,7 +529,7 @@ void check_instant_warp(void) {
  #endif // !UNLOCK_ALL
         return;
     }
-#endif // ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS
+#endif // ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS BOOKMARK
 
     if ((floor = gMarioState->floor) != NULL) {
         if (gCurrLevelNum != LEVEL_SA) {
@@ -511,10 +538,112 @@ void check_instant_warp(void) {
                 && gCurrentArea->instantWarps != NULL) {
                 struct InstantWarp *warp = &gCurrentArea->instantWarps[index];
 
-                if (warp->id != 0) {
-                    gMarioState->pos[0] += warp->displacement[0];
-                    gMarioState->pos[1] += warp->displacement[1];
-                    gMarioState->pos[2] += warp->displacement[2];
+            if (warp->id != 0) {
+                if (gCurrCourseNum == COURSE_WMOTR)
+                {
+                    switch(floor->force) {
+                        case 0x69:
+                            gDnvicUpCounter += 1;
+                            break;
+                        case 0x420:
+                            gDnvicDownCounter += 1;
+                            break;
+                        case 0x4:
+                            gDnvicUpCounter = 0;
+                            gDnvicDownCounter = 0;
+                            gDnvicChamber = 1;
+                            break;
+                    }
+                    switch(gDnvicChamber) {
+                        case 1:
+                            if(gDnvicDownCounter == 1 && gDnvicUpCounter < 2) {
+                                gDnvicChamber = 2;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            if(gDnvicUpCounter == 25) {
+                                gDnvicChamber = 10;
+                                gDnvicUpCounter = 0;
+                                gDnvicDownCounter = 0;
+                            }
+                            if (gDnvicUpCounter > 5 && floor->force == 0x69)
+                            {
+                                Lights1* l0 = (Lights1*) segmented_to_virtual(&wmotr_dl_down_instant_warp_lights);
+                                shade_lights(l0, 2);
+                                Vtx* v0 = (Vtx*) segmented_to_virtual(wmotr_dl_main_silo_mesh_vtx_1);
+                                shade_vcols(v0, sizeof(wmotr_dl_main_silo_mesh_vtx_1) / sizeof(*wmotr_dl_main_silo_mesh_vtx_1), 3);
+                            }
+                            break;
+                        case 2:
+                            if(gDnvicUpCounter == 1) {
+                                gDnvicChamber = 3;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            break;
+                        case 3:
+                            if(gDnvicUpCounter == 1) {
+                                gDnvicChamber = 4;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            if(gDnvicDownCounter == 1) {
+                                gDnvicChamber = 5;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            break;
+                        case 4:
+                            if(gDnvicUpCounter == 1) {
+                                gDnvicChamber = 1;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            if(gDnvicDownCounter == 1) {
+                                gDnvicChamber = 2;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            break;
+                        case 5:
+                            if(gDnvicUpCounter == 5) {
+                                gDnvicChamber = 12;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            if (floor->force == 0x69)
+                            {
+                                Vtx* v0 = (Vtx*) segmented_to_virtual(wmotr_dl_main_silo_mesh_vtx_1);
+                                stretch_vcols(v0, sizeof(wmotr_dl_main_silo_mesh_vtx_1) / sizeof(*wmotr_dl_main_silo_mesh_vtx_1));
+                            }
+                            if(gDnvicDownCounter == 1) {
+                                gDnvicChamber = 2;
+                                gDnvicDownCounter = 0;
+                                gDnvicUpCounter = 0;
+                            }
+                            break;
+                    }
+                    switch(gDnvicChamber) {// don't want to wait until the next instant warp in order to warp
+                        case 10:
+                            cameraAngle = gMarioState->area->camera->yaw;
+                            change_area(3);
+                            gMarioState->area = gCurrentArea;
+                            warp_camera(0, 0, 0);
+                            gMarioState->area->camera->yaw = cameraAngle;
+                            return;
+                        case 12:
+                            cameraAngle = gMarioState->area->camera->yaw;
+                            change_area(4);
+                            gMarioState->area = gCurrentArea;
+                            warp_camera(0, 0, 0);
+                            gMarioState->area->camera->yaw = cameraAngle;
+                            return;
+                    }
+                }
+
+                gMarioState->pos[0] += warp->displacement[0];
+                gMarioState->pos[1] += warp->displacement[1];
+                gMarioState->pos[2] += warp->displacement[2];
 
                     gMarioState->marioObj->oPosX = gMarioState->pos[0];
                     gMarioState->marioObj->oPosY = gMarioState->pos[1];
@@ -792,13 +921,33 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                     {
                         sSourceWarpNodeId = 0x22;
                     }
-                    else if (gMarioStates->pos[2] > 0.f && gMarioStates->pos[1] < -6000.f)
+                    else if (gMarioStates->pos[2] > 0.f && gMarioStates->pos[0] < -6000.f)
                     {
                         sSourceWarpNodeId = 0x23;
                     }
                 }
 
+                if (gCurrCourseNum == COURSE_BOB)
+                {
+                    if (gMarioStates->pos[2] > 6000.f)
+                    {
+                        // near the bottom drop
+                        sSourceWarpNodeId = 0x21;
+                    }
+                    else if (gMarioStates->pos[1] < -1500.f)
+                    {
+                        // center
+                        sSourceWarpNodeId = 0x20;
+                    }
+                    else
+                    {
+                        // near wallkicks
+                        sSourceWarpNodeId = 0x22;
+                    }
+                }
+
                 sDelayedWarpTimer = 20;
+                fadeMusic = !music_unchanged_through_warp(sSourceWarpNodeId);
                 play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, sDelayedWarpTimer, 0x00, 0x00, 0x00);
                 break;
 
@@ -1030,6 +1179,9 @@ s32 play_mode_normal(void) {
 
     warp_area();
     check_instant_warp();
+    /*char buffer[50]; debug text
+    sprintf(buffer, "up times: %d down times: %d gDnvicChamber: %d", gDnvicUpCounter, gDnvicDownCounter, gDnvicChamber); 
+    /dnvic_print_white_text(100, 100, buffer, PRINT_TEXT_ALIGN_CENTRE, PRINT_ALL, 0xFF); */
 
     if (sTimerRunning && gHudDisplay.timer < 17999) {
         gHudDisplay.timer++;

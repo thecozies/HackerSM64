@@ -1,0 +1,11 @@
+extern const GeoLayout fight_roped_geo[];
+extern Lights1 fight_roped_ropetr_001_lights;
+extern u8 fight_roped_rope_ci8[];
+extern u8 fight_roped_rope_ci8_pal_rgba16[];
+extern Vtx fight_roped_fight_004_mesh_layer_4_vtx_cull[8];
+extern Vtx fight_roped_fight_004_mesh_layer_4_vtx_0[4];
+extern Gfx fight_roped_fight_004_mesh_layer_4_tri_0[];
+extern Gfx mat_fight_roped_ropetr_001[];
+extern Gfx mat_revert_fight_roped_ropetr_001[];
+extern Gfx fight_roped_fight_004_mesh_layer_4[];
+extern Gfx fight_roped_material_revert_render_settings[];

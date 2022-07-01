@@ -3,24 +3,6 @@
 const GeoLayout sa_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_SWITCH_CASE(4, geo_switch_area),
-		GEO_OPEN_NODE(),
-			GEO_BRANCH(1, sa_dl_room_00_geo),
-			GEO_BRANCH(1, sa_dl_room_1_geo),
-			GEO_BRANCH(1, sa_dl_room_2_geo),
-		GEO_CLOSE_NODE(),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout sa_dl_room_00_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout sa_dl_room_1_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
 		GEO_ASM(0x00, geo_set_background_colour),
 		GEO_ASM(0x00, geo_render_INFBG),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 15144, 0, 0, sa_dl_Cube_mesh_layer_1),
@@ -28,12 +10,6 @@ const GeoLayout sa_dl_room_1_geo[] = {
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 14587, 4719, -9, 0, 0, 90, sa_dl_ground_to_area_2_visual_001_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 10190, 127, 0, sa_dl_teleporter_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 10818, 1027, 472, sa_dl_teleporter_001_mesh_layer_1),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout sa_dl_room_2_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

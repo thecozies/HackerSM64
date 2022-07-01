@@ -456,7 +456,7 @@ you are facing the same\n\
 way!\n\
 Make sure to hold the A\n\
 button to keep the jump\n\
-momentum"))
+momentum."))
 
 DEFINE_DIALOG(DIALOG_040, 1, 3, 30, 200, _("\
 Warning!\n\
@@ -491,11 +491,11 @@ scurry up quickly, press\n\
 the [A] Button."))
 
 DEFINE_DIALOG(DIALOG_043, 1, 5, 30, 200, _("\
-If you jump and hold the\n\
-[A] Button, you can hang on\n\
-to some objects overhead.\n\
-It's the same as grabbing\n\
-a flying bird!"))
+You can press [A] button\n\
+to keep swinging longer\n\
+or you can press [Z] button\n\
+to fall quicker.\n\
+Why is that useful?"))
 
 DEFINE_DIALOG(DIALOG_044, 1, 5, 95, 200, _("\
 Whooo's there? Whooo\n\
@@ -603,17 +603,9 @@ Jump off from the\n\
 handstand for a high,\n\
 stylin' dismount."))
 
-DEFINE_DIALOG(DIALOG_052, 1, 5, 30, 200, _("\
-Stop and press [Z] to\n\
-crouch, then press [A]\n\
-to do a high, Backward\n\
-Somersault!\n\
-\n\
-To perform a Side\n\
-Somersault, run, do a\n\
-sharp U-turn and jump.\n\
-You can catch lots of\n\
-air with both jumps."))
+DEFINE_DIALOG(DIALOG_052, 1, 2, 30, 200, _("\
+Wing Cap will appear\n\
+here on Act 6."))
 
 DEFINE_DIALOG(DIALOG_053, 1, 5, 30, 200, _("\
 Sometimes, if you pass\n\
@@ -1632,17 +1624,18 @@ collect 100 coins in each\n\
 of the 15 courses!"))
 
 DEFINE_DIALOG(DIALOG_138, 1, 3, 30, 200, _("\
-Down: Underground Lake\n\
-Left: Black Hole\n\
-Right: Hazy Maze (Closed)"))
+CAUTION: This may seem\n\
+a very simple grain\n\
+silo, but tis not. \n\
+Strange occurences \n\
+have occured in here\n\
+lately. Enter at your\n\
+own risk."))
 
 DEFINE_DIALOG(DIALOG_139, 1, 6, 30, 200, _("\
-Above: Automatic Elevator\n\
-Elevator begins\n\
-automatically and follows\n\
-pre-set course.\n\
-It disappears\n\
-automatically, too."))
+you're very persistent\n\
+dnvic.com slash map \n\
+slash map.png"))
 
 DEFINE_DIALOG(DIALOG_140, 1, 6, 30, 200, _("\
 Elevator Area\n\

@@ -35,9 +35,11 @@ const LevelScript level_bowser_2_entry[] = {
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_13), 
 	LOAD_MODEL_FROM_GEO(MODEL_BOWSER_2_TILTING_ARENA, fight_platform_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_FIGHT_BOMB_SHADOW, fight_bomb_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_FIGHT_PLAT_SHADOW, fight_plat_shadow_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_FIGHT_SPIKES, fight_spikes_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_FIGHT_BOMB_SHADOW, fight_bomb_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_FIGHT_PLAT_SHADOW, fight_plat_shadow_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_FIGHT_SPIKES, fight_spikes_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_FIGHT_ARROWS, fight_arrow_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_FIGHT_ROPED, fight_roped_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

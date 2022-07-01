@@ -1103,7 +1103,7 @@ void bowser_act_dance(void) {
  * Spawns a Key in BitDW/BitFS or Grand Star in BitS
  */
 void bowser_spawn_collectable(void) {
-    if (o->oBehParams2ndByte == BOWSER_BP_BITS) {
+    if (1) {
         gSecondCameraFocus = spawn_object(o, MODEL_STAR, bhvGrandStar);
     } else {
         gSecondCameraFocus = spawn_object(o, MODEL_BOWSER_KEY, bhvBowserKey);
@@ -1302,7 +1302,7 @@ void bowser_act_dead(void) {
                 o->oBowserTimer = 0;
                 // Set different (final) subaction in BitS
                 // Non-BitS Bowser uses default subaction and sets dithering
-                if (o->oBehParams2ndByte == BOWSER_BP_BITS) {
+                if (1) {
                     o->oSubAction = BOWSER_SUB_ACT_DEAD_FINAL_END;
                 } else {
                     o->activeFlags |= ACTIVE_FLAG_DITHERED_ALPHA;

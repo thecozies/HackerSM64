@@ -22,3 +22,4 @@
 #include "Sticky_Plat/geo.inc.c"
 #include "spring/geo.inc.c"
 #include "luigi/geo.inc.c"
+#include "rift/geo.inc.c"

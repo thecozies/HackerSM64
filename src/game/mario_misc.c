@@ -28,10 +28,6 @@
 
 #include "config.h"
 
-#define TOAD_STAR_1_REQUIREMENT 12
-#define TOAD_STAR_2_REQUIREMENT 25
-#define TOAD_STAR_3_REQUIREMENT 35
-
 #define TOAD_STAR_1_DIALOG DIALOG_082
 #define TOAD_STAR_2_DIALOG DIALOG_076
 #define TOAD_STAR_3_DIALOG DIALOG_083
@@ -193,32 +189,26 @@ void bhv_toad_message_init(void) {
 
     switch (dialogId) {
         case TOAD_STAR_1_DIALOG:
-            enoughStars = (starCount >= TOAD_STAR_1_REQUIREMENT);
             if (saveFlags & SAVE_FLAG_COLLECTED_TOAD_STAR_1) {
                 dialogId = TOAD_STAR_1_DIALOG_AFTER;
             }
             break;
         case TOAD_STAR_2_DIALOG:
-            enoughStars = (starCount >= TOAD_STAR_2_REQUIREMENT);
             if (saveFlags & SAVE_FLAG_COLLECTED_TOAD_STAR_2) {
                 dialogId = TOAD_STAR_2_DIALOG_AFTER;
             }
             break;
         case TOAD_STAR_3_DIALOG:
-            enoughStars = (starCount >= TOAD_STAR_3_REQUIREMENT);
             if (saveFlags & SAVE_FLAG_COLLECTED_TOAD_STAR_3) {
                 dialogId = TOAD_STAR_3_DIALOG_AFTER;
             }
             break;
     }
-    if (enoughStars) {
-        o->oToadMessageDialogId = dialogId;
-        o->oToadMessageRecentlyTalked = FALSE;
-        o->oToadMessageState = TOAD_MESSAGE_FADED;
-        o->oOpacity = 81;
-    } else {
-        obj_mark_for_deletion(o);
-    }
+
+    o->oToadMessageDialogId = dialogId;
+    o->oToadMessageRecentlyTalked = FALSE;
+    o->oToadMessageState = TOAD_MESSAGE_FADED;
+    o->oOpacity = 81;
 }
 
 static void star_door_unlock_spawn_particles(s16 angleOffset) {

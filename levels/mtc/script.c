@@ -121,6 +121,7 @@ const LevelScript level_mtc_entry[] = {
 		OBJECT_WITH_ACTS(MODEL_EXCLAMATION_BOX, -1989, 2517, 3309, 0, 118, 0, (0 << 16), bhvExclamationBox, ACT_6),
 		OBJECT_WITH_ACTS(MODEL_EXCLAMATION_BOX, 2556, 948, -7914, 0, 118, 0, (0 << 16), bhvExclamationBox, ACT_6),
 		OBJECT(MODEL_NONE, 1058, 2471, 217, 0, 144, 0, (5 << 24), bhvHiddenStar),
+		OBJECT(MODEL_WOODEN_SIGNPOST, 6120, 300, -1112, 0, -36, 0, (52 << 24) | (52 << 16), bhvMessagePanel),
 		OBJECT(MODEL_NONE, -3645, -650, 8283, 0, -180, 0, 0x00000000, bhvFlamethrower),
 		OBJECT(MODEL_NONE, -3920, -656, 8580, 0, 0, 0, 0x00000000, bhvFlamethrower),
 		OBJECT(MODEL_NONE, -3375, -654, 8580, 0, 0, 0, 0x00000000, bhvFlamethrower),

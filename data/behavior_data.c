@@ -6425,6 +6425,7 @@ extern void mtc_green_line_switch_loop();
 const BehaviorScript bhvMtcGreenLineSwitch[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_FLOAT(oDrawingDistance, 20000),
     SET_HOME(),
     CALL_NATIVE(mtc_green_line_switch_init),
     BEGIN_LOOP(),
@@ -6875,6 +6876,67 @@ const BehaviorScript bhvFightFlameSquare[] = {
     END_LOOP(),
 };
 
+extern void fight_flame_circle_init();
+extern void fight_flame_circle_loop();
+const BehaviorScript bhvFightFlameCircle[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_FLAME),
+    BILLBOARD(),
+    CALL_NATIVE(fight_flame_circle_init),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_flame_circle_loop),
+        ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
+extern void fight_flame_locus_init();
+extern void fight_flame_locus_loop();
+const BehaviorScript bhvFightFlameLocus[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_FLAME),
+    BILLBOARD(),
+    CALL_NATIVE(fight_flame_locus_init),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_flame_locus_loop),
+        ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
+extern void fight_flame_g_init();
+extern void fight_flame_g_loop();
+const BehaviorScript bhvFightFlameG[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_FLAME),
+    BILLBOARD(),
+    CALL_NATIVE(fight_flame_g_init),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_flame_g_loop),
+        ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
+extern void fight_flame_emperor_init();
+extern void fight_flame_emperor_loop();
+const BehaviorScript bhvFightFlameEmperor[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_FLAME),
+    BILLBOARD(),
+    CALL_NATIVE(fight_flame_emperor_init),
+    SET_HOME(),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fight_flame_emperor_loop),
+        ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
 extern void fight_bomb_ctl_init();
 extern void fight_bomb_ctl_loop();
 const BehaviorScript bhvFightBombCtl[] = {
@@ -6907,20 +6969,9 @@ const BehaviorScript bhvFightSpikes[] = {
     END_LOOP(),
 };
 
-extern const Collision gear_1_collision[];
 extern const Collision gear_2_collision[];
 extern const Collision gear_3_collision[];
 extern const Collision gear_4_collision[];
-const BehaviorScript bhvAgtGear1[] = {
-    BEGIN(OBJ_LIST_SURFACE),
-    LOAD_COLLISION_DATA(gear_1_collision),
-    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    SET_INT(oAngleVelYaw, 300),
-    BEGIN_LOOP(),
-        CALL_NATIVE(bhv_rotating_octagonal_plat_loop),
-        CALL_NATIVE(load_object_collision_model),
-    END_LOOP(),
-};
 
 const BehaviorScript bhvAgtGear2[] = {
     BEGIN(OBJ_LIST_SURFACE),

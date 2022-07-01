@@ -1,0 +1,11 @@
+extern const GeoLayout fight_arrow_geo[];
+extern Lights1 fight_arrow_f3d_material_004_lights;
+extern u8 fight_arrow_omm_texture_hud_arrow_ci8[];
+extern u8 fight_arrow_omm_texture_hud_arrow_ci8_pal_rgba16[];
+extern Vtx fight_arrow_Plane_002_mesh_layer_5_vtx_cull[8];
+extern Vtx fight_arrow_Plane_002_mesh_layer_5_vtx_0[16];
+extern Gfx fight_arrow_Plane_002_mesh_layer_5_tri_0[];
+extern Gfx mat_fight_arrow_f3d_material_004[];
+extern Gfx mat_revert_fight_arrow_f3d_material_004[];
+extern Gfx fight_arrow_Plane_002_mesh_layer_5[];
+extern Gfx fight_arrow_material_revert_render_settings[];

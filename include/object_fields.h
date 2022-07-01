@@ -749,6 +749,9 @@
 #define /*0x0F8*/ oMantaTargetYaw            OBJECT_FIELD_S32(O_MANTA_TARGET_YAW_INDEX)
 #define /*0x0FC*/ oMantaTargetRoll           OBJECT_FIELD_S32(O_MANTA_TARGET_ROLL_INDEX) // unused
 
+#define oMantaFailTimer OBJECT_FIELD_S32(0x48)
+#define oMantaFailAction OBJECT_FIELD_S32(0x49)
+
 /* Merry-Go-Round */
 #define /*0x088*/ oMerryGoRoundStopped         OBJECT_FIELD_S32(0x00)
 #define /*0x0F8*/ oMerryGoRoundMusicShouldPlay OBJECT_FIELD_S32(0x1C)
@@ -1388,15 +1391,20 @@ os16112*/
 #define oSlideCheckpointFire0 OBJECT_FIELD_OBJ(0x1B)
 #define oSlideCheckpointCount OBJECT_FIELD_S32(0x49)
 
-#define oFightCtlBomb OBJECT_FIELD_OBJ(0x1B)
-#define oFightCtlBombCooldown OBJECT_FIELD_S32(0x1C)
 #define oFightCtlAnimTimer OBJECT_FIELD_S32(0x1D)
 #define oFightCtlAttack OBJECT_FIELD_S32(0x1E)
 #define oFightCtlBombMap OBJECT_FIELD_S32(0x1F)
 #define oFightCtlEmptiesMap OBJECT_FIELD_S32(0x20)
+#define oFightCtlAttacksOrder OBJECT_FIELD_S32(0x21)
+#define oFightCtlRoped OBJECT_FIELD_OBJ(0x49)
+
+#define oFightCtlBomb OBJECT_FIELD_OBJ(0x1B)
+#define oFightCtlBombCooldown OBJECT_FIELD_S32(0x1C)
+#define oFightCtlBombArrows OBJECT_FIELD_OBJ(0x1D)
 
 #define oFightFlameColor OBJECT_FIELD_S32(0x1F)
 #define oFightFlameAlphaSpeed OBJECT_FIELD_S32(0x20)
 #define oFightFlameFlags OBJECT_FIELD_F32(0x49)
+#define oFightFlameSquareAngle OBJECT_FIELD_S32(0x4A)
 
 #endif // OBJECT_FIELDS_H

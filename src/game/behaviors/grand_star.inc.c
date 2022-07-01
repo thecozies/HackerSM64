@@ -55,8 +55,8 @@ void bhv_grand_star_loop(void) {
 
                 cur_obj_play_sound_2(SOUND_GENERAL_GRAND_STAR_JUMP);
             }
-        } else if (o->oVelY < 0.0f && o->oPosY < o->oHomeY + 200.0f) {
-            o->oPosY = o->oHomeY + 200.0f;
+        } else if (o->oVelY < 0.0f && o->oPosY < o->oHomeY + 30.0f) {
+            o->oPosY = o->oHomeY + 30.0f;
             grand_star_zero_velocity();
             gObjCutsceneDone = TRUE;
             set_mario_npc_dialog(MARIO_DIALOG_STOP);

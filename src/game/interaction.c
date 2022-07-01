@@ -280,7 +280,7 @@ void mario_grab_used_object(struct MarioState *m) {
 void mario_drop_held_object(struct MarioState *m) {
     if (m->heldObj != NULL) {
         if (m->heldObj->behavior == segmented_to_virtual(bhvKoopaShellUnderwater)) {
-            stop_shell_music();
+            // stop_shell_music();
         }
 
         obj_set_held_state(m->heldObj, bhvCarrySomethingDropped);
@@ -302,7 +302,7 @@ void mario_drop_held_object(struct MarioState *m) {
 void mario_throw_held_object(struct MarioState *m) {
     if (m->heldObj != NULL) {
         if (m->heldObj->behavior == segmented_to_virtual(bhvKoopaShellUnderwater)) {
-            stop_shell_music();
+            // stop_shell_music();
         }
 
         obj_set_held_state(m->heldObj, bhvCarrySomethingThrown);
@@ -1597,7 +1597,7 @@ u32 interact_cap(struct MarioState *m, UNUSED u32 interactType, struct Object *o
         play_sound(SOUND_MENU_STAR_SOUND, m->marioObj->header.gfx.cameraToObject);
         play_sound(SOUND_MARIO_HERE_WE_GO, m->marioObj->header.gfx.cameraToObject);
 
-        if (gCurrCourseNum != COURSE_DF && capMusic != 0) {
+        if (gCurrCourseNum != COURSE_DF && gCurrCourseNum != COURSE_VCM && capMusic != 0) {
             play_cap_music(capMusic);
         }
 

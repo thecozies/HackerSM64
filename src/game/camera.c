@@ -3199,6 +3199,7 @@ void update_camera(struct Camera *c) {
 /**
  * Reset all the camera variables to their arcane defaults
  */
+u8 gDontTurnCameraOnReset = 0;
 void reset_camera(struct Camera *c) {
     gCamera = c;
     s2ndRotateFlags = 0;
@@ -3228,7 +3229,8 @@ void reset_camera(struct Camera *c) {
     sZeroZoomDist = 0.f;
     sBehindMarioSoundTimer = 0;
     sCSideButtonYaw = 0;
-    s8DirModeYawOffset = snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
+    s8DirModeYawOffset = gDontTurnCameraOnReset ? snap_to_45_degrees(gMarioStates->faceAngle[1]) : snap_to_45_degrees(gMarioStates->faceAngle[1] - 0x8000);
+    gDontTurnCameraOnReset = 0;
     c->doorStatus = DOOR_DEFAULT;
     sMarioCamState->headRotation[0] = 0;
     sMarioCamState->headRotation[1] = 0;
@@ -6187,6 +6189,12 @@ struct CameraTrigger sCamBdf[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamSA[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamCrash[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamWMOtR[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -10584,6 +10592,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), 
 };
 
 STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");

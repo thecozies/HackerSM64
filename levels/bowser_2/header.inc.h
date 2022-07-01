@@ -42,7 +42,7 @@ extern Vtx bowser_2_dl_fight_mesh_layer_4_vtx_cull[8];
 extern Vtx bowser_2_dl_fight_mesh_layer_4_vtx_0[12];
 extern Gfx bowser_2_dl_fight_mesh_layer_4_tri_0[];
 extern Vtx bowser_2_dl_fight_mesh_layer_1_vtx_cull[8];
-extern Vtx bowser_2_dl_fight_mesh_layer_1_vtx_0[40];
+extern Vtx bowser_2_dl_fight_mesh_layer_1_vtx_0[39];
 extern Gfx bowser_2_dl_fight_mesh_layer_1_tri_0[];
 extern Vtx bowser_2_dl_fight_mesh_layer_1_vtx_1[7];
 extern Gfx bowser_2_dl_fight_mesh_layer_1_tri_1[];

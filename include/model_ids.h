@@ -302,6 +302,7 @@
 // bowser 1
 
 // wmotr
+#define MODEL_RIFT                                0x36        // rift_geo
 
 // bowser 2
 #define MODEL_BOWSER_2_TILTING_ARENA              0x36        // bowser_2_geo_000170
@@ -593,7 +594,6 @@
 #define MODEL_VCUTM_WARP_PIPE                     MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 #define MODEL_CASTLE_GROUNDS_WARP_PIPE            MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 
-#define MODEL_AGT_GEAR1 0x36
 #define MODEL_AGT_GEAR2 0x37
 #define MODEL_AGT_GEAR3 0x38
 #define MODEL_AGT_GEAR4 0x39
@@ -645,5 +645,7 @@
 #define MODEL_FIGHT_BOMB_SHADOW 0x37
 #define MODEL_FIGHT_PLAT_SHADOW 0x38
 #define MODEL_FIGHT_SPIKES 0x39
+#define MODEL_FIGHT_ARROWS 0x3A
+#define MODEL_FIGHT_ROPED 0x3B
 
 #endif // MODEL_IDS_H
