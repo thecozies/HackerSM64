@@ -1,5 +1,5 @@
 // bullet_bill.inc.c
-
+#include "game/print.h"
 void bhv_white_puff_smoke_init(void) {
     cur_obj_scale(random_float() * 2 + 2.0);
 }

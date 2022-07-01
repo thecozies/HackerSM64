@@ -212,6 +212,10 @@ void bhv_fly_guy_update(void) {
         }
 
         cur_obj_move_standard(78);
+        // Reonu: Move in 2D in specific areas
+        if (gCurrLevelNum == LEVEL_SA && gCurrAreaIndex == 4) {
+            o->oPosX = gMarioState->pos[0];
+        }
         obj_check_attacks(&sFlyGuyHitbox, o->oAction);
     }
 }

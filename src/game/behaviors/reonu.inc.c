@@ -218,6 +218,7 @@ void castle_gate_act_close(void) {
     o->oPosY = approach_f32(o->oPosY, o->oFloorHeight, 150, 150);
     if (o->oPosY <= o->oFloorHeight) {
         cur_obj_play_sound_1(SOUND_GENERAL_BIG_POUND);
+        spawn_mist_particles_variable(8,0,40);
         o->oAction = CASTLE_GATE_ACT_STAY_CLOSED;
     }
 }
@@ -238,6 +239,4 @@ ObjActionFunc sCastleGateActions[] = {
 void bhv_castle_gate_loop(void) {
     load_object_collision_model();
     cur_obj_call_action_function(sCastleGateActions);
-        print_text_fmt_int(20,20, "%d", o->oFloorHeight);
-    print_text_fmt_int(20,40, "%d", o->oHomeY);
 }

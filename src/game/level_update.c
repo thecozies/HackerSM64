@@ -536,12 +536,12 @@ void check_instant_warp(void) {
                 }            
             }
         } else {
-            s32 index = (floor->force >> 8) & 0xFF;
+            s32 index = floor->type - SURFACE_INSTANT_WARP_1B;
             if (index >= INSTANT_WARP_INDEX_START && index < INSTANT_WARP_INDEX_STOP
                 && gCurrentArea->instantWarps != NULL && (floor->type >= SURFACE_INSTANT_WARP_1B) && (floor->type <= SURFACE_INSTANT_WARP_1E)) {
                 struct InstantWarp *warp = &gCurrentArea->instantWarps[index];
 
-                if (warp->id != 0) {
+                if ((((gMarioState->pos[1] - gMarioState->floorHeight < 2500)) || (floor->type != SURFACE_INSTANT_WARP_1C)) && (warp->id != 0)) {
                     gMarioState->pos[0] += warp->displacement[0];
                     gMarioState->pos[1] += warp->displacement[1];
                     gMarioState->pos[2] += warp->displacement[2];

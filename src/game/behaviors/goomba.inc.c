@@ -365,6 +365,10 @@ void bhv_goomba_update(void) {
         }
 
         cur_obj_move_standard(-78);
+        //Reonu: move in 2D in certain areas
+        if (gCurrLevelNum == LEVEL_SA && gCurrAreaIndex == 4) {
+            o->oPosX = gMarioState->pos[0];
+        }
     } else {
         o->oAnimState = GOOMBA_ANIM_STATE_EYES_CLOSED;
 #ifdef FLOOMBAS

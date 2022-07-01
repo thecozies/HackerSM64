@@ -1782,19 +1782,28 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
         // Reonu stuff
         if (gCurrLevelNum != LEVEL_SA) {
-            gMarioModel = 0;
+            gMarioModel = 0; // If it's not my level, set this to 0 immediately
         } else {
             if (gCurrAreaIndex % 2) {
                 gMarioModel = 0;
             } else {
                 gMarioModel = 1;
             }
+
+            if (gCurrAreaIndex == 4) {
+                gMarioState->pos[0] = 542;
+                gMarioState->marioObj->oPosX = 542;
+                gMarioObject->header.gfx.pos[0] = 542;
+            }
+
         }
+        // This is outside a level check on purpose. Ensures that the Luigi model is never accidentally used outside of my level, since gMarioModel can't be 1 outside of my level.
         if (gMarioModel == 0) {
-            obj_set_model(gMarioState->marioObj, MODEL_MARIO);
+            obj_set_model(gMarioState->marioObj, MODEL_MARIO); 
         } else {
             obj_set_model(gMarioState->marioObj, MODEL_LUIGI);
         }
+
         // End of reonu stuff
 
         // The function can loop through many action shifts in one frame,
