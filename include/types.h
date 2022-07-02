@@ -42,7 +42,7 @@ struct Controller {
   /*0x12*/ u16 buttonPressed;
            u16 buttonReleased;
   /*0x14*/ OSContStatus *statusData;
-  /*0x18*/ OSContPad *controllerData;
+  /*0x18*/ OSContPadEx *controllerData;
 #if ENABLE_RUMBLE
   /*0x1C*/ s32 port;
 #endif
