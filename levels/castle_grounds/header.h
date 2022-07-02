@@ -44,4 +44,24 @@ extern const LevelScript level_castle_grounds_entry[];
 
 #include "levels/castle_grounds/header.inc.h"
 
+#include "levels/castle_grounds/ow_part_brodute/collision_header.h"
+
+#include "levels/castle_grounds/ow_part_brodute/geo_header.h"
+
+#include "levels/castle_grounds/ow_part_arthur/geo_header.h"
+
+#include "levels/castle_grounds/ow_part_arthur/collision_header.h"
+
+#include "levels/castle_grounds/ow_part_gael/collision_header.h"
+
+#include "levels/castle_grounds/ow_part_gael/geo_header.h"
+
+#include "levels/castle_grounds/ow_part_side/collision_header.h"
+
+#include "levels/castle_grounds/ow_part_side/geo_header.h"
+
+#include "levels/castle_grounds/ow_part_scut/collision_header.h"
+
+#include "levels/castle_grounds/ow_part_scut/geo_header.h"
+
 #endif

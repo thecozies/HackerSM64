@@ -6947,3 +6947,15 @@ const BehaviorScript bhvGearSounds[] = {
         CALL_NATIVE(bhv_gear_sounds_loop),
     END_LOOP(),
 };
+
+extern void ow_part_init();
+extern void ow_part_loop();
+const BehaviorScript bhvOWPart[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    CALL_NATIVE(ow_part_init),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(ow_part_loop),
+        // CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

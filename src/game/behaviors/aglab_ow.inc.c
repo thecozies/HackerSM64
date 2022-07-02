@@ -39,3 +39,150 @@ void ow_ctl_loop()
         }
     }
 }
+
+extern const Collision ow_part_brodute_collision[];
+extern const Collision ow_part_arthur_collision[];
+extern const Collision ow_part_gael_collision[];
+extern const Collision ow_part_side_collision[];
+extern const Collision ow_part_scut_collision[];
+
+static u8 sOWIsFirstLaunchFlags = 0;
+static u8 sOWIsShownFlags = 0;
+
+extern Vec3f gAglabOWFocus;
+
+void ow_part_init()
+{
+    switch(o->oBehParams2ndByte)
+    {
+        case 1:
+        obj_set_collision_data(o, ow_part_brodute_collision);
+        break;
+        case 2:
+        obj_set_collision_data(o, ow_part_arthur_collision);
+        break;
+        case 3:
+        obj_set_collision_data(o, ow_part_gael_collision);
+        break;
+        case 4:
+        obj_set_collision_data(o, ow_part_side_collision);
+        break;
+        case 5:
+        obj_set_collision_data(o, ow_part_scut_collision);
+        break;
+    }
+
+    s32 active = 0;
+    switch (o->oBehParams2ndByte)
+    {
+        case 1:
+        {
+            u8 starFlags = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_AB));
+            active = 0 != starFlags;
+        }
+        break;
+        case 2:
+        {
+            u8 starFlags = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_MTC));
+            active = 0 != starFlags;
+        }
+        break;
+        case 3:
+        {
+            u8 starFlags = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_MF));
+            active = 0 != starFlags;
+        }
+        break;
+        case 4:
+        {
+            u8 starFlags = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_HF));
+            active = 0 != starFlags;
+        }
+        break;
+        case 5:
+        {
+            u8 agtStars   = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_TOTWC));
+            u8 reonuStars = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_SA));
+            u8 axoStars   = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_COTMC));
+            active = agtStars || reonuStars || axoStars;
+        }
+        break;
+    }
+
+    if (!active)
+    {
+        o->activeFlags = 0;
+    }
+    
+    u8 flag = 1 << o->oBehParams2ndByte;
+    if (sOWIsFirstLaunchFlags & flag)
+    {
+        if (active)
+        {
+            if (!(sOWIsShownFlags & flag))
+            {
+                gCamera->cutscene = CUTSCENE_AGLAB_OW_CS;
+                o->oOWPartShowCutscene = 1;
+            }
+            sOWIsShownFlags |= flag;
+        }
+    }
+    else
+    {
+        sOWIsFirstLaunchFlags |= flag;
+        if (active)
+            sOWIsShownFlags |= flag;
+    }
+
+    o->oHomeX = gMarioStates->pos[0];
+    o->oHomeY = gMarioStates->pos[1];
+    o->oHomeZ = gMarioStates->pos[2];
+
+    if (1 == o->oOWPartShowCutscene)
+    {
+        gAglabOWFocus[0] = o->oPosX;
+        gAglabOWFocus[1] = o->oPosY;
+        gAglabOWFocus[2] = o->oPosZ;
+    }
+}
+
+static void fixMario()
+{
+    gMarioStates->pos[0] = o->oHomeX;
+    gMarioStates->pos[1] = o->oHomeY;
+    gMarioStates->pos[2] = o->oHomeZ;
+}
+
+void ow_part_loop()
+{
+    print_text_fmt_int(20, 20, "Z %d", agtStars);
+    print_text_fmt_int(20, 40, "R %d", reonuStars);
+    print_text_fmt_int(20, 60, "A %d", axoStars);
+
+    if (0 == o->oAction)
+    {
+        if (1 == o->oOWPartShowCutscene)
+        {
+            fixMario();
+            if (o->oTimer < 100)
+            {
+                gCamera->cutscene = CUTSCENE_AGLAB_OW_CS;
+            }
+            if (300 == o->oTimer)
+            {
+                gCamera->cutscene = 0;
+                reset_camera(gCamera);
+                o->oAction = 1;
+            }            
+        }
+        else
+        {
+            o->oAction = 1;
+        }
+    }
+    else
+    {
+        if (o->collisionData)
+            load_object_collision_model();
+    }
+}

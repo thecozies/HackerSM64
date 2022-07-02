@@ -287,6 +287,7 @@ enum Cutscenes {
 
     CUTSCENE_AGLAB_WOODEN_POST_CS,
     CUTSCENE_AGLAB_MTC_CS,
+    CUTSCENE_AGLAB_OW_CS,
 };
 
 /**

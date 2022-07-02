@@ -49,6 +49,11 @@ const LevelScript level_castle_grounds_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_GROUNDS_VCUTM_GRILL, castle_grounds_geo_00070C), 
 	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_GROUNDS_FLAG, castle_grounds_geo_000660), 
 	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_GROUNDS_CANNON_GRILL, castle_grounds_geo_000724), 
+	LOAD_MODEL_FROM_GEO(MODEL_OW_BRODUTE, ow_part_brodute), 
+	LOAD_MODEL_FROM_GEO(MODEL_OW_ARTHUR, ow_part_arthur), 
+	LOAD_MODEL_FROM_GEO(MODEL_OW_GAEL, ow_part_gael), 
+	LOAD_MODEL_FROM_GEO(MODEL_OW_SIDE, ow_part_side), 
+	LOAD_MODEL_FROM_GEO(MODEL_OW_SCUT, ow_part_scut), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -149,6 +154,11 @@ const LevelScript level_castle_grounds_entry[] = {
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
 		TERRAIN_TYPE(TERRAIN_SPOOKY),
 		/* Fast64 begin persistent block [area commands] */
+		OBJECT(MODEL_OW_ARTHUR , -2181, -477, -2762, 0, 0, 0, (2 << 16), bhvOWPart),
+		OBJECT(MODEL_OW_BRODUTE, 3571, -229, 147, 0, 0, 0, (1 << 16), bhvOWPart),
+		OBJECT(MODEL_OW_GAEL,    169, -1321, 3826, 0, 0, 0, (3 << 16), bhvOWPart),
+		OBJECT(MODEL_OW_SIDE, -3318, -1255, 2661, 0, 0, 0, (4 << 16), bhvOWPart),
+		OBJECT(MODEL_OW_SCUT, 4123, -102, 4749, 0, 0, 0, (5 << 16), bhvOWPart),
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 
