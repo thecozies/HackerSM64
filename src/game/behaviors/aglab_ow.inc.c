@@ -155,10 +155,6 @@ static void fixMario()
 
 void ow_part_loop()
 {
-    print_text_fmt_int(20, 20, "Z %d", agtStars);
-    print_text_fmt_int(20, 40, "R %d", reonuStars);
-    print_text_fmt_int(20, 60, "A %d", axoStars);
-
     if (0 == o->oAction)
     {
         if (1 == o->oOWPartShowCutscene)
