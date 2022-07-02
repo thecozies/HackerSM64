@@ -64,6 +64,8 @@ enum SeqId {
     SEQ_ARENA,
     SEQ_TIME,
 	SEQ_CHIREIDEN,
+	SEQ_FADE_HILL,
+	SEQ_AGT_V2,
     SEQ_COUNT,
 };
 
