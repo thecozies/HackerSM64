@@ -1,5 +1,13 @@
 #include "src/game/envfx_snow.h"
 
+/*
+GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -2181, -477, -2762, 90, 0, 0, castle_grounds_dl_part_arthur_mesh_layer_1),
+GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 3571, -229, 147, 90, 0, 0, castle_grounds_dl_part_brodute_mesh_layer_1),
+GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 169, -1321, 3826, 90, 0, 0, castle_grounds_dl_part_gael_mesh_layer_1),
+GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -3318, -1255, 2661, castle_grounds_dl_part_mini_mesh_layer_1),
+GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 4123, -102, 4749, 90, 0, 0, castle_grounds_dl_part_scut_mesh_layer_1),
+*/
+
 const GeoLayout castle_grounds_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
@@ -9,6 +17,7 @@ const GeoLayout castle_grounds_area_1_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, castle_grounds_dl_Lake_of_the_East_mesh_layer_5),
 			GEO_DISPLAY_LIST(LAYER_OPAQUE_DECAL, castle_grounds_dl_Lake_of_the_East_mesh_layer_2),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, castle_grounds_dl_Lake_of_the_East_mesh_layer_4),
 		GEO_CLOSE_NODE(),
 		GEO_ROTATION_NODE_WITH_DL(LAYER_TRANSPARENT, 90, 0, 0, castle_grounds_dl_Lake_of_the_East_001_mesh_layer_5),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -2181, -477, -2762, 90, 0, 0, castle_grounds_dl_part_arthur_mesh_layer_1),
@@ -16,10 +25,6 @@ const GeoLayout castle_grounds_area_1_geo[] = {
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 169, -1321, 3826, 90, 0, 0, castle_grounds_dl_part_gael_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -3318, -1255, 2661, castle_grounds_dl_part_mini_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 4123, -102, 4749, 90, 0, 0, castle_grounds_dl_part_scut_mesh_layer_1),
-		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 2122, 91, -2681, 90, 0, 0, castle_grounds_dl_part_sides1_mesh_layer_1),
-		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_ALPHA, castle_grounds_dl_part_sides1_mesh_layer_4),
-		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -927, -444, 1060),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -2968, -935, 3260, castle_grounds_dl_Plane_005_mesh_layer_1),
 	GEO_CLOSE_NODE(),

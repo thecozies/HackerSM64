@@ -1,3 +1,8 @@
+void scroll_sts_mat_castle_grounds_dl_TowerGround_f3d_layer1() {
+	Gfx *mat = segmented_to_virtual(mat_castle_grounds_dl_TowerGround_f3d_layer1);
+	shift_t(mat, 21, PACK_TILESIZE(0, 1));
+};
+
 void scroll_castle_grounds_dl_Lake_of_the_East_mesh_layer_5_vtx_0() {
 	int i = 0;
 	int count = 4;
@@ -25,13 +30,8 @@ void scroll_sts_mat_castle_grounds_dl__32_f3d() {
 	shift_t(mat, 18, PACK_TILESIZE(0, 1));
 };
 
-void scroll_sts_mat_castle_grounds_dl_TowerGround_f3d_layer1() {
-	Gfx *mat = segmented_to_virtual(mat_castle_grounds_dl_TowerGround_f3d_layer1);
-	shift_t(mat, 21, PACK_TILESIZE(0, 1));
-};
-
 void scroll_castle_grounds() {
+	scroll_sts_mat_castle_grounds_dl_TowerGround_f3d_layer1();
 	scroll_castle_grounds_dl_Lake_of_the_East_mesh_layer_5_vtx_0();
 	scroll_sts_mat_castle_grounds_dl__32_f3d();
-	scroll_sts_mat_castle_grounds_dl_TowerGround_f3d_layer1();
 }
