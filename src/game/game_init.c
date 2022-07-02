@@ -614,7 +614,7 @@ static void kill_inputs()
 /**
  * Update the controller struct with available inputs if present.
  */
-void __attribute__ ((noinline)) read_controller_inputs(s32 threadID) {
+void read_controller_inputs(s32 threadID) {
     s32 i;
 
     // If any controllers are plugged in, update the controller information.
