@@ -100,7 +100,7 @@ const LevelScript level_sa_entry[] = {
 		OBJECT(MODEL_NONE, 9507, 3100, 0, 0, 0, 0, (0x0A << 16), bhvInstantActiveWarp),
 		TERRAIN(sa_area_2_collision),
 		MACRO_OBJECTS(sa_area_2_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_SLIDE),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -137,7 +137,7 @@ const LevelScript level_sa_entry[] = {
 		OBJECT(MODEL_SPRING, 20490, 6668, 2957, 0, 0, 0, (0x01 << 16), bhvSpring),
 		TERRAIN(sa_area_3_collision),
 		MACRO_OBJECTS(sa_area_3_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_SLIDE),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -163,16 +163,28 @@ const LevelScript level_sa_entry[] = {
 		OBJECT(MODEL_SPRING, 542, -656, -17091, 0, -180, 0, (0x01 << 16), bhvSpring),
 		TERRAIN(sa_area_4_collision),
 		MACRO_OBJECTS(sa_area_4_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_SLIDE),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 
 	AREA(5, sa_area_5),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, -2169, -20946, 0, 0, 0, (0x01 << 24) | (20 << 16) | (20 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, -2169, -19746, 0, 0, 0, (0x01 << 24) | (20 << 16) | (20 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, -2169, -18546, 0, 0, 0, (0x01 << 24) | (20 << 16) | (20 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, 2200, -14563, 0, 0, 0, (0x02 << 24) | (20 << 16) | (135), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, -200, -13742, 0, 0, 0, (0x02 << 24) | (20 << 16) | (60), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, 1450, -12992, 0, 0, 0, (0x02 << 24) | (20 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, -200, -13142, 0, 0, 0, (0x00 << 24) | (20 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, 1450, -12092, 0, 0, 0, (0x02 << 24) | (20 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, 1450, -13742, 0, 0, 0, (0x02 << 24) | (20 << 16) | (30), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, 1450, -11192, 0, 0, 0, (0x02 << 24) | (20 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, 1750, -10292, 0, 0, 0, (0x02 << 24) | (20 << 16) | (30 << 8), bhvBlinkingPlatform),
+		OBJECT(MODEL_BLINKING_PLATFORM, 532, 2050, -9392, 0, 0, 0, (0x02 << 24) | (20 << 16) | (30 << 8), bhvBlinkingPlatform),
 		TERRAIN(sa_area_5_collision),
 		MACRO_OBJECTS(sa_area_5_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_SLIDE),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

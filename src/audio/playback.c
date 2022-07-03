@@ -605,7 +605,7 @@ void process_notes(void) {
             frequency = (frequency < cap ? frequency : cap);
             scale *= 4.3498e-5f; // ~1 / 23000
             velocity = velocity * scale * scale;
-            if (((note->bankId == 0x08) || (note->bankId == 0x0A)) && (gMarioModel == 1)) { // Reonu: Change pitch shift for Luigi. gMarioModel is never 1 outside of my level so dw
+            if (((note->bankId == 0x08) || (note->bankId == 0x0A)) && (gLuigiModel == TRUE)) { // Reonu: Change pitch shift for Luigi. gLuigiModel is never 1 outside of my level so dw
                 note_set_frequency(note, frequency * 1.2f);
             } else {
                 note_set_frequency(note, frequency);

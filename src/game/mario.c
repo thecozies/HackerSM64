@@ -1782,25 +1782,31 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
         // Reonu stuff
         if (gCurrLevelNum != LEVEL_SA) {
-            gMarioModel = 0; // If it's not my level, set this to 0 immediately
+            gLuigiModel = FALSE; // If it's not my level, set this to FALSE immediately
         } else {
             if (gCurrAreaIndex % 2) {
-                gMarioModel = 0;
+                gLuigiModel = FALSE;
             } else {
-                gMarioModel = 1;
+                gLuigiModel = TRUE;
             }
 
-            if (gCurrAreaIndex == 4) {
-                gMarioState->pos[0] = 542;
-                gMarioState->marioObj->oPosX = 542;
-                gMarioObject->header.gfx.pos[0] = 542;
+            if (((gCurrAreaIndex == 4) || (gCurrAreaIndex == 5))) {
+                gMarioState->pos[0] = gMarioState->marioObj->oPosX = gMarioObject->header.gfx.pos[0] = 542;
+            }
+
+            if ((gCurrAreaIndex == 3) && (gMarioState->pos[2] < -6500)) {
+                gMarioState->pos[0] = gMarioState->marioObj->oPosX = gMarioObject->header.gfx.pos[0] = approach_f32(gMarioState->pos[0],20551,60,60);
+            }
+
+            if ((gCurrAreaIndex == 4) && (gMarioState->pos[2] > -9400)) {
+                gMarioState->pos[2] = gMarioState->marioObj->oPosZ = gMarioObject->header.gfx.pos[2] -= 50;
             }
 
         }
-        // This is outside a level check on purpose. Ensures that the Luigi model is never accidentally used outside of my level, since gMarioModel can't be 1 outside of my level.
-        if (gMarioModel == 0) {
+        // This is outside a level check on purpose. Ensures that the Luigi model is never accidentally used outside of my level, since gLuigiModel can't be TRUE outside of my level.
+        if ((gLuigiModel == FALSE) && (obj_has_model(gMarioState->marioObj, MODEL_LUIGI))) {
             obj_set_model(gMarioState->marioObj, MODEL_MARIO); 
-        } else {
+        } else if ((gLuigiModel == TRUE) && (obj_has_model(gMarioState->marioObj, MODEL_MARIO))) {
             obj_set_model(gMarioState->marioObj, MODEL_LUIGI);
         }
 

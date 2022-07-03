@@ -2489,6 +2489,8 @@ Gfx *geo_render_INFBG(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4
     Mtx *mtx = alloc_display_list(sizeof(*mtx));
     s32 i;
     f32 pos[3];
+    static Vec3s rotation = { 0, 0, 0 };
+    rotation[1] += DEGREES(0.2f);
     if (callContext == GEO_CONTEXT_RENDER) {
 #define FARAWAYNESS .95f // the closer to 1 the further away
 
@@ -2496,7 +2498,7 @@ Gfx *geo_render_INFBG(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4
             pos[i] = gCurGraphNodeCamera->pos[i] * FARAWAYNESS;
         }
 
-        mtxf_translate(mat, pos);
+        mtxf_rotate_zxy_and_translate(mat, pos, rotation);
         mtxf_mul(gMatStack[gMatStackIndex + 1], mat, gMatStack[gMatStackIndex]);
         gMatStackIndex++;
         mtxf_to_mtx(mtx, gMatStack[gMatStackIndex]);
@@ -2512,6 +2514,8 @@ Gfx *geo_render_INFBG2(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][
     Mtx *mtx = alloc_display_list(sizeof(*mtx));
     s32 i;
     f32 pos[3];
+    static Vec3s rotation = { 0, 0, 0 };
+    rotation[1] += DEGREES(0.1f);
     if (callContext == GEO_CONTEXT_RENDER) {
 #define FARAWAYNESS .95f // the closer to 1 the further away
 
@@ -2519,7 +2523,7 @@ Gfx *geo_render_INFBG2(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][
             pos[i] = gCurGraphNodeCamera->pos[i] * FARAWAYNESS;
         }
 
-        mtxf_translate(mat, pos);
+        mtxf_rotate_zxy_and_translate(mat, pos, rotation);
         mtxf_mul(gMatStack[gMatStackIndex + 1], mat, gMatStack[gMatStackIndex]);
         gMatStackIndex++;
         mtxf_to_mtx(mtx, gMatStack[gMatStackIndex]);
