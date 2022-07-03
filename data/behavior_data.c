@@ -402,6 +402,7 @@ const BehaviorScript bhvStickyPlat[] = {
     BEGIN(OBJ_LIST_SURFACE),
     LOAD_COLLISION_DATA(Sticky_Plat_collision),
     OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_MOVE_Y_WITH_TERMINAL_VEL)),
+    SET_FLOAT(oDrawingDistance, 20000),
 	CALL_NATIVE(bhv_hanging_plat_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_sticky_plat_loop),

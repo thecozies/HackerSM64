@@ -40,6 +40,86 @@ void ow_ctl_loop()
     }
 }
 
+static void cur_obj_unload_object_with_behavior_and_bparam3(const BehaviorScript *behavior, int param) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+            && GET_BPARAM3(obj->oBehParams) == param
+        ) {
+            obj->activeFlags = 0;
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return NULL;
+}
+
+static void cur_obj_unload_object_with_behavior(const BehaviorScript *behavior) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+        ) {
+            obj->activeFlags = 0;
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return NULL;
+}
+
+static void cur_obj_write_all_objects_with_behavior_and_bparam3(const BehaviorScript *behavior, int param, struct Object*** objsOut) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+            && GET_BPARAM3(obj->oBehParams) == param
+        ) {
+            **objsOut = obj;
+            *objsOut = *objsOut + 1;
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return NULL;
+}
+
+static void cur_obj_write_all_objects_with_behavior(const BehaviorScript *behavior, struct Object*** objsOut) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+        ) {
+            **objsOut = obj;
+            *objsOut = *objsOut + 1;
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return NULL;
+}
+
 extern const Collision ow_part_brodute_collision[];
 extern const Collision ow_part_arthur_collision[];
 extern const Collision ow_part_gael_collision[];
@@ -109,11 +189,6 @@ void ow_part_init()
         break;
     }
 
-    if (!active)
-    {
-        o->activeFlags = 0;
-    }
-    
     u8 flag = 1 << o->oBehParams2ndByte;
     if (sOWIsFirstLaunchFlags & flag)
     {
@@ -143,6 +218,34 @@ void ow_part_init()
         gAglabOWFocus[0] = o->oPosX;
         gAglabOWFocus[1] = o->oPosY;
         gAglabOWFocus[2] = o->oPosZ;
+
+        struct Object** objsOut = (struct Object**) aglabScratch;
+        cur_obj_hide();
+        cur_obj_write_all_objects_with_behavior_and_bparam3(bhvDoorWarp, o->oBehParams2ndByte, &objsOut);
+        cur_obj_write_all_objects_with_behavior_and_bparam3(bhvWarp    , o->oBehParams2ndByte, &objsOut);
+        cur_obj_write_all_objects_with_behavior_and_bparam3(bhvWarpPipe, o->oBehParams2ndByte, &objsOut);
+        cur_obj_write_all_objects_with_behavior_and_bparam3(bhvBooCage , o->oBehParams2ndByte, &objsOut);
+        if (5 == o->oBehParams2ndByte)
+            cur_obj_write_all_objects_with_behavior(bhvStickyPlat, &objsOut);
+
+        *objsOut = NULL;
+
+        for (struct Object** objsIt = (struct Object**) aglabScratch; *objsIt; objsIt++)
+        {
+            (*objsIt)->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+        }
+    }
+    
+    if (!active)
+    {
+        cur_obj_unload_object_with_behavior_and_bparam3(bhvDoorWarp, o->oBehParams2ndByte);
+        cur_obj_unload_object_with_behavior_and_bparam3(bhvWarp    , o->oBehParams2ndByte);
+        cur_obj_unload_object_with_behavior_and_bparam3(bhvWarpPipe, o->oBehParams2ndByte);
+        cur_obj_unload_object_with_behavior_and_bparam3(bhvBooCage , o->oBehParams2ndByte);
+        if (5 == o->oBehParams2ndByte)
+            cur_obj_unload_object_with_behavior(bhvStickyPlat);
+
+        o->activeFlags = 0;
     }
 }
 
@@ -160,11 +263,38 @@ void ow_part_loop()
         if (1 == o->oOWPartShowCutscene)
         {
             fixMario();
-            if (o->oTimer < 100)
+            if (0 == o->oTimer)
+            {
+                cur_obj_play_sound_2(SOUND_GENERAL_GRAND_STAR);
+            }
+            if (o->oTimer < 63)
             {
                 gCamera->cutscene = CUTSCENE_AGLAB_OW_CS;
+                struct Object *sparkle = try_to_spawn_object(0, 1.0f, o, MODEL_SPARKLES_ANIMATION, bhvSparkle);
+                if (sparkle != NULL) {
+                    obj_translate_xyz_random(sparkle, 1500.0f);
+                    obj_scale_random(sparkle, 10.0f, 5.0f);
+                }
             }
-            if (300 == o->oTimer)
+            
+            if (o->oTimer == 60)
+            {
+                cur_obj_play_sound_2(SOUND_GENERAL2_STAR_APPEARS);
+                play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 40, 0, 0, 0);
+            }
+            else if (o->oTimer == 101)
+            {
+                cur_obj_unhide();
+                for (struct Object** objsIt = (struct Object**) aglabScratch; *objsIt; objsIt++)
+                {
+                    (*objsIt)->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+                }
+            }
+            else if (o->oTimer == 102)
+            {
+                play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 30, 0, 0, 0);
+            }
+            else if (200 == o->oTimer)
             {
                 gCamera->cutscene = 0;
                 reset_camera(gCamera);
