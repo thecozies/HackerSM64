@@ -611,6 +611,12 @@ extern const BehaviorScript bhvFightFlameEmperor[];
 extern const BehaviorScript bhvFightBombCtl[];
 extern const BehaviorScript bhvFightShadow[];
 extern const BehaviorScript bhvFightSpikes[];
+extern const BehaviorScript bhvCrashCtl[];
+extern const BehaviorScript bhvCrashFlame[];
+extern const BehaviorScript bhvCrashFlameElement[];
+extern const BehaviorScript bhvCrashFlameSpawner[];
+extern const BehaviorScript bhvCrashSpinner[];
+extern const BehaviorScript bhvCrashKoopaShellMover[];
 extern const BehaviorScript bhvBowserCourseWarpCtl[];
 extern const BehaviorScript bhvBowserPieces[];
 extern const BehaviorScript bhvBowserMetalBoxPush[];
@@ -623,5 +629,6 @@ extern const BehaviorScript bhvBlinkingPlatform[];
 extern const BehaviorScript bhvMeteor[];   
 extern const BehaviorScript bhvCastleGate[];
 extern const BehaviorScript bhvOWPart[];
+extern const BehaviorScript bhvDnvicColorReset[];
 
 #endif // BEHAVIOR_DATA_H

@@ -477,6 +477,7 @@ void warp_credits(void) {
 
 extern Lights1 wmotr_dl_down_instant_warp_lights;
 extern Vtx wmotr_dl_main_silo_mesh_vtx_2[154];
+extern Vtx wmotr_dl_chamber_10_001_mesh_vtx_0[134];
 u16 gDnvicUpCounter   = 0;
 u16 gDnvicDownCounter = 0;
 u16 gDnvicChamber     = 1;
@@ -560,7 +561,7 @@ void check_instant_warp(void) {
                                 gDnvicDownCounter = 0;
                                 gDnvicUpCounter = 0;
                             }
-                            if(gDnvicUpCounter == 25) {
+                            if(gDnvicUpCounter == 20) { // changed 25 to 20 to make it less of a slogfest
                                 gDnvicChamber = 10;
                                 gDnvicUpCounter = 0;
                                 gDnvicDownCounter = 0;
@@ -570,7 +571,9 @@ void check_instant_warp(void) {
                                 Lights1* l0 = (Lights1*) segmented_to_virtual(&wmotr_dl_down_instant_warp_lights);
                                 shade_lights(l0, 2);
                                 Vtx* v0 = (Vtx*) segmented_to_virtual(wmotr_dl_main_silo_mesh_vtx_2);
+                                Vtx* v1 = (Vtx*) segmented_to_virtual(wmotr_dl_chamber_10_001_mesh_vtx_0); // chamber 10
                                 shade_vcols(v0, sizeof(wmotr_dl_main_silo_mesh_vtx_2) / sizeof(*wmotr_dl_main_silo_mesh_vtx_2), 3);
+                                shade_vcols(v1, sizeof(wmotr_dl_chamber_10_001_mesh_vtx_0) / sizeof(*wmotr_dl_chamber_10_001_mesh_vtx_0), 3);
                             }
                             break;
                         case 2:

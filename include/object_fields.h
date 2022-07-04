@@ -1409,4 +1409,11 @@ os16112*/
 
 #define oOWPartShowCutscene OBJECT_FIELD_S32(0x1F)
 
+#define oCrashLineAngle OBJECT_FIELD_S32(0x1B)
+// specified by 100 units
+#define oCrashLinePosition OBJECT_FIELD_S32(0x49)
+#define oCrashLineDirection OBJECT_FIELD_S32(0x4A)
+
+#define oCrashFlameRotation OBJECT_FIELD_S32(0x1B)
+
 #endif // OBJECT_FIELDS_H

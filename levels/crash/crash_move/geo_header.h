@@ -1,0 +1,15 @@
+extern const GeoLayout crash_move_geo[];
+extern Lights1 crash_move_f3d_material_002_lights;
+extern Lights1 crash_move_f3d_material_001_lights;
+extern u8 crash_move_tex1_64x64_534604D730C4E4CF_12_ia8[];
+extern u8 crash_move_tex1_64x64_961F7C7B927C738E_12_ia8[];
+extern Vtx crash_move_Plane_001_mesh_layer_1_vtx_0[8];
+extern Gfx crash_move_Plane_001_mesh_layer_1_tri_0[];
+extern Vtx crash_move_Plane_001_mesh_layer_1_vtx_1[10];
+extern Gfx crash_move_Plane_001_mesh_layer_1_tri_1[];
+extern Gfx mat_crash_move_f3d_material_002[];
+extern Gfx mat_revert_crash_move_f3d_material_002[];
+extern Gfx mat_crash_move_f3d_material_001[];
+extern Gfx mat_revert_crash_move_f3d_material_001[];
+extern Gfx crash_move_Plane_001_mesh_layer_1[];
+extern Gfx crash_move_material_revert_render_settings[];

@@ -125,6 +125,7 @@ extern const Collision ow_part_arthur_collision[];
 extern const Collision ow_part_gael_collision[];
 extern const Collision ow_part_side_collision[];
 extern const Collision ow_part_scut_collision[];
+extern const Collision ow_part_bowser_collision[];
 
 static u8 sOWIsFirstLaunchFlags = 0;
 static u8 sOWIsShownFlags = 0;
@@ -149,6 +150,9 @@ void ow_part_init()
         break;
         case 5:
         obj_set_collision_data(o, ow_part_scut_collision);
+        break;
+        case 6:
+        obj_set_collision_data(o, ow_part_bowser_collision);
         break;
     }
 
@@ -185,6 +189,12 @@ void ow_part_init()
             u8 reonuStars = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_SA));
             u8 axoStars   = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_COTMC));
             active = agtStars || reonuStars || axoStars;
+        }
+        break;
+        case 6:
+        {
+            u8 starFlags = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_BOB));
+            active = 0 != starFlags;
         }
         break;
     }

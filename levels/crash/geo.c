@@ -15,3 +15,5 @@
 
 
 #include "levels/crash/geo.inc.c"
+
+#include "levels/crash/crash_move/geo.inc.c"

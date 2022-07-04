@@ -877,13 +877,6 @@ s16 determine_degrees(s16 angle) {
     }
     return angle;
 }
-f32 determine_speed(void) {
-    if ((gPlayer1Controller->buttonDown && R_CBUTTONS) || (gPlayer1Controller->buttonDown && L_CBUTTONS)) {
-        return 0.2f;
-    } else {
-        return 0.9f;
-    }
-}
     // End of reonu stuff
 
 /**
@@ -915,7 +908,7 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
         }
         switch ((gMarioState->force2 >> 8) & 0xFF) {
             case 0x01:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(90)), determine_speed());
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(90)), 0.1f);
                 break;
             case 0x02:
                 s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.1f);

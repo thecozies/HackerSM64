@@ -64,4 +64,8 @@ extern const LevelScript level_castle_grounds_entry[];
 
 #include "levels/castle_grounds/ow_part_scut/geo_header.h"
 
+#include "levels/castle_grounds/ow_part_bowser/collision_header.h"
+
+#include "levels/castle_grounds/ow_part_bowser/geo_header.h"
+
 #endif
