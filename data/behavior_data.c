@@ -6960,3 +6960,12 @@ const BehaviorScript bhvOWPart[] = {
         // CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+const BehaviorScript bhvDnvicColorReset[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    CALL_NATIVE(bhv_dnvic_color_reset_init),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_dnvic_color_reset_loop),
+    END_LOOP(),
+};

@@ -1624,13 +1624,15 @@ collect 100 coins in each\n\
 of the 15 courses!"))
 
 DEFINE_DIALOG(DIALOG_138, 1, 3, 30, 200, _("\
-CAUTION: This may seem\n\
-a very simple grain\n\
-silo, but tis not. \n\
-Strange occurences \n\
-have occured in here\n\
-lately. Enter at your\n\
-own risk."))
+CAUTION: DO NOT ENTER\n\
+This abandoned grain \n\
+silo has been placed \n\
+under a stict no-entry\n\
+policy. Persons who  \n\
+enter may be putting \n\
+themselves at danger \n\
+and are liable for any\n\
+damages that occur."))
 
 DEFINE_DIALOG(DIALOG_139, 1, 6, 30, 200, _("\
 you're very persistent\n\
