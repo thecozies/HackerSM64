@@ -1,0 +1,18 @@
+extern const GeoLayout ow_part_bowser[];
+extern Lights1 ow_part_bowser_Cobblestone_f3d_005_lights;
+extern Lights1 ow_part_bowser_Bricks_f3d_005_lights;
+extern u8 ow_part_bowser_Cobblestone_ci4[];
+extern u8 ow_part_bowser_Cobblestone_ci4_pal_rgba16[];
+extern u8 ow_part_bowser_Bricks_ci4[];
+extern u8 ow_part_bowser_Bricks_ci4_pal_rgba16[];
+extern Vtx ow_part_bowser_Lake_of_the_East_003_mesh_layer_1_vtx_cull[8];
+extern Vtx ow_part_bowser_Lake_of_the_East_003_mesh_layer_1_vtx_0[48];
+extern Gfx ow_part_bowser_Lake_of_the_East_003_mesh_layer_1_tri_0[];
+extern Vtx ow_part_bowser_Lake_of_the_East_003_mesh_layer_1_vtx_1[44];
+extern Gfx ow_part_bowser_Lake_of_the_East_003_mesh_layer_1_tri_1[];
+extern Gfx mat_ow_part_bowser_Cobblestone_f3d_005[];
+extern Gfx mat_revert_ow_part_bowser_Cobblestone_f3d_005[];
+extern Gfx mat_ow_part_bowser_Bricks_f3d_005[];
+extern Gfx mat_revert_ow_part_bowser_Bricks_f3d_005[];
+extern Gfx ow_part_bowser_Lake_of_the_East_003_mesh_layer_1[];
+extern Gfx ow_part_bowser_material_revert_render_settings[];

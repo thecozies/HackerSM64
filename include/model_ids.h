@@ -291,6 +291,7 @@
 #define MODEL_OW_GAEL        0x3B
 #define MODEL_OW_SIDE        0x3C
 #define MODEL_OW_SCUT        0x3D
+#define MODEL_OW_BOWSER      0x3E
 
 // pss
 
@@ -646,5 +647,7 @@
 #define MODEL_FIGHT_SPIKES 0x39
 #define MODEL_FIGHT_ARROWS 0x3A
 #define MODEL_FIGHT_ROPED 0x3B
+
+#define MODEL_CRASH_SPINNER 0x37
 
 #endif // MODEL_IDS_H

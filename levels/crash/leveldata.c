@@ -12,3 +12,6 @@
 
 
 #include "levels/crash/leveldata.inc.c"
+
+#include "levels/crash/crash_move/collision.inc.c"
+#include "levels/crash/crash_move/model.inc.c"

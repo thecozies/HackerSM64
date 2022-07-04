@@ -760,7 +760,8 @@ s32 act_walking(struct MarioState *m) {
     Vec3f startPos;
     s16 startYaw = m->faceAngle[1];
 
-    mario_drop_held_object(m);
+    if (gCurrLevelNum != LEVEL_CRASH)
+        mario_drop_held_object(m);
 
     if (should_begin_sliding(m)) {
         return set_mario_action(m, ACT_BEGIN_SLIDING, 0);

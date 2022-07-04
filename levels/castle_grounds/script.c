@@ -54,6 +54,7 @@ const LevelScript level_castle_grounds_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_OW_GAEL, ow_part_gael), 
 	LOAD_MODEL_FROM_GEO(MODEL_OW_SIDE, ow_part_side), 
 	LOAD_MODEL_FROM_GEO(MODEL_OW_SCUT, ow_part_scut), 
+	LOAD_MODEL_FROM_GEO(MODEL_OW_BOWSER, ow_part_bowser), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -159,6 +160,7 @@ const LevelScript level_castle_grounds_entry[] = {
 		OBJECT(MODEL_OW_GAEL,    169, -1321, 3826, 0, 0, 0, (3 << 16), bhvOWPart),
 		OBJECT(MODEL_OW_SIDE, -3318, -1255, 2661, 0, 0, 0, (4 << 16), bhvOWPart),
 		OBJECT(MODEL_OW_SCUT, 4123, -102, 4749, 0, 0, 0, (5 << 16), bhvOWPart),
+		OBJECT(MODEL_OW_BOWSER, -3754, 817, 1752, 0, 0, 0, (6 << 16), bhvOWPart),
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 

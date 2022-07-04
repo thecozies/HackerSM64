@@ -1540,7 +1540,7 @@ static s32 check_common_submerged_cancels(struct MarioState *m) {
             // where your held object is the shell, but you are not in the
             // water shell swimming action. This allows you to hold the water
             // shell on land (used for cloning in DDD).
-            if (m->action == ACT_WATER_SHELL_SWIMMING && m->heldObj != NULL) {
+            if (gCurrCourseNum != COURSE_CRASH && m->action == ACT_WATER_SHELL_SWIMMING && m->heldObj != NULL) {
                 m->heldObj->oInteractStatus = INT_STATUS_STOP_RIDING;
                 m->heldObj = NULL;
                 stop_shell_music();

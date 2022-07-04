@@ -6905,6 +6905,85 @@ const BehaviorScript bhvFightSpikes[] = {
     END_LOOP(),
 };
 
+extern void crash_ctl_init();
+extern void crash_ctl_loop();
+const BehaviorScript bhvCrashCtl[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    CALL_NATIVE(crash_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(crash_ctl_loop),
+    END_LOOP(),
+};
+
+extern void crash_flame_init();
+extern void crash_flame_loop();
+const BehaviorScript bhvCrashFlame[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_FLAME),
+    BILLBOARD(),
+    CALL_NATIVE(crash_flame_init),
+    SET_HOME(),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(crash_flame_loop),
+        ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
+extern void crash_flame_element_init();
+extern void crash_flame_element_loop();
+const BehaviorScript bhvCrashFlameElement[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_FLAME),
+    BILLBOARD(),
+    CALL_NATIVE(crash_flame_element_init),
+    SET_HOME(),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(crash_flame_element_loop),
+        ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
+extern void crash_flame_spawner_init();
+extern void crash_flame_spawner_loop();
+const BehaviorScript bhvCrashFlameSpawner[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    DROP_TO_FLOOR(),
+    CALL_NATIVE(crash_flame_spawner_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(crash_flame_spawner_loop),
+    END_LOOP(),
+};
+
+extern const Collision crash_move_collision[];
+extern void crash_spinner_init();
+extern void crash_spinner_loop();
+const BehaviorScript bhvCrashSpinner[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(crash_move_collision),
+    SET_HOME(),
+    CALL_NATIVE(crash_spinner_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(crash_spinner_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_crash_shell_mover_init();
+extern void bhv_crash_shell_mover_loop();
+const BehaviorScript bhvCrashKoopaShellMover[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_crash_shell_mover_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_crash_shell_mover_loop),
+    END_LOOP(),
+};
+
 extern const Collision gear_2_collision[];
 extern const Collision gear_3_collision[];
 extern const Collision gear_4_collision[];
