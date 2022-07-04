@@ -73,7 +73,7 @@ const LevelScript level_cotmc_entry[] = {
 		OBJECT(MODEL_AGT_GEAR4, -1666, 5224, 85, 0, 0, 0, 0x00000000, bhvAgtGear4),
 		TERRAIN(cotmc_area_1_collision),
 		MACRO_OBJECTS(cotmc_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_AGT),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_AGT_V2),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

@@ -622,5 +622,6 @@ extern const BehaviorScript bhvSpring[];
 extern const BehaviorScript bhvBlinkingPlatform[];
 extern const BehaviorScript bhvMeteor[];   
 extern const BehaviorScript bhvCastleGate[];
+extern const BehaviorScript bhvOWPart[];
 
 #endif // BEHAVIOR_DATA_H

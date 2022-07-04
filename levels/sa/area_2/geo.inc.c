@@ -3,7 +3,7 @@
 const GeoLayout sa_area_2_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ASM(0x00, geo_render_INFBG2),
+		GEO_ASM(0x00, geo_render_INFBG),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 10977, 3655, -1005, sa_dl_AAAAAbox_mesh_layer_1),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 14243, 3450, -107),
 		GEO_OPEN_NODE(),

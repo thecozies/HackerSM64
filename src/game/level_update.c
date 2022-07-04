@@ -670,7 +670,7 @@ void check_instant_warp(void) {
                 && gCurrentArea->instantWarps != NULL && (floor->type >= SURFACE_INSTANT_WARP_1B) && (floor->type <= SURFACE_INSTANT_WARP_1E)) {
                 struct InstantWarp *warp = &gCurrentArea->instantWarps[index];
 
-                if ((((gMarioState->pos[1] - gMarioState->floorHeight < 2500)) || (floor->type != SURFACE_INSTANT_WARP_1C)) && (warp->id != 0)) {
+                if ((((gMarioState->pos[1] - gMarioState->floorHeight < 2500)) || (floor->type != SURFACE_INSTANT_WARP_1C)) && (warp->id != 0) && (gMarioState->action < ACT_LEDGE_GRAB) && (gMarioState->action > ACT_LEDGE_CLIMB_FAST)) {
                     gMarioState->pos[0] += warp->displacement[0];
                     gMarioState->pos[1] += warp->displacement[1];
                     gMarioState->pos[2] += warp->displacement[2];
@@ -1522,6 +1522,9 @@ s32 lvl_set_current_level(UNUSED s16 initOrUpdate, s32 levelNum) {
     gCurrCourseNum = gLevelToCourseNumTable[levelNum - 1];
 	if (gCurrLevelNum == LEVEL_SA) return 0;
 		
+	if (gCurrLevelNum == LEVEL_VCUTM) return 0;
+	if (gCurrLevelNum == LEVEL_COTMC) return 0;
+
     if (gCurrDemoInput != NULL || gCurrCreditsEntry != NULL || gCurrCourseNum == COURSE_NONE) {
         return FALSE;
     }

@@ -1407,4 +1407,6 @@ os16112*/
 #define oFightFlameFlags OBJECT_FIELD_F32(0x49)
 #define oFightFlameSquareAngle OBJECT_FIELD_S32(0x4A)
 
+#define oOWPartShowCutscene OBJECT_FIELD_S32(0x1F)
+
 #endif // OBJECT_FIELDS_H

@@ -192,8 +192,8 @@ void mtc_green_spinner_loop()
     }
     else if (o->oAction == 1)
     {
-        print_text_fmt_int(20, 20, "T %d", o->oTimer);
-        print_text_fmt_int(20, 40, "S %d", o->oMtcGreenLineActiveStatus);
+        // print_text_fmt_int(20, 20, "T %d", o->oTimer);
+        // print_text_fmt_int(20, 40, "S %d", o->oMtcGreenLineActiveStatus);
         if (gGlobalTimer % 4 == 0) {
             cur_obj_play_sound_2(SOUND_GENERAL_ELEVATOR_MOVE_2);
         }
@@ -232,7 +232,7 @@ void mtc_green_spinner_loop()
                 spd = 10.f;
             }
         }
-        print_text_fmt_int(20, 60, "V %d", (int) spd);
+        // print_text_fmt_int(20, 60, "V %d", (int) spd);
 
         f32 len = sqrtf(objToNext[0] * objToNext[0] + objToNext[1] * objToNext[1] + objToNext[2] * objToNext[2]) / spd;
         if (len > 0.001f)

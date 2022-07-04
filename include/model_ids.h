@@ -293,6 +293,12 @@
 #define MODEL_CASTLE_GROUNDS_FLAG                 0x37        // castle_grounds_geo_000660
 #define MODEL_CASTLE_GROUNDS_CANNON_GRILL         0x38        // castle_grounds_geo_000724
 
+#define MODEL_OW_BRODUTE     0x39
+#define MODEL_OW_ARTHUR      0x3A
+#define MODEL_OW_GAEL        0x3B
+#define MODEL_OW_SIDE        0x3C
+#define MODEL_OW_SCUT        0x3D
+
 // pss
 
 // cotmc

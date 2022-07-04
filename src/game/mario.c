@@ -1781,10 +1781,12 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
 
         // Reonu stuff
+
         if (gCurrLevelNum != LEVEL_SA) {
             gLuigiModel = FALSE; // If it's not my level, set this to FALSE immediately
+            gLuigiOverride = FALSE;
         } else {
-            if (gCurrAreaIndex % 2) {
+            if ((gCurrAreaIndex % 2) && (gLuigiOverride == FALSE)) {
                 gLuigiModel = FALSE;
             } else {
                 gLuigiModel = TRUE;
@@ -1801,6 +1803,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if ((gCurrAreaIndex == 4) && (gMarioState->pos[2] > -9400)) {
                 gMarioState->pos[2] = gMarioState->marioObj->oPosZ = gMarioObject->header.gfx.pos[2] -= 50;
             }
+
+            if (gCurrAreaIndex == 0x07 && gMarioState->health <= 0x100) {
+                initiate_warp(LEVEL_SA,0x07,0x0A,0);
+                gMarioState->health = 0x8000;
+            }
+            
+            if (gCurrAreaIndex != 0x07) {
+                gLuigiOverride = FALSE;
+            }
+
+            gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
 
         }
         // This is outside a level check on purpose. Ensures that the Luigi model is never accidentally used outside of my level, since gLuigiModel can't be TRUE outside of my level.
@@ -1941,7 +1954,11 @@ void init_mario_from_save_file(void) {
     gMarioState->spawnInfo = &gPlayerSpawnInfos[0];
     gMarioState->statusForCamera = &gPlayerCameraState[0];
     gMarioState->marioBodyState = &gBodyStates[0];
-    gMarioState->controller = &gControllers[0];
+    if (__osControllerTypes[1] == CONT_TYPE_GCN) {
+        gMarioState->controller = &gControllers[1];
+    } else {
+        gMarioState->controller = &gControllers[0];
+    }
     gMarioState->animList = &gMarioAnimsBuf;
 
     gMarioState->numCoins = 0;

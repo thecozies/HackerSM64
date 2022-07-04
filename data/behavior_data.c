@@ -402,6 +402,7 @@ const BehaviorScript bhvStickyPlat[] = {
     BEGIN(OBJ_LIST_SURFACE),
     LOAD_COLLISION_DATA(Sticky_Plat_collision),
     OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_MOVE_Y_WITH_TERMINAL_VEL)),
+    SET_FLOAT(oDrawingDistance, 20000),
 	CALL_NATIVE(bhv_hanging_plat_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_sticky_plat_loop),
@@ -6793,8 +6794,12 @@ const BehaviorScript bhvBlinkingPlatform[] = {
 extern void bhv_meteor_init();
 extern void bhv_meteor_loop();
 const BehaviorScript bhvMeteor[] = {
-    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oDamageOrCoinValue, 1),
+    SET_HITBOX(/*Radius*/ 400, /*Height*/ 400),
     CALL_NATIVE(bhv_init_room),
     SET_HOME(),
     CALL_NATIVE(bhv_meteor_init),
@@ -7010,5 +7015,17 @@ const BehaviorScript bhvGearSounds[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_gear_sounds_loop),
+    END_LOOP(),
+};
+
+extern void ow_part_init();
+extern void ow_part_loop();
+const BehaviorScript bhvOWPart[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    CALL_NATIVE(ow_part_init),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(ow_part_loop),
+        // CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };

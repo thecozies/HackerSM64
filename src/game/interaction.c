@@ -564,6 +564,15 @@ u32 determine_knockback_action(struct MarioState *m, UNUSED s32 arg) {
     s16 facingDYaw = angleToObject - m->faceAngle[1];
     s16 remainingHealth = m->health - 0x40 * m->hurtCounter;
 
+    // Reonu
+
+    if (m->interactObj->behavior == segmented_to_virtual(bhvMeteor)) {
+        m->actionArg = 1;
+        return ACT_SKYDIVING;
+    }
+
+    // reonu end
+
     if (m->action & (ACT_FLAG_SWIMMING | ACT_FLAG_METAL_WATER)) {
         terrainIndex = 2;
     } else if (m->action & (ACT_FLAG_AIR | ACT_FLAG_ON_POLE | ACT_FLAG_HANGING)) {

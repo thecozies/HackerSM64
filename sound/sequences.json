@@ -52,5 +52,8 @@
     "31_custom_sea": ["0C"],
     "32_custom_gear": ["0C"],
     "33_custom_arena": ["27"],
-    "34_custom_time": ["28"]
+    "34_custom_time": ["28"],
+	"35_custom_chireiden": ["0C"],
+	"36_custom_fade_hill": ["0C"],
+    "37_custom_agt_v2": ["0C"]
 }

@@ -9,6 +9,7 @@ const GeoLayout sa_area_5_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_OPAQUE, sa_dl_Plane_010_mesh_layer_1),
 		GEO_CLOSE_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 1088, 1516, -1659, sa_dl_Plane_011_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

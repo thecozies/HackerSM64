@@ -34,7 +34,7 @@
 
 // Visual debug enables some collision visuals. Tapping Right on the dpad will cycle between visual hitboxes, visual surfaces, both, and neither.
 // If puppyprint is enabled, then this can be cycled only while the screen is active.
-// #define VISUAL_DEBUG
+#define VISUAL_DEBUG
 
 // Open all courses and doors. Used for debugging purposes to unlock all content.
 // #define UNLOCK_ALL

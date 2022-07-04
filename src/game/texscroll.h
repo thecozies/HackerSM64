@@ -15,6 +15,7 @@
 #include "src/game/texscroll/sa_texscroll.inc.h"
 #include "src/game/texscroll/bowser_2_texscroll.inc.h"
 #include "src/game/texscroll/crash_texscroll.inc.h"
+#include "src/game/texscroll/vcutm_texscroll.inc.h"
 extern void scroll_textures();
 
 #endif

@@ -33,3 +33,14 @@
 #include "levels/castle_grounds/areas/1/movtext.inc.c"
 
 #include "levels/castle_grounds/leveldata.inc.c"
+
+#include "levels/castle_grounds/ow_part_brodute/collision.inc.c"
+#include "levels/castle_grounds/ow_part_brodute/model.inc.c"
+#include "levels/castle_grounds/ow_part_arthur/model.inc.c"
+#include "levels/castle_grounds/ow_part_arthur/collision.inc.c"
+#include "levels/castle_grounds/ow_part_gael/collision.inc.c"
+#include "levels/castle_grounds/ow_part_gael/model.inc.c"
+#include "levels/castle_grounds/ow_part_side/collision.inc.c"
+#include "levels/castle_grounds/ow_part_side/model.inc.c"
+#include "levels/castle_grounds/ow_part_scut/collision.inc.c"
+#include "levels/castle_grounds/ow_part_scut/model.inc.c"

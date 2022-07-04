@@ -27,6 +27,7 @@
 #include "level_table.h"
 #include "config.h"
 #include "puppyprint.h"
+#include "src/game/main.h"
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
@@ -689,7 +690,7 @@ void set_camera_height(struct Camera *c, f32 goalHeight) {
     f32 approachRate = 20.0f;
 #endif
 
-    if (sMarioCamState->action & ACT_FLAG_HANGING) {
+    if ((sMarioCamState->action & ACT_FLAG_HANGING) && (gCurrLevelNum != LEVEL_SA)) { // Reonu: fucks up my level
         marioCeilHeight = sMarioGeometry.currCeilHeight;
         marioFloorHeight = sMarioGeometry.currFloorHeight;
 
@@ -896,18 +897,22 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
     f32 yOff = 125.f;
     f32 baseDist = 1000.f;
     s16 degrees;
-
     sAreaYaw = camYaw;
     calc_y_to_curr_floor(&posY, 1.f, 200.f, &focusY, 0.9f, 200.f);
 
-    // Reonu stuff
+    // Reonu stuff (i'm so sorry)
+    static u8 text;
 
     if (gCurrLevelNum == LEVEL_SA && gMarioState->floor != NULL) {
-
+        if (!gConfig.widescreen) {
+            baseDist = 1300.f; // 4:3 feels too cramped in 2D sections, this allievates that
+        }
         if ((gMarioState->floor->object == NULL) && (gMarioState->floor->force != 0x00)) {
             gMarioState->force2 = gMarioState->floor->force;
         }
-        //print_text_fmt_int(20,40,"%x",gMarioState->force2);
+        if ((gGlobalTimer % 15) == 0) {
+            text ^= 1;
+        }
         switch ((gMarioState->force2 >> 8) & 0xFF) {
             case 0x01:
                 s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(90)), determine_speed());
@@ -924,6 +929,35 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
             case 0x05:
                 s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(0)), 0.09f);
                 baseDist = 2600.f;
+                break;
+            case 0x06:
+                if ((gMarioState->pos[1] - gMarioState->floorHeight < 500) && (gMarioState->floor->force == gMarioState->force2)) {
+                    s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.09f);
+                }
+                break;
+            case 0x07:
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.09f);
+                pitch = 4000;
+                if (gMarioState->action & ACT_FLAG_HANGING) {
+                    baseDist = 2000.f;
+                }
+                break;
+            case 0x08:
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(270)), 0.09f);
+
+                if ((gMarioState->pos[1] - gMarioState->floorHeight > 1000)) {
+                    pitch = 12000;
+                    baseDist = 2000.f;
+                }
+                if ((gMarioState->pos[1] > 8200) && ((text) == 0)) {
+                    print_text(20,20,"DODGE!");
+                }
+                break;
+            case 0x09:
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(270)), 0.09f);
+                pitch = 10500;
+                if (text)
+                    print_text(20,20,"JUMP!");
                 break;
             case 0xFF:
                 break;
@@ -2945,7 +2979,7 @@ void update_camera(struct Camera *c) {
         // Only process R_TRIG if 'fixed' is not selected in the menu
         if (cam_select_alt_mode(CAM_SELECTION_NONE) == CAM_SELECTION_MARIO &&
             gCurrCourseNum != COURSE_TOTWC) {
-            if (gPlayer1Controller->buttonPressed & R_TRIG) {
+            if ((gPlayer1Controller->buttonPressed & R_TRIG) && (gCurrLevelNum != LEVEL_SA)) { // Reonu: Don't allow Mario cam in my level
                 if (set_cam_angle(0) == CAM_ANGLE_LAKITU) {
                     set_cam_angle(CAM_ANGLE_MARIO);
                 } else {
@@ -2962,6 +2996,9 @@ void update_camera(struct Camera *c) {
         init_camera(c);
         gCameraMovementFlags &= ~CAM_MOVE_INIT_CAMERA;
         sStatusFlags |= CAM_FLAG_FRAME_AFTER_CAM_INIT;
+        if (gCurrLevelNum == LEVEL_SA) {
+            set_cam_angle(CAM_ANGLE_LAKITU); // Reonu: Set camera mode to lakitu cam in my level
+        }
     }
 
 #ifdef PUPPYCAM
@@ -4753,11 +4790,13 @@ void radial_camera_input(struct Camera *c) {
 
         // Zoom in / enter C-Up
         if (gPlayer1Controller->buttonPressed & U_CBUTTONS) {
-            if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
+            if ((gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) && (gCurrLevelNum != LEVEL_SA)) { // Reonu: In my level, don't allow zooming in
                 gCameraMovementFlags &= ~CAM_MOVE_ZOOMED_OUT;
                 play_sound_cbutton_up();
-            } else {
+            } else if (gCurrLevelNum != LEVEL_SA) {
                 set_mode_c_up(c);
+            } else {
+                play_camera_buzz_if_cbutton();
             }
         }
 
@@ -6195,6 +6234,9 @@ struct CameraTrigger sCamCrash[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamWMOtR[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamVCUtM[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -8417,6 +8459,19 @@ void cutscene_aglab_mtc_cs(struct Camera *c)
     c->focus[2] = 7888.f;
 }
 
+Vec3f gAglabOWFocus;
+
+void cutscene_aglab_ow_cs(struct Camera *c)
+{
+    cutscene_event(cutscene_reset_spline, c, 0, 0);
+    c->pos[0] = 0.f;
+    c->pos[1] = 1000.f;
+    c->pos[2] = 0.f;
+    c->focus[0] = gAglabOWFocus[0];
+    c->focus[1] = gAglabOWFocus[1];
+    c->focus[2] = gAglabOWFocus[2];
+}
+
 void cutscene_bbh_death_start(struct Camera *c) {
     Vec3f dir = { 0, 40.f, 60.f };
 
@@ -10368,6 +10423,10 @@ struct Cutscene sCutsceneAglabMtcCs[] = {
     { cutscene_aglab_mtc_cs, CUTSCENE_LOOP },
 };
 
+struct Cutscene sCutsceneAglabOwCs[] = {
+    { cutscene_aglab_ow_cs, CUTSCENE_LOOP },
+};
+
 /**
  * Cutscene that plays when Mario dies on his stomach.
  */
@@ -10578,7 +10637,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 1, 0, 0), // JRB            | THI
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // TTC            | RR
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // CASTLE_GROUNDS | BITDW
-	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // VCUTM          | BITFS
+	ZOOMOUT_AREA_MASK(0, 1, 1, 1, 1, 0, 0, 0), // VCUTM          | BITFS
 	ZOOMOUT_AREA_MASK(1, 1, 1, 1, 1, 0, 0, 0), // SA             | BITS
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // LLL            | DDD
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // WF             | ENDING
@@ -10988,6 +11047,7 @@ void play_cutscene(struct Camera *c) {
 
         CUTSCENE(CUTSCENE_AGLAB_WOODEN_POST_CS, sCutsceneAglabWoodenPostCs)
         CUTSCENE(CUTSCENE_AGLAB_MTC_CS,         sCutsceneAglabMtcCs)
+        CUTSCENE(CUTSCENE_AGLAB_OW_CS,          sCutsceneAglabOwCs)
     }
 
 #undef CUTSCENE

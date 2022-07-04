@@ -3,11 +3,14 @@
 #define COLOUR_GREEN 0x00FF00
 #define COLOUR_YELLOW 0xFFFF00
 #define COLOUR_RED 0xFF0000
+#define COLOUR_BLUE 0x0000FF
 
 #include "src/engine/math_util.h"
 #include "src/game/print.h"
 #include "src/audio/external.h"
 #include "src/game/spawn_sound.h"
+#include "src/game/level_update.h"
+#include "src/game/area.h"
 void bhv_spring_init(void) {
     switch (BPARAM2) {
         case 0x00: // Green spring
@@ -52,10 +55,12 @@ void bhv_spring_loop(void) {
 #define BLINKING_SPEED_RED 8
 #define BLINKING_SPEED_YELLOW 5
 #define BLINKING_SPEED_GREEN 3
+#define BLINKING_SPEED_BLUE 2
 
 #define PLATFORM_GREEN 0x00
 #define PLATFORM_YELLOW 0x01
 #define PLATFORM_RED 0x02
+#define PLATFORM_BLUE 0x04
 
 #define X1           0x0A
 #define X2           0x14
@@ -77,6 +82,10 @@ void bhv_blinking_platform_init(void) {
         case PLATFORM_YELLOW:
             PRIM_COLOUR = COLOUR_YELLOW;
             BLINKING_SPEED = BLINKING_SPEED_YELLOW;
+            break;
+        case PLATFORM_BLUE:
+            PRIM_COLOUR = COLOUR_BLUE;
+            BLINKING_SPEED = BLINKING_SPEED_BLUE;
             break;
         case PLATFORM_RED:
         default:
@@ -169,6 +178,19 @@ void bhv_meteor_init(void) {
 void bhv_meteor_loop(void) {
     o->oFaceAngleYaw += FACE_ANGLE_SPEED;
     o->oFaceAngleRoll += FACE_ROLL_SPEED;
+
+    //if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+        //o->oInteractStatus = INT_STATUS_NONE;
+    //}
+
+    if (gCurrAreaIndex != 7) {
+        cur_obj_become_intangible();
+    } else {
+        cur_obj_scale(0.60f);
+        if (gMarioState->action != ACT_SKYDIVING) {
+            o->oInteractStatus = INT_STATUS_NONE;
+        }
+    }    
 }
 
 // CASTLE GATE

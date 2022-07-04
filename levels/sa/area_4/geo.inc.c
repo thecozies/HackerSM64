@@ -3,7 +3,7 @@
 const GeoLayout sa_area_4_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ASM(0x00, geo_render_INFBG2),
+		GEO_ASM(0x00, geo_render_INFBG),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 576, 1171, -20584),
 		GEO_OPEN_NODE(),
 			GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -29, -1868, -13, 0, 90, -90, sa_dl_CCCCcannon_001_mesh_layer_1),
