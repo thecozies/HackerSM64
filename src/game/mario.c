@@ -1812,7 +1812,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (gCurrAreaIndex != 0x07) {
                 gLuigiOverride = FALSE;
             }
-
             gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
 
         }

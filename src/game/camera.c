@@ -918,32 +918,32 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
                 s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(90)), determine_speed());
                 break;
             case 0x02:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.09f);
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.1f);
                 break;
             case 0x03:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(270)), 0.09f);
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(270)), 0.1f);
                 break;
             case 0x04:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(0)), 0.09f);
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(0)), 0.1f);
                 break;
             case 0x05:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(0)), 0.09f);
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(0)), 0.1f);
                 baseDist = 2600.f;
                 break;
             case 0x06:
                 if ((gMarioState->pos[1] - gMarioState->floorHeight < 500) && (gMarioState->floor->force == gMarioState->force2)) {
-                    s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.09f);
+                    s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.1f);
                 }
                 break;
             case 0x07:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.09f);
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(180)), 0.1f);
                 pitch = 4000;
                 if (gMarioState->action & ACT_FLAG_HANGING) {
                     baseDist = 2000.f;
                 }
                 break;
             case 0x08:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(270)), 0.09f);
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(270)), 0.1f);
 
                 if ((gMarioState->pos[1] - gMarioState->floorHeight > 1000)) {
                     pitch = 12000;
@@ -954,7 +954,7 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
                 }
                 break;
             case 0x09:
-                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(270)), 0.09f);
+                s8DirModeYawOffset = approach_yaw(gLakituState.yaw, determine_degrees(DEGREES(270)), 0.1f);
                 pitch = 10500;
                 if (text)
                     print_text(20,20,"JUMP!");
@@ -965,7 +965,7 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
 
         switch (gMarioState->force2 & 0xFF) {
             case 0x01:
-                baseDist = 2200.f;
+                baseDist = 3700.f;
                 break;
         }
 

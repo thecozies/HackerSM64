@@ -26,6 +26,8 @@ void bullet_bill_act_1(void) {
         triggerDistance = 1500.f; // Vanilla
     } else if (BPARAM2 == 0xFF) {
         triggerDistance = 5000.f;
+    } else if (BPARAM2 == 0xFE) {
+        triggerDistance = 1500.f;
     } else {
         triggerDistance = 2500.f;
     }

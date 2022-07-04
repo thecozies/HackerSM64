@@ -200,6 +200,13 @@ Gfx *geo_switch_area(s32 callContext, struct GraphNode *node, UNUSED void *conte
     } else {
         switchCase->selectedCase = 0;
     }
+    
+    if ((gCurrLevelNum == LEVEL_SA) && (gCurrAreaIndex == 0x07)) {
+        if ((gMarioState->action == ACT_STAR_DANCE_EXIT) && (gMarioState->actionTimer >= 20)) {
+            gMarioCurrentRoom = 0x03;
+            switchCase->selectedCase = 0x02;
+        }
+    }
 
     return NULL;
 }

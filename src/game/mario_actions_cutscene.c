@@ -669,6 +669,9 @@ s32 act_star_dance(struct MarioState *m) {
     if (gCurrLevelNum == LEVEL_SA && gCurrAreaIndex == 0x07) {
         if (m->actionTimer == 20) {
             activate_instant_warp(0);
+            save_file_collect_star_or_key(m->numCoins,1);
+            m->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+            gMarioCurrentRoom = 3;
         }
         if (m->actionTimer >= 20) {
             gLuigiOverride = TRUE;

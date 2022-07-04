@@ -6799,7 +6799,7 @@ const BehaviorScript bhvMeteor[] = {
     SET_INTERACT_TYPE(INTERACT_DAMAGE),
     SET_INT(oIntangibleTimer, 0),
     SET_INT(oDamageOrCoinValue, 1),
-    SET_HITBOX(/*Radius*/ 400, /*Height*/ 400),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 300, /*Height*/ 400, /*Downwards offset*/ 50),
     CALL_NATIVE(bhv_init_room),
     SET_HOME(),
     CALL_NATIVE(bhv_meteor_init),
