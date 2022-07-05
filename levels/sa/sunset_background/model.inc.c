@@ -4281,7 +4281,7 @@ Gfx mat_revert_sunset_background_bigtexturemode2_layer0[] = {
 
 Gfx mat_sunset_background_solid_purple2_layer0[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, PRIMITIVE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, 1, 0, 0, 0, PRIMITIVE, 0, 0, 0, 1),
 	gsSPGeometryMode(G_ZBUFFER, 0),
 	gsDPSetRenderMode(G_RM_OPA_SURF, G_RM_NOOP),
 	gsSPTexture(65535, 65535, 0, 0, 1),
@@ -4298,7 +4298,7 @@ Gfx mat_revert_sunset_background_solid_purple2_layer0[] = {
 
 Gfx mat_sunset_background_solid_orange_layer0[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, 0, 0, 0, 0, PRIMITIVE, 0, 0, 0, 0),
+	gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, 1, 0, 0, 0, PRIMITIVE, 0, 0, 0, 1),
 	gsSPGeometryMode(G_ZBUFFER, 0),
 	gsDPSetRenderMode(G_RM_OPA_SURF, G_RM_NOOP),
 	gsSPTexture(65535, 65535, 0, 0, 1),

@@ -4774,7 +4774,11 @@ Gfx galaxy_background_AAAGalaxyBackground_mesh_tri_1[] = {
 
 Gfx mat_galaxy_background_bigtexturemode_layer0[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, 0, SHADE, 0, TEXEL1, COMBINED, 0, 0, 0, 0),
+	gsDPSetCombineLERP(
+    PRIMITIVE, 0, TEXEL0, 0,
+    0, 0, 0, TEXEL0,
+    SHADE, 0, COMBINED_ALPHA, COMBINED,
+    0, 0, 0, 1),
 	gsSPGeometryMode(G_ZBUFFER | G_LIGHTING, 0),
 	gsDPSetCycleType(G_CYC_2CYCLE),
 	gsDPSetRenderMode(G_RM_PASS, G_RM_OPA_SURF2),
@@ -4792,7 +4796,11 @@ Gfx mat_revert_galaxy_background_bigtexturemode_layer0[] = {
 
 Gfx mat_galaxy_background_solid_purple_layer0[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, 0, SHADE, 0, TEXEL1, COMBINED, 0, 0, 0, 0),
+	gsDPSetCombineLERP(
+    PRIMITIVE, 0, TEXEL0, 0,
+    0, 0, 0, TEXEL0,
+    SHADE, 0, COMBINED_ALPHA, COMBINED,
+    0, 0, 0, 1),
 	gsSPGeometryMode(G_ZBUFFER | G_LIGHTING, 0),
 	gsDPSetCycleType(G_CYC_2CYCLE),
 	gsDPSetRenderMode(G_RM_PASS, G_RM_OPA_SURF2),
