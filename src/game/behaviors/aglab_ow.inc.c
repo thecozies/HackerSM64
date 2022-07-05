@@ -188,7 +188,8 @@ void ow_part_init()
             u8 agtStars   = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_TOTWC));
             u8 reonuStars = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_SA));
             u8 axoStars   = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_COTMC));
-            active = agtStars || reonuStars || axoStars;
+            u8 crashStars = save_file_get_star_flags((gCurrSaveFileNum - 1), COURSE_NUM_TO_INDEX(COURSE_CRASH));
+            active = agtStars || reonuStars || axoStars || crashStars;
         }
         break;
         case 6:
@@ -235,6 +236,7 @@ void ow_part_init()
         cur_obj_write_all_objects_with_behavior_and_bparam3(bhvWarp    , o->oBehParams2ndByte, &objsOut);
         cur_obj_write_all_objects_with_behavior_and_bparam3(bhvWarpPipe, o->oBehParams2ndByte, &objsOut);
         cur_obj_write_all_objects_with_behavior_and_bparam3(bhvBooCage , o->oBehParams2ndByte, &objsOut);
+        cur_obj_write_all_objects_with_behavior_and_bparam3(bhvSparkler, o->oBehParams2ndByte, &objsOut);
         if (5 == o->oBehParams2ndByte)
             cur_obj_write_all_objects_with_behavior(bhvStickyPlat, &objsOut);
 
@@ -252,6 +254,7 @@ void ow_part_init()
         cur_obj_unload_object_with_behavior_and_bparam3(bhvWarp    , o->oBehParams2ndByte);
         cur_obj_unload_object_with_behavior_and_bparam3(bhvWarpPipe, o->oBehParams2ndByte);
         cur_obj_unload_object_with_behavior_and_bparam3(bhvBooCage , o->oBehParams2ndByte);
+        cur_obj_unload_object_with_behavior_and_bparam3(bhvSparkler, o->oBehParams2ndByte);
         if (5 == o->oBehParams2ndByte)
             cur_obj_unload_object_with_behavior(bhvStickyPlat);
 

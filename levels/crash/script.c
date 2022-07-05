@@ -39,6 +39,9 @@ const LevelScript level_crash_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, crash_area_1),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf0, LEVEL_CASTLE_GROUNDS, 1, 0x65, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf1, LEVEL_CASTLE_GROUNDS, 0x01, 0x75, WARP_NO_CHECKPOINT),
 		MARIO_POS(0x01, 0, -19608, 11877, -24734),
 		OBJECT(MODEL_RED_FLAME, -1561, -3422, -7888, 0, -95, 0, 0x00000000, bhvFlame),
 		OBJECT(MODEL_RED_FLAME, -1866, -3805, -9089, 0, -95, 0, 0x00000000, bhvFlame),
@@ -68,6 +71,7 @@ const LevelScript level_crash_entry[] = {
 		OBJECT(MODEL_CRASH_SPINNER, -10646, 7044, -15832, 0, 135, 0, 0x00000000, bhvCrashSpinner),
 		OBJECT(MODEL_CRASH_SPINNER, -14913, 9622, -19986, 0, 135, 0, (1 << 16), bhvCrashSpinner),
 		OBJECT(MODEL_STAR, -16800, -10031, -7960, 0, -95, 0, 0x00000000, bhvStar),
+		OBJECT(MODEL_NONE, -19591, 12390, -24727, 0, 49, 0, (0xa << 16), bhvAirborneWarp),
 		TERRAIN(crash_area_1_collision),
 		MACRO_OBJECTS(crash_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_SEA),
