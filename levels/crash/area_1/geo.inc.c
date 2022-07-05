@@ -13,8 +13,8 @@ const GeoLayout crash_area_1_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, crash_dl_Tubaloopa_003_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, crash_dl_Tubaloopa_004_mesh_layer_5),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, crash_dl_Tubaloopa2_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, crash_dl_tube_001_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, crash_dl_tube_002_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
