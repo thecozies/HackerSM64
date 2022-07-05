@@ -296,11 +296,11 @@ void bobomb_buddy_act_idle(void) {
 
     object_step();
 
-    if (animFrame == 5 || animFrame == 16) {
+    if ((animFrame == 5 || animFrame == 16) && !(cur_obj_has_model(MODEL_LUIGI_NPC))) {
         cur_obj_play_sound_2(SOUND_OBJ_BOBOMB_WALK);
     }
 
-    if (o->oDistanceToMario < 1000.0f) {
+    if ((o->oDistanceToMario < 1000.0f) && !(cur_obj_has_model(MODEL_LUIGI_NPC))) {
         o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x140);
     }
 
@@ -393,7 +393,7 @@ void bobomb_buddy_act_talk(void) {
 void bobomb_buddy_act_turn_to_talk(void) {
     s16 animFrame = o->header.gfx.animInfo.animFrame;
 
-    if (animFrame == 5 || animFrame == 16) {
+    if ((animFrame == 5 || animFrame == 16) && !(cur_obj_has_model(MODEL_LUIGI_NPC))) {
         cur_obj_play_sound_2(SOUND_OBJ_BOBOMB_WALK);
     }
 

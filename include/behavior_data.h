@@ -630,5 +630,6 @@ extern const BehaviorScript bhvMeteor[];
 extern const BehaviorScript bhvCastleGate[];
 extern const BehaviorScript bhvOWPart[];
 extern const BehaviorScript bhvDnvicColorReset[];
+extern const BehaviorScript bhvLuigiNpc[];
 
 #endif // BEHAVIOR_DATA_H

@@ -344,4 +344,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "rift/geo_header.h"
 
+#include "luigi_npc/geo_header.h"
+
+
+#include "luigi_npc/anim_header.h"
 #endif
