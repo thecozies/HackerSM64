@@ -39,10 +39,10 @@
 
 //reonu models
 #define MODEL_SPRING                          0x100
-#define MODEL_BLINKING_PLATFORM               0xFF
-#define MODEL_METEOR_A                        0xFE
-#define MODEL_METEOR_B                        0xFD
-#define MODEL_CASTLE_GATE                     0xFC
+#define MODEL_BLINKING_PLATFORM               0x3B
+#define MODEL_METEOR_A                        0x39
+#define MODEL_METEOR_B                        0x38
+#define MODEL_CASTLE_GATE                     0x3A
 #define MODEL_LUIGI_NPC                       0x101
 
 #define MODEL_BOB_BUBBLY_TREE                  0x17        // bubbly_tree_geo

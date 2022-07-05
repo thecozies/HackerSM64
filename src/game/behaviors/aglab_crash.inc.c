@@ -511,7 +511,7 @@ void crash_spinner_loop()
 {
     if (0 == o->oBehParams2ndByte)
     {
-        o->oPosY = o->oHomeY + 100.f * sins(o->oTimer * 0x354);
+        o->oPosY = o->oHomeY + 200.f * sins(o->oTimer * 0x354);
     }
     else if (1 == o->oBehParams2ndByte)
     {

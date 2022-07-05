@@ -1235,7 +1235,8 @@ s32 play_mode_paused(void) {
         if (gDebugLevelSelect) {
             fade_into_special_warp(WARP_SPECIAL_LEVEL_SELECT, 1);
         } else {
-            if (gCurrCourseNum == COURSE_DF)
+            if (gCurrCourseNum == COURSE_DF
+             || gCurrCourseNum == COURSE_SA)
             {
                 initiate_warp(EXIT_COURSE_LEVEL, EXIT_COURSE_AREA, EXIT_COURSE_NODE, WARP_FLAGS_NONE);
                 fade_into_special_warp(WARP_SPECIAL_NONE, 0);
