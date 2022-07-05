@@ -6758,6 +6758,75 @@ const BehaviorScript bhvSlideCheckpoint[] = {
     END_LOOP(),
 };
 
+
+// reonu
+extern void bhv_spring_init();
+extern void bhv_spring_loop();
+const BehaviorScript bhvSpring[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO),
+    SET_INTERACT_TYPE(INTERACT_SPRING),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 120),
+    CALL_NATIVE(bhv_spring_init),
+    CALL_NATIVE(bhv_init_room),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_spring_loop),
+        SET_INT(oInteractStatus, 0),
+    END_LOOP(),
+};
+
+extern void bhv_blinking_platform_init();
+extern void bhv_blinking_platform_loop();
+const BehaviorScript bhvBlinkingPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_COMPUTE_DIST_TO_MARIO),
+    SET_FLOAT(oDrawingDistance, 20000),
+    LOAD_COLLISION_DATA(blinking_platform_collision),
+    CALL_NATIVE(bhv_init_room),
+    CALL_NATIVE(bhv_blinking_platform_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_blinking_platform_loop),
+    END_LOOP(),
+};
+
+extern void bhv_meteor_init();
+extern void bhv_meteor_loop();
+const BehaviorScript bhvMeteor[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oDamageOrCoinValue, 1),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 300, /*Height*/ 400, /*Downwards offset*/ 50),
+    CALL_NATIVE(bhv_init_room),
+    SET_HOME(),
+    CALL_NATIVE(bhv_meteor_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_meteor_loop),
+    END_LOOP(),
+};
+
+extern void bhv_castle_gate_init();
+extern void bhv_castle_gate_loop();
+const BehaviorScript bhvCastleGate[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_COLLISION_DATA(castle_gate_collision),
+    SET_HOME(),
+    CALL_NATIVE(bhv_init_room),
+    SET_HOME(),
+    CALL_NATIVE(bhv_castle_gate_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_castle_gate_loop),
+    END_LOOP(),
+};
+
+
+
+//End of Reonu stuff
+
 extern void slide_checkpoint_ctl_init();
 extern void slide_checkpoint_ctl_loop();
 const BehaviorScript bhvSlideCheckpointCtl[] = {

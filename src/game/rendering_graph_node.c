@@ -517,7 +517,14 @@ void geo_process_perspective(struct GraphNodePerspective *node) {
  */
 void geo_process_level_of_detail(struct GraphNodeLevelOfDetail *node) {
 #ifdef AUTO_LOD
-    f32 distanceFromCam = gIsConsole ? -gMatStack[gMatStackIndex][3][2] : 50.0f;
+    f32 distanceFromCam;
+
+    if ((gIsConsole) || (gCurrLevelNum == LEVEL_SA)) { // Reonu: Force LODs on my level even on emulator. I need them for some effects
+        distanceFromCam = -gMatStack[gMatStackIndex][3][2];
+    } else {
+        distanceFromCam = 50.0f;
+    }
+
 #else
     f32 distanceFromCam = -gMatStack[gMatStackIndex][3][2];
 #endif
@@ -971,9 +978,11 @@ s32 obj_is_in_view(struct GraphNodeObject *node, Mat4 matrix) {
     struct GraphNode *geo = node->sharedChild;
 
     s16 cullingRadius;
-
     if (geo != NULL && geo->type == GRAPH_NODE_TYPE_CULLING_RADIUS) {
         cullingRadius = ((struct GraphNodeCullingRadius *) geo)->cullingRadius;
+
+        cullingRadius *= (MAX(node->scale[0],node->scale[2])); //Reonu: Take object scale into account for culling radius
+
     } else {
         cullingRadius = 300;
     }

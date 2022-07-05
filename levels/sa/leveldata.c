@@ -13,3 +13,14 @@
 #include "levels/sa/areas/1/2/model.inc.c"
 #include "levels/sa/areas/1/collision.inc.c"
 #include "levels/sa/areas/1/macro.inc.c"
+
+#include "levels/sa/leveldata.inc.c"
+
+#include "levels/sa/galaxy_background/model.inc.c"
+#include "levels/sa/blinking_platform/model.inc.c"
+#include "levels/sa/blinking_platform/collision.inc.c"
+#include "levels/sa/meteor_a/model.inc.c"
+#include "levels/sa/meteor_b/model.inc.c"
+#include "levels/sa/castle_gate/model.inc.c"
+#include "levels/sa/castle_gate/collision.inc.c"
+#include "levels/sa/sunset_background/model.inc.c"

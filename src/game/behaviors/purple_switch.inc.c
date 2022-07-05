@@ -33,7 +33,12 @@ void bhv_purple_switch_loop(void) {
             cur_obj_scale_over_time(SCALE_AXIS_Y, 3, 1.5f, 0.2f);
             if (o->oTimer == 3) {
                 cur_obj_play_sound_2(SOUND_GENERAL2_PURPLE_SWITCH);
-                o->oAction = PURPLE_SWITCH_ACT_TICKING;
+                if (gCurrLevelNum == LEVEL_SA) {
+                    o->oAction = 0xFF;
+                } else {
+                    o->oAction = PURPLE_SWITCH_ACT_TICKING;
+                }
+                
                 cur_obj_shake_screen(SHAKE_POS_SMALL);
 #if ENABLE_RUMBLE
                 queue_rumble_data(5, 80);

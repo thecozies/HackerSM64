@@ -623,6 +623,41 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
     }
 }
 
+// Reonu stuff
+
+void activate_instant_warp(s32 id) {
+    s16 cameraAngle;
+    struct Object *obj;
+    struct InstantWarp *warp = &gCurrentArea->instantWarps[id];
+
+    if (warp->id != 0) {
+        gMarioState->pos[0] += warp->displacement[0];
+        gMarioState->pos[1] += warp->displacement[1];
+        gMarioState->pos[2] += warp->displacement[2];
+
+        obj = cur_obj_nearest_object_with_behavior(bhvCelebrationStar);
+        if (obj != NULL) {
+            obj->oHomeX += warp->displacement[0];
+            obj->oHomeY += warp->displacement[1];
+            obj->oHomeZ += warp->displacement[2];
+        }
+
+        gMarioState->marioObj->oPosX = gMarioState->pos[0];
+        gMarioState->marioObj->oPosY = gMarioState->pos[1];
+        gMarioState->marioObj->oPosZ = gMarioState->pos[2];
+
+        cameraAngle = gMarioState->area->camera->yaw;
+
+        change_area(warp->area);
+        gMarioState->area = gCurrentArea;
+
+        warp_camera(warp->displacement[0], warp->displacement[1], warp->displacement[2]);
+
+        gMarioState->area->camera->yaw = cameraAngle;
+    }
+}
+
+// End of reonu stuff
 s32 act_star_dance(struct MarioState *m) {
     m->faceAngle[1] = m->area->camera->yaw;
     set_mario_animation(m, m->actionState == ACT_STATE_STAR_DANCE_RETURN ? MARIO_ANIM_RETURN_FROM_STAR_DANCE
@@ -630,6 +665,17 @@ s32 act_star_dance(struct MarioState *m) {
     general_star_dance_handler(m, FALSE);
     if (m->actionState != ACT_STATE_STAR_DANCE_RETURN && m->actionTimer >= 40) {
         m->marioBodyState->handState = MARIO_HAND_PEACE_SIGN;
+    }
+    if (gCurrLevelNum == LEVEL_SA && gCurrAreaIndex == 0x07) {
+        if (m->actionTimer == 20) {
+            activate_instant_warp(0);
+            save_file_collect_star_or_key(m->numCoins,1);
+            m->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+            gMarioCurrentRoom = 3;
+        }
+        if (m->actionTimer >= 20) {
+            gLuigiOverride = TRUE;
+        }
     }
     stop_and_set_height_to_floor(m);
     return FALSE;

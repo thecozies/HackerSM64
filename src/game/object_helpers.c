@@ -28,6 +28,8 @@
 #include "spawn_sound.h"
 #include "puppylights.h"
 
+#include "levels/sa/header.h"
+
 static s8 sLevelsWithRooms[] = { LEVEL_BBH, LEVEL_CASTLE, LEVEL_HMC, -1 };
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
@@ -197,6 +199,13 @@ Gfx *geo_switch_area(s32 callContext, struct GraphNode *node, UNUSED void *conte
         }
     } else {
         switchCase->selectedCase = 0;
+    }
+    
+    if ((gCurrLevelNum == LEVEL_SA) && (gCurrAreaIndex == 0x07)) {
+        if ((gMarioState->action == ACT_STAR_DANCE_EXIT) && (gMarioState->actionTimer >= 20)) {
+            gMarioCurrentRoom = 0x03;
+            switchCase->selectedCase = 0x02;
+        }
     }
 
     return NULL;
@@ -2417,4 +2426,132 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
     o->oPosY += offsetY + gDebugInfo[DEBUG_PAGE_ENEMYINFO][0];
     spawn_default_star(targetX, targetY, targetZ);
     o->oPosY = objectPosY;
+}
+
+// Reonu
+
+Gfx *geo_set_spring_color(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart, *dlHead;
+    struct Object *objectGraphNode;
+    struct GraphNodeGenerated *currentGraphNode;
+    u8 layer;
+    dlStart = NULL;
+    if (callContext == GEO_CONTEXT_RENDER) {
+        currentGraphNode = (struct GraphNodeGenerated *) node;
+        objectGraphNode = (struct Object *) gCurGraphNodeObject;
+        layer = currentGraphNode->parameter & 0xFF;
+
+        if (layer != 0) {
+            currentGraphNode->fnNode.node.flags =
+                (layer << 8) | (currentGraphNode->fnNode.node.flags & 0xFF);
+        }
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+        dlHead = dlStart;
+        u8 r = (objectGraphNode->oUnusedCoinParams >> 16) & 0xff;
+        u8 g = (objectGraphNode->oUnusedCoinParams >> 8) & 0xff;
+        u8 b = objectGraphNode->oUnusedCoinParams & 0xff;
+        gDPSetPrimColor(dlHead++, 0, 0, r, g, b, 255);
+        gSPEndDisplayList(dlHead);
+    }
+    return dlStart;
+}
+
+Gfx *geo_set_blinking_platform_prim_alpha(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart, *dlHead;
+    struct Object *objectGraphNode;
+    struct GraphNodeGenerated *currentGraphNode;
+    u8 layer;
+    dlStart = NULL;
+    if (callContext == GEO_CONTEXT_RENDER) {
+        currentGraphNode = (struct GraphNodeGenerated *) node;
+        objectGraphNode = (struct Object *) gCurGraphNodeObject;
+        layer = currentGraphNode->parameter & 0xFF;
+
+        if (layer != 0) {
+            currentGraphNode->fnNode.node.flags =
+                (layer << 8) | (currentGraphNode->fnNode.node.flags & 0xFF);
+        }
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+        dlHead = dlStart;
+        u8 r = (objectGraphNode->oUnusedCoinParams >> 16) & 0xff;
+        u8 g = (objectGraphNode->oUnusedCoinParams >> 8) & 0xff;
+        u8 b = objectGraphNode->oUnusedCoinParams & 0xff;
+        u8 alpha = objectGraphNode->os16F6;
+        gDPSetPrimColor(dlHead++, 0, 0, r, g, b, alpha);
+        gSPEndDisplayList(dlHead);
+    }
+    return dlStart;    
+}
+
+extern struct AllocOnlyPool *gDisplayListHeap;
+extern void geo_append_display_list(void *displayList, s16 layer);
+extern s16 gMatStackIndex;
+extern Mat4 gMatStack[32];
+extern Mtx *gMatStackFixed[32];
+extern u32 gMoveSpeed;
+Gfx *geo_render_INFBG(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) {
+    Mat4 mat;
+    Mtx *mtx = alloc_display_list(sizeof(*mtx));
+    s32 i;
+    f32 pos[3];
+    static Vec3s rotation = { 0, 0, 0 };
+    rotation[1] += DEGREES(0.2f);
+    if (callContext == GEO_CONTEXT_RENDER) {
+#define FARAWAYNESS .95f // the closer to 1 the further away
+
+        for (i = 0; i < 3; i++) {
+            pos[i] = gCurGraphNodeCamera->pos[i] * FARAWAYNESS;
+        }
+
+        mtxf_rotate_zxy_and_translate(mat, pos, rotation);
+        mtxf_mul(gMatStack[gMatStackIndex + 1], mat, gMatStack[gMatStackIndex]);
+        gMatStackIndex++;
+        mtxf_to_mtx(mtx, gMatStack[gMatStackIndex]);
+        gMatStackFixed[gMatStackIndex] = mtx;
+        if (gLuigiModel) {
+            geo_append_display_list(sunset_background_AAABeachBackground_mesh, 0); // DL pointer
+        } else {
+            geo_append_display_list(galaxy_background_AAAGalaxyBackground_mesh, 0); // DL pointer
+        }
+        
+        gMatStackIndex--;
+    }
+    return 0;
+}
+
+f32 get_cycle(f32 cycleLength, f32 cycleOffset, s32 timer) {
+    f32 rate = (f32)DEGREES(360/30) * (1.0f/cycleLength);
+    f32 offset = (f32)DEGREES(360) * cycleOffset;
+    return sins(roundf((rate*timer) + offset));
+}
+#define PRIM_VARIATION_AMOUNT 50.0f
+#define PRIM_RGB_CENTER 50 // when the cycle is at 0, the number will be this
+#define PRIM_CYCLE_LENGTH 10.0f // 10 seconds
+Gfx *geo_set_background_colour(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart, *dlHead;
+    struct Object *objectGraphNode;
+    struct GraphNodeGenerated *currentGraphNode;
+    u8 layer;
+    dlStart = NULL;
+    if (callContext == GEO_CONTEXT_RENDER) {
+        currentGraphNode = (struct GraphNodeGenerated *) node;
+        objectGraphNode = (struct Object *) gCurGraphNodeObject;
+        layer = currentGraphNode->parameter & 0xFF;
+
+        if (layer != 0) {
+            currentGraphNode->fnNode.node.flags =
+                (layer << 8) | (currentGraphNode->fnNode.node.flags & 0xFF);
+        }
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+        dlHead = dlStart;
+        s32 r = PRIM_RGB_CENTER + roundf(PRIM_VARIATION_AMOUNT * get_cycle(PRIM_CYCLE_LENGTH, 0.0f, gGlobalTimer));
+        s32 g = PRIM_RGB_CENTER + roundf(PRIM_VARIATION_AMOUNT * get_cycle(PRIM_CYCLE_LENGTH, 1.0f/3.0f, gGlobalTimer));
+        s32 b = PRIM_RGB_CENTER + roundf(PRIM_VARIATION_AMOUNT * get_cycle(PRIM_CYCLE_LENGTH, 2.0f/3.0f, gGlobalTimer));
+        gDPSetPrimColor(dlHead++, 0, 0, r, g, b, 255);
+        gSPEndDisplayList(dlHead);
+    }
+    return dlStart;
 }

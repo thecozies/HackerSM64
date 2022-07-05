@@ -1780,6 +1780,50 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             return ACTIVE_PARTICLE_NONE;
         }
 
+        // Reonu stuff
+
+        if (gCurrLevelNum != LEVEL_SA) {
+            gLuigiModel = FALSE; // If it's not my level, set this to FALSE immediately
+            gLuigiOverride = FALSE;
+        } else {
+            if ((gCurrAreaIndex % 2) && (gLuigiOverride == FALSE)) {
+                gLuigiModel = FALSE;
+            } else {
+                gLuigiModel = TRUE;
+            }
+
+            if (((gCurrAreaIndex == 4) || (gCurrAreaIndex == 5))) {
+                gMarioState->pos[0] = gMarioState->marioObj->oPosX = gMarioObject->header.gfx.pos[0] = 542;
+            }
+
+            if ((gCurrAreaIndex == 3) && (gMarioState->pos[2] < -6500)) {
+                gMarioState->pos[0] = gMarioState->marioObj->oPosX = gMarioObject->header.gfx.pos[0] = approach_f32(gMarioState->pos[0],20551,60,60);
+            }
+
+            if ((gCurrAreaIndex == 4) && (gMarioState->pos[2] > -9400)) {
+                gMarioState->pos[2] = gMarioState->marioObj->oPosZ = gMarioObject->header.gfx.pos[2] -= 50;
+            }
+
+            if (gCurrAreaIndex == 0x07 && gMarioState->health <= 0x100) {
+                initiate_warp(LEVEL_SA,0x07,0x0A,0);
+                gMarioState->health = 0x8000;
+            }
+            
+            if (gCurrAreaIndex != 0x07) {
+                gLuigiOverride = FALSE;
+            }
+            gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
+
+        }
+        // This is outside a level check on purpose. Ensures that the Luigi model is never accidentally used outside of my level, since gLuigiModel can't be TRUE outside of my level.
+        if ((gLuigiModel == FALSE) && (obj_has_model(gMarioState->marioObj, MODEL_LUIGI))) {
+            obj_set_model(gMarioState->marioObj, MODEL_MARIO); 
+        } else if ((gLuigiModel == TRUE) && (obj_has_model(gMarioState->marioObj, MODEL_MARIO))) {
+            obj_set_model(gMarioState->marioObj, MODEL_LUIGI);
+        }
+
+        // End of reonu stuff
+
         // The function can loop through many action shifts in one frame,
         // which can lead to unexpected sub-frame behavior. Could potentially hang
         // if a loop of actions were found, but there has not been a situation found.
@@ -1794,7 +1838,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 case ACT_GROUP_OBJECT:     inLoop = mario_execute_object_action(gMarioState);     break;
             }
         }
-
         sink_mario_in_quicksand(gMarioState);
         squish_mario_model(gMarioState);
         set_submerged_cam_preset_and_spawn_bubbles(gMarioState);

@@ -14,3 +14,10 @@
 #include "levels/sa/header.h"
 
 #include "levels/sa/areas/1/geo.inc.c"
+
+#include "levels/sa/geo.inc.c"
+
+#include "levels/sa/blinking_platform/geo.inc.c"
+#include "levels/sa/meteor_a/geo.inc.c"
+#include "levels/sa/meteor_b/geo.inc.c"
+#include "levels/sa/castle_gate/geo.inc.c"

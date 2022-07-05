@@ -34,6 +34,8 @@
 #include "level_commands.h"
 #include "dnvic_print.h" //debug
 
+#include "print.h"
+
 #include "config.h"
 
 // TODO: Make these ifdefs better
@@ -530,10 +532,11 @@ void check_instant_warp(void) {
 #endif // ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS BOOKMARK
 
     if ((floor = gMarioState->floor) != NULL) {
-        s32 index = floor->type - SURFACE_INSTANT_WARP_1B;
-        if (index >= INSTANT_WARP_INDEX_START && index < INSTANT_WARP_INDEX_STOP
-            && gCurrentArea->instantWarps != NULL) {
-            struct InstantWarp *warp = &gCurrentArea->instantWarps[index];
+        if (gCurrLevelNum != LEVEL_SA) {
+            s32 index = floor->type - SURFACE_INSTANT_WARP_1B;
+            if (index >= INSTANT_WARP_INDEX_START && index < INSTANT_WARP_INDEX_STOP
+                && gCurrentArea->instantWarps != NULL) {
+                struct InstantWarp *warp = &gCurrentArea->instantWarps[index];
 
             if (warp->id != 0) {
                 if (gCurrCourseNum == COURSE_WMOTR)
@@ -645,24 +648,55 @@ void check_instant_warp(void) {
                 gMarioState->pos[1] += warp->displacement[1];
                 gMarioState->pos[2] += warp->displacement[2];
 
-                gMarioState->marioObj->oPosX = gMarioState->pos[0];
-                gMarioState->marioObj->oPosY = gMarioState->pos[1];
-                gMarioState->marioObj->oPosZ = gMarioState->pos[2];
+                    gMarioState->marioObj->oPosX = gMarioState->pos[0];
+                    gMarioState->marioObj->oPosY = gMarioState->pos[1];
+                    gMarioState->marioObj->oPosZ = gMarioState->pos[2];
 
-                // Fix instant warp offset not working when warping across different areas
-                gMarioObject->header.gfx.pos[0] = gMarioState->pos[0];
-                gMarioObject->header.gfx.pos[1] = gMarioState->pos[1];
-                gMarioObject->header.gfx.pos[2] = gMarioState->pos[2];
+                    // Fix instant warp offset not working when warping across different areas
+                    gMarioObject->header.gfx.pos[0] = gMarioState->pos[0];
+                    gMarioObject->header.gfx.pos[1] = gMarioState->pos[1];
+                    gMarioObject->header.gfx.pos[2] = gMarioState->pos[2];
 
-                cameraAngle = gMarioState->area->camera->yaw;
+                    cameraAngle = gMarioState->area->camera->yaw;
 
-                change_area(warp->area);
-                gMarioState->area = gCurrentArea;
+                    change_area(warp->area);
+                    gMarioState->area = gCurrentArea;
 
-                warp_camera(warp->displacement[0], warp->displacement[1], warp->displacement[2]);
+                    warp_camera(warp->displacement[0], warp->displacement[1], warp->displacement[2]);
 
-                gMarioState->area->camera->yaw = cameraAngle;
+                    gMarioState->area->camera->yaw = cameraAngle;
+                }            
             }
+        } else {
+            s32 index = floor->type - SURFACE_INSTANT_WARP_1B;
+            if (index >= INSTANT_WARP_INDEX_START && index < INSTANT_WARP_INDEX_STOP
+                && gCurrentArea->instantWarps != NULL && (floor->type >= SURFACE_INSTANT_WARP_1B) && (floor->type <= SURFACE_INSTANT_WARP_1E)) {
+                struct InstantWarp *warp = &gCurrentArea->instantWarps[index];
+
+                if ((((gMarioState->pos[1] - gMarioState->floorHeight < 2500)) || (floor->type != SURFACE_INSTANT_WARP_1C)) && (warp->id != 0) && (gMarioState->action < ACT_LEDGE_GRAB) && (gMarioState->action > ACT_LEDGE_CLIMB_FAST)) {
+                    gMarioState->pos[0] += warp->displacement[0];
+                    gMarioState->pos[1] += warp->displacement[1];
+                    gMarioState->pos[2] += warp->displacement[2];
+
+                    gMarioState->marioObj->oPosX = gMarioState->pos[0];
+                    gMarioState->marioObj->oPosY = gMarioState->pos[1];
+                    gMarioState->marioObj->oPosZ = gMarioState->pos[2];
+
+                    // Fix instant warp offset not working when warping across different areas
+                    gMarioObject->header.gfx.pos[0] = gMarioState->pos[0];
+                    gMarioObject->header.gfx.pos[1] = gMarioState->pos[1];
+                    gMarioObject->header.gfx.pos[2] = gMarioState->pos[2];
+
+                    cameraAngle = gMarioState->area->camera->yaw;
+
+                    change_area(warp->area);
+                    gMarioState->area = gCurrentArea;
+
+                    warp_camera(warp->displacement[0], warp->displacement[1], warp->displacement[2]);
+
+                    gMarioState->area->camera->yaw = cameraAngle;
+                }            
+            }           
         }
     }
 }
@@ -1489,6 +1523,8 @@ s32 lvl_set_current_level(UNUSED s16 initOrUpdate, s32 levelNum) {
     sWarpCheckpointActive = FALSE;
     gCurrLevelNum = levelNum;
     gCurrCourseNum = gLevelToCourseNumTable[levelNum - 1];
+	if (gCurrLevelNum == LEVEL_SA) return 0;
+		
 	if (gCurrLevelNum == LEVEL_VCUTM) return 0;
 	if (gCurrLevelNum == LEVEL_COTMC) return 0;
 

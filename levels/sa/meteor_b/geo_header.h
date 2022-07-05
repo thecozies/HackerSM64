@@ -1,0 +1,11 @@
+extern const GeoLayout meteor_b_geo[];
+extern Lights1 meteor_b_meteor2_lights;
+extern u8 meteor_b_rock_ci4_ci4[];
+extern u8 meteor_b_rock_ci4_ci4_pal_rgba16[];
+extern Vtx meteor_b_meteor_b_mesh_layer_1_vtx_cull[8];
+extern Vtx meteor_b_meteor_b_mesh_layer_1_vtx_0[64];
+extern Gfx meteor_b_meteor_b_mesh_layer_1_tri_0[];
+extern Gfx mat_meteor_b_meteor2[];
+extern Gfx mat_revert_meteor_b_meteor2[];
+extern Gfx meteor_b_meteor_b_mesh_layer_1[];
+extern Gfx meteor_b_material_revert_render_settings[];

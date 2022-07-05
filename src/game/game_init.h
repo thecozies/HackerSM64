@@ -50,11 +50,14 @@ extern u8 gControllerBits;
 extern s8 gGamecubeControllerPort;
 extern u8 gIsConsole;
 extern u8 gBorderHeight;
+extern u8 gLuigiModel;
+extern u8 gLuigiOverride;
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
 extern u8 gCustomDebugMode;
 #endif
 extern u8 *gAreaSkyboxStart[AREA_COUNT];
 extern u8 *gAreaSkyboxEnd[AREA_COUNT];
+extern u8 gViHackEnabled;
 #ifdef EEP
 extern s8 gEepromProbe;
 #endif

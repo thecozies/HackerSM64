@@ -15,6 +15,7 @@
 #include "mario_step.h"
 #include "save_file.h"
 #include "rumble_init.h"
+#include "game/print.h"
 
 #include "config.h"
 
@@ -251,6 +252,54 @@ void update_air_without_turn(struct MarioState *m) {
         m->vel[0] = m->slideVelX;
         m->vel[2] = m->slideVelZ;
     }
+}
+
+void update_air_skydiving(struct MarioState *m) {
+    f32 sidewaysSpeed = 0.0f;
+    f32 dragThreshold;
+    s16 intendedDYaw;
+    f32 intendedMag;
+
+    if (!check_horizontal_wind(m)) {
+        dragThreshold = m->action == ACT_LONG_JUMP ? 48.0f : 32.0f;
+        m->forwardVel = approach_f32(m->forwardVel, 0.0f, 0.35f, 0.35f);
+
+        if (m->input & INPUT_NONZERO_ANALOG) {
+            intendedDYaw = m->intendedYaw - m->faceAngle[1];
+            intendedMag = m->intendedMag / 32.0f;
+
+            m->forwardVel = intendedMag * coss(intendedDYaw) * 40.0f;
+            sidewaysSpeed = intendedMag * sins(intendedDYaw) * 40.0f;
+        }
+
+        //! Uncapped air speed. Net positive when moving forward.
+        if (m->forwardVel > dragThreshold) {
+            m->forwardVel -= 1.0f;
+        }
+        if (m->forwardVel < -16.0f) {
+            m->forwardVel += 2.0f;
+        }
+
+        m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
+        m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
+
+        m->slideVelX += sidewaysSpeed * sins(m->faceAngle[1] + 0x4000);
+        m->slideVelZ += sidewaysSpeed * coss(m->faceAngle[1] + 0x4000);
+
+        m->vel[0] = m->slideVelX;
+        m->vel[2] = m->slideVelZ;
+
+        if (m->vel[1] < -45) {
+            m->vel[1] = -45;
+        } 
+
+        if (m->pos[0] > 9000) {
+            m->pos[0] = m->marioObj->oPosX = m->marioObj->header.gfx.pos[0] = 9000;
+        }
+
+        m->faceAngle[1] = 0x4000;
+    }
+    //print_text_fmt_int(20,20,"%d",m->vel[1]);
 }
 
 void update_lava_boost_or_twirling(struct MarioState *m) {
@@ -2019,6 +2068,61 @@ s32 act_vertical_wind(struct MarioState *m) {
     return FALSE;
 }
 
+// Reonu
+
+s32 act_skydiving(struct MarioState *m) {
+    s16 intendedDYaw = m->intendedYaw - m->faceAngle[1];
+    f32 intendedMag = m->intendedMag / 32.0f;
+    static u8 counter;
+
+    if (gMarioState->pos[1] > 11000)
+        counter = 0;
+
+    if (counter == 0) {
+        play_sound_if_no_flag(m, SOUND_MARIO_HERE_WE_GO, MARIO_MARIO_SOUND_PLAYED);
+        counter++;
+    } else {
+        m->marioObj->header.gfx.animInfo.animFrame = 20;
+        if (gMarioState->health > 100) {
+            play_sound_if_no_flag(m, SOUND_MARIO_OOOF,MARIO_MARIO_SOUND_PLAYED);
+        }
+    }
+    
+    if (m->actionState == ACT_STATE_VERTICAL_WIND_SPINNING) {
+        set_mario_animation(m, MARIO_ANIM_FORWARD_SPINNING_FLIP);
+        if (m->marioObj->header.gfx.animInfo.animFrame == 1) {
+            play_sound(SOUND_ACTION_SPIN, m->marioObj->header.gfx.cameraToObject);
+#if ENABLE_RUMBLE
+            queue_rumble_data(8, 80);
+#endif
+        }
+
+        if (is_anim_past_end(m)) {
+            m->actionState = ACT_STATE_VERTICAL_WIND_AIRBORNE;
+        }
+    } else {
+        set_mario_animation(m, MARIO_ANIM_AIRBORNE_ON_STOMACH);
+    }
+
+    update_air_skydiving(m);
+
+    switch (perform_air_step(m, 0)) {
+        case AIR_STEP_LANDED:
+            set_mario_action(m, ACT_DIVE_SLIDE, 0);
+            break;
+
+        case AIR_STEP_HIT_WALL:
+            mario_set_forward_vel(m, -16.0f);
+            break;
+    }
+
+    m->marioObj->header.gfx.angle[0] = (s16)(6144.0f * intendedMag * coss(intendedDYaw));
+    m->marioObj->header.gfx.angle[2] = (s16)(-4096.0f * intendedMag * sins(intendedDYaw));
+    return FALSE;
+}
+
+// End of reonu
+
 s32 act_special_triple_jump(struct MarioState *m) {
     if (m->input & INPUT_B_PRESSED) {
         return set_mario_action(m, ACT_DIVE, 0);
@@ -2070,6 +2174,11 @@ s32 check_common_airborne_cancels(struct MarioState *m) {
 
     if (m->floor->type == SURFACE_VERTICAL_WIND && (m->action & ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)) {
         return drop_and_set_mario_action(m, ACT_VERTICAL_WIND, 0);
+    }
+
+    if (((m->force2 >> 8) == 0x08) && (m->pos[1] - m->floorHeight > 1000) && (m->action & ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)) {
+        m->lateralSpeed = 0.f;
+        return drop_and_set_mario_action(m, ACT_SKYDIVING, 0);
     }
 
     m->quicksandDepth = 0.0f;
@@ -2134,6 +2243,7 @@ s32 mario_execute_airborne_action(struct MarioState *m) {
         case ACT_RIDING_HOOT:          cancel = act_riding_hoot(m);          break;
         case ACT_TOP_OF_POLE_JUMP:     cancel = act_top_of_pole_jump(m);     break;
         case ACT_VERTICAL_WIND:        cancel = act_vertical_wind(m);        break;
+        case ACT_SKYDIVING:            cancel = act_skydiving(m);            break;
     }
     /* clang-format on */
 

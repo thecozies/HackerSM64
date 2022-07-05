@@ -1,0 +1,18 @@
+extern const GeoLayout castle_gate_geo[];
+extern Lights1 castle_gate_gate_lights;
+extern Lights1 castle_gate_gate_bottom_lights;
+extern u8 castle_gate_gate_ci8[];
+extern u8 castle_gate_gate_ci8_pal_rgba16[];
+extern u8 castle_gate_gate_bottom_ci8[];
+extern u8 castle_gate_gate_bottom_ci8_pal_rgba16[];
+extern Vtx castle_gate_castle_gate_mesh_layer_4_vtx_cull[8];
+extern Vtx castle_gate_castle_gate_mesh_layer_4_vtx_0[4];
+extern Gfx castle_gate_castle_gate_mesh_layer_4_tri_0[];
+extern Vtx castle_gate_castle_gate_mesh_layer_4_vtx_1[4];
+extern Gfx castle_gate_castle_gate_mesh_layer_4_tri_1[];
+extern Gfx mat_castle_gate_gate[];
+extern Gfx mat_revert_castle_gate_gate[];
+extern Gfx mat_castle_gate_gate_bottom[];
+extern Gfx mat_revert_castle_gate_gate_bottom[];
+extern Gfx castle_gate_castle_gate_mesh_layer_4[];
+extern Gfx castle_gate_material_revert_render_settings[];

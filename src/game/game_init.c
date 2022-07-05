@@ -46,6 +46,8 @@ u8 gControllerBits;
 s8 gGamecubeControllerPort = -1; // HackerSM64: This is set to -1 if there's no GC controller, 0 if there's one in the first port and 1 if there's one in the second port.
 u8 gIsConsole = TRUE; // Needs to be initialized before audio_reset_session is called
 u8 gBorderHeight;
+u8 gLuigiModel; // Reonu: Controls the Mario model (Mario/Luigi)
+u8 gLuigiOverride; // Reonu: For the star get cutscene
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
 u8 gCustomDebugMode;
 #endif
@@ -77,6 +79,7 @@ struct DmaHandlerList gDemoInputsBuf;
 u32 gGlobalTimer = 0;
 u8 *gAreaSkyboxStart[AREA_COUNT];
 u8 *gAreaSkyboxEnd[AREA_COUNT];
+u8 gViHackEnabled;
 
 // Framebuffer rendering values (max 3)
 u16 sRenderedFramebuffer = 0;
@@ -393,6 +396,7 @@ void draw_reset_bars(void) {
 /**
  * Initial settings for the first rendered frame.
  */
+extern OSViMode VI;
 void render_init(void) {
 #ifdef DEBUG_FORCE_CRASH_ON_BOOT
     FORCE_CRASH
@@ -401,6 +405,12 @@ void render_init(void) {
         gIsConsole = FALSE;
         gBorderHeight = BORDER_HEIGHT_EMULATOR;
         gIsVC = IS_VC();
+        VI.comRegs.vSync = 525*4;   
+        change_vi(&VI, SCREEN_WIDTH, SCREEN_HEIGHT);
+        osViSetMode(&VI);
+        osViSetSpecialFeatures(OS_VI_DITHER_FILTER_ON);
+        osViSetSpecialFeatures(OS_VI_GAMMA_OFF);
+        gViHackEnabled = TRUE;
     } else {
         gIsConsole = TRUE;
         gBorderHeight = BORDER_HEIGHT_CONSOLE;

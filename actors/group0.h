@@ -337,6 +337,9 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "Sticky_Plat/geo_header.h"
 
+#include "spring/geo_header.h"
+
+#include "luigi/geo_header.h"
 #include "mario/geo_header.h"
 
 #include "rift/geo_header.h"

@@ -1,5 +1,5 @@
 // bullet_bill.inc.c
-
+#include "game/print.h"
 void bhv_white_puff_smoke_init(void) {
     cur_obj_scale(random_float() * 2 + 2.0);
 }
@@ -20,8 +20,19 @@ void bullet_bill_act_0(void) {
 }
 
 void bullet_bill_act_1(void) {
+    f32 triggerDistance;
+
+    if (gCurrLevelNum != LEVEL_SA) {
+        triggerDistance = 1500.f; // Vanilla
+    } else if (BPARAM2 == 0xFF) {
+        triggerDistance = 5000.f;
+    } else if (BPARAM2 == 0xFE) {
+        triggerDistance = 1500.f;
+    } else {
+        triggerDistance = 2500.f;
+    }
     s16 sp1E = abs_angle_diff(o->oAngleToMario, o->oMoveAngleYaw);
-    if (sp1E < 0x2000 && 400.0f < o->oDistanceToMario && o->oDistanceToMario < 1500.0f) {
+    if (sp1E < 0x2000 && 400.0f < o->oDistanceToMario && o->oDistanceToMario < triggerDistance) {
         o->oAction = 2;
     }
 }

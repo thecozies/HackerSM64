@@ -12,6 +12,7 @@
 #include "src/game/texscroll/pss_texscroll.inc.h"
 #include "src/game/texscroll/vcm_texscroll.inc.h"
 #include "src/game/texscroll/bdf_texscroll.inc.h"
+#include "src/game/texscroll/sa_texscroll.inc.h"
 #include "src/game/texscroll/bowser_2_texscroll.inc.h"
 #include "src/game/texscroll/crash_texscroll.inc.h"
 #include "src/game/texscroll/vcutm_texscroll.inc.h"
