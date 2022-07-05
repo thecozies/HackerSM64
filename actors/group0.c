@@ -37,3 +37,7 @@
 #include "spring/model.inc.c"
 #include "luigi/model.inc.c"
 #include "rift/model.inc.c"
+
+#include "luigi_npc/model.inc.c"
+#include "luigi_npc/anims/data.inc.c"
+#include "luigi_npc/anims/table.inc.c"

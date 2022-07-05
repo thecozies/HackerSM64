@@ -23,3 +23,5 @@
 #include "spring/geo.inc.c"
 #include "luigi/geo.inc.c"
 #include "rift/geo.inc.c"
+
+#include "luigi_npc/geo.inc.c"

@@ -43,6 +43,7 @@
 #define MODEL_METEOR_A                        0xFE
 #define MODEL_METEOR_B                        0xFD
 #define MODEL_CASTLE_GATE                     0xFC
+#define MODEL_LUIGI_NPC                       0x101
 
 #define MODEL_BOB_BUBBLY_TREE                  0x17        // bubbly_tree_geo
 #define MODEL_WDW_BUBBLY_TREE                  0x17        // bubbly_tree_geo
