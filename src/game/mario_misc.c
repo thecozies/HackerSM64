@@ -459,6 +459,10 @@ Gfx *geo_mario_hand_foot_scaler(s32 callContext, struct GraphNode *node, UNUSED 
     struct GraphNodeScale *scaleNode = (struct GraphNodeScale *) node->next;
     struct MarioBodyState *bodyState = &gBodyStates[0];
 
+    if (gCurGraphNodeObjectNode != gMarioObject) {
+        return NULL;
+    }
+
     if (callContext == GEO_CONTEXT_RENDER) {
         scaleNode->scale = 1.0f;
         if (asGenerated->parameter == bodyState->punchState >> 6) {
