@@ -2497,7 +2497,7 @@ Gfx *geo_render_INFBG(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4
     s32 i;
     f32 pos[3];
     static Vec3s rotation = { 0, 0, 0 };
-    rotation[1] += DEGREES(0.2f);
+    rotation[1] += DEGREES(0.07f);
     if (callContext == GEO_CONTEXT_RENDER) {
 #define FARAWAYNESS .95f // the closer to 1 the further away
 
