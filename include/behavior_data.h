@@ -624,12 +624,15 @@ extern const BehaviorScript bhvCheckpoint[];
 extern const BehaviorScript bhvStaticObjectEx[];
 extern const BehaviorScript bhvStaticObjectBillboardEx[];
 extern const BehaviorScript bhvSparkler[];
+extern const BehaviorScript bhvSparklerSlow[];
 extern const BehaviorScript bhvSpring[];
 extern const BehaviorScript bhvBlinkingPlatform[];
 extern const BehaviorScript bhvMeteor[];   
 extern const BehaviorScript bhvCastleGate[];
 extern const BehaviorScript bhvOWPart[];
 extern const BehaviorScript bhvDnvicColorReset[];
+extern const BehaviorScript bhvPieCoiner[];
+extern const BehaviorScript bhvPieCoinerPreArea[];
 extern const BehaviorScript bhvLuigiNpc[];
 
 #endif // BEHAVIOR_DATA_H

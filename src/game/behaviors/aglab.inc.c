@@ -87,9 +87,21 @@ static struct Object *cur_obj_find_nearest_object_with_behavior_y_biased(const B
 #include "aglab_fight.inc.c"
 #include "aglab_ow.inc.c"
 #include "aglab_crash.inc.c"
+#include "aglab_pie.inc.c"
 
 void sparkler_loop()
 {
     if (gCamera->cutscene != CUTSCENE_AGLAB_MTC_CS)
         spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
+}
+
+void sparkler_slow_loop()
+{
+    if (0 == (o->oTimer % 16))
+    {
+        struct Object* spark = spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
+        spark->oPosX += random_f32_around_zero(500.f);
+        spark->oPosY += random_f32_around_zero(500.f);
+        spark->oPosZ += random_f32_around_zero(500.f);
+    }
 }

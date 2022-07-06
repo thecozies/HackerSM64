@@ -6458,6 +6458,14 @@ const BehaviorScript bhvSparkler[] = {
     END_LOOP(),
 };
 
+extern void sparkler_slow_loop();
+const BehaviorScript bhvSparklerSlow[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    BEGIN_LOOP(),
+        CALL_NATIVE(sparkler_slow_loop),
+    END_LOOP(),
+};
+
 extern void mtc_red_ground_init();
 extern void mtc_red_ground_loop();
 extern const Collision mtc_ground_collision[];
@@ -7132,5 +7140,23 @@ const BehaviorScript bhvDnvicColorReset[] = {
     SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_dnvic_color_reset_loop),
+    END_LOOP(),
+};
+
+extern void pie_coiner_loop();
+const BehaviorScript bhvPieCoiner[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(pie_coiner_loop),
+    END_LOOP(),
+};
+
+extern void pie_coiner_pre_area_loop();
+const BehaviorScript bhvPieCoinerPreArea[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(pie_coiner_pre_area_loop),
     END_LOOP(),
 };
