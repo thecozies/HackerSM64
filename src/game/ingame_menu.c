@@ -134,6 +134,19 @@ u8 gMenuHoldKeyIndex = 0;
 u8 gMenuHoldKeyTimer = 0;
 s32 gDialogResponse = DIALOG_RESPONSE_NONE;
 
+static u8 textCreatedBy[]   = { TEXT_CREATED_BY };
+static u8 textArthurtilly[] = { TEXT_CREATOR_ARTHURTILLY };
+static u8 textMushie[]      = { TEXT_CREATOR_MUSHIE };
+static u8 textReonu[]       = { TEXT_CREATOR_REONU };
+static u8 textAxollyon[]    = { TEXT_CREATOR_AXOLLYON };
+static u8 textGael[]        = { TEXT_CREATOR_GAEL };
+static u8 textCrash[]       = { TEXT_CREATOR_CRASH };
+static u8 textBroduteAnd[]  = { TEXT_CREATOR_BRODUTE_AND };
+static u8 textBrodute[]     = { TEXT_CREATOR_BRODUTE };
+static u8 textDnvic[]       = { TEXT_CREATOR_DNVIC };
+static u8 textZenonX[]      = { TEXT_CREATOR_ZENONX };
+static u8 textScuttle[]     = { TEXT_CREATOR_SCUTTLE };
+static u8 textPie[]         = { TEXT_CREATOR_PIE };
 
 void create_dl_identity_matrix(void) {
     Mtx *matrix = (Mtx *) alloc_display_list(sizeof(Mtx));
@@ -1960,46 +1973,52 @@ void print_hud_course_complete_string(s8 str) {
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 }
 
+// gLastCompletedCourseNum
+static u8* sCourseToCreators[] = {
+    [ COURSE_AB ]    = textArthurtilly,
+    [ COURSE_VCM ]   = textMushie,
+    [ COURSE_DF ]    = textArthurtilly,
+
+    [ COURSE_MTC ]   = textBroduteAnd,
+    [ COURSE_PSS ]   = textBrodute,
+
+    [ COURSE_MF ]    = textArthurtilly,
+    [ COURSE_VCUTM ] = textPie,
+
+    [ COURSE_HF ]    = textGael,
+    [ COURSE_WMOTR ] = textDnvic,
+
+    [ COURSE_SA ]    = textReonu,
+    [ COURSE_COTMC ] = textZenonX,
+    [ COURSE_CRASH ] = textCrash,
+    [ COURSE_TOTWC ] = textAxollyon,
+
+    [ COURSE_BOB ]   = textScuttle,
+
+    [ COURSE_BITFS ] = textScuttle,
+    [ COURSE_BITS ]  = textScuttle,
+};
+
 void print_hud_course_complete_coins(s16 x, s16 y) {
-    u8 courseCompleteCoinsStr[4];
-    u8 hudTextSymCoin[] = { GLYPH_COIN, GLYPH_SPACE };
-    u8 hudTextSymX[] = { GLYPH_MULTIPLY, GLYPH_SPACE };
+    const u8* line = sCourseToCreators[gLastCompletedCourseNum];
+    if (line)
+    {
+        // Print course number
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
 
-    gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
-    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+        gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, gDialogTextAlpha);
+        print_generic_string(x - 43, y + 12, textCreatedBy);
+        print_generic_string(x + 5, y + 12, line);
 
-    print_hud_lut_string(HUD_LUT_GLOBAL, x +  0, y, hudTextSymCoin);
-    print_hud_lut_string(HUD_LUT_GLOBAL, x + 16, y, hudTextSymX);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+        print_generic_string(x - 43 - 2, y + 12 + 2, textCreatedBy);
+        print_generic_string(x + 5 - 2, y + 12 + 2, line);
 
-    int_to_str(gCourseCompleteCoins, courseCompleteCoinsStr);
-    print_hud_lut_string(HUD_LUT_GLOBAL, x + 32, y, courseCompleteCoinsStr);
-
-    gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
-
-    if (gCourseCompleteCoins >= gHudDisplay.coins) {
-        gCourseCompleteCoinsEqual = TRUE;
-        gCourseCompleteCoins = gHudDisplay.coins;
-
-        if (gGotFileCoinHiScore) {
-            print_hud_course_complete_string(HUD_PRINT_HISCORE);
-        }
-    } else {
-        if ((gCourseDoneMenuTimer & 1) || gHudDisplay.coins > 70) {
-            gCourseCompleteCoins++;
-            play_sound(SOUND_MENU_YOSHI_GAIN_LIVES, gGlobalSoundSource);
-
-#ifndef DISABLE_LIVES
-            if (gCourseCompleteCoins && ((gCourseCompleteCoins % 50) == 0)) {
-                play_sound(SOUND_GENERAL_COLLECT_1UP, gGlobalSoundSource);
-                gMarioState->numLives++;
-            }
-#endif
-        }
-
-        if ((gHudDisplay.coins == gCourseCompleteCoins) && gGotFileCoinHiScore) {
-            play_sound(SOUND_MENU_HIGH_SCORE, gGlobalSoundSource);
-        }
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     }
+    
+    gCourseCompleteCoinsEqual = TRUE;
+    gCourseCompleteCoins = gHudDisplay.coins;
 }
 
 void play_star_fanfare_and_flash_hud(s32 arg, u8 starNum) {
