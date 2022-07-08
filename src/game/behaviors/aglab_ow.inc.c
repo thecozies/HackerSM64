@@ -131,8 +131,8 @@ extern const Collision ow_part_side_collision[];
 extern const Collision ow_part_scut_collision[];
 extern const Collision ow_part_bowser_collision[];
 
-static u8 sOWIsFirstLaunchFlags = 0;
-static u8 sOWIsShownFlags = 0;
+u8 sOWIsFirstLaunchFlags = 0;
+u8 sOWIsShownFlags = 0;
 
 extern Vec3f gAglabOWFocus;
 
