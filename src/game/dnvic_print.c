@@ -84,3 +84,10 @@ void render_dnvic_labels() {
     }
     sDnvicLabelsCount = 0;
 }
+
+extern Texture dnvic_map_texture_07001600[];
+void render_dnvic_map(u8 a)
+{
+    print_set_envcolour(255, 255, 255, a);
+    render_multi_image(dnvic_map_texture_07001600, 0, 0, 320, 240, 1, 1, G_CYC_1CYCLE);
+}

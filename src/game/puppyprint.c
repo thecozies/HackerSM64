@@ -812,13 +812,7 @@ void puppyprint_profiler_process(void) {
 #endif
 
 void print_set_envcolour(s32 r, s32 g, s32 b, s32 a) {
-    if ((r != currEnv[0])
-        || (g != currEnv[1])
-        || (b != currEnv[2])
-        || (a != currEnv[3])) {
-        gDPSetEnvColor(gDisplayListHead++, (Color)r, (Color)g, (Color)b, (Color)a);
-        vec4_set(currEnv, r, g, b, a);
-    }
+    gDPSetEnvColor(gDisplayListHead++, (Color)r, (Color)g, (Color)b, (Color)a);
 }
 
 #define BLANK 0, 0, 0, ENVIRONMENT, 0, 0, 0, ENVIRONMENT
@@ -1161,6 +1155,11 @@ void render_multi_image(Texture *image, s32 x, s32 y, s32 width, s32 height, UNU
     s32 num   = 256;
     s32 maskW = 1;
     s32 maskH = 1;
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetTexturePersp(gDisplayListHead++,  G_TP_NONE);
+    gDPSetCombineMode(gDisplayListHead++,   G_CC_FADEA, G_CC_FADEA);
+    gDPSetTextureFilter(gDisplayListHead++, G_TF_POINT);
 
     if (mode == G_CYC_COPY) {
         gDPSetCycleType( gDisplayListHead++, mode);

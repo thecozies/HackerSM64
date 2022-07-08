@@ -382,6 +382,12 @@ void play_transition_after_delay(s16 transType, s16 time, u8 red, u8 green, u8 b
     play_transition(transType, time, red, green, blue);
 }
 
+u8 gDnvicMapAlpha = 0;
+s8 gDnvicMapAlphaVelocity = 0;
+
+#define DNVIC_TARGET_ALPHA 100
+
+extern void render_dnvic_map();
 void render_game(void) {
 #if PUPPYPRINT_DEBUG
     OSTime first   = osGetTime();
@@ -404,6 +410,41 @@ void render_game(void) {
         print_displaying_credits_entry();
 
         render_dnvic_labels();
+        if (gCurrCourseNum == COURSE_WMOTR)
+        {
+            if (0 == gDnvicMapAlphaVelocity)
+            {
+                if (gPlayer1Controller->buttonPressed & L_TRIG)
+                {
+                    gDnvicMapAlphaVelocity = gDnvicMapAlpha ? -5 : 5;
+                }
+            }
+            else
+            {
+                gDnvicMapAlpha += gDnvicMapAlphaVelocity;
+                if (gPlayer1Controller->buttonPressed & L_TRIG)
+                {
+                    if (gDnvicMapAlphaVelocity > 0)
+                    {
+                        gDnvicMapAlpha = DNVIC_TARGET_ALPHA;
+                    }
+                    else
+                    {
+                        gDnvicMapAlpha = 0;
+                    }
+                }
+
+                if (0 == gDnvicMapAlpha || gDnvicMapAlpha == DNVIC_TARGET_ALPHA)
+                {
+                    gDnvicMapAlphaVelocity = 0;
+                }
+            }
+
+            if (gDnvicMapAlpha)
+            {
+                render_dnvic_map(gDnvicMapAlpha);
+            }
+        }
 
         gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH,
                       SCREEN_HEIGHT - gBorderHeight);

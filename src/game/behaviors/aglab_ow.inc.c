@@ -1,6 +1,8 @@
 extern u16 gDnvicUpCounter;
 extern u16 gDnvicDownCounter;
 extern u16 gDnvicChamber;
+extern u8  gDnvicMapAlpha;
+extern s8  gDnvicMapAlphaVelocity;
 
 void ow_ctl_init()
 {
@@ -9,6 +11,8 @@ void ow_ctl_init()
     gDnvicUpCounter   = 0;
     gDnvicDownCounter = 0;
     gDnvicChamber     = 1;
+    gDnvicMapAlpha    = 0;
+    gDnvicMapAlphaVelocity = 0;
 }
 
 void ow_ctl_loop()
