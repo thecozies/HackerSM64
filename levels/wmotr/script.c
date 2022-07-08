@@ -70,6 +70,7 @@ const LevelScript level_wmotr_entry[] = {
 		WARP_NODE(WARP_NODE_DEATH, LEVEL_CASTLE_GROUNDS, 0x01, 0x73, WARP_NO_CHECKPOINT),
 		INSTANT_WARP(0x00, 0x02, 0, 0, 0),
 		OBJECT(MODEL_NONE, -2133, 3920, -230, 0, 0, 0, 0x00000000, bhvDnvicColorReset),
+		OBJECT(MODEL_WOODEN_SIGNPOST, -1964, 3602, 257, 0, -90, 0, 0x008B0000, bhvMessagePanel),
 		TERRAIN(wmotr_area_3_collision),
 		MACRO_OBJECTS(wmotr_area_3_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_ARENA),

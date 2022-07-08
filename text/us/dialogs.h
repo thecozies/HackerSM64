@@ -1637,7 +1637,9 @@ damages that occur."))
 DEFINE_DIALOG(DIALOG_139, 1, 6, 30, 200, _("\
 you're very persistent\n\
 dnvic.com slash map \n\
-slash map.png"))
+slash map.png\n\
+\n\
+       L         L"))
 
 DEFINE_DIALOG(DIALOG_140, 1, 6, 30, 200, _("\
 Elevator Area\n\
