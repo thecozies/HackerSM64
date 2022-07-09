@@ -7134,6 +7134,23 @@ const BehaviorScript bhvOWPart[] = {
     END_LOOP(),
 };
 
+extern void ow_luigi_init();
+extern void ow_luigi_loop();
+const BehaviorScript bhvOWLuigi[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    LOAD_ANIMATIONS(oAnimations, luigi_npc_anims),
+    SET_FLOAT(oDrawingDistance, 20000),
+    ANIMATE(0),
+    SCALE(0, 33),
+    SET_FLOAT(oGraphYOffset, 60),
+    SET_HITBOX(/*Radius*/ 37, /*Height*/ 160),
+    CALL_NATIVE(ow_luigi_init),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(ow_luigi_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvDnvicColorReset[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),

@@ -329,3 +329,27 @@ void ow_part_loop()
             load_object_collision_model();
     }
 }
+
+void ow_luigi_init()
+{
+
+}
+
+static struct ObjectHitbox sLuigiHitbox = {
+    /* interactType:      */ 0,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 65,
+    /* height:            */ 113,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+};
+
+void ow_luigi_loop()
+{
+    obj_set_hitbox(o, &sLuigiHitbox);
+    o->oInteractStatus = INT_STATUS_NONE;
+    o->oOpacity = 255;
+}
