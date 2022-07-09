@@ -163,7 +163,7 @@ const LevelScript level_castle_grounds_entry[] = {
 		OBJECT(MODEL_NONE, -4889, -915, 2814, 0, 0, 0, (0x55 << 16) | (4 << 8), bhvBooCage),
 		OBJECT(MODEL_NONE, -3695, -1074, 2801, 0, 0, 0, (0x56 << 16) | (4 << 8), bhvFadingWarp),
 		OBJECT(MODEL_NONE, -3697, -1074, 2803, 0, 0, 0, (4 << 8), bhvSparkler),
-		OBJECT(MODEL_LUIGI_NPC, -3698, -1015, 2605, 0, 89, 0, 0x00000000, bhvOWLuigi),
+		OBJECT(MODEL_LUIGI_NPC, -3698, -1015, 2605, 0, 89, 0, (4 << 8), bhvOWLuigi),
 		TERRAIN(castle_grounds_area_1_collision),
 		MACRO_OBJECTS(castle_grounds_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
@@ -179,7 +179,7 @@ const LevelScript level_castle_grounds_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(1, 0, 0, 0, 0),
+	MARIO_POS(1, 180, 0, 0, 0),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),
