@@ -135,7 +135,7 @@ void bhv_ab_sand_loop()
     {
         if (gMarioStates->pos[1] < -7300.f)
         {
-            spawn_star(o, 11316.f, -804.f, -8948.f);
+            spawn_star(o, 9085.f, 215.f, -8925.f);
             o->oHomeY = o->oPosY;
             o->oAction = 1;
         }

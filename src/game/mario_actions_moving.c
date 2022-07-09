@@ -420,33 +420,43 @@ s32 update_decelerating_speed(struct MarioState *m) {
 }
 
 void update_walking_speed(struct MarioState *m) {
-    f32 maxTargetSpeed;
-    f32 targetSpeed;
-
-    if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
-        maxTargetSpeed = 24.0f;
-    } else {
-        maxTargetSpeed = 32.0f;
+    if ((gCurrLevelNum == LEVEL_AB) && m->floor && m->floor->type == SURFACE_HARD_NOT_SLIPPERY)
+    {
+        if (m->forwardVel < 120.f)
+            m->forwardVel += 3.f;
+        else
+            m->forwardVel = 120.f;
     }
+    else
+    {
+        f32 maxTargetSpeed;
+        f32 targetSpeed;
 
-    targetSpeed = m->intendedMag < maxTargetSpeed ? m->intendedMag : maxTargetSpeed;
+        if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
+            maxTargetSpeed = 24.0f;
+        } else {
+            maxTargetSpeed = 32.0f;
+        }
 
-    if (m->quicksandDepth > 10.0f) {
-        targetSpeed *= 6.25f / m->quicksandDepth;
-    }
+        targetSpeed = m->intendedMag < maxTargetSpeed ? m->intendedMag : maxTargetSpeed;
 
-    if (m->forwardVel <= 0.0f) {
-        // Slow down if moving backwards
-        m->forwardVel += 1.1f;
-    } else if (m->forwardVel <= targetSpeed) {
-        // If accelerating
-        m->forwardVel += 1.1f - m->forwardVel / 43.0f;
-    } else if (ABS(m->floor->normal.y)  >= 0.95f) {
-        m->forwardVel -= 1.0f;
-    }
+        if (m->quicksandDepth > 10.0f) {
+            targetSpeed *= 6.25f / m->quicksandDepth;
+        }
 
-    if (m->forwardVel > 48.0f) {
-        m->forwardVel = 48.0f;
+        if (m->forwardVel <= 0.0f) {
+            // Slow down if moving backwards
+            m->forwardVel += 1.1f;
+        } else if (m->forwardVel <= targetSpeed) {
+            // If accelerating
+            m->forwardVel += 1.1f - m->forwardVel / 43.0f;
+        } else if (m->floor->normal.y >= 0.95f) {
+            m->forwardVel -= 1.0f;
+        }
+
+        if (m->forwardVel > 48.0f) {
+            m->forwardVel = 48.0f;
+        }
     }
 
 #ifdef VELOCITY_BASED_TURN_SPEED

@@ -37,6 +37,8 @@ const GeoLayout ab_area_1_geo[] = {
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -2796, -153, -4740, ab_dl_Plane_002_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 8312, -153, -8783, ab_dl_Plane_003_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 196, 1, -553, ab_dl_Plane_004_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -434, -1961, -7266, ab_dl_Plane_006_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT_DECAL, -434, -1961, -7266, ab_dl_Plane_007_mesh_layer_6),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, -434, -1961, -7266, 90, 0, 0, ab_dl_tf_mesh_layer_5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
@@ -66,6 +68,7 @@ const GeoLayout ab_area_1[] = {
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, ab_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, ab_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, ab_dl_material_revert_render_settings),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, ab_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };
