@@ -1135,6 +1135,10 @@ UNUSED static s32 play_mode_unused(void) {
 s32 update_level(void) {
     s32 changeLevel = FALSE;
 
+#ifdef LATE_POLLING
+    if (sCurrPlayMode != PLAY_MODE_NORMAL) read_controller_inputs(THREAD_5_GAME_LOOP);
+#endif
+
     switch (sCurrPlayMode) {
         case PLAY_MODE_NORMAL:
             changeLevel = play_mode_normal();

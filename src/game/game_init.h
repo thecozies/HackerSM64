@@ -65,9 +65,15 @@ extern s8 gSramProbe;
 
 extern void (*gGoddardVblankCallback)(void);
 extern struct Controller *gPlayer1Controller;
+#if MAXCONTROLLERS > 1
 extern struct Controller *gPlayer2Controller;
+#endif
+#if MAXCONTROLLERS > 2
 extern struct Controller *gPlayer3Controller;
+#endif
+#if MAXCONTROLLERS > 3
 extern struct Controller *gPlayer4Controller;
+#endif
 extern struct DemoInput *gCurrDemoInput;
 extern u16 gDemoInputListID;
 extern struct DemoInput gRecordedDemoInput;
@@ -93,5 +99,6 @@ void end_master_display_list(void);
 void render_init(void);
 void select_gfx_pool(void);
 void display_and_vsync(void);
+void read_controller_inputs(s32 threadID);
 
 #endif // GAME_INIT_H

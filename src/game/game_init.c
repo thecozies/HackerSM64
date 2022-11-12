@@ -88,9 +88,15 @@ void (*gGoddardVblankCallback)(void) = NULL;
 
 // Defined controller slots
 struct Controller *gPlayer1Controller = &gControllers[0];
+#if MAXCONTROLLERS > 1
 struct Controller *gPlayer2Controller = &gControllers[1];
+#endif
+#if MAXCONTROLLERS > 2
 struct Controller *gPlayer3Controller = &gControllers[2];
+#endif
+#if MAXCONTROLLERS > 3
 struct Controller *gPlayer4Controller = &gControllers[3];
+#endif
 
 // Title Screen Demo Handler
 struct DemoInput *gCurrDemoInput = NULL;
@@ -591,6 +597,8 @@ void adjust_analog_stick(struct Controller *controller) {
     }
 }
 
+s32 gPolledInputs = TRUE;
+
 /**
  * Update the controller struct with available inputs if present.
  */
@@ -611,7 +619,7 @@ void read_controller_inputs(s32 threadID) {
     run_demo_inputs();
 #endif
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < MAXCONTROLLERS; i++) {
         struct Controller *controller = &gControllers[i];
         // if we're receiving inputs, update the controller struct with the new button info.
         if (controller->controllerData != NULL) {
@@ -645,6 +653,7 @@ void read_controller_inputs(s32 threadID) {
             controller->stickMag = 0;
         }
     }
+    gPolledInputs = TRUE;
 }
 
 /**
@@ -670,6 +679,7 @@ void init_controllers(void) {
     gSramProbe = nuPiInitSram();
 #endif
 
+    s32 maxPort = 0;
     // Loop over the 4 ports and link the controller structs to the appropriate status and pad.
     for (cont = 0, port = 0; port < 4 && cont < 4; port++) {
         // Is controller plugged in?
@@ -683,17 +693,25 @@ void init_controllers(void) {
 #endif
             gControllers[cont].statusData = &gControllerStatuses[port];
             gControllers[cont++].controllerData = &gControllerPads[port];
+            maxPort = port;
         }
     }
+
+    osContSetCh(MIN(MAXCONTROLLERS, maxPort+1));
+
+#if MAXCONTROLLERS > 1
     if ((__osControllerTypes[1] == CONT_TYPE_GCN) && (gIsConsole)) {
         gGamecubeControllerPort = 1;
         gPlayer1Controller = &gControllers[1];
     } else {
+#endif
         if (__osControllerTypes[0] == CONT_TYPE_GCN) {
             gGamecubeControllerPort = 0;
         }
         gPlayer1Controller = &gControllers[0];
+#if MAXCONTROLLERS > 1
     }
+#endif
 }
 
 // Game thread core
@@ -766,19 +784,26 @@ void thread5_game_loop(UNUSED void *arg) {
             draw_reset_bars();
             continue;
         }
-
         // If any controllers are plugged in, start read the data for when
         // read_controller_inputs is called later.
         if (gControllerBits) {
+#ifdef LATE_POLLING
+            if (!gPolledInputs) read_controller_inputs(THREAD_5_GAME_LOOP);
+#endif
 #if ENABLE_RUMBLE
             block_until_rumble_pak_free();
 #endif
             osContStartReadDataEx(&gSIEventMesgQueue);
+#ifdef LATE_POLLING
+            gPolledInputs = FALSE;
+#endif
         }
 
         audio_game_loop_tick();
         select_gfx_pool();
+#ifndef LATE_POLLING
         read_controller_inputs(THREAD_5_GAME_LOOP);
+#endif
         profiler_update(PROFILER_TIME_CONTROLLERS);
         addr = level_script_execute(addr);
 #if !PUPPYPRINT_DEBUG && defined(VISUAL_DEBUG)

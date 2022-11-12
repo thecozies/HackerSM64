@@ -29,6 +29,8 @@
 #define BORDER_HEIGHT_CONSOLE  0
 #define BORDER_HEIGHT_EMULATOR 0
 
+#define LATE_POLLING
+
 /**
  * Informs supported emulators to default to gamecube controller inputs.
  */
