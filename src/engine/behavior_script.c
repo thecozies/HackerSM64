@@ -10,6 +10,7 @@
 #include "game/memory.h"
 #include "game/obj_behaviors_2.h"
 #include "game/object_helpers.h"
+#include "game/spline_follower.h"
 #include "game/object_list_processor.h"
 #include "math_util.h"
 #include "graph_node.h"

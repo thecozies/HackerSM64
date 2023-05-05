@@ -415,6 +415,9 @@ endif
 
 LIBRARIES := nustd hvqm2 z goddard
 
+# spline lines
+DEFINES += L3DEX2_GBI=1
+
 # Text engine
 ifeq ($(TEXT_ENGINE), s2dex_text_engine)
   DEFINES += S2DEX_GBI_2=1 S2DEX_TEXT_ENGINE=1

@@ -133,3 +133,6 @@
  * NOTE: When this is enabled, The 49th hardcoded rectangle shadow will act as a regular circular shadow, due to Mario's shadow ID being 99 in vanilla.
  */
 #define LEGACY_SHADOW_IDS
+
+// if the level contains splines, this allows them to be rendered
+#define RENDER_L3D_SPLINE_LINES

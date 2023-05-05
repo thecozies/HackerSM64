@@ -3889,6 +3889,25 @@ typedef union {
 		((height)-1) << G_TEXTURE_IMAGE_FRAC)			\
 }
 
+#define	gDPLoadTextureBlock_4b_l(pkt, timg, fmt, width, height,		\
+		pal, cms, cmt, masks, maskt, shifts, shiftt, sl, tl)		\
+{									\
+	gDPSetTextureImage(pkt, fmt, G_IM_SIZ_16b, 1, timg);		\
+	gDPSetTile(pkt, fmt, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0,	\
+		cmt, maskt, shiftt, cms, masks, shifts);		\
+	gDPLoadSync(pkt);						\
+	gDPLoadBlock(pkt, G_TX_LOADTILE, 0, 0,				\
+		(((width)*(height)+3)>>2)-1,				\
+		CALC_DXT_4b(width)); 					\
+	gDPPipeSync(pkt);						\
+	gDPSetTile(pkt, fmt, G_IM_SIZ_4b, ((((width)>>1)+7)>>3), 0,	\
+		G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks,	\
+		shifts);						\
+	gDPSetTileSize(pkt, G_TX_RENDERTILE, (sl), (tl),			\
+		(((sl)+(width))-1) << G_TEXTURE_IMAGE_FRAC,			\
+		(((tl)+(height))-1) << G_TEXTURE_IMAGE_FRAC)			\
+}
+
 /* Load fix rww 27jun95 */
 /* The S at the end means odd lines are already word Swapped */
 

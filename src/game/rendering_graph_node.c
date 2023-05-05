@@ -17,6 +17,7 @@
 #include "behavior_data.h"
 #include "string.h"
 #include "color_presets.h"
+#include "spline_follower.h"
 
 #include "config.h"
 #include "config/config_world.h"
@@ -307,7 +308,7 @@ static struct RenderPhase sRenderPhases[] = {
 
 extern const Gfx init_rsp[];
 
-#ifdef OBJECTS_REJ
+#if defined(L3DEX2_GBI) || defined(OBJECTS_REJ)
 void switch_ucode(s32 ucode) {
     // Set the ucode and RCP settings
     switch (ucode) {
@@ -316,7 +317,17 @@ void switch_ucode(s32 ucode) {
             gSPLoadUcodeL(gDisplayListHead++, gspF3DZEX2_NoN_PosLight_fifo); // F3DZEX2_PosLight
             // Reload the necessary RSP settings
             gSPDisplayList(gDisplayListHead++, init_rsp);
+            // Reload some RDP settings
+#ifdef RENDER_L3D_SPLINE_LINES
+            gSPDisplayList(gDisplayListHead++, sResetSplineLineGfx);
+#endif // RENDER_L3D_SPLINE_LINES
             break;
+#ifdef L3DEX2_GBI
+        case GRAPH_NODE_UCODE_LINE:
+            gSPLoadUcodeL(gDisplayListHead++, gspL3DEX2_fifo);
+            break;
+#endif
+#ifdef OBJECTS_REJ
         case GRAPH_NODE_UCODE_REJ:
             // Use .rej Microcode, skip sub-pixel processing on console
             if (gIsConsole) {
@@ -329,6 +340,7 @@ void switch_ucode(s32 ucode) {
             // Set the clip ratio (see init_rsp)
             gSPClipRatio(gDisplayListHead++, FRUSTRATIO_2);
             break;
+#endif
     }
 }
 #endif
@@ -428,6 +440,12 @@ void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
             }
         }
     }
+
+#ifdef RENDER_L3D_SPLINE_LINES
+    if (gCurrentArea && gCurrentArea->numSplines) {
+        render_splines();
+    }
+#endif // RENDER_L3D_SPLINE_LINES
 
     if (enableZBuffer) {
         // Disable z buffer.
