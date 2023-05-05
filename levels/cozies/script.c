@@ -35,6 +35,7 @@ const LevelScript level_cozies_entry[] = {
 		WARP_NODE(0x0A, LEVEL_COZIES, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_COZIES, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_COZIES, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		MOVING_PLATFORM_WITH_ACTS(funny_platform_cozies_geo, funny_platform_cozies_collision, 1659, 34, 872, 0, 0, 0, (SPLINE_OBJECT_BHV_AUTO << 24) | (SPLINE_OBJECT_MOVE_BACK_AND_FORTH << 16) | (12 << 8), bhvSplinePlatform, 31),
 		MARIO_POS(0x01, 0, 0, 100, 0),
 		OBJECT(MODEL_NONE, 0, 100, 0, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),
 		TERRAIN(cozies_area_1_collision),
@@ -42,6 +43,7 @@ const LevelScript level_cozies_entry[] = {
 		MACRO_OBJECTS(cozies_area_1_macro_objs),
 		STOP_MUSIC(0),
 		TERRAIN_TYPE(TERRAIN_GRASS),
+		AREA_SPLINE(cozies_area_1_spline_funny_platform_path),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
