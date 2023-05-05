@@ -9,6 +9,7 @@
 #include "game/mario_actions_cutscene.h"
 #include "game/mario_misc.h"
 #include "game/object_helpers.h"
+#include "game/spline_follower.h"
 #include "game/debug.h"
 #include "menu/file_select.h"
 #include "engine/surface_load.h"
@@ -6079,4 +6080,13 @@ const BehaviorScript bhvIntroScene[] = {
     END_LOOP(),
 };
 
-
+const BehaviorScript bhvSplinePlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    CALL_NATIVE(init_obj_spline),
+    CALL_NATIVE(load_object_collision_model),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_follow_spline),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

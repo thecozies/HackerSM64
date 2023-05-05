@@ -482,6 +482,8 @@ void spawn_objects_from_info(UNUSED s32 unused, struct SpawnInfo *spawnInfo) {
             // as it is the most frequently used by objects.
             object->oBehParams2ndByte = GET_BPARAM2(spawnInfo->behaviorArg);
 
+            object->collisionData = spawnInfo->terrainData;
+
             object->behavior = script;
             object->unused1 = 0;
 

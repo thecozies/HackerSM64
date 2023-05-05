@@ -35,6 +35,7 @@ struct SpawnInfo {
     /*0x14*/ void *behaviorScript;
     /*0x18*/ struct GraphNode *model;
     /*0x1C*/ struct SpawnInfo *next;
+    TerrainData *terrainData;
 };
 
 struct UnusedArea28 {
@@ -76,6 +77,8 @@ struct Area {
 #ifdef BETTER_REVERB
     /*0x3A*/ u8 betterReverbPreset;
 #endif
+    Trajectory *splines[8];
+    u16 numSplines;
 };
 
 // All the transition data to be used in screen_transition.c

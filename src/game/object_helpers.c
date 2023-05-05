@@ -27,6 +27,7 @@
 #include "spawn_object.h"
 #include "spawn_sound.h"
 #include "puppylights.h"
+#include "game/spline_follower.h"
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
 
@@ -2332,4 +2333,12 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
     o->oPosY += offsetY + gDebugInfo[DEBUG_PAGE_ENEMYINFO][0];
     spawn_default_star(targetX, targetY, targetZ);
     o->oPosY = objectPosY;
+}
+
+s32 check_mario_on_object(struct MarioState *m) {
+    return (
+        (gMarioState->action & ACT_GROUP_MASK) <= ACT_GROUP_MOVING
+        && gMarioObject->platform == o
+    )
+    && m->vel[1] <= 0.0f;
 }

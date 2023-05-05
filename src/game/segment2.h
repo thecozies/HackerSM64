@@ -82,4 +82,8 @@ extern Gfx dl_billboard_num_E[];
 extern Gfx dl_billboard_num_F[];
 #endif
 
+#ifdef RENDER_L3D_SPLINE_LINES
+extern u8 tiny_gradient[];
+#endif
+
 #endif // SEGMENT2_H

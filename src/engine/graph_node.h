@@ -12,6 +12,7 @@
 // UCode indices for listHeads & listTails
 enum GraphNodeUCodes {
     GRAPH_NODE_UCODE_DEFAULT,
+    GRAPH_NODE_UCODE_LINE,
 #ifdef OBJECTS_REJ
     GRAPH_NODE_UCODE_REJ,
 #endif

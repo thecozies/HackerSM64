@@ -34,6 +34,7 @@
 #include "obj_behaviors_2.h"
 #include "object_constants.h"
 #include "object_helpers.h"
+#include "game/spline_follower.h"
 #include "object_list_processor.h"
 #include "paintings.h"
 #include "platform_displacement.h"

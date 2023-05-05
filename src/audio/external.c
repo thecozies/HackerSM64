@@ -120,13 +120,7 @@ s16 sDynHmc[] = {
     SEQ_LEVEL_UNDERGROUND, DYN2(MARIO_X_GE, 0, MARIO_Y_LT, -203, 4),
     DYN2(MARIO_X_LT, 0, MARIO_Y_LT, -2400, 4), 3,
 };
-s16 sDynUnk38[] = {
-    SEQ_LEVEL_UNDERGROUND,
-    DYN1(MARIO_IS_IN_AREA, 1, 3),
-    DYN1(MARIO_IS_IN_AREA, 2, 4),
-    DYN1(MARIO_IS_IN_AREA, 3, 7),
-    0,
-};
+
 s16 sDynNone[] = { SEQ_SOUND_PLAYER, 0 };
 
 u8 sCurrentMusicDynamic = 0xff;
