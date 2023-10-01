@@ -422,6 +422,13 @@ static void level_cmd_begin_area(void) {
         }
     }
 
+
+    for (s32 i = 0; i < ARRAY_COUNT(gAreas[areaIndex].splines); i++) {
+        gAreas[areaIndex].splines[i] = NULL;
+    }
+
+    gAreas[areaIndex].numSplines = 0;
+
     sCurrentCmd = CMD_NEXT;
 }
 
@@ -507,6 +514,7 @@ static void level_cmd_place_object(void) {
         spawnInfo->behaviorScript = CMD_GET(void *, 20);
         spawnInfo->model = gLoadedGraphNodes[model];
         spawnInfo->next = gAreas[sCurrAreaIndex].objectSpawnInfos;
+        spawnInfo->terrainData = NULL;
 
         gAreas[sCurrAreaIndex].objectSpawnInfos = spawnInfo;
     }
@@ -920,6 +928,48 @@ static void level_cmd_set_echo(void) {
     sCurrentCmd = CMD_NEXT;
 }
 
+static void level_cmd_moving_platform(void) {
+    if (
+        sCurrAreaIndex != -1
+        && ((CMD_GET(u8, 2) & (1 << (gCurrActNum - 1))) || (CMD_GET(u8, 2) == 0x1F))
+    ) {
+        struct SpawnInfo *spawnInfo = alloc_only_pool_alloc(sLevelPool, sizeof(struct SpawnInfo));
+
+        vec3s_set(spawnInfo->startPos, CMD_GET(s16, 4),
+                                       CMD_GET(s16, 6),
+                                       CMD_GET(s16, 8));
+
+        vec3s_set(spawnInfo->startAngle, CMD_GET(s16, 10),
+                                         CMD_GET(s16, 12),
+                                         CMD_GET(s16, 14));
+
+        spawnInfo->areaIndex = sCurrAreaIndex;
+        spawnInfo->activeAreaIndex = sCurrAreaIndex;
+
+        spawnInfo->behaviorArg = CMD_GET(u32, 16);
+        spawnInfo->behaviorScript = CMD_GET(void *, 20);
+
+        void *geo = CMD_GET(void *, 24);
+        spawnInfo->model = process_geo_layout(sLevelPool, geo);;
+        spawnInfo->terrainData = segmented_to_virtual(CMD_GET(TerrainData *, 28));
+        spawnInfo->next = gAreas[sCurrAreaIndex].objectSpawnInfos;
+
+        gAreas[sCurrAreaIndex].objectSpawnInfos = spawnInfo;
+    }
+
+    sCurrentCmd = CMD_NEXT;
+}
+
+static void level_cmd_area_spline(void) {
+    DEBUG_ASSERT(gAreas[sCurrAreaIndex].numSplines < 8);
+    gAreas[sCurrAreaIndex].splines[gAreas[sCurrAreaIndex].numSplines] = segmented_to_virtual(CMD_GET(void *, 4));
+    gAreas[sCurrAreaIndex].numSplines++;
+
+    sCurrentCmd = CMD_NEXT;
+}
+
+
+
 static void (*LevelScriptJumpTable[])(void) = {
     /*LEVEL_CMD_LOAD_AND_EXECUTE            */ level_cmd_load_and_execute,
     /*LEVEL_CMD_EXIT_AND_EXECUTE            */ level_cmd_exit_and_execute,
@@ -987,6 +1037,8 @@ static void (*LevelScriptJumpTable[])(void) = {
     /*LEVEL_CMD_PUPPYLIGHT_ENVIRONMENT      */ level_cmd_puppylight_environment,
     /*LEVEL_CMD_PUPPYLIGHT_NODE             */ level_cmd_puppylight_node,
     /*LEVEL_CMD_SET_ECHO                    */ level_cmd_set_echo,
+    /*LEVEL_CMD_MOVING_PLATFORM             */ level_cmd_moving_platform,
+    /*LEVEL_CMD_AREA_SPLINE                 */ level_cmd_area_spline,
 };
 
 struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {

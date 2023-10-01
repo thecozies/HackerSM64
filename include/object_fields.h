@@ -179,6 +179,15 @@
 #define /*0x104*/ oPathedPrevWaypointFlags OBJECT_FIELD_S32(0x1F)
 #define /*0x108*/ oPathedTargetPitch       OBJECT_FIELD_S32(0x20)
 #define /*0x10C*/ oPathedTargetYaw         OBJECT_FIELD_S32(0x21)
+#define /*0x100*/ oPathedDir               OBJECT_FIELD_S32(0x22)
+
+/* Spline (see init_obj_spline && bhv_follow_spline) */
+#define /*0x0FC*/ oSplineStartWaypoint     OBJECT_FIELD_WAYPOINT(0x1D)
+#define /*0x100*/ oSplinePrevWaypoint      OBJECT_FIELD_WAYPOINT(0x1E)
+#define /*0x104*/ oSplineActive            OBJECT_FIELD_S32(0x1F)
+#define /*0x108*/ oSplineEndWaypoint       OBJECT_FIELD_WAYPOINT(0x20)
+#define /*0x10C*/ oSplineTargetYaw         OBJECT_FIELD_S32(0x21)
+#define /*0x100*/ oSplineDir               OBJECT_FIELD_S32(0x22)
 
 /* Special Object Macro */
 #define /*0x108*/ oMacroUnk108 OBJECT_FIELD_F32(0x20)

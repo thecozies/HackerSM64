@@ -1,6 +1,8 @@
 #ifndef OBJECT_CONSTANTS_H
 #define OBJECT_CONSTANTS_H
 
+#include "spline_objects.inc.h"
+
 // This file contains macros that provide descriptive names for
 // field-specific and object-specific constants, e.g. actions.
 

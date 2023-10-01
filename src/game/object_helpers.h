@@ -278,4 +278,7 @@ void cur_obj_spawn_loot_blue_coin(void);
 
 void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 offsetY);
 
+void init_obj_spline(void);
+void bhv_follow_spline(void);
+
 #endif // OBJECT_HELPERS_H

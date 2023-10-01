@@ -624,4 +624,8 @@ ALWAYS_INLINE f32 smoothstep(f32 from, f32 to, f32 amount) {
     return lerpf(from, to, amount);
 }
 
+void closest_point_on_line_segment(Vec3f pA, Vec3f pB, Vec3f point, Vec3f res);
+
+
+
 #endif // MATH_UTIL_H

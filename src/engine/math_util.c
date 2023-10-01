@@ -1534,3 +1534,19 @@ OPTIMIZE_OS void mtxf_to_mtx_fast(s16* dst, float* src) {
     //  to set the top half.
     dst[15] = 1;
 }
+
+void closest_point_on_line_segment(Vec3f pA, Vec3f pB, Vec3f point, Vec3f res)
+{
+    Vec3f dAB;
+    vec3f_diff(dAB, pB, pA);
+
+    Vec3f dPA;
+    vec3f_diff(dPA, point, pA);
+
+    f32 t = vec3f_dot(dPA, dAB) / vec3f_dot(dAB, dAB);
+    t = CLAMP(t, 0, 1);
+    vec3_prod_val(dAB, dAB, t);
+
+    vec3f_add(dAB, pA);
+    vec3f_copy(res, dAB);
+}

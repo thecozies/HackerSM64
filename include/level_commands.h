@@ -74,6 +74,8 @@ enum LevelCommands {
     /*0x3F*/ LEVEL_CMD_PUPPYLIGHT_ENVIRONMENT,
     /*0x40*/ LEVEL_CMD_PUPPYLIGHT_NODE,
     /*0x41*/ LEVEL_CMD_SET_ECHO,
+    /*0x42*/ LEVEL_CMD_MOVING_PLATFORM,
+    /*0x43*/ LEVEL_CMD_AREA_SPLINE,
 };
 
 enum LevelActs {
@@ -357,6 +359,17 @@ enum GoddardScene {
 #define OBJECT(model, posX, posY, posZ, angleX, angleY, angleZ, behParam, beh) \
     OBJECT_WITH_ACTS(model, posX, posY, posZ, angleX, angleY, angleZ, behParam, beh, ALL_ACTS)
 
+#define MOVING_PLATFORM_WITH_ACTS(geolayout, collision, posX, posY, posZ, angleX, angleY, angleZ, behParam, beh, acts) \
+    CMD_BBBB(LEVEL_CMD_MOVING_PLATFORM, 0x20, acts, 0x00), \
+    CMD_HHHHHH(posX, posY, posZ, angleX, angleY, angleZ), \
+    CMD_W(behParam), \
+    CMD_PTR(beh), \
+    CMD_PTR(geolayout), \
+    CMD_PTR(collision)
+
+#define MOVING_PLATFORM(geolayout, collision, posX, posY, posZ, angleX, angleY, angleZ, behParam, beh) \
+    MOVING_PLATFORM_WITH_ACTS(geolayout, collision, posX, posY, posZ, angleX, angleY, angleZ, behParam, beh, 0x1F)
+
 #define MARIO(model, behArg, beh) \
     CMD_BBH(LEVEL_CMD_INIT_MARIO, 0x0C, model), \
     CMD_W(behArg), \
@@ -457,6 +470,12 @@ enum GoddardScene {
     CMD_PTR(objList)
 
 // unused
+
+#define AREA_SPLINE(spline) \
+    CMD_BBH(LEVEL_CMD_AREA_SPLINE, 0x08, 0x0000), \
+    CMD_PTR(spline)
+
+
 #define CMD3A(unk2, unk4, unk6, unk8, unk10) \
     CMD_BBH(LEVEL_CMD_3A, 0x0C, unk2), \
     CMD_HH(unk6, unk8), \

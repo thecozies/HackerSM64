@@ -2333,3 +2333,140 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
     spawn_default_star(targetX, targetY, targetZ);
     o->oPosY = objectPosY;
 }
+
+
+s32 check_mario_on_object(struct MarioState *m) {
+    return (
+        (gMarioState->action & ACT_GROUP_MASK) <= ACT_GROUP_MOVING
+        && gMarioObject->platform == o
+    )
+    && m->vel[1] <= 0.0f;
+}
+
+void init_obj_spline(void) {
+    struct Object *obj = o;
+    f32 closestSplineDistSq = F32_MAX;
+    Vec3f pA, pB, diff, res, closestPoint;
+    u32 direction = GET_BPARAM2(obj->oBehParams);
+
+    for (s32 i = 0; i < gCurrentArea->numSplines; i++) {
+        struct Waypoint *thisWaypoint = (struct Waypoint *)gCurrentArea->splines[i];
+        s32 shouldSetEnd = FALSE;
+
+        while (thisWaypoint->flags != WAYPOINT_FLAGS_END) {
+            struct Waypoint *nextWaypoint = thisWaypoint + 1;
+            if (nextWaypoint->flags == WAYPOINT_FLAGS_END) {
+                if (shouldSetEnd) obj->oSplineEndWaypoint = nextWaypoint;
+                break;
+            }
+
+            vec3s_to_vec3f(pA, thisWaypoint->pos);
+            vec3s_to_vec3f(pB, nextWaypoint->pos);
+            closest_point_on_line_segment(pA, pB, &obj->oPosX, res);
+            vec3f_diff(diff, &obj->oPosX, res);
+            f32 distSq = vec3_sumsq(diff);
+            if (distSq < closestSplineDistSq) {
+                shouldSetEnd = TRUE;
+                closestSplineDistSq = distSq;
+                vec3f_copy(closestPoint, res);
+                obj->oSplineStartWaypoint = (struct Waypoint *)gCurrentArea->splines[i];
+                if (direction == SPLINE_OBJECT_MOVE_BACKWARDS) {
+                    obj->oSplinePrevWaypoint = nextWaypoint;
+                } else {
+                    obj->oSplinePrevWaypoint = thisWaypoint;
+                }
+            }
+
+            thisWaypoint++;
+        }
+    }
+
+    vec3f_copy(&obj->oPosX, closestPoint);
+
+    if (direction == SPLINE_OBJECT_MOVE_BACK_AND_FORTH) {
+        o->oSplineDir = SPLINE_OBJECT_MOVE_FORWARD;
+    } else if (direction == SPLINE_OBJECT_MOVE_BACK_AND_FORTH_REVERSED) {
+        o->oSplineDir = SPLINE_OBJECT_MOVE_BACKWARDS;
+    } else {
+        o->oSplineDir = direction;
+    }
+
+    obj->oSplineActive = GET_BPARAM1(obj->oBehParams) == SPLINE_OBJECT_BHV_AUTO;
+}
+
+void bhv_follow_spline(void) {
+    struct Object *obj = o;
+    // this is also the dist threshold for going to the next spline
+    f32 moveSpeed = (f32)GET_BPARAM3(obj->oBehParams); 
+    u32 behavior = GET_BPARAM1(obj->oBehParams);
+    u32 direction = GET_BPARAM2(obj->oBehParams);
+
+    s32 activateFromMario = behavior == SPLINE_OBJECT_BHV_MARIO_ACTIVATES;
+    s32 loops = !(
+        direction == SPLINE_OBJECT_MOVE_BACK_AND_FORTH
+        || direction == SPLINE_OBJECT_MOVE_BACK_AND_FORTH_REVERSED
+        || activateFromMario
+    );
+
+    if (!loops) {
+        if (activateFromMario) {
+            o->oSplineActive = check_mario_on_object(gMarioState);
+            if (direction == SPLINE_OBJECT_MOVE_FORWARD) {
+                o->oSplineDir = o->oSplineActive ? SPLINE_OBJECT_MOVE_FORWARD : SPLINE_OBJECT_MOVE_BACKWARDS;
+            } else {
+                o->oSplineDir = o->oSplineActive ? SPLINE_OBJECT_MOVE_BACKWARDS: SPLINE_OBJECT_MOVE_FORWARD;
+            }
+        }
+
+        direction = o->oSplineDir;
+    }
+
+    struct Waypoint *thisWaypoint = obj->oSplinePrevWaypoint;
+    struct Waypoint *nextWaypoint;
+    if (direction == SPLINE_OBJECT_MOVE_FORWARD) {
+        nextWaypoint = thisWaypoint + 1;
+        if (nextWaypoint->flags == WAYPOINT_FLAGS_END) {
+            if (loops) {
+                nextWaypoint = obj->oSplineStartWaypoint;
+            } else if (activateFromMario) {
+                // clamp the waypoint to where you are
+                nextWaypoint = thisWaypoint;
+            } else {
+                o->oSplineDir = SPLINE_OBJECT_MOVE_BACKWARDS;
+                nextWaypoint = thisWaypoint;
+            }
+        }
+    } else {
+        if (thisWaypoint == obj->oSplineStartWaypoint) {
+            if (loops) {
+                nextWaypoint = obj->oSplineEndWaypoint - 1;
+            } else if (activateFromMario) {
+                nextWaypoint = thisWaypoint;
+            } else {
+                o->oSplineDir = SPLINE_OBJECT_MOVE_FORWARD;
+                nextWaypoint = thisWaypoint;
+            }
+        } else {
+            nextWaypoint = thisWaypoint - 1;
+        }
+    }
+
+    Vec3f pB, dir;
+    vec3s_to_vec3f(pB, nextWaypoint->pos);
+    vec3f_diff(dir, pB, &obj->oPosX);
+    f32 dist = vec3_sumsq(dir);
+    if (dist > NEAR_ZERO) {
+        dist = sqrtf(dist);
+        f32 invsqrt = (1.0f / dist);
+        vec3_mul_val(dir, invsqrt);
+    } else {
+        vec3_zero(dir);
+    }
+
+    f32 moveAmount = MIN(dist, moveSpeed);
+    vec3_mul_val(dir, moveAmount);
+    vec3f_add(&o->oPosX, dir);
+    if (dist < moveSpeed) {
+        obj->oSplinePrevWaypoint = nextWaypoint;
+    }
+}
